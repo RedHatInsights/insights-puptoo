@@ -4,6 +4,7 @@ from prometheus_client import start_http_server
 
 import config
 import consumer
+import process
 import producer
 import puptoo_logging
 
@@ -43,14 +44,15 @@ def main():
             msg = data.get("value")
             logger.info("consumed message from queue: %s", msg, extra=get_extra(msg))
 
+        for consumed in consume_queue:
+            extra = get_extra(consumed)
+            facts = process.extraction(consumed, extra)
+            produce_queue.append(facts)
+
         for item in produce_queue:
             logger.info("producing message on inventory topic: %s", item, extra=get_extra(msg))
             producer.send(config.INVENTORY_TOPIC, item)
 
-        for consumed in consume_queue:
-            extra = get_extra(consumed)
-            facts = process.extract(consumed, extra)
-            produce_queue.append(facts)
 
 
 if __name__ == "__main__":
