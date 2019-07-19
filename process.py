@@ -1,9 +1,11 @@
 import requests
 import logging
+import json
 
 from tempfile import NamedTemporaryFile
 
 import config
+import metrics
 
 from insights.core import dr
 from insights import extract, rule, make_metadata, run
@@ -35,9 +37,12 @@ SATELLITE_MANAGED_FILES = {
     "sat6": ["/etc/rhsm/ca", "katello-server-ca.pem"],
 }
 
+
+@metrics.GET_FILE.time()
 def get_archive(url):
     archive = requests.get(url)
     return archive.content
+
 
 @rule(optional=[Specs.hostname, CpuInfo, VirtWhat, MemInfo, IpAddr, DMIDecode,
                 RedHatRelease, Uname, LsMod, InstalledRpms, UnitFiles, PsAuxcww,
@@ -218,6 +223,7 @@ def _remove_bad_display_name(facts):
     return defined_facts
 
 
+@metrics.SYSTEM_PROFILE.time()
 def get_system_profile(path=None):
     broker = run(system_profile, root=path)
     result = broker[system_profile]
@@ -225,6 +231,7 @@ def get_system_profile(path=None):
     return result
 
 
+@metrics.EXTRACT.time()
 def extraction(msg, extra, remove=True):
     facts = {}
     try:

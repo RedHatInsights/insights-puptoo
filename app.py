@@ -7,19 +7,23 @@ import consumer
 import process
 import producer
 import puptoo_logging
+import metrics
 
 logger = puptoo_logging.initialize_logging()
 
 produce_queue = []
 consume_queue = []
 
+
 def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
+
 
 def get_extra(msg):
     account = msg["account"], "unknown"
     request_id = msg["request_id"], "unknown"
     return {"account": account, "request_id": request_id}
+
 
 def main():
 
@@ -44,25 +48,27 @@ def main():
             msg = data.value
             consume_queue.append(msg)
             logger.info("consumed message from queue: %s", msg, extra=get_extra(msg))
+            metrics.msg_count.inc()
             break
-
 
         for consumed in consume_queue:
             extra = get_extra(consumed)
             facts = process.extraction(consumed, extra)
             if facts.get("error"):
+                metrics.extract_failure.inc()
                 continue
             inv_msg = {**consumed, **facts}
             produce_queue.append({"data": inv_msg})
+            metrics.msg_processed.inc()
             break
 
         for item in produce_queue:
             logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg))
             produce.send(config.INVENTORY_TOPIC, value=item)
+            metrics.msg_produced.inc()
             break
 
         produce.flush()
-
 
 
 if __name__ == "__main__":

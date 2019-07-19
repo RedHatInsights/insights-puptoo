@@ -5,6 +5,7 @@ APP_NAME = os.getenv("APP_NAME", "insights-puptoo")
 
 logger = logging.getLogger(APP_NAME)
 
+
 def get_namespace():
     try:
         with open("/var/run/secrets/kubernetes.io/serviceaccount/namespace", "r") as f:
