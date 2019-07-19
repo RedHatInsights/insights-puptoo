@@ -57,7 +57,7 @@ def main():
 
         for item in produce_queue:
             logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg))
-            produce.send(config.INVENTORY_TOPIC, value=item)
+            produce.send(config.INVENTORY_TOPIC, value={"data": item})
             break
 
         produce.flush()
