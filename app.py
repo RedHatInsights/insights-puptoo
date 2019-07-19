@@ -42,6 +42,7 @@ def main():
     while True:
         for data in consume:
             msg = data.value
+            consume_queue.append(msg)
             logger.info("consumed message from queue: %s", msg, extra=get_extra(msg))
 
         for consumed in consume_queue:
