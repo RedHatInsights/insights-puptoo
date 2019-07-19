@@ -27,6 +27,13 @@ from insights.util.canonical_facts import get_canonical_facts
 
 logger = logging.getLogger(config.APP_NAME)
 
+#dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
+
+SATELLITE_MANAGED_FILES = {
+    "sat5": ["/etc/sysconfig/rhn", "systemid"],
+    "sat6": ["/etc/rhsm/ca", "katello-server-ca.pem"],
+}
+
 def get_archive(url):
     archive = requests.get(url)
     return archive.content
