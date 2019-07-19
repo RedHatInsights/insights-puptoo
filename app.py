@@ -51,7 +51,7 @@ def main():
             extra = get_extra(consumed)
             facts = process.extraction(consumed, extra)
             if facts.get("error"):
-                break
+                continue
             inv_msg = {**consumed, **facts}
             produce_queue.append({"data": inv_msg})
             break
@@ -70,4 +70,4 @@ if __name__ == "__main__":
         main()
     except:
         the_error = traceback.format_exc()
-        logger.error(f"Failed to start Extracto with Error: {the_error}")
+        logger.error(f"Puptoo failed with Error: {the_error}")
