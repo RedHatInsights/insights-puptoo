@@ -52,12 +52,13 @@ def main():
             facts = process.extraction(consumed, extra)
             if facts.get("error"):
                 break
-            produce_queue.append(facts)
+            inv_msg = {**consumed, **facts}
+            produce_queue.append({"data": inv_msg})
             break
 
         for item in produce_queue:
             logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg))
-            produce.send(config.INVENTORY_TOPIC, value={"data": item})
+            produce.send(config.INVENTORY_TOPIC, value=item)
             break
 
         produce.flush()
