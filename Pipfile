@@ -7,6 +7,13 @@ verify_ssl = true
 flake8 = "*"
 
 [packages]
+prometheus-client = "*"
+logstash-formatter = "*"
+boto3 = "*"
+watchtower = "*"
+kafka-python = "*"
+requests = "*"
+insights-core = "*"
 
 [requires]
 python_version = "3.7"

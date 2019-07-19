@@ -230,8 +230,8 @@ def extraction(msg, extra, remove=True):
         logger.exception("Failed to extract facts: %s", e, extra=extra)
         facts["error"] = e
     else:
-        # log seomething
-        print("log somethign")
+        # log something
+        print("log something")
     finally:
         if facts["system_profile"].get("display_name"):
             facts["display_name"] = facts["system_profile"].get("display_name")

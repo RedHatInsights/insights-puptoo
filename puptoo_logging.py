@@ -24,11 +24,11 @@ def initialize_logging():
     if any("KUBERNETES" in k for k in os.environ):
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(LogstashFormatterV1())
-        logging.root.setLevel(os.getenv("LOGLEVEL", "INFO"))
+        logging.root.setLevel(os.getenv("LOG_LEVEL", "INFO"))
         logging.root.addHandler(handler)
     else:
         logging.basicConfig(
-            level=config.LOGLEVEL,
+            level=config.LOG_LEVEL,
             format="%(threadName)s %(levelname)s %(name)s - %(message)s"
         )
 

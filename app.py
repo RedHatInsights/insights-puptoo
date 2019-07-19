@@ -28,7 +28,7 @@ def main():
     logger.info("Using LOG_LEVEL: %s", config.LOG_LEVEL)
     logger.info("Using BOOTSTRAP_SERVERS: %s", config.BOOTSTRAP_SERVERS)
     logger.info("Using GROUP_ID: %s", config.GROUP_ID)
-    logger.info("Using PAYLOAD_TRACKER_TOPIC: %s", config.PAYLOAD_TRACKER_TOPIC)
+    logger.info("Using TRACKER_TOPIC: %s", config.TRACKER_TOPIC)
     logger.info("Using DISABLE_PROMETHEUS: %s", config.DISABLE_PROMETHEUS)
     logger.info("Using PROMETHEUS_PORT: %s", config.PROMETHEUS_PORT)
 
