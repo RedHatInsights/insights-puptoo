@@ -17,7 +17,7 @@ def get_namespace():
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 BUILD_ID = os.getenv("OPENSHIFT_BUILD_COMMIT", "unknown")
 MAX_WORKERS = int(os.getenv("MAX_WORKERS", 50))
-GROUP_ID = os.getenv("GROUP_ID", "advisor-pup")
+GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 BOOTSTRAP_SERVERS = os.getenv("KAFKAMQ", "kafka:29092").split(",")
 CONSUME_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.pup")
 AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
