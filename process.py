@@ -5,6 +5,7 @@ from tempfile import NamedTemporaryFile
 
 import config
 
+from insights.core import dr
 from insights import extract, rule, make_metadata, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
@@ -27,7 +28,7 @@ from insights.util.canonical_facts import get_canonical_facts
 
 logger = logging.getLogger(config.APP_NAME)
 
-#dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
+dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
 SATELLITE_MANAGED_FILES = {
     "sat5": ["/etc/sysconfig/rhn", "systemid"],
