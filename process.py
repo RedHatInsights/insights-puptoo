@@ -29,7 +29,7 @@ logger = logging.getLogger(config.APP_NAME)
 
 def get_archive(url):
     archive = requests.get(url)
-    return archive
+    return archive.content
 
 @rule(optional=[Specs.hostname, CpuInfo, VirtWhat, MemInfo, IpAddr, DMIDecode,
                 RedHatRelease, Uname, LsMod, InstalledRpms, UnitFiles, PsAuxcww,
