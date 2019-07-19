@@ -50,11 +50,13 @@ def main():
         for consumed in consume_queue:
             extra = get_extra(consumed)
             facts = process.extraction(consumed, extra)
+            if facts.get("error"):
+                break
             produce_queue.append(facts)
             break
 
         for item in produce_queue:
-            logger.info("producing message on inventory topic: %s", item, extra=get_extra(msg))
+            logger.info("producing message on inventory topic", extra=get_extra(msg))
             produce.send(config.INVENTORY_TOPIC, item)
             break
 
