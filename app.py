@@ -44,15 +44,21 @@ def main():
             msg = data.value
             consume_queue.append(msg)
             logger.info("consumed message from queue: %s", msg, extra=get_extra(msg))
+            break
+
 
         for consumed in consume_queue:
             extra = get_extra(consumed)
             facts = process.extraction(consumed, extra)
             produce_queue.append(facts)
+            break
 
         for item in produce_queue:
             logger.info("producing message on inventory topic: %s", item, extra=get_extra(msg))
-            producer.send(config.INVENTORY_TOPIC, item)
+            produce.send(config.INVENTORY_TOPIC, item)
+            break
+
+        produce.flush()
 
 
 
