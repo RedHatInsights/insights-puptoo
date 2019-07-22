@@ -233,7 +233,7 @@ def get_system_profile(path=None):
 
 @metrics.EXTRACT.time()
 def extraction(msg, extra, remove=True):
-    facts = {}
+    facts = {"system_profile": {}}
     try:
         with NamedTemporaryFile(delete=remove) as tf:
             tf.write(get_archive(msg["url"]))
