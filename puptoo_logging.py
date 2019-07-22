@@ -17,7 +17,7 @@ def config_cloudwatch(logger):
                                                  log_group=config.LOG_GROUP,
                                                  stream_name=config.NAMESPACE)
     cw_handler.setFormatter(LogstashFormatterV1())
-    logger.addHandler
+    logger.addHandler(cw_handler)
 
 
 def initialize_logging():

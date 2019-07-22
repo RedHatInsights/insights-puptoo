@@ -19,9 +19,7 @@ def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
 
 
-def get_extra(msg):
-    account = msg["account"], "unknown"
-    request_id = msg["request_id"], "unknown"
+def get_extra(account="unknown", request_id="unknown"):
     return {"account": account, "request_id": request_id}
 
 
@@ -47,7 +45,7 @@ def main():
         for data in consume:
             msg = data.value
             consume_queue.append(msg)
-            logger.info("consumed message from queue: %s", msg, extra=get_extra(msg))
+            logger.info("consumed message from queue: %s", msg, extra=get_extra(msg.get("account"), msg.get("request_id")))
             metrics.msg_count.inc()
             break
 
@@ -63,7 +61,7 @@ def main():
             break
 
         for item in produce_queue:
-            logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg))
+            logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg.get("account"), msg.get("request_id")))
             produce.send(config.INVENTORY_TOPIC, value=item)
             metrics.msg_produced.inc()
             break
