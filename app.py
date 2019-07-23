@@ -9,6 +9,7 @@ import process
 import producer
 import puptoo_logging
 import metrics
+import tracker
 
 logger = puptoo_logging.initialize_logging()
 
@@ -45,18 +46,23 @@ def main():
     while True:
         for data in consume:
             msg = data.value
+            extra = get_extra(msg.get("account"), msg.get("request_id"))
             consume_queue.append(msg)
-            logger.info("consumed message from queue: %s", msg, extra=get_extra(msg.get("account"), msg.get("request_id")))
+            logger.info("consumed message from queue: %s", msg, extra=extra)
+            produce_queue.append(tracker.tracker_msg(extra, "Received", "Received message"))
             metrics.msg_count.inc()
 
         while len(consume_queue) >= 1:
             consumed = consume_queue.popleft()
             extra = get_extra(consumed)
+            produce_queue.append(tracker.tracker_msg(extra, "Processing", "Extracting facts"))
             facts = process.extraction(consumed, extra)
             if facts.get("error"):
                 metrics.extract_failure.inc()
+                produce_queue.append(tracker.tracker_msg(extra, "Failure", "Unable to extract facts"))
                 continue
             inv_msg = {"data": {**consumed, **facts}}
+            produce_queue.append(tracker.tracker_msg(extra, "Success", "Successfully extracted facts"))
             produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
             metrics.msg_processed.inc()
 
@@ -64,6 +70,8 @@ def main():
             item = produce_queue.popleft()
             logger.info("producing message on %s", item["topic"], extra=item["extra"])
             produce.send(item["topic"], value=item["msg"])
+            if item["topic"] == config.INVENTORY_TOPIC:
+                produce_queue.append(tracker.tracker_msg(item["extra"], "Success", "Sent to inventory"))
             metrics.msg_produced.inc()
             logger.info("Produce queue size: %d", len(produce_queue))
 
