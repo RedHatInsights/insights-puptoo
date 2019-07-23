@@ -2,6 +2,7 @@ import traceback
 import collections
 
 from prometheus_client import start_http_server
+from kafka.errors import KafkaError
 
 import config
 import consumer
@@ -69,7 +70,10 @@ def main():
         while len(produce_queue) >= 1:
             item = produce_queue.popleft()
             logger.info("producing message on %s", item["topic"], extra=item["extra"])
-            produce.send(item["topic"], value=item["msg"])
+            try:
+                produce.send(item["topic"], value=item["msg"])
+            except KafkaError:
+                logger.exception("Failed to produce message. Placing back on queue: %s", item["extra"]["request_id"])
             if item["topic"] == config.INVENTORY_TOPIC:
                 produce_queue.append(tracker.tracker_msg(item["extra"], "Success", "Sent to inventory"))
             metrics.msg_produced.inc()
