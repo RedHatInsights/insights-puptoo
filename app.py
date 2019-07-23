@@ -49,7 +49,7 @@ def main():
             msg = data.value
             extra = get_extra(msg.get("account"), msg.get("request_id"))
             consume_queue.append(msg)
-            logger.info("consumed message from queue: %s", msg, extra=extra)
+            logger.debug("consumed message from queue: %s", msg, extra=extra)
             produce_queue.append(tracker.tracker_msg(extra, "received", "Received message"))
             metrics.msg_count.inc()
 
