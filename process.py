@@ -4,8 +4,7 @@ import json
 
 from tempfile import NamedTemporaryFile
 
-import config
-import metrics
+from utils import config, metrics
 
 from insights.core import dr
 from insights import extract, rule, make_metadata, run

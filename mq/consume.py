@@ -2,8 +2,7 @@ import json
 
 from kafka import KafkaConsumer
 
-import config
-
+from utils import config
 
 def init_consumer():
     consumer = KafkaConsumer(config.CONSUME_TOPIC,

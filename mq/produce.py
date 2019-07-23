@@ -1,7 +1,8 @@
-import config
 import json
 
 from kafka import KafkaProducer
+
+from utils import config
 
 
 def init_producer():

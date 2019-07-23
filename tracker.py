@@ -1,5 +1,6 @@
-import config
 import datetime
+
+from utils import config
 
 def get_time():
     return datetime.datetime.now().isoformat()

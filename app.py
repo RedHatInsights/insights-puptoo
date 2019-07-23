@@ -4,13 +4,12 @@ import collections
 from prometheus_client import start_http_server
 from kafka.errors import KafkaError
 
-import config
-import consumer
 import process
-import producer
 import puptoo_logging
-import metrics
 import tracker
+
+from utils import config, metrics
+from mq import consume, produce
 
 logger = puptoo_logging.initialize_logging()
 
@@ -41,11 +40,11 @@ def main():
         logger.info("Starting Extracto Prometheus Server")
         start_prometheus()
 
-    consume = consumer.init_consumer()
-    produce = producer.init_producer()
+    consumer = consume.init_consumer()
+    producer = produce.init_producer()
 
     while True:
-        for data in consume:
+        for data in consumer:
             msg = data.value
             extra = get_extra(msg.get("account"), msg.get("request_id"))
             consume_queue.append(msg)
@@ -71,15 +70,15 @@ def main():
             item = produce_queue.popleft()
             logger.info("producing message on %s", item["topic"], extra=item["extra"])
             try:
-                produce.send(item["topic"], value=item["msg"])
+                producer.send(item["topic"], value=item["msg"])
             except KafkaError:
                 logger.exception("Failed to produce message. Placing back on queue: %s", item["extra"]["request_id"])
             if item["topic"] == config.INVENTORY_TOPIC:
                 produce_queue.append(tracker.tracker_msg(item["extra"], "Success", "Sent to inventory"))
             metrics.msg_produced.inc()
-            logger.info("Produce queue size: %d", len(produce_queue))
+            logger.debug("Produce queue size: %d", len(produce_queue))
 
-        produce.flush()
+        producer.flush()
 
 
 if __name__ == "__main__":

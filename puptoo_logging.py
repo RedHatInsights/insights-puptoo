@@ -1,12 +1,13 @@
 import os
 import sys
-import config
 import logging
 
 import watchtower
 
 from logstash_formatter import LogstashFormatterV1
 from boto3.session import Session
+
+from utils import config
 
 
 def config_cloudwatch(logger):
