@@ -50,20 +50,20 @@ def main():
             extra = get_extra(msg.get("account"), msg.get("request_id"))
             consume_queue.append(msg)
             logger.info("consumed message from queue: %s", msg, extra=extra)
-            produce_queue.append(tracker.tracker_msg(extra, "Received", "Received message"))
+            produce_queue.append(tracker.tracker_msg(extra, "received", "Received message"))
             metrics.msg_count.inc()
 
         while len(consume_queue) >= 1:
             consumed = consume_queue.popleft()
-            extra = get_extra(consumed)
-            produce_queue.append(tracker.tracker_msg(extra, "Processing", "Extracting facts"))
+            extra = get_extra(consumed.get("account"), consumed.get("request_id"))
+            produce_queue.append(tracker.tracker_msg(extra, "processing", "Extracting facts"))
             facts = process.extraction(consumed, extra)
             if facts.get("error"):
                 metrics.extract_failure.inc()
-                produce_queue.append(tracker.tracker_msg(extra, "Failure", "Unable to extract facts"))
+                produce_queue.append(tracker.tracker_msg(extra, "failure", "Unable to extract facts"))
                 continue
             inv_msg = {"data": {**consumed, **facts}}
-            produce_queue.append(tracker.tracker_msg(extra, "Success", "Successfully extracted facts"))
+            produce_queue.append(tracker.tracker_msg(extra, "processing", "Successfully extracted facts"))
             produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
             metrics.msg_processed.inc()
 
