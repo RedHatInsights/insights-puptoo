@@ -5,10 +5,9 @@ from prometheus_client import start_http_server
 from kafka.errors import KafkaError
 
 import process
-import puptoo_logging
 import tracker
 
-from utils import config, metrics
+from utils import config, metrics, puptoo_logging
 from mq import consume, produce
 
 logger = puptoo_logging.initialize_logging()
