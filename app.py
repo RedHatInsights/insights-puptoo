@@ -65,6 +65,7 @@ def main():
             logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg.get("account"), msg.get("request_id")))
             produce.send(config.INVENTORY_TOPIC, value=item)
             metrics.msg_produced.inc()
+            logger.info("Produce queue size: %d", len(produce_queue))
 
         produce.flush()
 
@@ -72,6 +73,6 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except:
+    except Exception:
         the_error = traceback.format_exc()
         logger.error(f"Puptoo failed with Error: {the_error}")
