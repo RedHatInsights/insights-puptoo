@@ -56,14 +56,14 @@ def main():
             if facts.get("error"):
                 metrics.extract_failure.inc()
                 continue
-            inv_msg = {**consumed, **facts}
-            produce_queue.append({"data": inv_msg})
+            inv_msg = {"data": {**consumed, **facts}}
+            produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
             metrics.msg_processed.inc()
 
         while len(produce_queue) >= 1:
             item = produce_queue.popleft()
-            logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg.get("account"), msg.get("request_id")))
-            produce.send(config.INVENTORY_TOPIC, value=item)
+            logger.info("producing message on %s", item["topic"], extra=item["extra"])
+            produce.send(item["topic"], value=item["msg"])
             metrics.msg_produced.inc()
             logger.info("Produce queue size: %d", len(produce_queue))
 
