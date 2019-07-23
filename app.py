@@ -1,6 +1,6 @@
 import traceback
-import collections
 
+from collections import deque
 from prometheus_client import start_http_server
 from kafka.errors import KafkaError
 
@@ -12,8 +12,8 @@ from mq import consume, produce
 
 logger = puptoo_logging.initialize_logging()
 
-produce_queue = collections.deque([])
-consume_queue = collections.deque([])
+produce_queue = deque([])
+consume_queue = deque([])
 
 
 def start_prometheus():
