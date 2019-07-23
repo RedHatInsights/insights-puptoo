@@ -1,4 +1,5 @@
 import traceback
+import collections
 
 from prometheus_client import start_http_server
 
@@ -11,8 +12,8 @@ import metrics
 
 logger = puptoo_logging.initialize_logging()
 
-produce_queue = []
-consume_queue = []
+produce_queue = collections.deque([])
+consume_queue = collections.deque([])
 
 
 def start_prometheus():
@@ -47,9 +48,9 @@ def main():
             consume_queue.append(msg)
             logger.info("consumed message from queue: %s", msg, extra=get_extra(msg.get("account"), msg.get("request_id")))
             metrics.msg_count.inc()
-            break
 
-        for consumed in consume_queue:
+        while len(consume_queue) >= 1:
+            consumed = consume_queue.popleft()
             extra = get_extra(consumed)
             facts = process.extraction(consumed, extra)
             if facts.get("error"):
@@ -58,13 +59,12 @@ def main():
             inv_msg = {**consumed, **facts}
             produce_queue.append({"data": inv_msg})
             metrics.msg_processed.inc()
-            break
 
-        for item in produce_queue:
+        while len(produce_queue) >= 1:
+            item = produce_queue.popleft()
             logger.info("producing message on %s", config.INVENTORY_TOPIC, extra=get_extra(msg.get("account"), msg.get("request_id")))
             produce.send(config.INVENTORY_TOPIC, value=item)
             metrics.msg_produced.inc()
-            break
 
         produce.flush()
 
