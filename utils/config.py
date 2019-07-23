@@ -16,8 +16,6 @@ def get_namespace():
 
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
-BUILD_ID = os.getenv("OPENSHIFT_BUILD_COMMIT", "unknown")
-MAX_WORKERS = int(os.getenv("MAX_WORKERS", 50))
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")
 CONSUME_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.advisor")
@@ -25,7 +23,6 @@ AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
 AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
 AWS_REGION_NAME = os.getenv("CW_AWS_REGION_NAME", "us-east-1")
 INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC", "platform.inventory.host-ingress")
-MAX_RECORDS = int(os.getenv("MAX_RECORDS", 1))
 FACT_EXTRACT_LOGLEVEL = os.getenv("FACT_EXTRACT_LOGLEVEL", "ERROR")
 LOG_GROUP = os.getenv("LOG_GROUP", "platform")
 TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")

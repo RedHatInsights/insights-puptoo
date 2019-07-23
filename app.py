@@ -26,17 +26,19 @@ def get_extra(account="unknown", request_id="unknown"):
 
 def main():
 
-    logger.info("Starting Extracto Service")
+    logger.info("Starting Puptoo Service")
 
     logger.info("Using LOG_LEVEL: %s", config.LOG_LEVEL)
+    logger.info("Using LOG_GROUP: %s", config.LOG_GROUP)
     logger.info("Using BOOTSTRAP_SERVERS: %s", config.BOOTSTRAP_SERVERS)
     logger.info("Using GROUP_ID: %s", config.GROUP_ID)
+    logger.info("Using INVENTORY_TOPIC: %s", config.INVENTORY_TOPIC)
     logger.info("Using TRACKER_TOPIC: %s", config.TRACKER_TOPIC)
     logger.info("Using DISABLE_PROMETHEUS: %s", config.DISABLE_PROMETHEUS)
     logger.info("Using PROMETHEUS_PORT: %s", config.PROMETHEUS_PORT)
 
     if not config.DISABLE_PROMETHEUS:
-        logger.info("Starting Extracto Prometheus Server")
+        logger.info("Starting Puptoo Prometheus Server")
         start_prometheus()
 
     consumer = consume.init_consumer()
