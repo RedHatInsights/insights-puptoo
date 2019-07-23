@@ -67,7 +67,7 @@ def main():
 
         while len(produce_queue) >= 1:
             item = produce_queue.popleft()
-            logger.info("producing message on %s", item["topic"], extra=item["extra"])
+            logger.debug("producing message on %s", item["topic"], extra=item["extra"])
             try:
                 producer.send(item["topic"], value=item["msg"])
             except KafkaError:
