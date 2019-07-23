@@ -5,6 +5,7 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+freezegun = "*"
 
 [packages]
 prometheus-client = "*"
@@ -14,6 +15,7 @@ watchtower = "*"
 kafka-python = "*"
 requests = "*"
 insights-core = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.7"
