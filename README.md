@@ -74,7 +74,7 @@ Failure example:
 
     {"validation": "failure", "request_id": "23oikjonsdv329"}
 
-#### Running
+### Running
 
 The default environment variables should be acceptable for testing.  
 PUPTOO does expect a kafka message queue to be available for connection.
@@ -90,12 +90,24 @@ Create a virtualenv using pipenv and install requirements. Once complete you can
 
     pipenv install
 
-#### Running
+#### Running Locally
 
 Activate your virtual environment and run the validator
 
     pipenv shell
     python ./app.py
+
+#### Running with Docker Compose
+
+Two docker-compose files are made available in this repo for standing up a local dev environment. The `docker-compose.yml` file stands up putoo, kafka, and minio for isolated tested. The `full-stack.yml` file stands up ingress, kafka, puptoo, minio, and inventory components so that the entire first bits of the platform pipeline can be tested. 
+
+Stand Up Isolated Puptoo  
+    cd dev && sudo docker-compose up
+
+Stand Up Full stack
+    cd dev && sudo docker-compose -f full-stack.yml up 
+
+**NOTE**: The full stack expects you to have an ingress and inventory image available. See those projects for steps for building the images needed. It's also typical for puptoo to fail to start if it can't initially connect to kafka. If this happens, simply run `sudo docker-compose -f full-stack up -d pup` to have it attempt another startup.
 
 ## File Processing
 
