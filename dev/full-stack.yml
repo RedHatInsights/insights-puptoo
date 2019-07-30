@@ -54,7 +54,7 @@ services:
       exit 0;
       "
   ingress:
-    image: ingress:72 # we expect this image to exist already
+    image: ingress:latest # we expect this image to exist already
     ports:
       - 8080:3000
     environment:
