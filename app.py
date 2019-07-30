@@ -13,8 +13,6 @@ from mq import consume, produce
 logger = puptoo_logging.initialize_logging()
 
 produce_queue = deque([])
-consume_queue = deque([])
-
 
 def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
@@ -48,21 +46,14 @@ def main():
         for data in consumer:
             msg = data.value
             extra = get_extra(msg.get("account"), msg.get("request_id"))
-            consume_queue.append(msg)
-            logger.debug("consumed message from queue: %s", msg, extra=extra)
             produce_queue.append(tracker.tracker_msg(extra, "received", "Received message"))
             metrics.msg_count.inc()
-
-        while len(consume_queue) >= 1:
-            consumed = consume_queue.popleft()
-            extra = get_extra(consumed.get("account"), consumed.get("request_id"))
-            produce_queue.append(tracker.tracker_msg(extra, "processing", "Extracting facts"))
-            facts = process.extraction(consumed, extra)
+            facts = process.extraction(msg, extra)
             if facts.get("error"):
                 metrics.extract_failure.inc()
                 produce_queue.append(tracker.tracker_msg(extra, "failure", "Unable to extract facts"))
                 continue
-            inv_msg = {"data": {**consumed, **facts}}
+            inv_msg = {"data": {**msg, **facts}}
             produce_queue.append(tracker.tracker_msg(extra, "processing", "Successfully extracted facts"))
             produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
             metrics.msg_processed.inc()
