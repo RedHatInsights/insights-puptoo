@@ -25,6 +25,8 @@ services:
     image: insights-puptoo:latest
     ports:
       - 8000:8000 #for prometheus endpoint
+    environment:
+      - LOG_LEVEL=DEBUG
     depends_on:
       - kafka
   minio:
@@ -52,7 +54,7 @@ services:
       exit 0;
       "
   ingress:
-    image: ingress:latest # we expect this image to exist already
+    image: ingress:72 # we expect this image to exist already
     ports:
       - 8080:3000
     environment:
@@ -68,6 +70,7 @@ services:
       - INGRESS_MINIOACCESSKEY=$MINIO_ACCESS_KEY
       - INGRESS_MINIOSECRETKEY=$MINIO_SECRET_KEY
       - INGRESS_MINIOENDPOINT=minio:9000
+      - INGRESS_AUTH=false
     depends_on:
       - kafka
   db:
