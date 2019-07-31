@@ -3,6 +3,7 @@ import traceback
 from collections import deque
 from prometheus_client import start_http_server
 from kafka.errors import KafkaError
+from time import time
 
 import process
 import tracker
@@ -11,8 +12,6 @@ from utils import config, metrics, puptoo_logging
 from mq import consume, produce
 
 logger = puptoo_logging.initialize_logging()
-
-produce_queue = deque([])
 
 def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
@@ -45,31 +44,30 @@ def main():
     while True:
         for data in consumer:
             msg = data.value
+            msg["elapsed_time"] = time()
             extra = get_extra(msg.get("account"), msg.get("request_id"))
-            produce_queue.append(tracker.tracker_msg(extra, "received", "Received message"))
+            producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "received", "Received message"))
             metrics.msg_count.inc()
             facts = process.extraction(msg, extra)
             if facts.get("error"):
                 metrics.extract_failure.inc()
-                produce_queue.append(tracker.tracker_msg(extra, "failure", "Unable to extract facts"))
+                producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "failure", "Unable to extract facts"))
                 continue
             logger.debug("extracted facts from message for %s", extra["request_id"])
             inv_msg = {"data": {**msg, **facts}}
-            produce_queue.append(tracker.tracker_msg(extra, "processing", "Successfully extracted facts"))
-            produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
-            metrics.msg_processed.inc()
-            item = produce_queue.popleft()
             try:
-                producer.send(item["topic"], value=item["msg"])
-                logger.debug("sent msg to %s for request_id: %s", config.INVENTORY_TOPIC, extra["request_id"])
+                inv_msg["data"]["elapsed_time"] = time() - msg["elapsed_time"]
+                producer.send(config.INVENTORY_TOPIC, value=inv_msg)
             except KafkaError:
-                logger.exception("Failed to produce message.Placing back on queue: %s", item["extra"]["request_id"])
-            if item["topic"] == config.INVENTORY_TOPIC:
-                try:
-                    tracker_msg = tracker.tracker_msg(item["extra"], "success", "Sent to inventory")
-                    producer.send(tracker_msg["topic"], value=tracker_msg["msg"])
-                except KafkaError:
-                    logger.exception("Failed to send payload tracker message for request %s", tracker_msg["extras"]["request_id"])
+                logger.exception("Failed to produce message to inventory: %s", extra["request_id"])
+                metrics.msg_send_failure.inc()
+                continue
+            metrics.msg_processed.inc()
+            try:
+                producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "success", "Sent to inventroy"))
+            except KafkaError:
+                logger.exception("Failed to send payload tracker message for request %s", extra["request_id"])
+                metrics.msg_send_failure.inc()
             metrics.msg_produced.inc()
 
         producer.flush()
