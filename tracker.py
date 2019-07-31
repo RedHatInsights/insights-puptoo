@@ -16,4 +16,4 @@ def tracker_msg(extra, status, status_msg):
                "date": get_time()
                }
 
-    return {"topic": config.TRACKER_TOPIC, "msg": message, "extra": extra}
+    return message
