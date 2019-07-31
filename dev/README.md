@@ -19,7 +19,7 @@ The image will then be available in your local docker repo under the image and t
 Running Puptoo is a bit more complicated as it requires kafka, zookeeper, and minio to be up and running. The provided docker-compose file can help with that.
 
 **Kafka** is the message queue service that puptoo writes and listens to.  
-**Zookeeper** is a required component for kafka  .
+**Zookeeper** is a required component for kafka.  
 **Minio** is a local S3-like instance where files can be stored and used for downloads.
 
 The `.env` file included in this repo allows you to configure minio. The main thing to check is that you have the data and config directories created under `/mnt` or whever you set those dirs.
