@@ -70,7 +70,6 @@ services:
       - INGRESS_MINIOACCESSKEY=$MINIO_ACCESS_KEY
       - INGRESS_MINIOSECRETKEY=$MINIO_SECRET_KEY
       - INGRESS_MINIOENDPOINT=minio:9000
-      - INGRESS_AUTH=false
     depends_on:
       - kafka
   db:
