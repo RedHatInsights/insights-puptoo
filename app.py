@@ -53,6 +53,7 @@ def main():
                 metrics.extract_failure.inc()
                 produce_queue.append(tracker.tracker_msg(extra, "failure", "Unable to extract facts"))
                 continue
+            logger.debug("extracted facts from message for %s", extra["request_id"])
             inv_msg = {"data": {**msg, **facts}}
             produce_queue.append(tracker.tracker_msg(extra, "processing", "Successfully extracted facts"))
             produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
@@ -60,6 +61,7 @@ def main():
             item = produce_queue.popleft()
             try:
                 producer.send(item["topic"], value=item["msg"])
+                logger.debug("sent msg to %s for request_id: %s", config.INVENTORY_TOPIC, extra["request_id"])
             except KafkaError:
                 logger.exception("Failed to produce message.Placing back on queue: %s", item["extra"]["request_id"])
             if item["topic"] == config.INVENTORY_TOPIC:
