@@ -57,21 +57,20 @@ def main():
             produce_queue.append(tracker.tracker_msg(extra, "processing", "Successfully extracted facts"))
             produce_queue.append({"topic": config.INVENTORY_TOPIC, "msg": inv_msg, "extra": extra})
             metrics.msg_processed.inc()
-
-        while len(produce_queue) >= 1:
             item = produce_queue.popleft()
-            logger.debug("producing message on %s", item["topic"], extra=item["extra"])
             try:
                 producer.send(item["topic"], value=item["msg"])
             except KafkaError:
-                logger.exception("Failed to produce message. Placing back on queue: %s", item["extra"]["request_id"])
+                logger.exception("Failed to produce message.Placing back on queue: %s", item["extra"]["request_id"])
             if item["topic"] == config.INVENTORY_TOPIC:
-                produce_queue.append(tracker.tracker_msg(item["extra"], "Success", "Sent to inventory"))
+                try:
+                    tracker_msg = tracker.tracker_msg(item["extra"], "success", "Sent to inventory")
+                    producer.send(tracker_msg["topic"], value=tracker_msg["msg"])
+                except KafkaError:
+                    logger.exception("Failed to send payload tracker message for request %s", tracker_msg["extras"]["request_id"])
             metrics.msg_produced.inc()
-            logger.debug("Produce queue size: %d", len(produce_queue))
 
         producer.flush()
-
 
 if __name__ == "__main__":
     try:
