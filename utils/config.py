@@ -6,6 +6,15 @@ APP_NAME = os.getenv("APP_NAME", "insights-puptoo")
 logger = logging.getLogger(APP_NAME)
 
 
+def log_config():
+    import sys
+    for k, v in sys.modules[__name__].__dict__.items():
+        if k == k.upper():
+            if "AWS" in k.split("_"):
+                continue
+            logger.info("Using %s: %s", k, v)
+
+
 def get_namespace():
     try:
         with open("/var/run/secrets/kubernetes.io/serviceaccount/namespace", "r") as f:

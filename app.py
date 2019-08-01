@@ -25,14 +25,7 @@ def main():
 
     logger.info("Starting Puptoo Service")
 
-    logger.info("Using LOG_LEVEL: %s", config.LOG_LEVEL)
-    logger.info("Using LOG_GROUP: %s", config.LOG_GROUP)
-    logger.info("Using BOOTSTRAP_SERVERS: %s", config.BOOTSTRAP_SERVERS)
-    logger.info("Using GROUP_ID: %s", config.GROUP_ID)
-    logger.info("Using INVENTORY_TOPIC: %s", config.INVENTORY_TOPIC)
-    logger.info("Using TRACKER_TOPIC: %s", config.TRACKER_TOPIC)
-    logger.info("Using DISABLE_PROMETHEUS: %s", config.DISABLE_PROMETHEUS)
-    logger.info("Using PROMETHEUS_PORT: %s", config.PROMETHEUS_PORT)
+    config.log_config()
 
     if not config.DISABLE_PROMETHEUS:
         logger.info("Starting Puptoo Prometheus Server")
@@ -65,7 +58,7 @@ def main():
                 continue
             metrics.msg_processed.inc()
             try:
-                producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "success", "Sent to inventroy"))
+                producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "success", "Sent to inventory"))
             except KafkaError:
                 logger.exception("Failed to send payload tracker message for request %s", extra["request_id"])
                 metrics.msg_send_failure.inc()
