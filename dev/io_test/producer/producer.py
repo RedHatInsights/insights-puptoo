@@ -62,6 +62,8 @@ def main():
         logger.info("sending message for ID %s", key)
         producer.send(msg["topic"], value=msg["data"])
 
+    producer.flush()
+
 if __name__ == "__main__":
     time.sleep(10)  # need to delay a bit so the kafka boxes can spin up
     main()
