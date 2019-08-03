@@ -30,8 +30,9 @@ else:
 MSG_COUNT = os.getenv("MSG_COUNT", 100)
 FETCH_BUCKET = os.getenv("FETCH_BUCKET", "insights-upload-perma")
 PRODUCE_TOPIC = os.getenv("PRODUCE_TOPIC", "platform.upload.advisor")
+BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split()
 
-producer = KafkaProducer(bootstrap_servers=["kafka:29092"],
+producer = KafkaProducer(bootstrap_servers=BOOTSTRAP_SERVERS,
                          value_serializer=lambda x: json.dumps(x).encode("utf-8")
                          )
 
