@@ -12,19 +12,24 @@ if any("KUBERNETES" in k for k in os.environ):
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", None)
     AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY", None)
     AWS_REGION = os.getenv("AWS_REGION", "eu-west-2")
+
+    s3 = boto3.client("s3",
+                      aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
 else:
     AWS_ACCESS_KEY_ID = os.getenv('MINIO_ACCESS_KEY', None)
     AWS_SECRET_ACCESS_KEY = os.getenv('MINIO_SECRET_KEY', None)
     S3_ENDPOINT_URL = os.getenv('S3_ENDPOINT_URL', "http://minio:9000")
 
+    s3 = boto3.client('s3',
+                      endpoint_url=S3_ENDPOINT_URL,
+                      aws_access_key_id=AWS_ACCESS_KEY_ID,
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+
 MSG_COUNT = os.getenv("MSG_COUNT", 100)
 FETCH_BUCKET = os.getenv("FETCH_BUCKET", "insights-upload-perma")
 PRODUCE_TOPIC = os.getenv("PRODUCE_TOPIC", "platform.upload.advisor")
-
-s3 = boto3.client('s3',
-                  endpoint_url=S3_ENDPOINT_URL,
-                  aws_access_key_id=AWS_ACCESS_KEY_ID,
-                  aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
 
 producer = KafkaProducer(bootstrap_servers=["kafka:29092"],
                          value_serializer=lambda x: json.dumps(x).encode("utf-8")
