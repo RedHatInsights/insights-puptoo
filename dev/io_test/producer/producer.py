@@ -15,7 +15,9 @@ if any("KUBERNETES" in k for k in os.environ):
 
     s3 = boto3.client("s3",
                       aws_access_key_id=AWS_ACCESS_KEY_ID,
-                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
+                      aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                      signature_version="v4",
+                      region=AWS_REGION)
 
 else:
     AWS_ACCESS_KEY_ID = os.getenv('MINIO_ACCESS_KEY', None)
@@ -63,7 +65,6 @@ def main():
     keys = get_keys()
     for key in keys:
         url = get_url(key)
-        logger.info(url)
         msg["data"]["request_id"] = key
         msg["data"]["url"] = url
         logger.info("sending message for ID %s", key)
