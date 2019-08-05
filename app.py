@@ -39,6 +39,7 @@ def main():
             msg = data.value
             msg["elapsed_time"] = time()
             extra = get_extra(msg.get("account"), msg.get("request_id"))
+            logger.info("received request_id: %s", extra["request_id"])
             producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "received", "Received message"))
             metrics.msg_count.inc()
             facts = process.extraction(msg, extra)
