@@ -63,6 +63,7 @@ def main():
     keys = get_keys()
     for key in keys:
         url = get_url(key)
+        logger.info(url)
         msg["data"]["request_id"] = key
         msg["data"]["url"] = url
         logger.info("sending message for ID %s", key)
