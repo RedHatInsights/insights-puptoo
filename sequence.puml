@@ -1,0 +1,20 @@
+@startuml
+title PUP Processing Flow
+participant platform.upload.advisor
+participant platform.upload.validation
+participant puptoo
+participant platform.inventory.hostingress
+participant hbi
+platform.upload.advisor->puptoo: msg
+Note right of platform.upload.advisor: {"request_id": "abcd1234",\n"account": "000001",\n"principal": "123456",\n"size": "size_in_bytes",\n"service": "destination service",\n"category": "file category",\n"url": "bucket_url",\n"b64_identity": "base64_identity_string",\n"metadata": {}\n}
+puptoo->puptoo: Downloads archive from\nS3 bucket
+puptoo->puptoo: Extracts facts from archive\nwith insights-core
+alt success
+    puptoo->platform.inventory.hostingress: msg
+    Note right of puptoo: {"data": [{"facts": {},\n"system_profile": {}}],\n"platform_metadata": <original_msg_json>}
+else failure
+    puptoo[#0000FF]->platform.upload.validation: msg
+    Note left of puptoo: {"request_id": "abcd1234",\n"validation": "failure"}
+end
+platform.inventory.hostingress->hbi: msg
+@enduml
