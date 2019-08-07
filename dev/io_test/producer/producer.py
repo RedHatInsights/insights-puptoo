@@ -41,18 +41,14 @@ msg = {"topic": PRODUCE_TOPIC,
        "data": {"account": "000001"}}
 
 logging.basicConfig(level="INFO",
-                    format="%(threadName)s %(levelname)s %(name)s - %(message)s"
+                    format="%(asctime)s %(threadName)s %(levelname)s %(name)s - %(message)s"
                     )
 
 logger = logging.getLogger("producer")
 
-def get_keys():
-    keylist = []
+def gen_keys_and_urls():
     for key in s3.list_objects(Bucket=FETCH_BUCKET)["Contents"][:MSG_COUNT]:
-        keylist.append(key["Key"])
-
-    return keylist
-
+        yield key, gen_url(key)
 
 def get_url(uuid):
     url = s3.generate_presigned_url("get_object",
@@ -61,15 +57,12 @@ def get_url(uuid):
     return url
 
 def main():
-    keys = get_keys()
-    for key in keys:
-        url = get_url(key)
-        msg["data"]["request_id"] = key
-        msg["data"]["url"] = url
+    for key, url in gen_keys_and_urls():
+        data = dict(request_id=key, url=url, account=msg["data"]["account"])
         logger.info("sending message for ID %s", key)
-        producer.send(msg["topic"], value=msg["data"])
-
+        producer.send(PRODUCE_TOPIC, value=data)
     producer.flush()
+    logger.info("producer flushed")
 
 if __name__ == "__main__":
     time.sleep(10)  # need to delay a bit so the kafka boxes can spin up
