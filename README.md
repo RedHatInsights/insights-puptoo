@@ -55,7 +55,8 @@ The message sent to the inventory service will include the facts extracted from 
                                "fqdn": "Z0JTXJ7YSG.test"}
                      'namespace': 'insights-client',
                      'system-profile': {"foo": "bar"}}]}
- "platform_metadata": {original_json_from_above}}
+ "platform_metadata": {original_json_from_above},
+ "operation": "add_host"}
 ```
 
 **The above facts are managed by the [insights-core](https://www.github.com/RedHatInsights/insights-core) project and may be added or taken away. The README should be updated to reflect those
