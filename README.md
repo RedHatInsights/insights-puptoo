@@ -37,24 +37,25 @@ The JSON expected by the PUP service from the upload service looks like this:
  "request_id": "23oikjonsdv329",
  "size": 234,
  "service": "advisor",
+ "category": "some_category",
  "b64_identity": "<some big base64 string>",
  "metadata": "{'some_key': 'some_value'}, # optional
  "url": "http://some.bucket.somewhere/1234"}
 ```
 
-The message sent to the inventory service will be what is above, but also include facts:
+The message sent to the inventory service will include the facts extracted from the archive
 
 ```
-...
-"facts": [{'facts': {"insights_id": "a756b571-e227-46a5-8bcc-3a567b7edfb1",
-                    "machine_id": null,
-                    "bios_uuid": null,
-                    "subscription_manager_id": null,
-                    "ip_addresses": [],
-                    "mac_addresses": [],
-                    "fqdn": "Z0JTXJ7YSG.test"}
-            'namespace': 'insights-client',
-            'system-profile': {"foo": "bar"}}]
+{"data": {"facts": [{'facts': {"insights_id": "a756b571-e227-46a5-8bcc-3a567b7edfb1",
+                               "machine_id": null,
+                               "bios_uuid": null,
+                               "subscription_manager_id": null,
+                               "ip_addresses": [],
+                               "mac_addresses": [],
+                               "fqdn": "Z0JTXJ7YSG.test"}
+                     'namespace': 'insights-client',
+                     'system-profile': {"foo": "bar"}}]}
+ "platform_metadata": {original_json_from_above}}
 ```
 
 **The above facts are managed by the [insights-core](https://www.github.com/RedHatInsights/insights-core) project and may be added or taken away. The README should be updated to reflect those
