@@ -49,6 +49,7 @@ def main():
                 continue
             logger.debug("extracted facts from message for %s", extra["request_id"])
             inv_msg = {"operation": "add_host", "data": facts, "platform_metadata": msg}
+            inv_msg["data"]["account"] = msg.get("account")
             try:
                 inv_msg["data"]["elapsed_time"] = time() - msg["elapsed_time"]
                 logger.debug("Message traversed pup in %s seconds", inv_msg["data"]["elapsed_time"])
