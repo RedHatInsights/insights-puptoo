@@ -46,9 +46,13 @@ logging.basicConfig(level="INFO",
 
 logger = logging.getLogger("producer")
 
-def gen_keys_and_urls():
+def get_keys():
+    keylist = []
     for key in s3.list_objects(Bucket=FETCH_BUCKET)["Contents"][:MSG_COUNT]:
-        yield key, get_url(key)
+        keylist.append(key["Key"])
+
+    return keylist
+
 
 def get_url(uuid):
     url = s3.generate_presigned_url("get_object",
@@ -57,13 +61,15 @@ def get_url(uuid):
     return url
 
 def main():
-    for key, url in gen_keys_and_urls():
-        data = dict(request_id=key, url=url, account=msg["data"]["account"])
+    keys = get_keys()
+    for key in keys:
+        url = get_url(key)
+        msg["data"]["request_id"] = key
+        msg["data"]["url"] = url
         logger.info("sending message for ID %s", key)
-        producer.send(PRODUCE_TOPIC, value=data)
+        producer.send(PRODUCE_TOPIC, value=msg["data"])
+
     producer.flush()
-    logger.info("producer flushed")
 
 if __name__ == "__main__":
-    time.sleep(10)  # need to delay a bit so the kafka boxes can spin up
     main()
