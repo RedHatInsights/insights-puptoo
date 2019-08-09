@@ -48,7 +48,7 @@ logger = logging.getLogger("producer")
 
 def gen_keys_and_urls():
     for key in s3.list_objects(Bucket=FETCH_BUCKET)["Contents"][:MSG_COUNT]:
-        yield key, gen_url(key)
+        yield key, get_url(key)
 
 def get_url(uuid):
     url = s3.generate_presigned_url("get_object",
