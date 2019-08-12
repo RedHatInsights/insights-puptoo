@@ -1,9 +1,9 @@
 @startuml
 title PUP Processing Flow
-participant platform.upload.advisor
-participant platform.upload.validation
+entity platform.upload.advisor
+entity platform.upload.validation
 participant puptoo
-participant platform.inventory.hostingress
+entity platform.inventory.hostingress
 participant hbi
 platform.upload.advisor->puptoo: msg
 Note right of platform.upload.advisor: {"request_id": "abcd1234",\n"account": "000001",\n"principal": "123456",\n"size": "size_in_bytes",\n"service": "destination service",\n"category": "file category",\n"url": "bucket_url",\n"b64_identity": "base64_identity_string",\n"metadata": {}\n}
