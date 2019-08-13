@@ -1,0 +1,213 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: insights-puptoo
+  name: insights-puptoo
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    deploymentconfig: insights-puptoo
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: insights-puptoo
+        deploymentconfig: insights-puptoo
+    spec:
+      containers:
+      - env:
+        - name: BOOTSTRAP_SERVERS
+          value: platform-mq-kafka-bootstrap.platform-mq.svc:9092
+        - name: LOG_LEVEL
+          value: DEBUG
+        image: image-registry.openshift-image-registry.svc:5000/buildfactory/insights-puptoo:latest
+        imagePullPolicy: Always
+        name: insights-puptoo
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 60
+  test: false
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - insights-puptoo
+      from:
+        kind: ImageStreamTag
+        name: insights-puptoo:latest
+        namespace: buildfactory
+    type: ImageChange
+  - type: ConfigChange
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: test-consumer
+  name: test-consumer
+spec:
+  lookupPolicy:
+    local: false
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: test-producer
+  name: test-producer
+spec:
+  lookupPolicy:
+    local: false
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: test-consumer
+  name: test-consumer
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: test-consumer:latest
+  postCommit: {}
+  resources:
+    limits:
+      cpu: 250m
+      memory: 512Mi
+  runPolicy: Serial
+  source:
+    contextDir: dev/io_test/consumer
+    git:
+      ref: master
+      uri: git@github.com:RedHatInsights/insights-puptoo.git
+    sourceSecret:
+      name: nachobot
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: python-36-rhel7:latest
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers: []
+
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: test-producer
+  name: test-producer
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: test-producer:latest
+  postCommit: {}
+  resources:
+    limits:
+      cpu: 250m
+      memory: 512Mi
+  runPolicy: Serial
+  source:
+    contextDir: dev/io_test/producer
+    git:
+      ref: master
+      uri: git@github.com:RedHatInsights/insights-puptoo.git
+    sourceSecret:
+      name: nachobot
+    type: Git
+  strategy:
+    dockerStrategy:
+      from:
+        kind: ImageStreamTag
+        name: python-36-rhel7:latest
+    type: Docker
+  successfulBuildsHistoryLimit: 5
+  triggers: []
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: test-consumer
+  name: test-consumer
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    deploymentconfig: test-consumer
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    rollingParams:
+      intervalSeconds: 1
+      maxSurge: 25%
+      maxUnavailable: 25%
+      timeoutSeconds: 600
+      updatePeriodSeconds: 1
+    type: Rolling
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: test-consumer
+        deploymentconfig: test-consumer
+    spec:
+      containers:
+      - env:
+        - name: BOOTSTRAP_SERVERS
+          value: platform-mq-kafka-bootstrap.platform-mq.svc:9092
+        image: image-registry.openshift-image-registry.svc:5000/sadams/test-consumer:latest
+        imagePullPolicy: Always
+        name: test-consumer
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 60
+  test: false
+  triggers:
+  - type: ConfigChange

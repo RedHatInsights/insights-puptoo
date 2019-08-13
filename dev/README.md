@@ -55,3 +55,25 @@ Finally you can start the producer, which will immediately send 100 copies of th
     sudo docker-compose -f test-stack up -d producer
 
 Consumer will begin logging the `elapsed_time` value to show how long it took for pup to process the archive. These times are very low given that this entire setup is local to the system. We expect some added lag once we introduce puptoo to the OSD environment due to cloud storage being used and that download time likely taking a bit longer.
+
+## Testing Framework in Openshift
+
+The provided `openshift.yml` contains the deploymentConfig, buildConfigs, and imageStreams to stand up the app in a project within the OCP4 cluster for testing. The file assumes that kafka is running in the cluster and available at the configured `BOOTSTRAP_SERVERS` environment variable. 
+
+### Prequisites
+
+The easiest way to get this stood up is using the [OCP41 Cluster](https://console-openshift-console.apps.ocp41.outsrights.cc). Create new project in the cluster using `oc new-project`. You also need the python-36-rhel7 image in your Images. You can get this by tagging
+
+    oc tag buildfactory/python-36-rhel7:latest <your namespace>/python-36-rhel7:latest
+
+You may also need to update the namespace within the openshift.yml where applicable so all links are properly configured. There also some secrets that are necessary for the test-producer to pull data from S3. You'll find those in the `platform-ci` project. Just take a look at the openshift yaml for the appropriate names. You can then download and recreate those in your project: `oc get secret <name> -o yaml -n platform-ci > somefile.yml` then `oc create -f <somefile.yml> -n <your project>`
+
+You should then be able to run the openshift.yml to get the puptoo testing stack stood up:
+
+    oc create -f openshift.yml -n <your namespace>
+
+Once everything is running, you can execute the test job to run archives through the system. We do 100 by default.
+
+    oc create -f test-producer-job.yml -n <your namespace>
+
+You should be able to look at the logs in your test-consumer to see that files have been received and how long they took to get through puptoo. Once finished with the job, you can safely delete it with `oc delete job test-producer -n <your namespace>`
