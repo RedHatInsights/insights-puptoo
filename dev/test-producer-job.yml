@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: test-producer
+  name: test-producer
+spec:
+  activeDeadlineSeconds: 1000
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        job-name: test-producer
+      name: test-producer
+    spec:
+      containers:
+      - env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: aws_access_key_id
+              name: upload-s3
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: aws_secret_access_key
+              name: upload-s3
+        - name: FETCH_BUCKET
+          value: ingress-dev-upload-perm-eu
+        - name: BOOTSTRAP_SERVERS
+          value: platform-mq-kafka-bootstrap.platform-mq.svc:9092
+        envFrom:
+        - secretRef:
+            name: upload-s3
+        image: image-registry.openshift-image-registry.svc:5000/sadams/test-producer:latest
+        imagePullPolicy: Always
+        name: test-producer
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
