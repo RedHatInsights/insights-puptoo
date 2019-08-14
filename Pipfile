@@ -14,7 +14,7 @@ boto3 = "*"
 watchtower = "*"
 kafka-python = "*"
 requests = "*"
-insights-core = "*"
+insights-core = {editable = true,git = "git://github.com/redhatinsights/insights-core",ref = "3.0"}
 pytest = "*"
 
 [requires]
