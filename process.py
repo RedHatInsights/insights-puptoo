@@ -14,6 +14,7 @@ from insights.combiners.virt_what import VirtWhat
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
+from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
 from insights.parsers.lsmod import LsMod
 from insights.parsers.meminfo import MemInfo
@@ -45,10 +46,12 @@ def get_archive(url):
 
 @rule(optional=[Specs.hostname, CpuInfo, VirtWhat, MemInfo, IpAddr, DMIDecode,
                 RedHatRelease, Uname, LsMod, InstalledRpms, UnitFiles, PsAuxcww,
-                DateUTC, Uptime, YumReposD, LsEtc, CloudProvider, Specs.display_name, Specs.version_info])
+                DateUTC, Uptime, YumReposD, LsEtc, CloudProvider, Specs.display_name, Specs.version_info,
+                InstalledProductIDs])
 def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
                    redhat_release, uname, lsmod, installed_rpms, unit_files, ps_auxcww,
-                   date_utc, uptime, yum_repos_d, ls_etc, cloud_provider, display_name, version_info):
+                   date_utc, uptime, yum_repos_d, ls_etc, cloud_provider, display_name, version_info,
+                   product_ids):
     """
     This method applies parsers to a host and returns a system profile that can
     be sent to inventory service.
@@ -149,6 +152,9 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
         version_info_json = json.loads(version_info.content[0])
         profile['insights_client_version'] = version_info_json['client_version']
         profile['insights_egg_version'] = version_info_json['core_version']
+
+    if product_ids:
+        profile['installed_products'] = [{'id': product_id} for product_id in product_ids.ids]
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
