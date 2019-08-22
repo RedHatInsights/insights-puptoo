@@ -50,10 +50,10 @@ def process_archive(msg, extra):
     if facts.get("error"):
         metrics.extract_failure.inc()
         send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "failure", "unable to extract facts"), extra)
-        send_message(config.REJECTION_TOPIC, msgs.validation_message(extra, "failure"), extra)
+        send_message(config.REJECTION_TOPIC, msgs.validation_message(msg, "failure"), extra)
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
-    send_message(config.REJECTION_TOPIC, msgs.validation_message(extra, "success"), extra)
+    send_message(config.REJECTION_TOPIC, msgs.validation_message(msg, "success"), extra)
     return facts
 
 

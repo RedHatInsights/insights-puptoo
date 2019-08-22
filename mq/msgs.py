@@ -28,9 +28,9 @@ def tracker_message(extra, status, status_msg):
     return message
 
 
-def validation_message(extra, result):
+def validation_message(msg, result):
 
-    message = {"request_id": extra["request_id"],
-               "validation": result}
+    message = {"validation": result,
+               **msg}
 
     return message

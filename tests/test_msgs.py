@@ -5,6 +5,14 @@ from freezegun import freeze_time
 
 from mq import msgs
 
+platform_metadata = {"account": "000001",
+                     "request_id": "abcd-1234",
+                     "principal": "123456",
+                     "service": "advisor",
+                     "url": "http://www.example.com",
+                     "b64_identity": "somebase64",
+                     "id": "1234567"}
+
 @freeze_time("2019-7-23")
 def test_get_time():
     assert msgs.get_time() == "2019-07-23T00:00:00"
@@ -45,7 +53,6 @@ def test_inventory_msg():
 
 def test_validation_msg():
 
-    extra = {"account": "000001", "request_id": "abcd-1234-efff-0000"}
-    result = msgs.validation_message(extra, "success")
-    expected = {"request_id": "abcd-1234-efff-0000", "validation": "success"}
+    result = msgs.validation_message(platform_metadata, "success")
+    expected = {"validation": "success", **platform_metadata}
     assert result == expected
