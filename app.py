@@ -1,4 +1,5 @@
 import traceback
+import requests
 
 from collections import deque
 from prometheus_client import start_http_server
@@ -18,6 +19,14 @@ def start_prometheus():
 
 def get_extra(account="unknown", request_id="unknown"):
     return {"account": account, "request_id": request_id}
+
+
+def get_inv_id(msg):
+    headers = {"x-rh-identity": msg["b64_identity"]}
+    query_string = "?insights_id=" + msg.get("insights_id")
+    r = requests.get(config.INVENTORY_URL + query_string, headers=headers).json()
+
+    return r["results"][0]["id"]
 
 producer = None
 
@@ -53,6 +62,8 @@ def process_archive(msg, extra):
         send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, "failure"), extra)
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
+    if msg.get("id") is None:
+        msg["id"] = get_inv_id(msg)
     send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, "success"), extra)
     return facts
 
