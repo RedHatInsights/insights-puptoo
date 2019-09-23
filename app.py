@@ -63,6 +63,7 @@ def send_data_to_inventory(msg, facts, extra):
         inv_msg["data"]["elapsed_time"] = time() - msg["elapsed_time"]
         logger.debug("Message traversed pup in %s seconds", inv_msg["data"]["elapsed_time"])
         logger.debug("Message sent to Inventory: %s", extra["request_id"])
+        logger.debug("Message: %s", inv_msg)
         producer.send(config.INVENTORY_TOPIC, value=inv_msg)
     except KafkaError:
         logger.exception("Failed to produce message to inventory: %s", extra["request_id"])
