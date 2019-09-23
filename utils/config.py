@@ -33,7 +33,7 @@ AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
 AWS_REGION_NAME = os.getenv("CW_AWS_REGION_NAME", "us-east-1")
 INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC", "platform.inventory.host-ingress")
 FACT_EXTRACT_LOGLEVEL = os.getenv("FACT_EXTRACT_LOGLEVEL", "ERROR")
-LOG_GROUP = os.getenv("LOG_GROUP", "platform")
+LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
 TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
 PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8000))
 DISABLE_PROMETHEUS = True if os.getenv("DISABLE_PROMETHEUS") == "True" else False
