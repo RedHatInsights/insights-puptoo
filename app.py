@@ -21,9 +21,9 @@ def get_extra(account="unknown", request_id="unknown"):
     return {"account": account, "request_id": request_id}
 
 
-def get_inv_id(msg):
+def get_inv_id(msg, insights_id):
     headers = {"x-rh-identity": msg["b64_identity"]}
-    query_string = "?insights_id={}".format(msg.get("insights_id"))
+    query_string = "?insights_id={}".format(insights_id)
     r = requests.get(config.INVENTORY_URL + query_string, headers=headers).json()
     try:
         result = r["results"][0]["id"]
@@ -73,8 +73,8 @@ def process_archive(msg, extra):
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
     logger.debug("Message: %s", msg)
-    if msg.get("id") is None:
-        msg["id"] = get_inv_id(msg)
+    if facts.get("id") is None:
+        facts["id"] = get_inv_id(msg, facts.get("insights_id"))
     validation(msg, "success", extra)
     return facts
 
