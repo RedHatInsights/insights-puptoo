@@ -68,7 +68,7 @@ def process_archive(msg, extra):
     facts = process.extraction(msg, extra)
     if facts.get("error"):
         metrics.extract_failure.inc()
-        send_message(config.TRACKER_TOPIC, msgs.tracker_msg(extra, "failure", "Unable to extract facts"), extra)
+        send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "failure", "Unable to extract facts"), extra)
         validation(msg, "failure", extra)
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
@@ -92,7 +92,7 @@ def handle_message(msg):
     msg["elapsed_time"] = time()
     extra = get_extra(msg.get("account"), msg.get("request_id"))
     logger.info("received request_id: %s", extra["request_id"])
-    send_message(config.TRACKER_TOPIC, msgs.tracker_msg(extra, "received", "Received message"), extra)
+    send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "received", "Received message"), extra)
     metrics.msg_count.inc()
 
     facts = process_archive(msg, extra)
