@@ -75,7 +75,7 @@ def process_archive(msg, extra):
     logger.debug("extracted facts from message for %s", extra["request_id"])
     logger.debug("Message: %s", msg)
     if facts.get("id") is None:
-        facts["id"] = get_inv_id(msg, facts.get("insights_id"))
+        msg["id"] = get_inv_id(msg, facts.get("insights_id"))
     validation(msg, "success", extra)
     return facts
 
