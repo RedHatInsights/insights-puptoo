@@ -27,6 +27,7 @@ def get_inv_id(msg, insights_id):
     r = requests.get(config.INVENTORY_URL + query_string, headers=headers).json()
     try:
         result = r["results"][0]["id"]
+        logger.debug("Got inventory ID successfully for [%s] - [%s]", msg.get("request_id"), result)
     except KeyError:
         logger.error("unable to get inventory ID for request: %s", msg["request_id"])
         result = None
