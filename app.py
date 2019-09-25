@@ -1,4 +1,5 @@
 import traceback
+import requests
 
 from collections import deque
 from prometheus_client import start_http_server
@@ -6,10 +7,9 @@ from kafka.errors import KafkaError
 from time import time
 
 import process
-import tracker
 
 from utils import config, metrics, puptoo_logging
-from mq import consume, produce
+from mq import consume, produce, msgs
 
 logger = puptoo_logging.initialize_logging()
 
@@ -19,6 +19,20 @@ def start_prometheus():
 
 def get_extra(account="unknown", request_id="unknown"):
     return {"account": account, "request_id": request_id}
+
+
+def get_inv_id(msg):
+    headers = {"x-rh-identity": msg["b64_identity"]}
+    query_string = "?insights_id={}".format(msg.get("insights_id"))
+    r = requests.get(config.INVENTORY_URL + query_string, headers=headers).json()
+    try:
+        result = r["results"][0]["id"]
+    except KeyError:
+        logger.error("unable to get inventory ID for request: %s", msg["request_id"])
+        result = None
+
+    return result
+
 
 producer = None
 
@@ -46,48 +60,45 @@ def main():
         producer.flush()
 
 
+def validation(msg, status, extra):
+    send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, status), extra)
+
+
 def process_archive(msg, extra):
     facts = process.extraction(msg, extra)
     if facts.get("error"):
         metrics.extract_failure.inc()
-        producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "failure", "Unable to extract facts"))
+        send_message(config.TRACKER_TOPIC, msgs.tracker_msg(extra, "failure", "Unable to extract facts"), extra)
+        validation(msg, "failure", extra)
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
+    if msg.get("id") is None:
+        msg["id"] = get_inv_id(msg)
+    validation(msg, "success", extra)
     return facts
 
 
-def send_data_to_inventory(msg, facts, extra):
-    inv_msg = {"operation": "add_host", "data": facts, "platform_metadata": msg}
-    inv_msg["data"]["account"] = msg.get("account")
+def send_message(topic, msg, extra):
     try:
-        inv_msg["data"]["elapsed_time"] = time() - msg["elapsed_time"]
-        logger.debug("Message traversed pup in %s seconds", inv_msg["data"]["elapsed_time"])
-        logger.debug("Message sent to Inventory: %s", extra["request_id"])
-        logger.debug("Message: %s", inv_msg)
-        producer.send(config.INVENTORY_TOPIC, value=inv_msg)
+        producer.send(topic, value=msg)
+        logger.debug("Message sent to [%s] topic for id [%s]", topic, extra["request_id"])
     except KafkaError:
-        logger.exception("Failed to produce message to inventory: %s", extra["request_id"])
-        metrics.msg_send_failure.inc()
+        logger.exception("Failed to produce message to [%s] topic: %s", topic, extra["request_id"])
+        metrics.msg_send_failure()
     metrics.msg_processed.inc()
-    try:
-        producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "success", "Sent to inventory"))
-    except KafkaError:
-        logger.exception("Failed to send payload tracker message for request %s", extra["request_id"])
-        metrics.msg_send_failure.inc()
-    metrics.msg_produced.inc()
 
 
 def handle_message(msg):
     msg["elapsed_time"] = time()
     extra = get_extra(msg.get("account"), msg.get("request_id"))
     logger.info("received request_id: %s", extra["request_id"])
-    producer.send(config.TRACKER_TOPIC, value=tracker.tracker_msg(extra, "received", "Received message"))
+    send_message(config.TRACKER_TOPIC, msgs.tracker_msg(extra, "received", "Received message"), extra)
     metrics.msg_count.inc()
 
     facts = process_archive(msg, extra)
 
     if facts:
-        send_data_to_inventory(msg, facts, extra)
+        send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)
 
 if __name__ == "__main__":
     try:
