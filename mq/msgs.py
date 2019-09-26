@@ -1,11 +1,20 @@
 import datetime
 
-from utils import config
-
 def get_time():
     return datetime.datetime.now().isoformat()
 
-def tracker_msg(extra, status, status_msg):
+
+def inv_message(operation, data, metadata):
+    message = {"operation": operation,
+               "data": data,
+               "platform_metadata": metadata}
+
+    message["data"]["account"] = metadata.get("account")
+
+    return message
+
+
+def tracker_message(extra, status, status_msg):
 
     message = {"account": extra["account"],
                "request_id": extra["request_id"],
@@ -15,5 +24,13 @@ def tracker_msg(extra, status, status_msg):
                "status_msg": status_msg,
                "date": get_time()
                }
+
+    return message
+
+
+def validation_message(msg, result):
+
+    message = {"validation": result,
+               **msg}
 
     return message
