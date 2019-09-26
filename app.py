@@ -69,7 +69,7 @@ def process_archive(msg, extra):
     facts = process.extraction(msg, extra)
     if facts.get("error"):
         metrics.extract_failure.inc()
-        send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "failure", "Unable to extract facts"), extra)
+        send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "error", "Unable to extract facts"), extra)
         validation(msg, "failure", extra)
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
@@ -77,6 +77,7 @@ def process_archive(msg, extra):
     if facts.get("id") is None:
         msg["id"] = get_inv_id(msg, facts.get("insights_id"))
     validation(msg, "success", extra)
+    send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to storage broker"), extra)
     return facts
 
 
