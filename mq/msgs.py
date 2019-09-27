@@ -1,5 +1,6 @@
 import datetime
 
+
 def get_time():
     return datetime.datetime.now().isoformat()
 
@@ -28,9 +29,10 @@ def tracker_message(extra, status, status_msg):
     return message
 
 
-def validation_message(msg, result):
+def validation_message(msg, facts, result):
 
+    data = {**msg, **facts}
     message = {"validation": result,
-               **msg}
+               **data}
 
     return message
