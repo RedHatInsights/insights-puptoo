@@ -1,6 +1,3 @@
-import pytest
-import datetime
-
 from freezegun import freeze_time
 
 from mq import msgs
@@ -13,9 +10,11 @@ platform_metadata = {"account": "000001",
                      "b64_identity": "somebase64",
                      "id": "1234567"}
 
+
 @freeze_time("2019-7-23")
 def test_get_time():
     assert msgs.get_time() == "2019-07-23T00:00:00"
+
 
 @freeze_time("2019-7-23")
 def test_tracker_msg():
@@ -50,6 +49,7 @@ def test_inventory_msg():
 
     result = msgs.inv_message(operation, data, metadata)
     assert result == expected
+
 
 def test_validation_msg():
 
