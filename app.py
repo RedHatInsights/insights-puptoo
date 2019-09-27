@@ -47,8 +47,8 @@ def main():
         producer.flush()
 
 
-def validation(msg, status, extra):
-    send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, status), extra)
+def validation(msg, facts, status, extra):
+    send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, facts, status), extra)
 
 
 def process_archive(msg, extra):
