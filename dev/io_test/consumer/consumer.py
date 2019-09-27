@@ -2,10 +2,9 @@ import json
 import time
 import logging
 import os
-import sys
 
 
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaConsumer
 
 BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split()
 
@@ -29,6 +28,7 @@ def main():
         for data in consumer:
             msg = data.value
             logger.info("request_id %s took %s seconds to traverse pup", msg["data"]["request_id"], msg["data"]["elapsed_time"])
+
 
 if __name__ == "__main__":
     time.sleep(10)

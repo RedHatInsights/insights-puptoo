@@ -4,6 +4,7 @@ from kafka import KafkaConsumer
 
 from utils import config
 
+
 def init_consumer():
     consumer = KafkaConsumer(config.CONSUME_TOPIC,
                              bootstrap_servers=config.BOOTSTRAP_SERVERS,
