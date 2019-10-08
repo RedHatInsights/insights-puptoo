@@ -1,12 +1,10 @@
 import json
-import time
 import logging
 import os
 import boto3
-import sys
 
 
-from kafka import KafkaConsumer, KafkaProducer
+from kafka import KafkaProducer
 
 if any("KUBERNETES" in k for k in os.environ):
     AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID", None)
@@ -46,6 +44,7 @@ logging.basicConfig(level="INFO",
 
 logger = logging.getLogger("producer")
 
+
 def get_keys():
     keylist = []
     for key in s3.list_objects(Bucket=FETCH_BUCKET)["Contents"][:MSG_COUNT]:
@@ -60,6 +59,7 @@ def get_url(uuid):
                                             "Key": uuid}, ExpiresIn=86400)
     return url
 
+
 def main():
     keys = get_keys()
     for key in keys:
@@ -70,6 +70,7 @@ def main():
         producer.send(PRODUCE_TOPIC, value=msg["data"])
 
     producer.flush()
+
 
 if __name__ == "__main__":
     main()
