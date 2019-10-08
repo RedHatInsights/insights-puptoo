@@ -24,18 +24,12 @@ from insights.parsers.ps import PsAuxcww
 from insights.parsers.ip import IpAddr
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
-from insights.parsers.ls_etc import LsEtc
 from insights.specs import Specs
 from insights.util.canonical_facts import get_canonical_facts
 
 logger = logging.getLogger(config.APP_NAME)
 
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
-
-SATELLITE_MANAGED_FILES = {
-    "sat5": ["/etc/sysconfig/rhn", "systemid"],
-    "sat6": ["/etc/rhsm/ca", "katello-server-ca.pem"],
-}
 
 
 @metrics.GET_FILE.time()
@@ -46,12 +40,12 @@ def get_archive(url):
 
 @rule(optional=[Specs.hostname, CpuInfo, VirtWhat, MemInfo, IpAddr, DMIDecode,
                 RedHatRelease, Uname, LsMod, InstalledRpms, UnitFiles, PsAuxcww,
-                DateUTC, Uptime, YumReposD, LsEtc, CloudProvider, Specs.display_name, Specs.version_info,
-                InstalledProductIDs])
+                DateUTC, Uptime, YumReposD, CloudProvider, Specs.display_name, Specs.version_info,
+                InstalledProductIDs, Specs.branch_info])
 def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
                    redhat_release, uname, lsmod, installed_rpms, unit_files, ps_auxcww,
-                   date_utc, uptime, yum_repos_d, ls_etc, cloud_provider, display_name, version_info,
-                   product_ids):
+                   date_utc, uptime, yum_repos_d, cloud_provider, display_name, version_info,
+                   product_ids, branch_info):
     """
     This method applies parsers to a host and returns a system profile that can
     be sent to inventory service.
@@ -138,10 +132,6 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
                 repos.append(_remove_empties(repo))
         profile['yum_repos'] = repos
 
-    if ls_etc:
-        profile['satellite_managed'] = any(ls_etc.dir_contains(*satellite_file)
-                                           for satellite_file in SATELLITE_MANAGED_FILES.values()
-                                           if satellite_file[0] in ls_etc)
     if cloud_provider:
         profile['cloud_provider'] = cloud_provider.cloud_provider
 
@@ -152,6 +142,14 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
         version_info_json = json.loads(version_info.content[0])
         profile['insights_client_version'] = version_info_json['client_version']
         profile['insights_egg_version'] = version_info_json['core_version']
+
+    if branch_info:
+        branch_info_json = json.loads(branch_info.content.decode("utf-8"))
+        if branch_info_json["remote_branch"] != -1:
+            profile["satellite_managed"] = True
+            profile["satellite_id"] = branch_info_json["remote_leaf"]
+        else:
+            profile["satellite_managed"] = False
 
     if product_ids:
         profile['installed_products'] = [{'id': product_id} for product_id in product_ids.ids]
@@ -252,5 +250,7 @@ def extraction(msg, extra, remove=True):
     finally:
         if facts["system_profile"].get("display_name"):
             facts["display_name"] = facts["system_profile"].get("display_name")
+        if facts["system_profile"].get("satellite_id"):
+            facts["satellite_id"] = facts["system_profile"].get("satellite_id")
         groomed_facts = _remove_empties(_remove_bad_display_name(facts))
         return groomed_facts
