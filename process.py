@@ -240,6 +240,7 @@ def extraction(msg, extra, remove=True):
     try:
         with NamedTemporaryFile(delete=remove) as tf:
             tf.write(get_archive(msg["url"]))
+            tf.flush()
             logger.debug("extracting facts from %s", tf.name, extra=extra)
             with extract(tf.name) as ex:
                 facts = get_canonical_facts(path=ex.tmp_dir)
