@@ -60,7 +60,6 @@ def process_archive(msg, extra):
         return None
     logger.debug("extracted facts from message for %s", extra["request_id"])
     logger.debug("Message: %s", msg)
-    validation(msg, facts, "success", extra)
     send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to storage broker"), extra)
     return facts
 
