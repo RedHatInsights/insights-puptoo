@@ -86,6 +86,7 @@ services:
     command: bash -c "make upgrade_db && make run_inv_mq_service"
     environment:
       - INVENTORY_DB_HOST=db
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
     links:
       - db
     depends_on:
