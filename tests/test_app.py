@@ -1,5 +1,10 @@
 import app
+from freezegun import freeze_time
 
+
+@freeze_time("2019-7-23")
+def test_get_staletime():
+    assert app.get_staletime() == "1563948000"
 
 def test_get_extra():
 
