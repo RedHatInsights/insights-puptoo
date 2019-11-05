@@ -88,6 +88,7 @@ def handle_message(msg):
 
     facts = process_archive(msg, extra)
     facts["stale_timestamp"] = get_staletime()
+    facts["reporter"] = "puptoo"
 
     if facts:
         send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)
