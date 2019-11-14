@@ -257,5 +257,7 @@ def extraction(msg, extra, remove=True):
             facts["display_name"] = facts["system_profile"].get("display_name")
         if facts["system_profile"].get("satellite_id"):
             facts["satellite_id"] = facts["system_profile"].get("satellite_id")
+        if facts["system_profile"].get("tags"):
+            facts["tags"] = facts["system_profile"].pop("tags")
         groomed_facts = _remove_empties(_remove_bad_display_name(facts))
         return groomed_facts
