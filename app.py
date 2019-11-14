@@ -3,6 +3,7 @@ import traceback
 from prometheus_client import start_http_server
 from kafka.errors import KafkaError
 from time import time
+from datetime import datetime, timedelta
 
 import process
 
@@ -18,6 +19,10 @@ def start_prometheus():
 
 def get_extra(account="unknown", request_id="unknown"):
     return {"account": account, "request_id": request_id}
+
+def get_staletime():
+    the_time = datetime.now() + timedelta(hours=26)
+    return the_time.isoformat()
 
 
 producer = None
@@ -82,6 +87,8 @@ def handle_message(msg):
     metrics.msg_count.inc()
 
     facts = process_archive(msg, extra)
+    facts["stale_timestamp"] = get_staletime()
+    facts["reporter"] = "puptoo"
 
     if facts:
         send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)

@@ -10,6 +10,7 @@ platform_metadata = {"account": "000001",
                      "b64_identity": "somebase64",
                      "id": "1234567"}
 
+some_facts = {"ip_addresses": ["127.0.0.1"]}
 
 @freeze_time("2019-7-23")
 def test_get_time():
@@ -53,6 +54,6 @@ def test_inventory_msg():
 
 def test_validation_msg():
 
-    result = msgs.validation_message(platform_metadata, "success")
-    expected = {"validation": "success", **platform_metadata}
+    result = msgs.validation_message(platform_metadata, some_facts, "success")
+    expected = {"validation": "success", **platform_metadata, **some_facts}
     assert result == expected
