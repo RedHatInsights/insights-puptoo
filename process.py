@@ -158,6 +158,8 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
 
     if tags:
         tags_json = json.loads(tags.content.decode("utf-8"))
+        for item in tags_json:
+            item["namespace"] = "insights-client"
         profile["tags"] = profile["tags"] + tags_json
 
     metadata_response = make_metadata()
