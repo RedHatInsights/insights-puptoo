@@ -53,7 +53,7 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
     Note that we strip all keys with the value of "None". Inventory service
     ignores any key with None as the value.
     """
-    profile = {}
+    profile = {"tags": []}
     if uname:
         profile['arch'] = uname.arch
 
@@ -150,13 +150,15 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
             profile["satellite_id"] = branch_info_json["remote_leaf"]
         else:
             profile["satellite_managed"] = False
+        if branch_info_json.get("tags"):
+            profile["tags"] = profile["tags"] + branch_info_json["tags"]
 
     if product_ids:
         profile['installed_products'] = [{'id': product_id} for product_id in product_ids.ids]
 
     if tags:
         tags_json = json.loads(tags.content.decode("utf-8"))
-        profile["tags"] = tags_json
+        profile["tags"] = profile["tags"] + tags_json
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
