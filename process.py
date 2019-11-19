@@ -41,11 +41,11 @@ def get_archive(url):
 @rule(optional=[Specs.hostname, CpuInfo, VirtWhat, MemInfo, IpAddr, DMIDecode,
                 RedHatRelease, Uname, LsMod, InstalledRpms, UnitFiles, PsAuxcww,
                 DateUTC, Uptime, YumReposD, CloudProvider, Specs.display_name, Specs.version_info,
-                InstalledProductIDs, Specs.branch_info])
+                InstalledProductIDs, Specs.branch_info, Specs.tags])
 def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
                    redhat_release, uname, lsmod, installed_rpms, unit_files, ps_auxcww,
                    date_utc, uptime, yum_repos_d, cloud_provider, display_name, version_info,
-                   product_ids, branch_info):
+                   product_ids, branch_info, tags):
     """
     This method applies parsers to a host and returns a system profile that can
     be sent to inventory service.
@@ -53,7 +53,7 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
     Note that we strip all keys with the value of "None". Inventory service
     ignores any key with None as the value.
     """
-    profile = {}
+    profile = {"tags": []}
     if uname:
         profile['arch'] = uname.arch
 
@@ -150,9 +150,17 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
             profile["satellite_id"] = branch_info_json["remote_leaf"]
         else:
             profile["satellite_managed"] = False
+        if branch_info_json.get("tags"):
+            profile["tags"] = profile["tags"] + branch_info_json["tags"]
 
     if product_ids:
         profile['installed_products'] = [{'id': product_id} for product_id in product_ids.ids]
+
+    if tags:
+        tags_json = json.loads(tags.content.decode("utf-8"))
+        for item in tags_json:
+            item["namespace"] = "insights-client"
+        profile["tags"] = profile["tags"] + tags_json
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
@@ -253,5 +261,7 @@ def extraction(msg, extra, remove=True):
             facts["display_name"] = facts["system_profile"].get("display_name")
         if facts["system_profile"].get("satellite_id"):
             facts["satellite_id"] = facts["system_profile"].get("satellite_id")
+        if facts["system_profile"].get("tags"):
+            facts["tags"] = facts["system_profile"].pop("tags")
         groomed_facts = _remove_empties(_remove_bad_display_name(facts))
         return groomed_facts
