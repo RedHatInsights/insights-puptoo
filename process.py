@@ -150,8 +150,8 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
             profile["satellite_id"] = branch_info_json["remote_leaf"]
         else:
             profile["satellite_managed"] = False
-        if branch_info_json.get("tags"):
-            profile["tags"] = profile["tags"] + branch_info_json["tags"]
+        if branch_info_json.get("labels"):
+            profile["tags"] = profile["tags"] + branch_info_json["labels"]
 
     if product_ids:
         profile['installed_products'] = [{'id': product_id} for product_id in product_ids.ids]
