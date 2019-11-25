@@ -6,6 +6,7 @@ from freezegun import freeze_time
 def test_get_staletime():
     assert app.get_staletime() == "1563948000"
 
+
 def test_get_extra():
 
     expected = {"account": "123456", "request_id": "abdc-1234"}

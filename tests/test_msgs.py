@@ -12,6 +12,7 @@ platform_metadata = {"account": "000001",
 
 some_facts = {"ip_addresses": ["127.0.0.1"]}
 
+
 @freeze_time("2019-7-23")
 def test_get_time():
     assert msgs.get_time() == "2019-07-23T00:00:00"
