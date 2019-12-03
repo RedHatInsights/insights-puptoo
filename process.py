@@ -24,6 +24,7 @@ from insights.parsers.ps import PsAuxcww
 from insights.parsers.ip import IpAddr
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
+from insights.parsers.dnf_modules import DnfModules
 from insights.specs import Specs
 from insights.util.canonical_facts import get_canonical_facts
 
@@ -40,11 +41,11 @@ def get_archive(url):
 
 @rule(optional=[Specs.hostname, CpuInfo, VirtWhat, MemInfo, IpAddr, DMIDecode,
                 RedHatRelease, Uname, LsMod, InstalledRpms, UnitFiles, PsAuxcww,
-                DateUTC, Uptime, YumReposD, CloudProvider, Specs.display_name, Specs.version_info,
+                DateUTC, Uptime, YumReposD, DnfModules, CloudProvider, Specs.display_name, Specs.version_info,
                 InstalledProductIDs, Specs.branch_info, Specs.tags])
 def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
                    redhat_release, uname, lsmod, installed_rpms, unit_files, ps_auxcww,
-                   date_utc, uptime, yum_repos_d, cloud_provider, display_name, version_info,
+                   date_utc, uptime, yum_repos_d, dnf_modules, cloud_provider, display_name, version_info,
                    product_ids, branch_info, tags):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -125,12 +126,21 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
         for yum_repo_file in yum_repos_d:
             for yum_repo_definition in yum_repo_file:
                 baseurl = yum_repo_file[yum_repo_definition].get('baseurl', [])
-                repo = {'name': yum_repo_file[yum_repo_definition].get('name'),
+                repo = {'id': yum_repo_definition,
+                        'name': yum_repo_file[yum_repo_definition].get('name'),
                         'base_url': baseurl[0] if len(baseurl) > 0 else None,
                         'enabled': _to_bool(yum_repo_file[yum_repo_definition].get('enabled')),
                         'gpgcheck': _to_bool(yum_repo_file[yum_repo_definition].get('gpgcheck'))}
                 repos.append(_remove_empties(repo))
         profile['yum_repos'] = repos
+
+    if dnf_modules:
+        modules = []
+        for module in dnf_modules:
+            for module_name in module.sections():
+                modules.append({'name': module_name,
+                                'stream': module.get(module_name, 'stream')})
+        profile['dnf_modules'] = modules
 
     if cloud_provider:
         profile['cloud_provider'] = cloud_provider.cloud_provider
