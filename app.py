@@ -20,6 +20,7 @@ def start_prometheus():
 def get_extra(account="unknown", request_id="unknown"):
     return {"account": account, "request_id": request_id}
 
+
 def get_staletime():
     the_time = datetime.now() + timedelta(hours=26)
     return the_time.astimezone().isoformat()
