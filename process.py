@@ -82,7 +82,7 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
         profile['infrastructure_vendor'] = virt_what.generic
 
     if installed_rpms:
-        profile['installed_packages'] = sorted([p[0].nevra for p in installed_rpms.packages.values()])
+        profile['installed_packages'] = sorted([installed_rpms.get_max(p).nevra for p in installed_rpms.packages])
 
     if lsmod:
         profile['kernel_modules'] = list(lsmod.data.keys())
