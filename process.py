@@ -87,6 +87,9 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
     if lsmod:
         profile['kernel_modules'] = list(lsmod.data.keys())
 
+    if date_utc:
+        profile['captured_date'] = date_utc.datetime.isoformat()
+
     if uptime and date_utc:
         boot_time = date_utc.datetime - uptime.uptime
         profile['last_boot_time'] = boot_time.isoformat()
