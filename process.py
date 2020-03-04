@@ -2,6 +2,8 @@ import requests
 import logging
 import json
 
+import datetime
+
 from tempfile import NamedTemporaryFile
 
 from utils import config, metrics
@@ -88,7 +90,10 @@ def system_profile(hostname, cpu_info, virt_what, meminfo, ip_addr, dmidecode,
         profile['kernel_modules'] = list(lsmod.data.keys())
 
     if date_utc:
-        profile['captured_date'] = date_utc.datetime.isoformat()
+        # re-inject UTC timezone into date_utc in order to obtain isoformat w/ TZ offset
+        utc_tz = datetime.timezone(datetime.timedelta(hours=0), name="UTC")
+        utcdate = date_utc.datetime.replace(tzinfo=utc_tz)
+        profile['captured_date'] = utcdate.isoformat()
 
     if uptime and date_utc:
         boot_time = date_utc.datetime - uptime.uptime
