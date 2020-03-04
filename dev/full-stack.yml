@@ -94,3 +94,16 @@ services:
       - kafka
     ports:
       - "8081:8080"
+  inventory-rest:
+    image: inventory:mq # we expect this image to exist already
+    command: bash -c "make upgrade_db && make run_inv_web_service"
+    environment:
+      - INVENTORY_DB_HOST=db
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+    links:
+      - db
+    depends_on:
+      - db
+      - kafka
+    ports:
+      - "8082:8080"
