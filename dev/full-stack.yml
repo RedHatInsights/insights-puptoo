@@ -79,8 +79,20 @@ services:
       POSTGRES_PASSWORD: insights
       POSTGRES_USER: insights
       POSTGRES_DB: insights
-    ports:
-      - "5432:5432"
+  baselinedb:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: insights
+      POSTGRES_USER: insights
+      POSTGRES_DB: insights
+  hspdb:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: insights
+      POSTGRES_USER: insights
+      POSTGRES_DB: insights
   inventory:
     image: inventory:mq # we expect this image to exist already
     command: bash -c "make upgrade_db && make run_inv_mq_service"
@@ -100,6 +112,8 @@ services:
     environment:
       - INVENTORY_DB_HOST=db
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_TOPIC=platform.system-profile
+      - KAFKA_GROUP=inventory
     links:
       - db
     depends_on:
@@ -107,3 +121,110 @@ services:
       - kafka
     ports:
       - "8082:8080"
+  system-baseline-migration:
+    image: system-baseline:latest
+    command: bash -c "FLASK_APP=system_baseline.app:get_flask_app_with_migration flask db upgrade"
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - INVENTORY_SVC_URL=http://inventory-rest:8080
+      - BASELINE_DB_HOST=baselinedb
+    links:
+      - baselinedb
+    depends_on:
+      - baselinedb
+  system-baseline-rest:
+    image: system-baseline:latest
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - INVENTORY_SVC_URL=http://inventory-rest:8080
+      - BASELINE_DB_HOST=baselinedb
+      - ENABLE_RBAC=False
+    links:
+      - baselinedb
+      - inventory-rest
+    depends_on:
+      - baselinedb
+      - system-baseline-migration
+      - inventory-rest
+    ports:
+      - "8083:8080"
+  drift-rest:
+    image: drift:latest
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - INVENTORY_SVC_URL=http://inventory-rest:8080
+      - BASELINE_SVC_URL=http://system-baseline-rest:8080
+      - HSP_SVC_URL=http://hsp-rest:8080/api/historical-system-profiles/v0/profiles
+      - ENABLE_RBAC=False
+    links:
+      - inventory-rest
+      - system-baseline-rest
+      - hsp-rest
+    depends_on:
+      - inventory-rest
+      - system-baseline-rest
+      - hsp-rest
+    ports:
+      - "8084:8080"
+  hsp-migration:
+    image: hsp:latest
+    command: bash -c "FLASK_APP=historical_system_profiles.app:get_flask_app_with_migration flask db upgrade"
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - INVENTORY_SVC_URL=http://inventory-rest:8080
+      - HSP_DB_HOST=hspdb
+    links:
+      - hspdb
+    depends_on:
+      - hspdb
+  hsp-rest:
+    image: hsp:latest
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - INVENTORY_SVC_URL=http://inventory-rest:8080
+      - HSP_DB_HOST=hspdb
+      - ENABLE_RBAC=False
+    links:
+      - hspdb
+      - inventory-rest
+    depends_on:
+      - hspdb
+      - inventory-rest
+    ports:
+      - "8085:8080"
+  hsp-archiver:
+    image: hsp:latest
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - HSP_DB_HOST=hspdb
+      - LISTENER_TYPE=ARCHIVER
+      - APP_FILE=kafka_listener.py
+    links:
+      - hspdb
+      - kafka
+    depends_on:
+      - hspdb
+      - kafka
+  hsp-deleter:
+    image: hsp:latest
+    environment:
+      - prometheus_multiproc_dir=/tmp
+      - HSP_DB_HOST=hspdb
+      - LISTENER_TYPE=DELETER
+      - APP_FILE=kafka_listener.py
+    links:
+      - hspdb
+      - kafka
+    depends_on:
+      - hspdb
+      - kafka
+  upload-client:
+    build:
+      context: ./client
+    environment:
+      - ACCOUNT_NUMBER=1212729
+      - SLEEP=60
+    links:
+      - ingress
+    depends_on:
+      - hsp-archiver
