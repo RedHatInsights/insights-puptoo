@@ -75,7 +75,7 @@ def process_archive(msg, extra):
 def send_message(topic, msg, extra):
     try:
         producer.send(topic, value=msg)
-        logger.debug("Message sent to [%s] topic for id [%s]", topic, extra["request_id"])
+        logger.info("Message sent to [%s] topic for id [%s]", topic, extra["request_id"])
     except KafkaError:
         logger.exception("Failed to produce message to [%s] topic: %s", topic, extra["request_id"])
         metrics.msg_send_failure()
@@ -96,8 +96,6 @@ def handle_message(msg):
     if facts:
         send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)
         send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to inventory"), extra)
-        logger.info("Completed processing and sent to inventory: ", extra["request_id"])
-
 
 if __name__ == "__main__":
     try:
