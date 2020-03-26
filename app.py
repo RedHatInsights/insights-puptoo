@@ -55,6 +55,10 @@ def main():
 
 def validation(msg, facts, status, extra):
     send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, facts, status), extra)
+    send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra,
+                                                            "failed",
+                                                            "Validation failure. Message sent to storage broker"),
+                 extra)
 
 
 def process_archive(msg, extra):
@@ -64,17 +68,14 @@ def process_archive(msg, extra):
         send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "error", "Unable to extract facts"), extra)
         validation(msg, "failure", extra)
         return None
-    logger.debug("extracted facts from message for %s", extra["request_id"])
-    logger.debug("Message: %s", msg)
-    logger.debug("Facts: %s", facts)
-    send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to storage broker"), extra)
+    logger.debug("extracted facts from message for %s\nMessage: %s\nFacts: %s", extra["request_id"], msg, facts)
     return facts
 
 
 def send_message(topic, msg, extra):
     try:
         producer.send(topic, value=msg)
-        logger.debug("Message sent to [%s] topic for id [%s]", topic, extra["request_id"])
+        logger.info("Message sent to [%s] topic for id [%s]", topic, extra["request_id"])
     except KafkaError:
         logger.exception("Failed to produce message to [%s] topic: %s", topic, extra["request_id"])
         metrics.msg_send_failure()
@@ -94,6 +95,7 @@ def handle_message(msg):
 
     if facts:
         send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)
+        send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to inventory"), extra)
 
 
 if __name__ == "__main__":
