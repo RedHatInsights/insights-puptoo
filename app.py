@@ -68,9 +68,7 @@ def process_archive(msg, extra):
         send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "error", "Unable to extract facts"), extra)
         validation(msg, "failure", extra)
         return None
-    logger.debug("extracted facts from message for %s", extra["request_id"])
-    logger.debug("Message: %s", msg)
-    logger.debug("Facts: %s", facts)
+    logger.debug("extracted facts from message for %s\nMessage: %s\nFacts: %s", extra["request_id"], msg, facts)
     return facts
 
 
