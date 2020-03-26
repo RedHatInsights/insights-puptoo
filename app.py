@@ -97,6 +97,7 @@ def handle_message(msg):
         send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)
         send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to inventory"), extra)
 
+
 if __name__ == "__main__":
     try:
         main()
