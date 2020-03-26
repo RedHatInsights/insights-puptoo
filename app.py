@@ -55,6 +55,10 @@ def main():
 
 def validation(msg, facts, status, extra):
     send_message(config.VALIDATION_TOPIC, msgs.validation_message(msg, facts, status), extra)
+    send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra,
+                                                            "failed",
+                                                            "Validation failure. Message sent to storage broker"),
+                 extra)
 
 
 def process_archive(msg, extra):
@@ -67,7 +71,6 @@ def process_archive(msg, extra):
     logger.debug("extracted facts from message for %s", extra["request_id"])
     logger.debug("Message: %s", msg)
     logger.debug("Facts: %s", facts)
-    send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to storage broker"), extra)
     return facts
 
 
@@ -94,6 +97,7 @@ def handle_message(msg):
 
     if facts:
         send_message(config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra)
+        send_message(config.TRACKER_TOPIC, msgs.tracker_message(extra, "success", "Message sent to inventory"), extra)
 
 
 if __name__ == "__main__":
