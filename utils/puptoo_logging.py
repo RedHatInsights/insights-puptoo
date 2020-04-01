@@ -16,7 +16,7 @@ def config_cloudwatch(logger):
                          region_name=config.AWS_REGION_NAME)
     cw_handler = watchtower.CloudWatchLogHandler(boto3_session=CW_SESSION,
                                                  log_group=config.LOG_GROUP,
-                                                 stream_name=config.NAMESPACE)
+                                                 stream_name=config.HOSTNAME)
     cw_handler.setFormatter(LogstashFormatterV1())
     logger.addHandler(cw_handler)
 

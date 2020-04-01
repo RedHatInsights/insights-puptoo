@@ -40,4 +40,5 @@ TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
 PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8000))
 DISABLE_PROMETHEUS = True if os.getenv("DISABLE_PROMETHEUS") == "True" else False
 NAMESPACE = get_namespace()
+HOSTNAME = os.environ.get("HOSTNAME")
 BUILD_COMMIT = os.getenv("OPENSHIFT_BUILD_COMMIT", "not_in_openshift")
