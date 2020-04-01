@@ -75,7 +75,7 @@ def process_archive(msg, extra):
 def send_message(topic, msg, extra):
     try:
         producer.send(topic, value=msg)
-        logger.info("Message sent to [%s] topic for id [%s]", topic, extra["request_id"])
+        logger.info("Message sent to [%s] topic for id [%s]: %s", topic, extra["request_id"], msg)
     except KafkaError:
         logger.exception("Failed to produce message to [%s] topic: %s", topic, extra["request_id"])
         metrics.msg_send_failure()
