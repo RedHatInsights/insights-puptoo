@@ -38,7 +38,7 @@ producer = None
 def _get_assignments(consumer):
     grouped = defaultdict(list)
     for tp in consumer.assignment():
-        grouped[tp.topic].append(tp.partition)
+        grouped[tp.topic].append(str(tp.partition))
     CONSUMER_ASSIGNMENTS.info(
         {topic: ", ".join(sorted(partitions)) for topic, partitions in grouped.items()}
     )
