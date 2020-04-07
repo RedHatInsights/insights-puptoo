@@ -1,4 +1,4 @@
-from prometheus_client import Summary, Counter
+from prometheus_client import Summary, Counter, Histogram
 
 GET_FILE = Summary("puptoo_get_file_seconds", "Time spent retrieving file from S3")
 EXTRACT = Summary("puptoo_total_extraction_seconds", "Total time spent extracting facts")
@@ -9,3 +9,5 @@ extract_failure = Counter("puptoo_failed_extractions_total", "Total archives tha
 msg_processed = Counter("puptoo_messages_processed_total", "Total messages successful process")
 msg_produced = Counter("puptoo_messages_produced_total", "Total messages produced")
 msg_send_failure = Counter("puptoo_messages_failed_to_send_total", "Total messages that failed to send")
+
+send_time = Histogram("puptoo_message_send_time_seconds", "Total time spent sending a message")

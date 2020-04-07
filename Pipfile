@@ -12,10 +12,10 @@ prometheus-client = "*"
 logstash-formatter = "*"
 boto3 = "*"
 watchtower = "*"
-kafka-python = "*"
 requests = "*"
 insights-core = {git = "https://www.github.com/redhatinsights/insights-core",ref = "3.0"}
 pytest = "*"
+confluent-kafka = "*"
 
 [requires]
 python_version = "3.7"
