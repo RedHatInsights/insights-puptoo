@@ -1,10 +1,12 @@
-import traceback
-from collections import defaultdict
+import json
+import signal
+
 from datetime import datetime, timedelta
 from time import time
+from functools import partial
 
 import process
-from kafka.errors import KafkaError
+from confluent_kafka import KafkaError
 from mq import consume, msgs, produce
 from prometheus_client import Info, Summary, start_http_server
 from utils import config, metrics, puptoo_logging
@@ -34,14 +36,15 @@ def get_staletime():
 
 producer = None
 
+running = True
 
-def _get_assignments(consumer):
-    grouped = defaultdict(list)
-    for tp in consumer.assignment():
-        grouped[tp.topic].append(str(tp.partition))
-    CONSUMER_ASSIGNMENTS.info(
-        {topic: ", ".join(sorted(partitions)) for topic, partitions in grouped.items()}
-    )
+
+def handle_signal(signal, frame):
+    global running
+    running = False
+
+
+signal.signal(signal.SIGTERM, handle_signal)
 
 
 def main():
@@ -58,22 +61,28 @@ def main():
     global producer
     producer = produce.init_producer()
 
-    while True:
-        # call this every time around so that we have a chance to update the listing
-        # when a rebalance occurs
-        _get_assignments(consumer)
-        start = time()
-        for data in consumer:
-            now = time()
-            CONSUMER_WAIT_TIME.observe(now - start)
-            start = now
+    start = time()
+    while running:
+        msg = consumer.poll(1.0)
+        if msg is None:
+            continue
+        if msg.error():
+            logger.error("Consumer error: %s", msg.error())
+            continue
 
-            try:
-                handle_message(data.value)
-            except Exception:
-                logger.exception("An error occurred during message processing")
+        now = time()
+        CONSUMER_WAIT_TIME.observe(now - start)
+        start = now
+        try:
+            msg = json.loads(msg.value().decode("utf-8"))
+            handle_message(msg)
+        except Exception:
+            logger.exception("An error occurred during message processing")
 
         producer.flush()
+
+    consumer.close()
+    producer.flush()
 
 
 def validation(msg, facts, status, extra):
@@ -109,23 +118,32 @@ def process_archive(msg, extra):
     return facts
 
 
+def delivery_report(err, msg=None, extra=None):
+    if err is not None:
+        logger.error(
+            "Message delivery for topic %s failed for request_id [%s]: %s", msg.topic(), err, extra["request_id"]
+        )
+        metrics.msg_send_failure.inc()
+    else:
+        logger.info(
+            "Message delivered to %s [%s] for request_id [%s]", msg.topic(), msg.partition(), extra["request_id"]
+        )
+        metrics.msg_produced.inc()
+
+
+@metrics.send_time.time()
 def send_message(topic, msg, extra):
     try:
-        producer.send(topic, value=msg)
+        producer.poll(0)
+        _bytes = json.dumps(msg, ensure_ascii=False).encode("utf-8")
+        producer.produce(topic, _bytes, callback=partial(delivery_report, extra=extra))
         if topic == config.INVENTORY_TOPIC:
             msg["data"].pop("system_profile")
-        logger.info(
-            "Message sent to [%s] topic for id [%s]: %s",
-            topic,
-            extra["request_id"],
-            msg,
-        )
+            logger.info("Message sent to inventory: %s", msg)
     except KafkaError:
         logger.exception(
             "Failed to produce message to [%s] topic: %s", topic, extra["request_id"]
         )
-        metrics.msg_send_failure()
-    metrics.msg_processed.inc()
 
 
 def handle_message(msg):
@@ -158,5 +176,4 @@ if __name__ == "__main__":
     try:
         main()
     except Exception:
-        the_error = traceback.format_exc()
-        logger.error(f"Puptoo failed with Error: {the_error}")
+        logger.exception("Puptoo failed with Error")

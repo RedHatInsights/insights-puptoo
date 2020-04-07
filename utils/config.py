@@ -42,3 +42,4 @@ DISABLE_PROMETHEUS = True if os.getenv("DISABLE_PROMETHEUS") == "True" else Fals
 NAMESPACE = get_namespace()
 HOSTNAME = os.environ.get("HOSTNAME")
 BUILD_COMMIT = os.getenv("OPENSHIFT_BUILD_COMMIT", "not_in_openshift")
+KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
