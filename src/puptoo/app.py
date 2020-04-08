@@ -7,9 +7,9 @@ from time import time
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
 
-import process
-from mq import consume, msgs, produce
-from utils import config, metrics, puptoo_logging
+from . import process
+from .mq import consume, msgs, produce
+from .utils import config, metrics, puptoo_logging
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"

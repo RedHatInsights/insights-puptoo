@@ -6,9 +6,7 @@ def get_time():
 
 
 def inv_message(operation, data, metadata):
-    message = {"operation": operation,
-               "data": data,
-               "platform_metadata": metadata}
+    message = {"operation": operation, "data": data, "platform_metadata": metadata}
 
     message["data"]["account"] = metadata.get("account")
 
@@ -17,14 +15,15 @@ def inv_message(operation, data, metadata):
 
 def tracker_message(extra, status, status_msg):
 
-    message = {"account": extra["account"],
-               "request_id": extra["request_id"],
-               "payload_id": extra["request_id"],
-               "service": "puptoo",
-               "status": status,
-               "status_msg": status_msg,
-               "date": get_time()
-               }
+    message = {
+        "account": extra["account"],
+        "request_id": extra["request_id"],
+        "payload_id": extra["request_id"],
+        "service": "puptoo",
+        "status": status,
+        "status_msg": status_msg,
+        "date": get_time(),
+    }
 
     return message
 
@@ -32,7 +31,6 @@ def tracker_message(extra, status, status_msg):
 def validation_message(msg, facts, result):
 
     data = {**msg, **facts}
-    message = {"validation": result,
-               **data}
+    message = {"validation": result, **data}
 
     return message
