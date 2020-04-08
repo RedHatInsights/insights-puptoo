@@ -1,4 +1,4 @@
-import app
+from puptoo import app
 from freezegun import freeze_time
 
 

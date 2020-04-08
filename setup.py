@@ -19,6 +19,7 @@ setup(
         "test": [
             "pytest",
             "flake8",
+            "freezegun",
         ],
     },
     entry_points={
