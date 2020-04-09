@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="insights-puptoo",
@@ -7,24 +7,14 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     install_requires=[
-        "prometheus-client",
-        "logstash-formatter",
-        "boto3",
-        "watchtower",
-        "requests",
-        "insights-core",
-        "confluent-kafka",
+        "prometheus-client==0.7.1",
+        "logstash-formatter==0.5.17",
+        "boto3==1.12.38",
+        "watchtower==0.7.3",
+        "requests==2.23.0",
+        "insights-core==3.0.158",
+        "confluent-kafka==1.3.0",
     ],
-    extras_require={
-        "test": [
-            "pytest",
-            "flake8",
-            "freezegun",
-        ],
-    },
-    entry_points={
-        "console_scripts": [
-            "puptoo = puptoo.app:main",
-        ],
-    },
+    extras_require={"test": ["pytest>=5.4.1", "flake8>=3.7.9", "freezegun>=0.3.15"]},
+    entry_points={"console_scripts": ["puptoo = puptoo.app:main"]},
 )
