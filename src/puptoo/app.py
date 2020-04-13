@@ -80,6 +80,7 @@ def main():
                 logger.exception("An error occurred during message processing")
 
             producer.flush()
+            consumer.commit()
 
         consumer.close()
         producer.flush()

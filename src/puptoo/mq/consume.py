@@ -9,6 +9,7 @@ def init_consumer():
             "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),
             "group.id": config.APP_NAME,
             "queued.max.messages.kbytes": config.KAFKA_QUEUE_MAX_KBYTES,
+            "enable.auto.commit": config.KAFKA_AUTO_COMMIT,
         }
     )
 
