@@ -1,15 +1,15 @@
 import json
 import signal
-
 from datetime import datetime, timedelta
-from time import time
 from functools import partial
+from time import time
 
-import process
 from confluent_kafka import KafkaError
-from mq import consume, msgs, produce
 from prometheus_client import Info, Summary, start_http_server
-from utils import config, metrics, puptoo_logging
+
+from . import process
+from .mq import consume, msgs, produce
+from .utils import config, metrics, puptoo_logging
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"
@@ -48,41 +48,43 @@ signal.signal(signal.SIGTERM, handle_signal)
 
 
 def main():
+    try:
+        logger.info("Starting Puptoo Service")
 
-    logger.info("Starting Puptoo Service")
+        config.log_config()
 
-    config.log_config()
+        if not config.DISABLE_PROMETHEUS:
+            logger.info("Starting Puptoo Prometheus Server")
+            start_prometheus()
 
-    if not config.DISABLE_PROMETHEUS:
-        logger.info("Starting Puptoo Prometheus Server")
-        start_prometheus()
+        consumer = consume.init_consumer()
+        global producer
+        producer = produce.init_producer()
 
-    consumer = consume.init_consumer()
-    global producer
-    producer = produce.init_producer()
+        start = time()
+        while running:
+            msg = consumer.poll(1.0)
+            if msg is None:
+                continue
+            if msg.error():
+                logger.error("Consumer error: %s", msg.error())
+                continue
 
-    start = time()
-    while running:
-        msg = consumer.poll(1.0)
-        if msg is None:
-            continue
-        if msg.error():
-            logger.error("Consumer error: %s", msg.error())
-            continue
+            now = time()
+            CONSUMER_WAIT_TIME.observe(now - start)
+            start = now
+            try:
+                msg = json.loads(msg.value().decode("utf-8"))
+                handle_message(msg)
+            except Exception:
+                logger.exception("An error occurred during message processing")
 
-        now = time()
-        CONSUMER_WAIT_TIME.observe(now - start)
-        start = now
-        try:
-            msg = json.loads(msg.value().decode("utf-8"))
-            handle_message(msg)
-        except Exception:
-            logger.exception("An error occurred during message processing")
+            producer.flush()
 
+        consumer.close()
         producer.flush()
-
-    consumer.close()
-    producer.flush()
+    except Exception:
+        logger.exception("Puptoo failed with Error")
 
 
 def validation(msg, facts, status, extra):
@@ -121,12 +123,18 @@ def process_archive(msg, extra):
 def delivery_report(err, msg=None, extra=None):
     if err is not None:
         logger.error(
-            "Message delivery for topic %s failed for request_id [%s]: %s", msg.topic(), err, extra["request_id"]
+            "Message delivery for topic %s failed for request_id [%s]: %s",
+            msg.topic(),
+            err,
+            extra["request_id"],
         )
         metrics.msg_send_failure.inc()
     else:
         logger.info(
-            "Message delivered to %s [%s] for request_id [%s]", msg.topic(), msg.partition(), extra["request_id"]
+            "Message delivered to %s [%s] for request_id [%s]",
+            msg.topic(),
+            msg.partition(),
+            extra["request_id"],
         )
         metrics.msg_produced.inc()
 
@@ -173,7 +181,4 @@ def handle_message(msg):
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except Exception:
-        logger.exception("Puptoo failed with Error")
+    main()

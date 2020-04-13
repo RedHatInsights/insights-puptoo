@@ -86,20 +86,21 @@ PUPTOO does expect a kafka message queue to be available for connection.
 #### Prerequisites
 
     python3
-    venv or pipenv
 
 #### Python
 
-Create a virtualenv using pipenv and install requirements. Once complete you can start the app by running `pup.py`
+Create a virtualenv using pipenv and install requirements. Once complete you can start the app by running `puptoo`
 
-    pipenv install
+    python -m venv path/to/venv
+    source path/to/venv/bin/activate
+    pip install .
 
 #### Running Locally
 
 Activate your virtual environment and run the validator
 
-    pipenv shell
-    python ./app.py
+    source path/to/venv/bin/activate
+    puptoo
 
 #### Running with Docker Compose
 
@@ -122,10 +123,6 @@ posting your archive to the service can be found in that readme.
 
 This test assumes you have an inventory service available and ready to use. Visit the `insights-host-inventory` repo for those instructions. 
 
-## Running with Tests
-
-TODO: There is currently no PUP test suite
-
 ## Deployment
 
 The PUPTOO service `master` branch has a webhook that notifies Openshift Dedicated cluster to build a new image in the `buildfactory` project. The image build will then trigger a redployment of the service in `Platform-CI`. To deploy to QA, commits must be cherry picked from master to a branch forked from `stable`. The resulting branch should be submitted as a PR against `stable` where it will be tested by the QE vortex. Once the result is returned, it can be merged.
@@ -138,7 +135,7 @@ All outstanding issues or feature requests should be filed as Issues on this Git
 
 ## Running unit tests
 
-TODO: Write some tests
+    pytest
 
 ## Versioning
 

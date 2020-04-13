@@ -8,6 +8,7 @@ logger = logging.getLogger(APP_NAME)
 
 def log_config():
     import sys
+
     for k, v in sys.modules[__name__].__dict__.items():
         if k == k.upper():
             if "AWS" in k.split("_"):
@@ -32,7 +33,9 @@ AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
 AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
 AWS_REGION_NAME = os.getenv("CW_AWS_REGION_NAME", "us-east-1")
 INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC", "platform.inventory.host-ingress")
-INVENTORY_URL = os.getenv("INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts")
+INVENTORY_URL = os.getenv(
+    "INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts"
+)
 VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", "platform.upload.validation")
 FACT_EXTRACT_LOGLEVEL = os.getenv("FACT_EXTRACT_LOGLEVEL", "ERROR")
 LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")

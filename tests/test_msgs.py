@@ -1,6 +1,6 @@
 from freezegun import freeze_time
 
-from mq import msgs
+from puptoo.mq import msgs
 
 platform_metadata = {"account": "000001",
                      "request_id": "abcd-1234",
