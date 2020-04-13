@@ -87,19 +87,6 @@ def main():
         logger.exception("Puptoo failed with Error")
 
 
-def validation(msg, facts, status, extra):
-    send_message(
-        config.VALIDATION_TOPIC, msgs.validation_message(msg, facts, status), extra
-    )
-    send_message(
-        config.TRACKER_TOPIC,
-        msgs.tracker_message(
-            extra, "failed", "Validation failure. Message sent to storage broker"
-        ),
-        extra,
-    )
-
-
 def process_archive(msg, extra):
     facts = process.extraction(msg, extra)
     if facts.get("error"):
@@ -109,7 +96,18 @@ def process_archive(msg, extra):
             msgs.tracker_message(extra, "error", "Unable to extract facts"),
             extra,
         )
-        validation(msg, "failure", extra)
+        send_message(
+            config.VALIDATION_TOPIC,
+            msgs.validation_message(msg, facts, "failure"),
+            extra,
+        )
+        send_message(
+            config.TRACKER_TOPIC,
+            msgs.tracker_message(
+                extra, "failed", "Validation failure. Message sent to storage broker"
+            ),
+            extra,
+        )
         return None
     logger.debug(
         "extracted facts from message for %s\nMessage: %s\nFacts: %s",
