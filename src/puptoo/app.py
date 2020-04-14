@@ -166,10 +166,10 @@ def handle_message(msg):
     metrics.msg_count.inc()
 
     facts = process_archive(msg, extra)
-    facts["stale_timestamp"] = get_staletime()
-    facts["reporter"] = "puptoo"
 
     if facts:
+        facts["stale_timestamp"] = get_staletime()
+        facts["reporter"] = "puptoo"
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )
