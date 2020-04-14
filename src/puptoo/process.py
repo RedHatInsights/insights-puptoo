@@ -331,8 +331,8 @@ def extraction(msg, extra, remove=True):
                 facts = get_canonical_facts(path=ex.tmp_dir)
                 facts["system_profile"] = get_system_profile(path=ex.tmp_dir)
     except Exception as e:
-        logger.exception("Failed to extract facts: %s", e, extra=extra)
-        facts["error"] = e
+        logger.exception("Failed to extract facts: %s", str(e), extra=extra)
+        facts["error"] = str(e)
     finally:
         if facts["system_profile"].get("display_name"):
             facts["display_name"] = facts["system_profile"].get("display_name")
