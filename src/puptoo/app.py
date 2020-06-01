@@ -128,7 +128,7 @@ def delivery_report(err, msg=None, extra=None):
             err,
             extra["request_id"],
         )
-        metrics.msg_send_failure.inc()
+        metrics.msg_send_failure.labels(msg.topic()).inc()
     else:
         logger.info(
             "Message delivered to %s [%s] for request_id [%s]",
@@ -136,7 +136,7 @@ def delivery_report(err, msg=None, extra=None):
             msg.partition(),
             extra["request_id"],
         )
-        metrics.msg_produced.inc()
+        metrics.msg_produced.labels(msg.topic()).inc()
 
 
 @metrics.send_time.time()

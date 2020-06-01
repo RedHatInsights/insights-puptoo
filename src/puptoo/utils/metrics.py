@@ -12,14 +12,16 @@ msg_count = Counter(
     "puptoo_messages_consumed_total", "Total messages consumed from the kafka topic"
 )
 extract_failure = Counter(
-    "puptoo_failed_extractions_total", "Total archives that failed to extract"
+    "puptoo_failed_extractions_total", "Total archives that failed to extract",
 )
 msg_processed = Counter(
     "puptoo_messages_processed_total", "Total messages successful process"
 )
-msg_produced = Counter("puptoo_messages_produced_total", "Total messages produced")
+msg_produced = Counter(
+    "puptoo_messages_produced_total", "Total messages produced", ["topic"]
+)
 msg_send_failure = Counter(
-    "puptoo_messages_failed_to_send_total", "Total messages that failed to send"
+    "puptoo_messages_failed_to_send_total", "Total messages that failed to send", ["topic"]
 )
 
 send_time = Histogram(
