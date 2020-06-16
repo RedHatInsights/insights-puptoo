@@ -77,6 +77,7 @@ def main():
                 msg = json.loads(msg.value().decode("utf-8"))
                 handle_message(msg)
             except Exception:
+                consumer.commit()
                 logger.exception("An error occurred during message processing")
 
             producer.flush()
