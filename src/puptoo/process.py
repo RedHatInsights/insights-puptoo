@@ -8,6 +8,7 @@ from insights import extract, make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.virt_what import VirtWhat
+from insights.combiners.sap import Sap
 from insights.core import dr
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
@@ -52,6 +53,7 @@ def get_archive(url):
         Uname,
         LsMod,
         LsCPU,
+        Sap,
         InstalledRpms,
         UnitFiles,
         PsAuxcww,
@@ -78,6 +80,7 @@ def system_profile(
     uname,
     lsmod,
     lscpu,
+    sap,
     installed_rpms,
     unit_files,
     ps_auxcww,
@@ -118,6 +121,12 @@ def system_profile(
 
     if lscpu:
         profile["cores_per_socket"] = lscpu.info['Cores per socket']
+
+    if sap:
+        profile["tags"].append({"namespace": "insights-client",
+                                "key": "sap_system",
+                                "value": "True"})
+        profile["sap_local_instances"] = sap.local_instances
 
     if unit_files:
         profile["enabled_services"] = _enabled_services(unit_files)
