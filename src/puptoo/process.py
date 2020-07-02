@@ -123,9 +123,7 @@ def system_profile(
         profile["cores_per_socket"] = lscpu.info['Cores per socket']
 
     if sap:
-        profile["tags"].append({"namespace": "insights-client",
-                                "key": "sap_system",
-                                "value": "True"})
+        profile["sap_system"] = True
         profile["sap_local_instances"] = sap.local_instances
 
     if unit_files:
