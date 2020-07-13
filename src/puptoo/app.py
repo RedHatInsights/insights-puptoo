@@ -146,7 +146,7 @@ def send_message(topic, msg, extra):
         producer.poll(0)
         _bytes = json.dumps(msg, ensure_ascii=False).encode("utf-8")
         producer.produce(topic, _bytes, callback=partial(delivery_report, extra=extra))
-        if topic == config.INVENTORY_TOPIC:
+        if topic == config.INVENTORY_TOPIC and msg.get("system_profile"):
             msg["data"].pop("system_profile")
             logger.info("Message sent to inventory: %s", msg)
     except KafkaError:
@@ -166,7 +166,10 @@ def handle_message(msg):
     )
     metrics.msg_count.inc()
 
-    facts = process_archive(msg, extra)
+    if msg.get("service") == "advisor":
+        facts = process_archive(msg, extra)
+    if msg.get("service") == "compliance":
+        facts = msg.get("metadata")
 
     if facts:
         facts["stale_timestamp"] = get_staletime()
