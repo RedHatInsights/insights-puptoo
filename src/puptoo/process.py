@@ -123,8 +123,9 @@ def system_profile(
         profile["cores_per_socket"] = lscpu.info['Cores per socket']
 
     if sap:
-        profile["sap_system"] = True
-        profile["sap_local_instances"] = sap.local_instances
+        profile["sap"] = {"is_sap_system": True, "local_instances": sap.local_instances}
+    else:
+        profile["sap"] = {"is_sap_system": False}
 
     if unit_files:
         profile["enabled_services"] = _enabled_services(unit_files)
