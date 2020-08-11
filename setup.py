@@ -13,7 +13,7 @@ setup(
         "watchtower==0.7.3",
         "requests==2.23.0",
         "insights-core==3.0.158",
-        "confluent-kafka==1.3.0",
+        "confluent-kafka==1.5.0",
     ],
     extras_require={"test": ["pytest>=5.4.1", "flake8>=3.7.9", "freezegun>=0.3.15"]},
     entry_points={"console_scripts": ["puptoo = puptoo.app:main"]},
