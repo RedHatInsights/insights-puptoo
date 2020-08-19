@@ -102,7 +102,7 @@ def system_profile(
     Note that we strip all keys with the value of "None". Inventory service
     ignores any key with None as the value.
     """
-    profile = {"tags": []}
+    profile = {"tags": {}}
     if uname:
         profile["arch"] = uname.arch
 
@@ -231,7 +231,11 @@ def system_profile(
         else:
             profile["satellite_managed"] = False
         if branch_info_json.get("labels"):
-            profile["tags"] = profile["tags"] + branch_info_json["labels"]
+            if type(branch_info_json["labels"]) == list:
+                new_tags = format_tags(branch_info_json["labels"])
+                profile["tags"].update(new_tags)
+            else:
+                profile["tags"].update(branch_info_json["labels"])
 
     if product_ids:
         profile["installed_products"] = [
@@ -240,14 +244,37 @@ def system_profile(
 
     if tags:
         tags_json = json.loads(tags.content.decode("utf-8"))
-        for item in tags_json:
-            item["namespace"] = "insights-client"
-        profile["tags"] = profile["tags"] + tags_json
+        if type(tags_json) == list:
+            new_tags = format_tags(tags_json)
+            profile["tags"].update(new_tags)
+        else:
+            # Need to turn the values into a list
+            for entry in tags_json.keys():
+                for k, v in tags_json[entry].items():
+                    if type(tags_json[entry][k]) != list:
+                        tags_json[entry][k] = []
+                        tags_json[entry][k].append(v)
+            profile["tags"].update(tags_json)
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
     metadata_response.update(profile_sans_none)
     return metadata_response
+
+
+def format_tags(tags):
+    """
+    helper function for converting list tags to nested tags for inventory
+    """
+    tags_dict = {}
+    for entry in tags:
+        namespace = entry.pop("namespace")
+        if tags_dict.get(namespace) is None:
+            tags_dict[namespace] = {}
+        tags_dict[namespace][entry["key"]] = []
+        tags_dict[namespace][entry["key"]].append(entry["value"])
+
+    return tags_dict
 
 
 def _to_bool(value):
