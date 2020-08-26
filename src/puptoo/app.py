@@ -79,10 +79,10 @@ def main():
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
-
-            producer.flush()
-            if not config.KAFKA_AUTO_COMMIT:
-                consumer.commit()
+            finally:
+                producer.flush()
+                if not config.KAFKA_AUTO_COMMIT:
+                    consumer.commit()
 
         consumer.close()
         producer.flush()
