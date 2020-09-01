@@ -268,7 +268,10 @@ def format_tags(tags):
     """
     tags_dict = {}
     for entry in tags:
-        namespace = entry.pop("namespace")
+        if entry.get("namespace"):
+            namespace = entry.pop("namespace")
+        else:
+            namespace = "insights-client"
         if tags_dict.get(namespace) is None:
             tags_dict[namespace] = {}
         tags_dict[namespace][entry["key"]] = []
