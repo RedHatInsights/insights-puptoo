@@ -124,7 +124,8 @@ def system_profile(
 
     if sap:
         profile["sap_system"] = True
-        profile["sap_local_instances"] = sap.local_instances
+        sids = {sap.sid(instance) for instance in sap.local_instances}
+        profile["sap_sids"] = sorted(list(sids))
 
     if unit_files:
         profile["enabled_services"] = _enabled_services(unit_files)
