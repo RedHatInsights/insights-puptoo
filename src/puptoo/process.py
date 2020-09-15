@@ -383,4 +383,5 @@ def extraction(msg, extra, remove=True):
         if facts["system_profile"].get("tags"):
             facts["tags"] = facts["system_profile"].pop("tags")
         groomed_facts = _remove_empties(_remove_bad_display_name(facts))
+        metrics.msg_processed.inc()
         return groomed_facts
