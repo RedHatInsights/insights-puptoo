@@ -22,6 +22,7 @@ from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.systemd.unitfiles import UnitFiles
+from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
@@ -54,6 +55,7 @@ def get_archive(url):
         LsMod,
         LsCPU,
         Sap,
+        Tuned,
         InstalledRpms,
         UnitFiles,
         PsAuxcww,
@@ -81,6 +83,7 @@ def system_profile(
     lsmod,
     lscpu,
     sap,
+    tuned,
     installed_rpms,
     unit_files,
     ps_auxcww,
@@ -126,6 +129,9 @@ def system_profile(
         profile["sap_system"] = True
         sids = {sap.sid(instance) for instance in sap.local_instances}
         profile["sap_sids"] = sorted(list(sids))
+
+    if tuned:
+        profile["tuned_profile"] = tuned.data['active']
 
     if unit_files:
         profile["enabled_services"] = _enabled_services(unit_files)
