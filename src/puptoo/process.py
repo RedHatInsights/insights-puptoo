@@ -21,6 +21,7 @@ from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.ps import PsAuxcww
+from insights.parsers.sestatus import SEStatus
 from insights.parsers.systemd.unitfiles import UnitFiles
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
@@ -54,6 +55,7 @@ def get_archive(url):
         LsMod,
         LsCPU,
         Sap,
+        SEStatus,
         InstalledRpms,
         UnitFiles,
         PsAuxcww,
@@ -81,6 +83,7 @@ def system_profile(
     lsmod,
     lscpu,
     sap,
+    sestatus,
     installed_rpms,
     unit_files,
     ps_auxcww,
@@ -126,6 +129,10 @@ def system_profile(
         profile["sap_system"] = True
         sids = {sap.sid(instance) for instance in sap.local_instances}
         profile["sap_sids"] = sorted(list(sids))
+
+    if sestatus:
+        profile["selinux_current_mode"] = sestatus.data['current_mode'].lower()
+        profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
 
     if unit_files:
         profile["enabled_services"] = _enabled_services(unit_files)
