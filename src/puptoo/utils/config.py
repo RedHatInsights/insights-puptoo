@@ -1,5 +1,6 @@
 import os
 import logging
+from app_common_python import LoadedConfig, KafkaTopics
 
 APP_NAME = os.getenv("APP_NAME", "insights-puptoo")
 
@@ -27,21 +28,18 @@ def get_namespace():
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
-BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")
-ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.advisor")
-COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", "platform.upload.compliance")
+BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", LoadedConfig.kafka.brokers[0].hostname+":"+str(LoadedConfig.kafka.brokers[0].port)).split(",")
+ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", KafkaTopics["platform.upload.advisor"].name)
+COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", KafkaTopics["platform.upload.compliance"].name)
 AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
 AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
 AWS_REGION_NAME = os.getenv("CW_AWS_REGION_NAME", "us-east-1")
-INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC", "platform.inventory.host-ingress")
-INVENTORY_URL = os.getenv(
-    "INVENTORY_URL", "http://insights-inventory:8080/api/inventory/v1/hosts"
-)
-VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", "platform.upload.validation")
+INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC", KafkaTopics["platform.inventory.host-ingress"].name)
+VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", KafkaTopics["platform.upload.validation"].name)
 FACT_EXTRACT_LOGLEVEL = os.getenv("FACT_EXTRACT_LOGLEVEL", "ERROR")
 LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
-TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
-PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8000))
+TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", KafkaTopics["platform.payload-status"].name)
+PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", LoadedConfig.metricsPort))
 DISABLE_PROMETHEUS = True if os.getenv("DISABLE_PROMETHEUS") == "True" else False
 NAMESPACE = get_namespace()
 HOSTNAME = os.environ.get("HOSTNAME")

@@ -135,7 +135,7 @@ All outstanding issues or feature requests should be filed as Issues on this Git
 
 ## Running unit tests
 
-    pytest
+    ACG_CONFIG=./cdappconfig.json pytest
 
 ## Versioning
 

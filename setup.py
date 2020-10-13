@@ -14,6 +14,7 @@ setup(
         "requests==2.23.0",
         "insights-core==3.0.158",
         "confluent-kafka==1.5.0",
+        "app-common-python==0.1.1"
     ],
     extras_require={"test": ["pytest>=5.4.1", "flake8>=3.7.9", "freezegun>=0.3.15"]},
     entry_points={"console_scripts": ["puptoo = puptoo.app:main"]},
