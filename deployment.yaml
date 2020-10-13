@@ -12,7 +12,7 @@ objects:
     pods:
     - name: puptoo
       minReplicas: ${MIN_REPLICAS}
-      image: ${IMAGE_NAME}:${IMAGE_TAG}
+      image: ${IMAGE}:${IMAGE_TAG}
       livenessProbe:
         failureThreshold: 3
         httpGet:
@@ -101,8 +101,9 @@ parameters:
   name: IMAGE_TAG
   required: true
 - description: Image NAME
-  name: IMAGE_NAME
+  name: IMAGE
   required: true
+  value: quay.io/cloudservices/insights-puptoo
 - description : ClowdEnvironment name
   name: ENV_NAME
   required: true
