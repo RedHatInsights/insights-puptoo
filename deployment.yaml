@@ -11,7 +11,7 @@ objects:
     envName: ${ENV_NAME}
     pods:
     - name: puptoo
-      minReplicas: ${MIN_REPLICAS}
+      minReplicas: ${{MIN_REPLICAS}}
       image: ${IMAGE}:${IMAGE_TAG}
       livenessProbe:
         failureThreshold: 3
@@ -76,8 +76,8 @@ objects:
         partitions: 20
         topicName: ${INVENTORY_TOPIC}
         config:
-          retention.ms: 86400000
-          retention.bytes: 2684354560
+          retention.ms: "86400000"
+          retention.bytes: "2684354560"
       - replicas: 3
         partitions: 24
         topicName: platform.upload.validation
