@@ -5,6 +5,11 @@ source .venv/bin/activate
 pip install .
 pip install .[test]
 ACG_CONFIG=./cdappconfig.json pytest
+
+if [ $? != 0 ]; then
+    exit 1
+fi
+
 deactivate
 
 # --------------------------------------------
