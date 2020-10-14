@@ -107,3 +107,7 @@ parameters:
 - description : ClowdEnvironment name
   name: ENV_NAME
   required: true
+- description : inventory topic name
+  name: INVENTORY_TOPIC
+  value: platform.inventory.host-ingress-p1
+  required: true
