@@ -4,6 +4,7 @@ set -exv
 
 IMAGE="quay.io/cloudservices/insights-puptoo"
 IMAGE_TAG=$(git rev-parse --short=7 HEAD)
+SMOKE_TEST_TAG="latest"
 
 if [[ -z "$QUAY_USER" || -z "$QUAY_TOKEN" ]]; then
     echo "QUAY_USER and QUAY_TOKEN must be set"
@@ -16,3 +17,5 @@ docker --config="$DOCKER_CONF" login -u="$QUAY_USER" -p="$QUAY_TOKEN" quay.io
 docker --config="$DOCKER_CONF" login -u="$RH_REGISTRY_USER" -p="$RH_REGISTRY_TOKEN" registry.redhat.io
 docker --config="$DOCKER_CONF" build -t "${IMAGE}:${IMAGE_TAG}" .
 docker --config="$DOCKER_CONF" push "${IMAGE}:${IMAGE_TAG}"
+docker --config="$DOCKER_CONF" tag "${IMAGE}:${IMAGE_TAG}" "${IMAGE}:${SMOKE_TEST_TAG}"
+docker --config="$DOCKER_CONF" push "${IMAGE}:${SMOKE_TEST_TAG}"
