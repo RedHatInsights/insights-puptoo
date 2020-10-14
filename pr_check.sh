@@ -4,7 +4,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install .
 pip install .[test]
-ACG_CONFIG=./cdappconfig.json pytest
+INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
 
 if [ $? != 0 ]; then
     exit 1
