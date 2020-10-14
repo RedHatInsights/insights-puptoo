@@ -6,7 +6,7 @@ objects:
 - apiVersion: cloud.redhat.com/v1alpha1
   kind: ClowdApp
   metadata:
-    name: insights-puptoo
+    name: puptoo
   spec:
     envName: ${ENV_NAME}
     pods:
