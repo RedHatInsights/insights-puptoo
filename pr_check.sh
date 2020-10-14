@@ -1,8 +1,11 @@
 #!/bin/bash
 
+python3 -m venv .venv
+source .venv/bin/activate
 pip install .
 pip install .[test]
 ACG_CONFIG=./cdappconfig.json pytest
+deactivate
 
 # --------------------------------------------
 # Options that must be configured by app owner
