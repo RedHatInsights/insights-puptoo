@@ -64,7 +64,7 @@ objects:
           memory: ${MEMORY_LIMIT}
         requests:
           cpu: 100m
-          memory: 100Mi
+          memory: 256Mi
     kafkaTopics:
       - replicas: 3
         partitions: 64
