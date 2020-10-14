@@ -36,28 +36,6 @@ objects:
       env:
         - name: LOG_LEVEL
           value: ${LOG_LEVEL}
-        - name: BOOTSTRAP_SERVERS
-          value: ${KAFKA_BOOTSTRAP_HOST}:${KAFKA_BOOTSTRAP_PORT}
-        - name: LOG_GROUP
-          valueFrom:
-            secretKeyRef:
-              key: log_group_name
-              name: cloudwatch
-        - name: CW_AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: aws_access_key_id
-              name: cloudwatch
-        - name: CW_AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              key: aws_secret_access_key
-              name: cloudwatch
-        - name: CW_AWS_REGION_NAME
-          valueFrom:
-            secretKeyRef:
-              key: aws_region
-              name: cloudwatch
       resources:
         limits:
           cpu: ${CPU_LIMIT}
