@@ -12,7 +12,7 @@ setup(
         "boto3==1.12.38",
         "watchtower==0.7.3",
         "requests==2.23.0",
-        "insights-core==3.0.158",
+        "insights-core @ git+https://github.com/RedHatInsights/insights-core.git@3.0"
         "confluent-kafka==1.5.0",
         "app-common-python==0.1.1"
     ],
