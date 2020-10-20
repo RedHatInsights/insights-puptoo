@@ -10,7 +10,7 @@ objects:
   spec:
     envName: ${ENV_NAME}
     pods:
-    - name: puptoo
+    - name: processor
       minReplicas: ${{MIN_REPLICAS}}
       image: ${IMAGE}:${IMAGE_TAG}
       livenessProbe:
@@ -36,6 +36,8 @@ objects:
       env:
         - name: LOG_LEVEL
           value: ${LOG_LEVEL}
+        - name: CLOWDER_ENABLED
+          value: "true"
       resources:
         limits:
           cpu: ${CPU_LIMIT}

@@ -80,4 +80,4 @@ bonfire namespace wait-on-resources $NAMESPACE
 
 # Spin up iqe pod
 python utils/create_iqe_pod.py $NAMESPACE
-oc rsh -n $NAMESPACE iqe-tests curl -si http://puptoo:9000/metrics
+oc rsh -n $NAMESPACE iqe-tests curl -si http://puptoo-processor:9000/metrics
