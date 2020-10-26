@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: insights-puptoo
+objects:
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: ClowdApp
+  metadata:
+    name: puptoo
+  spec:
+    envName: ${ENV_NAME}
+    pods:
+    - name: processor
+      minReplicas: ${{MIN_REPLICAS}}
+      image: ${IMAGE}:${IMAGE_TAG}
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /metrics
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 30
+        successThreshold: 1
+        timeoutSeconds: 1
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /metrics
+          port: 9000
+          scheme: HTTP
+        initialDelaySeconds: 10
+        periodSeconds: 30
+        successThreshold: 1
+        timeoutSeconds: 1
+      env:
+        - name: LOG_LEVEL
+          value: ${LOG_LEVEL}
+        - name: CLOWDER_ENABLED
+          value: "true"
+      resources:
+        limits:
+          cpu: ${CPU_LIMIT}
+          memory: ${MEMORY_LIMIT}
+        requests:
+          cpu: 100m
+          memory: 256Mi
+    kafkaTopics:
+      - replicas: 3
+        partitions: 64
+        topicName: platform.upload.advisor
+      - replicas: 3
+        partitions: 3
+        topicName: platform.upload.compliance
+      - replicas: 3
+        partitions: 20
+        topicName: ${INVENTORY_TOPIC}
+        config:
+          retention.ms: "86400000"
+          retention.bytes: "2684354560"
+      - replicas: 3
+        partitions: 24
+        topicName: platform.upload.validation
+      - replicas: 3
+        partitions: 4
+        topicName: platform.payload-status
+
+parameters:
+- name: LOG_LEVEL
+  value: INFO
+- description: Cpu limit of service
+  name: CPU_LIMIT
+  value: 500m
+- description: memory limit of service
+  name: MEMORY_LIMIT
+  value: 512Mi
+- description: min replicas
+  name: MIN_REPLICAS
+  value: "8"
+- description: Image tag
+  name: IMAGE_TAG
+  required: true
+- description: Image NAME
+  name: IMAGE
+  required: true
+  value: quay.io/cloudservices/insights-puptoo
+- description : ClowdEnvironment name
+  name: ENV_NAME
+  required: true
+- description : inventory topic name
+  name: INVENTORY_TOPIC
+  value: platform.inventory.host-ingress-p1
+  required: true

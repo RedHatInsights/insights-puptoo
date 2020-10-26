@@ -43,6 +43,9 @@ def initialize_logging():
     logger = logging.getLogger(config.APP_NAME)
 
     if config.AWS_ACCESS_KEY_ID and config.AWS_SECRET_ACCESS_KEY:
+        logger.info("Configuring cloudwatch")
         config_cloudwatch(logger)
+    else:
+        logger.info("Skipping cloudwatch configuration")
 
     return logger

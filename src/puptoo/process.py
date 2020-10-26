@@ -23,6 +23,7 @@ from insights.parsers.meminfo import MemInfo
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.sestatus import SEStatus
 from insights.parsers.systemd.unitfiles import UnitFiles
+from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
@@ -56,6 +57,7 @@ def get_archive(url):
         LsCPU,
         Sap,
         SEStatus,
+        Tuned,
         InstalledRpms,
         UnitFiles,
         PsAuxcww,
@@ -84,6 +86,7 @@ def system_profile(
     lscpu,
     sap,
     sestatus,
+    tuned,
     installed_rpms,
     unit_files,
     ps_auxcww,
@@ -129,6 +132,12 @@ def system_profile(
         profile["sap_system"] = True
         sids = {sap.sid(instance) for instance in sap.local_instances}
         profile["sap_sids"] = sorted(list(sids))
+        inst = sap.local_instances[0]
+        profile["sap_instance_number"] = sap[inst].number
+        profile["sap_version"] = sap[inst].version
+
+    if tuned:
+        profile["tuned_profile"] = tuned.data['active']
 
     if sestatus:
         profile["selinux_current_mode"] = sestatus.data['current_mode'].lower()
