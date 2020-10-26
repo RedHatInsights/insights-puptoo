@@ -21,6 +21,7 @@ from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.ps import PsAuxcww
+from insights.parsers.sestatus import SEStatus
 from insights.parsers.systemd.unitfiles import UnitFiles
 from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
@@ -55,6 +56,7 @@ def get_archive(url):
         LsMod,
         LsCPU,
         Sap,
+        SEStatus,
         Tuned,
         InstalledRpms,
         UnitFiles,
@@ -83,6 +85,7 @@ def system_profile(
     lsmod,
     lscpu,
     sap,
+    sestatus,
     tuned,
     installed_rpms,
     unit_files,
@@ -135,6 +138,10 @@ def system_profile(
 
     if tuned:
         profile["tuned_profile"] = tuned.data['active']
+
+    if sestatus:
+        profile["selinux_current_mode"] = sestatus.data['current_mode'].lower()
+        profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
 
     if unit_files:
         profile["enabled_services"] = _enabled_services(unit_files)
