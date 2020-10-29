@@ -27,6 +27,7 @@ from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
+from insights.parsers.sap_hdb_version import HDBVersion
 from insights.specs import Specs
 from insights.util.canonical_facts import get_canonical_facts
 
@@ -64,6 +65,7 @@ def get_archive(url):
         DateUTC,
         Uptime,
         YumReposD,
+        HDBVersion,
         DnfModules,
         CloudProvider,
         Specs.display_name,
@@ -93,6 +95,7 @@ def system_profile(
     date_utc,
     uptime,
     yum_repos_d,
+    sap_hdb_version,
     dnf_modules,
     cloud_provider,
     display_name,
@@ -134,6 +137,9 @@ def system_profile(
         profile["sap_sids"] = sorted(list(sids))
         inst = sap.local_instances[0]
         profile["sap_instance_number"] = sap[inst].number
+        
+    if sap_hdb_version:
+        profile["sap_version"] = sap_hdb_version.version
 
     if tuned:
         profile["tuned_profile"] = tuned.data['active']
