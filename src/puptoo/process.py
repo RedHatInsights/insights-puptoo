@@ -132,8 +132,9 @@ def system_profile(
         profile["sap_system"] = True
         sids = {sap.sid(instance) for instance in sap.local_instances}
         profile["sap_sids"] = sorted(list(sids))
-        inst = sap.local_instances[0]
-        profile["sap_instance_number"] = sap[inst].number
+        if sap.local_instances:
+            inst = sap.local_instances[0]
+            profile["sap_instance_number"] = sap[inst].number
 
     if tuned:
         profile["tuned_profile"] = tuned.data['active']
