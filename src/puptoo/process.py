@@ -135,9 +135,10 @@ def system_profile(
         profile["sap_system"] = True
         sids = {sap.sid(instance) for instance in sap.local_instances}
         profile["sap_sids"] = sorted(list(sids))
-        inst = sap.local_instances[0]
-        profile["sap_instance_number"] = sap[inst].number
-        
+        if sap.local_instances:
+            inst = sap.local_instances[0]
+            profile["sap_instance_number"] = sap[inst].number
+
     if sap_hdb_version:
         profile["sap_version"] = sap_hdb_version.version
 
