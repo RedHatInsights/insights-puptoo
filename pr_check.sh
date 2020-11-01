@@ -29,7 +29,7 @@ set -ex
 
 oc login --token=$OC_LOGIN_TOKEN --server=$OC_LOGIN_SERVER
 
-wget https://raw.githubusercontent.com/RedHatInsights/bonfire/6bed83573a7eb2c1248c1eb933386488849ab841/cicd/bootstrap.sh
+curl -JOL https://raw.githubusercontent.com/RedHatInsights/bonfire/6bed83573a7eb2c1248c1eb933386488849ab841/cicd/bootstrap.sh
 
 source ./bootstrap.sh
 source ./build.sh
