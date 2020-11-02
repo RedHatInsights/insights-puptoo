@@ -27,10 +27,7 @@ IQE_FILTER_EXPRESSION=""
 # We'll take it from here ...
 # ---------------------------
 
-if [ $BUILD_NEEDED ]; then
-    export PUSH_TO_LATEST=false
-    source build_deploy.sh
-fi
+source build_deploy.sh
 
 CICD_URL=https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd
 curl -s $CICD_URL/bootstrap.sh -o bootstrap.sh
