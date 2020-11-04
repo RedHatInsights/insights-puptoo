@@ -37,6 +37,11 @@ logger = logging.getLogger(config.APP_NAME)
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
 
+def log_failure(component, error):
+    fail_log = "Failed to process %s in system_profile: %s"
+    logger.error(fail_log, component, error)
+
+
 @metrics.GET_FILE.time()
 def get_archive(url):
     archive = requests.get(url)
@@ -110,169 +115,266 @@ def system_profile(
     """
     profile = {"tags": {}}
     if uname:
-        profile["arch"] = uname.arch
+        try:
+            profile["arch"] = uname.arch
+        except Exception as e:
+            log_failure("uname", e)
+            pass
 
     if dmidecode:
         try:
             profile["bios_release_date"] = dmidecode.bios.get("release_date")
             profile["bios_vendor"] = dmidecode.bios.get("vendor")
             profile["bios_version"] = dmidecode.bios.get("version")
-        except AttributeError:
+        except Exception as e:
+            log_failure("dmidecode", e)
             pass
 
     if cpu_info:
-        profile["cpu_flags"] = cpu_info.flags
-        profile["number_of_cpus"] = cpu_info.cpu_count
-        profile["number_of_sockets"] = cpu_info.socket_count
+        try:
+            profile["cpu_flags"] = cpu_info.flags
+            profile["number_of_cpus"] = cpu_info.cpu_count
+            profile["number_of_sockets"] = cpu_info.socket_count
+        except Exception as e:
+            log_failure("cpu_info", e)
+            pass
 
     if lscpu:
-        profile["cores_per_socket"] = lscpu.info['Cores per socket']
+        try:
+            profile["cores_per_socket"] = lscpu.info['Cores per socket']
+        except Exception as e:
+            log_failure("lscpu", e)
+            pass
 
     if sap:
-        profile["sap_system"] = True
-        sids = {sap.sid(instance) for instance in sap.local_instances}
-        profile["sap_sids"] = sorted(list(sids))
-        if sap.local_instances:
-            inst = sap.local_instances[0]
-            if sap[inst].number not in ["98", "99"]:
-                profile["sap_instance_number"] = sap[inst].number
+        try:
+            profile["sap_system"] = True
+            sids = {sap.sid(instance) for instance in sap.local_instances}
+            profile["sap_sids"] = sorted(list(sids))
+            if sap.local_instances:
+                inst = sap.local_instances[0]
+                if sap[inst].number not in ["98", "99"]:
+                    profile["sap_instance_number"] = sap[inst].number
+        except Exception as e:
+            log_failure("sap", e)
+            pass
 
     if tuned:
-        profile["tuned_profile"] = tuned.data['active']
+        try:
+            profile["tuned_profile"] = tuned.data['active']
+        except Exception as e:
+            log_failure("tuned", e)
+            pass
 
     if sestatus:
-        profile["selinux_current_mode"] = sestatus.data['current_mode'].lower()
-        profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
+        try:
+            profile["selinux_current_mode"] = sestatus.data['current_mode'].lower()
+            profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
+        except Exception as e:
+            log_failure("sestatus", e)
+            pass
 
     if unit_files:
-        profile["enabled_services"] = _enabled_services(unit_files)
-        profile["installed_services"] = _installed_services(unit_files)
+        try:
+            profile["enabled_services"] = _enabled_services(unit_files)
+            profile["installed_services"] = _installed_services(unit_files)
+        except Exception as e:
+            log_failure("unit_files", e)
+            pass
 
     if virt_what:
-        profile["infrastructure_type"] = _get_virt_phys_fact(virt_what)
-        profile["infrastructure_vendor"] = virt_what.generic
+        try:
+            profile["infrastructure_type"] = _get_virt_phys_fact(virt_what)
+            profile["infrastructure_vendor"] = virt_what.generic
+        except Exception as e:
+            log_failure("virt_what", e)
+            pass
 
     if installed_rpms:
-        profile["installed_packages"] = sorted(
-            [installed_rpms.get_max(p).nevra for p in installed_rpms.packages]
-        )
+        try:
+            profile["installed_packages"] = sorted(
+                [installed_rpms.get_max(p).nevra for p in installed_rpms.packages]
+            )
+        except Exception as e:
+            log_failure("installed_rpms", e)
+            pass
 
     if lsmod:
-        profile["kernel_modules"] = list(lsmod.data.keys())
+        try:
+            profile["kernel_modules"] = list(lsmod.data.keys())
+        except Exception as e:
+            log_failure("lsmod", e)
+            pass
 
     if date_utc:
-        # re-inject UTC timezone into date_utc in order to obtain isoformat w/ TZ offset
-        utc_tz = datetime.timezone(datetime.timedelta(hours=0), name="UTC")
-        utcdate = date_utc.datetime.replace(tzinfo=utc_tz)
-        profile["captured_date"] = utcdate.isoformat()
+        try:
+            # re-inject UTC timezone into date_utc in order to obtain isoformat w/ TZ offset
+            utc_tz = datetime.timezone(datetime.timedelta(hours=0), name="UTC")
+            utcdate = date_utc.datetime.replace(tzinfo=utc_tz)
+            profile["captured_date"] = utcdate.isoformat()
+        except Exception as e:
+            log_failure("date_utc", e)
+            pass
 
     if uptime and date_utc:
-        boot_time = date_utc.datetime - uptime.uptime
-        profile["last_boot_time"] = boot_time.isoformat()
+        try:
+            boot_time = date_utc.datetime - uptime.uptime
+            profile["last_boot_time"] = boot_time.isoformat()
+        except Exception as e:
+            log_failure("uptime and date_utc", e)
+            pass
 
     if ip_addr:
-        network_interfaces = []
-        for iface in ip_addr:
-            interface = {
-                "ipv4_addresses": iface.addrs(version=4),
-                "ipv6_addresses": iface.addrs(version=6),
-                "mac_address": _safe_fetch_interface_field(iface, "mac"),
-                "mtu": _safe_fetch_interface_field(iface, "mtu"),
-                "name": _safe_fetch_interface_field(iface, "name"),
-                "state": _safe_fetch_interface_field(iface, "state"),
-                "type": _safe_fetch_interface_field(iface, "type"),
-            }
-            network_interfaces.append(_remove_empties(interface))
+        try:
+            network_interfaces = []
+            for iface in ip_addr:
+                interface = {
+                    "ipv4_addresses": iface.addrs(version=4),
+                    "ipv6_addresses": iface.addrs(version=6),
+                    "mac_address": _safe_fetch_interface_field(iface, "mac"),
+                    "mtu": _safe_fetch_interface_field(iface, "mtu"),
+                    "name": _safe_fetch_interface_field(iface, "name"),
+                    "state": _safe_fetch_interface_field(iface, "state"),
+                    "type": _safe_fetch_interface_field(iface, "type"),
+                }
+                network_interfaces.append(_remove_empties(interface))
 
-        profile["network_interfaces"] = network_interfaces
+            profile["network_interfaces"] = network_interfaces
+        except Exception as e:
+            log_failure("ip_addr", e)
 
     if uname:
-        profile["os_kernel_version"] = uname.version
-        profile["os_kernel_release"] = uname.release
+        try:
+            profile["os_kernel_version"] = uname.version
+            profile["os_kernel_release"] = uname.release
+        except Exception as e:
+            log_failure("uname", e)
+            pass
 
     if redhat_release:
         try:
             profile["os_release"] = redhat_release.rhel
-        except AttributeError:
+        except Exception as e:
+            log_failure("redhat_release", e)
             pass
 
     if ps_auxcww:
-        profile["running_processes"] = list(ps_auxcww.running)
+        try:
+            profile["running_processes"] = list(ps_auxcww.running)
+        except Exception as e:
+            log_failure("ps_auxcww", e)
+            pass
 
     if meminfo:
-        profile["system_memory_bytes"] = meminfo.total
+        try:
+            profile["system_memory_bytes"] = meminfo.total
+        except Exception as e:
+            log_failure("meminfo", e)
+            pass
 
     if yum_repos_d:
-        repos = []
-        for yum_repo_file in yum_repos_d:
-            for yum_repo_definition in yum_repo_file:
-                baseurl = yum_repo_file[yum_repo_definition].get("baseurl", [])
-                repo = {
-                    "id": yum_repo_definition,
-                    "name": yum_repo_file[yum_repo_definition].get("name"),
-                    "base_url": baseurl[0] if len(baseurl) > 0 else None,
-                    "enabled": _to_bool(
-                        yum_repo_file[yum_repo_definition].get("enabled")
-                    ),
-                    "gpgcheck": _to_bool(
-                        yum_repo_file[yum_repo_definition].get("gpgcheck")
-                    ),
-                }
-                repos.append(_remove_empties(repo))
-        profile["yum_repos"] = repos
+        try:
+            repos = []
+            for yum_repo_file in yum_repos_d:
+                for yum_repo_definition in yum_repo_file:
+                    baseurl = yum_repo_file[yum_repo_definition].get("baseurl", [])
+                    repo = {
+                        "id": yum_repo_definition,
+                        "name": yum_repo_file[yum_repo_definition].get("name"),
+                        "base_url": baseurl[0] if len(baseurl) > 0 else None,
+                        "enabled": _to_bool(
+                            yum_repo_file[yum_repo_definition].get("enabled")
+                        ),
+                        "gpgcheck": _to_bool(
+                            yum_repo_file[yum_repo_definition].get("gpgcheck")
+                        ),
+                    }
+                    repos.append(_remove_empties(repo))
+            profile["yum_repos"] = repos
+        except Exception as e:
+            log_failure("yum_repos_d", e)
+            pass
 
     if dnf_modules:
-        modules = []
-        for module in dnf_modules:
-            for module_name in module.sections():
-                modules.append(
-                    {"name": module_name, "stream": module.get(module_name, "stream")}
-                )
-        profile["dnf_modules"] = modules
+        try:
+            modules = []
+            for module in dnf_modules:
+                for module_name in module.sections():
+                    modules.append(
+                        {"name": module_name, "stream": module.get(module_name, "stream")}
+                    )
+            profile["dnf_modules"] = modules
+        except Exception as e:
+            log_failure("dnf_modules", e)
+            pass
 
     if cloud_provider:
-        profile["cloud_provider"] = cloud_provider.cloud_provider
+        try:
+            profile["cloud_provider"] = cloud_provider.cloud_provider
+        except Exception as e:
+            log_failure("cloud_provider", e)
+            pass
 
     if display_name:
-        profile["display_name"] = display_name.content[0]
+        try:
+            profile["display_name"] = display_name.content[0]
+        except Exception as e:
+            log_failure("display_name", e)
+            pass
 
     if version_info:
-        version_info_json = json.loads(version_info.content[0])
-        profile["insights_client_version"] = version_info_json["client_version"]
-        profile["insights_egg_version"] = version_info_json["core_version"]
+        try:
+            version_info_json = json.loads(version_info.content[0])
+            profile["insights_client_version"] = version_info_json["client_version"]
+            profile["insights_egg_version"] = version_info_json["core_version"]
+        except Exception as e:
+            log_failure("version_info", e)
+            pass
 
     if branch_info:
-        branch_info_json = json.loads(branch_info.content.decode("utf-8"))
-        if branch_info_json["remote_branch"] != -1:
-            profile["satellite_managed"] = True
-            profile["satellite_id"] = branch_info_json["remote_leaf"]
-        else:
-            profile["satellite_managed"] = False
-        if branch_info_json.get("labels"):
-            if type(branch_info_json["labels"]) == list:
-                new_tags = format_tags(branch_info_json["labels"])
-                profile["tags"].update(new_tags)
+        try:
+            branch_info_json = json.loads(branch_info.content.decode("utf-8"))
+            if branch_info_json["remote_branch"] != -1:
+                profile["satellite_managed"] = True
+                profile["satellite_id"] = branch_info_json["remote_leaf"]
             else:
-                profile["tags"].update(branch_info_json["labels"])
+                profile["satellite_managed"] = False
+            if branch_info_json.get("labels"):
+                if type(branch_info_json["labels"]) == list:
+                    new_tags = format_tags(branch_info_json["labels"])
+                    profile["tags"].update(new_tags)
+                else:
+                    profile["tags"].update(branch_info_json["labels"])
+        except Exception as e:
+            log_failure("branch_info", e)
+            pass
 
     if product_ids:
-        profile["installed_products"] = [
-            {"id": product_id} for product_id in product_ids.ids
-        ]
+        try:
+            profile["installed_products"] = [
+                {"id": product_id} for product_id in product_ids.ids
+            ]
+        except Exception as e:
+            log_failure("product_ids", e)
+            pass
 
     if tags:
-        tags_json = json.loads(tags.content.decode("utf-8"))
-        if type(tags_json) == list:
-            new_tags = format_tags(tags_json)
-            profile["tags"].update(new_tags)
-        else:
-            # Need to turn the values into a list
-            for entry in tags_json.keys():
-                for k, v in tags_json[entry].items():
-                    if type(tags_json[entry][k]) != list:
-                        tags_json[entry][k] = []
-                        tags_json[entry][k].append(v)
-            profile["tags"].update(tags_json)
+        try:
+            tags_json = json.loads(tags.content.decode("utf-8"))
+            if type(tags_json) == list:
+                new_tags = format_tags(tags_json)
+                profile["tags"].update(new_tags)
+            else:
+                # Need to turn the values into a list
+                for entry in tags_json.keys():
+                    for k, v in tags_json[entry].items():
+                        if type(tags_json[entry][k]) != list:
+                            tags_json[entry][k] = []
+                            tags_json[entry][k].append(v)
+                profile["tags"].update(tags_json)
+        except Exception as e:
+            log_failure("tags", e)
+            pass
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
