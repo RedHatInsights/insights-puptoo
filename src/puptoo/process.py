@@ -119,7 +119,6 @@ def system_profile(
             profile["arch"] = uname.arch
         except Exception as e:
             log_failure("uname", e)
-            pass
 
     if dmidecode:
         try:
@@ -128,7 +127,6 @@ def system_profile(
             profile["bios_version"] = dmidecode.bios.get("version")
         except Exception as e:
             log_failure("dmidecode", e)
-            pass
 
     if cpu_info:
         try:
@@ -137,14 +135,12 @@ def system_profile(
             profile["number_of_sockets"] = cpu_info.socket_count
         except Exception as e:
             log_failure("cpu_info", e)
-            pass
 
     if lscpu:
         try:
             profile["cores_per_socket"] = lscpu.info['Cores per socket']
         except Exception as e:
             log_failure("lscpu", e)
-            pass
 
     if sap:
         try:
@@ -157,14 +153,12 @@ def system_profile(
                     profile["sap_instance_number"] = sap[inst].number
         except Exception as e:
             log_failure("sap", e)
-            pass
 
     if tuned:
         try:
             profile["tuned_profile"] = tuned.data['active']
         except Exception as e:
             log_failure("tuned", e)
-            pass
 
     if sestatus:
         try:
@@ -172,7 +166,6 @@ def system_profile(
             profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
         except Exception as e:
             log_failure("sestatus", e)
-            pass
 
     if unit_files:
         try:
@@ -180,7 +173,6 @@ def system_profile(
             profile["installed_services"] = _installed_services(unit_files)
         except Exception as e:
             log_failure("unit_files", e)
-            pass
 
     if virt_what:
         try:
@@ -188,7 +180,6 @@ def system_profile(
             profile["infrastructure_vendor"] = virt_what.generic
         except Exception as e:
             log_failure("virt_what", e)
-            pass
 
     if installed_rpms:
         try:
@@ -197,14 +188,12 @@ def system_profile(
             )
         except Exception as e:
             log_failure("installed_rpms", e)
-            pass
 
     if lsmod:
         try:
             profile["kernel_modules"] = list(lsmod.data.keys())
         except Exception as e:
             log_failure("lsmod", e)
-            pass
 
     if date_utc:
         try:
@@ -214,7 +203,6 @@ def system_profile(
             profile["captured_date"] = utcdate.isoformat()
         except Exception as e:
             log_failure("date_utc", e)
-            pass
 
     if uptime and date_utc:
         try:
@@ -222,7 +210,6 @@ def system_profile(
             profile["last_boot_time"] = boot_time.isoformat()
         except Exception as e:
             log_failure("uptime and date_utc", e)
-            pass
 
     if ip_addr:
         try:
@@ -249,28 +236,24 @@ def system_profile(
             profile["os_kernel_release"] = uname.release
         except Exception as e:
             log_failure("uname", e)
-            pass
 
     if redhat_release:
         try:
             profile["os_release"] = redhat_release.rhel
         except Exception as e:
             log_failure("redhat_release", e)
-            pass
 
     if ps_auxcww:
         try:
             profile["running_processes"] = list(ps_auxcww.running)
         except Exception as e:
             log_failure("ps_auxcww", e)
-            pass
 
     if meminfo:
         try:
             profile["system_memory_bytes"] = meminfo.total
         except Exception as e:
             log_failure("meminfo", e)
-            pass
 
     if yum_repos_d:
         try:
@@ -293,7 +276,6 @@ def system_profile(
             profile["yum_repos"] = repos
         except Exception as e:
             log_failure("yum_repos_d", e)
-            pass
 
     if dnf_modules:
         try:
@@ -306,21 +288,18 @@ def system_profile(
             profile["dnf_modules"] = modules
         except Exception as e:
             log_failure("dnf_modules", e)
-            pass
 
     if cloud_provider:
         try:
             profile["cloud_provider"] = cloud_provider.cloud_provider
         except Exception as e:
             log_failure("cloud_provider", e)
-            pass
 
     if display_name:
         try:
             profile["display_name"] = display_name.content[0]
         except Exception as e:
             log_failure("display_name", e)
-            pass
 
     if version_info:
         try:
@@ -329,7 +308,6 @@ def system_profile(
             profile["insights_egg_version"] = version_info_json["core_version"]
         except Exception as e:
             log_failure("version_info", e)
-            pass
 
     if branch_info:
         try:
@@ -347,7 +325,6 @@ def system_profile(
                     profile["tags"].update(branch_info_json["labels"])
         except Exception as e:
             log_failure("branch_info", e)
-            pass
 
     if product_ids:
         try:
@@ -356,7 +333,6 @@ def system_profile(
             ]
         except Exception as e:
             log_failure("product_ids", e)
-            pass
 
     if tags:
         try:
@@ -374,7 +350,6 @@ def system_profile(
                 profile["tags"].update(tags_json)
         except Exception as e:
             log_failure("tags", e)
-            pass
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
