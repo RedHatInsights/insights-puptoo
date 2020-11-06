@@ -119,6 +119,7 @@ def system_profile(
             profile["arch"] = uname.arch
         except Exception as e:
             log_failure("uname", e)
+            raise
 
     if dmidecode:
         try:
@@ -127,6 +128,7 @@ def system_profile(
             profile["bios_version"] = dmidecode.bios.get("version")
         except Exception as e:
             log_failure("dmidecode", e)
+            raise
 
     if cpu_info:
         try:
@@ -135,12 +137,14 @@ def system_profile(
             profile["number_of_sockets"] = cpu_info.socket_count
         except Exception as e:
             log_failure("cpu_info", e)
+            raise
 
     if lscpu:
         try:
             profile["cores_per_socket"] = lscpu.info['Cores per socket']
         except Exception as e:
             log_failure("lscpu", e)
+            raise
 
     if sap:
         try:
@@ -153,12 +157,14 @@ def system_profile(
                     profile["sap_instance_number"] = sap[inst].number
         except Exception as e:
             log_failure("sap", e)
+            raise
 
     if tuned:
         try:
             profile["tuned_profile"] = tuned.data['active']
         except Exception as e:
             log_failure("tuned", e)
+            raise
 
     if sestatus:
         try:
@@ -166,6 +172,7 @@ def system_profile(
             profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
         except Exception as e:
             log_failure("sestatus", e)
+            raise
 
     if unit_files:
         try:
@@ -173,6 +180,7 @@ def system_profile(
             profile["installed_services"] = _installed_services(unit_files)
         except Exception as e:
             log_failure("unit_files", e)
+            raise
 
     if virt_what:
         try:
@@ -180,6 +188,7 @@ def system_profile(
             profile["infrastructure_vendor"] = virt_what.generic
         except Exception as e:
             log_failure("virt_what", e)
+            raise
 
     if installed_rpms:
         try:
@@ -188,12 +197,14 @@ def system_profile(
             )
         except Exception as e:
             log_failure("installed_rpms", e)
+            raise
 
     if lsmod:
         try:
             profile["kernel_modules"] = list(lsmod.data.keys())
         except Exception as e:
             log_failure("lsmod", e)
+            raise
 
     if date_utc:
         try:
@@ -203,6 +214,7 @@ def system_profile(
             profile["captured_date"] = utcdate.isoformat()
         except Exception as e:
             log_failure("date_utc", e)
+            raise
 
     if uptime and date_utc:
         try:
@@ -210,6 +222,7 @@ def system_profile(
             profile["last_boot_time"] = boot_time.isoformat()
         except Exception as e:
             log_failure("uptime and date_utc", e)
+            raise
 
     if ip_addr:
         try:
@@ -229,6 +242,7 @@ def system_profile(
             profile["network_interfaces"] = network_interfaces
         except Exception as e:
             log_failure("ip_addr", e)
+            raise
 
     if uname:
         try:
@@ -236,24 +250,28 @@ def system_profile(
             profile["os_kernel_release"] = uname.release
         except Exception as e:
             log_failure("uname", e)
+            raise
 
     if redhat_release:
         try:
             profile["os_release"] = redhat_release.rhel
         except Exception as e:
             log_failure("redhat_release", e)
+            raise
 
     if ps_auxcww:
         try:
             profile["running_processes"] = list(ps_auxcww.running)
         except Exception as e:
             log_failure("ps_auxcww", e)
+            raise
 
     if meminfo:
         try:
             profile["system_memory_bytes"] = meminfo.total
         except Exception as e:
             log_failure("meminfo", e)
+            raise
 
     if yum_repos_d:
         try:
@@ -276,6 +294,7 @@ def system_profile(
             profile["yum_repos"] = repos
         except Exception as e:
             log_failure("yum_repos_d", e)
+            raise
 
     if dnf_modules:
         try:
@@ -288,18 +307,21 @@ def system_profile(
             profile["dnf_modules"] = modules
         except Exception as e:
             log_failure("dnf_modules", e)
+            raise
 
     if cloud_provider:
         try:
             profile["cloud_provider"] = cloud_provider.cloud_provider
         except Exception as e:
             log_failure("cloud_provider", e)
+            raise
 
     if display_name:
         try:
             profile["display_name"] = display_name.content[0]
         except Exception as e:
             log_failure("display_name", e)
+            raise
 
     if version_info:
         try:
@@ -308,6 +330,7 @@ def system_profile(
             profile["insights_egg_version"] = version_info_json["core_version"]
         except Exception as e:
             log_failure("version_info", e)
+            raise
 
     if branch_info:
         try:
@@ -325,6 +348,7 @@ def system_profile(
                     profile["tags"].update(branch_info_json["labels"])
         except Exception as e:
             log_failure("branch_info", e)
+            raise
 
     if product_ids:
         try:
@@ -333,6 +357,7 @@ def system_profile(
             ]
         except Exception as e:
             log_failure("product_ids", e)
+            raise
 
     if tags:
         try:
@@ -350,6 +375,7 @@ def system_profile(
                 profile["tags"].update(tags_json)
         except Exception as e:
             log_failure("tags", e)
+            raise
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
@@ -451,11 +477,14 @@ def _remove_bad_display_name(facts):
 
 
 @metrics.SYSTEM_PROFILE.time()
-def get_system_profile(path=None):
-    broker = run(system_profile, root=path)
-    result = broker[system_profile]
-    del result["type"]
-    return result
+def get_system_profile(msg, path=None):
+    try:
+        broker = run(system_profile, root=path)
+        result = broker[system_profile]
+        del result["type"]
+        return result
+    except KeyError:
+        return
 
 
 @metrics.EXTRACT.time()
@@ -469,18 +498,21 @@ def extraction(msg, extra, remove=True):
             logger.debug("extracting facts from %s", tf.name, extra=extra)
             with extract(tf.name) as ex:
                 facts = get_canonical_facts(path=ex.tmp_dir)
-                facts["system_profile"] = get_system_profile(path=ex.tmp_dir)
+                facts["system_profile"] = get_system_profile(msg, path=ex.tmp_dir)
     except Exception as e:
         logger.exception("Failed to extract facts: %s", str(e), extra=extra)
         facts["error"] = str(e)
     finally:
-        if facts["system_profile"].get("display_name"):
-            facts["display_name"] = facts["system_profile"].get("display_name")
-        if facts["system_profile"].get("satellite_id"):
-            facts["satellite_id"] = facts["system_profile"].get("satellite_id")
-        if facts["system_profile"].get("tags"):
-            facts["tags"] = facts["system_profile"].pop("tags")
-        groomed_facts = _remove_empties(_remove_bad_display_name(facts))
-        metrics.msg_processed.inc()
-        metrics.extract_success.inc()
-        return groomed_facts
+        if facts.get("system_profile"):
+            if facts["system_profile"].get("display_name"):
+                facts["display_name"] = facts["system_profile"].get("display_name")
+            if facts["system_profile"].get("satellite_id"):
+                facts["satellite_id"] = facts["system_profile"].get("satellite_id")
+            if facts["system_profile"].get("tags"):
+                facts["tags"] = facts["system_profile"].pop("tags")
+            groomed_facts = _remove_empties(_remove_bad_display_name(facts))
+            metrics.msg_processed.inc()
+            metrics.extract_success.inc()
+            return groomed_facts
+        else:
+            return facts

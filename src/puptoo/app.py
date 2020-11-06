@@ -112,6 +112,7 @@ def process_archive(msg, extra):
             ),
             extra,
         )
+        logger.error("Failed to extract facts for request_id: %s", msg.get("request_id"))
         return None
     logger.debug(
         "extracted facts from message for %s\nMessage: %s\nFacts: %s",
@@ -173,7 +174,7 @@ def handle_message(msg):
     if msg.get("service") == "compliance":
         facts = msg.get("metadata")
 
-    if facts:
+    if facts.get("system_profile"):
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
         send_message(
@@ -182,6 +183,18 @@ def handle_message(msg):
         send_message(
             config.TRACKER_TOPIC,
             msgs.tracker_message(extra, "success", "Message sent to inventory"),
+            extra,
+        )
+    else:
+        logger.error("Failed to collect system profile for [%s]. Rejecting payload.", msg.get("request_id"))
+        send_message(
+            config.VALIDATION_TOPIC,
+            msgs.validation_message(msg, facts, "failure"),
+            extra,
+        )
+        send_message(
+            config.TRACKER_TOPIC,
+            msgs.tracker_message(extra, "failure", "Payload rejected due to system_profile failure"),
             extra,
         )
 
