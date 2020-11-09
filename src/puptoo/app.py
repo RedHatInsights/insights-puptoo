@@ -151,6 +151,7 @@ def send_message(topic, msg, extra):
             msg["data"].pop("system_profile")
             logger.info("Message sent to inventory: %s", msg)
     except KafkaError:
+        metrics.msg_send_failure.labels(topic).inc()
         logger.exception(
             "Failed to produce message to [%s] topic: %s", topic, extra["request_id"]
         )
