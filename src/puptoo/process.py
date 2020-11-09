@@ -383,6 +383,7 @@ def get_system_profile(path=None):
 
 @metrics.EXTRACT.time()
 def extraction(msg, extra, remove=True):
+    metrics.extraction_count.inc()
     facts = {"system_profile": {}}
     try:
         with NamedTemporaryFile(delete=remove) as tf:
@@ -404,4 +405,5 @@ def extraction(msg, extra, remove=True):
             facts["tags"] = facts["system_profile"].pop("tags")
         groomed_facts = _remove_empties(_remove_bad_display_name(facts))
         metrics.msg_processed.inc()
+        metrics.extract_success.inc()
         return groomed_facts
