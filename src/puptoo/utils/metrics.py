@@ -30,7 +30,7 @@ msg_produced = Counter(
     "puptoo_messages_produced_total", "Total messages produced", ["topic"]
 )
 msg_send_failure = Counter(
-    "puptoo_messages_failed_to_send_total", "Total messages that failed to send", ["topic"]
+    "puptoo_messages_produced_failure_total", "Total messages that failed to send", ["topic"]
 )
 
 send_time = Histogram(
