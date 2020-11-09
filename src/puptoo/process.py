@@ -335,7 +335,7 @@ def _enabled_services(unit_files):
     This method finds enabled services and strips the '.service' suffix
     """
     return [
-        service[:-8]
+        service[:-8].strip('@')
         for service in unit_files.services
         if unit_files.services[service] and ".service" in service
     ]
