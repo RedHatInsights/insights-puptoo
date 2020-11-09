@@ -68,6 +68,7 @@ def main():
                 continue
             if msg.error():
                 logger.error("Consumer error: %s", msg.error())
+                metrics.failed_msg_count.inc()
                 continue
 
             now = time()
