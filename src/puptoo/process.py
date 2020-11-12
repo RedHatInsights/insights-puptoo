@@ -477,7 +477,7 @@ def _remove_bad_display_name(facts):
 
 
 @metrics.SYSTEM_PROFILE.time()
-def get_system_profile(msg, path=None):
+def get_system_profile(path=None):
     try:
         broker = run(system_profile, root=path)
         result = broker[system_profile]
@@ -485,6 +485,34 @@ def get_system_profile(msg, path=None):
         return result
     except KeyError:
         return
+
+
+def run_profile():
+
+    args = None
+
+    import argparse
+    import os
+    p = argparse.ArgumentParser(add_help=False)
+    p.add_argument("archive", nargs="?", help="Archive to analyze.")
+    p.add_argument("--context", help="Execution Context. Defaults to HostContext if an archive isn't passed.")
+
+    class Args(object):
+        pass
+
+    args = Args()
+    p.parse_known_args(namespace=args)
+    p = argparse.ArgumentParser(parents=[p])
+
+    root = args.archive
+    if root:
+        root = os.path.realpath(root)
+    try:
+        broker = run(system_profile, root=root)
+        result = broker[system_profile]
+        print(result)
+    except Exception as e:
+        print(e)
 
 
 @metrics.EXTRACT.time()
@@ -498,7 +526,7 @@ def extraction(msg, extra, remove=True):
             logger.debug("extracting facts from %s", tf.name, extra=extra)
             with extract(tf.name) as ex:
                 facts = get_canonical_facts(path=ex.tmp_dir)
-                facts["system_profile"] = get_system_profile(msg, path=ex.tmp_dir)
+                facts["system_profile"] = get_system_profile(path=ex.tmp_dir)
     except Exception as e:
         logger.exception("Failed to extract facts: %s", str(e), extra=extra)
         facts["error"] = str(e)
