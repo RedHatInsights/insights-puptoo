@@ -1,0 +1,9 @@
+total 12
+-rw-r--r--.  1 0 0 217 Nov  9 18:33 -.mount
+drwxr-xr-x.  5 0 0 160 Nov  9 18:33 .
+drwxr-xr-x. 16 0 0 420 Nov  9 18:33 ..
+-rw-r--r--.  1 0 0 254 Nov  9 18:33 boot.mount
+-rw-r--r--.  1 0 0 230 Nov  9 18:33 dev-mapper-rhel\x2dswap.swap
+drwxr-xr-x.  2 0 0  80 Nov  9 18:33 local-fs.target.requires
+drwxr-xr-x.  2 0 0  60 Nov  9 18:33 swap.target.requires
+drwxr-xr-x.  2 0 0  60 Nov  9 18:33 vsftpd.target.wants

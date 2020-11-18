@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.rsyslog_conf", "exec_time": 8.916854858398438e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/rsyslog.conf", "rc": null}}], "ser_time": 0.014217138290405273}

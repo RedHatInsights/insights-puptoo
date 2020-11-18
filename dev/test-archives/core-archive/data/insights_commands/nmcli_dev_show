@@ -1,0 +1,50 @@
+GENERAL.DEVICE:                         ens3
+GENERAL.TYPE:                           ethernet
+GENERAL.HWADDR:                         52:54:00:22:01:D3
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 (connected)
+GENERAL.CONNECTION:                     ens3
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/1
+WIRED-PROPERTIES.CARRIER:               on
+IP4.ADDRESS[1]:                         192.168.122.253/24
+IP4.GATEWAY:                            192.168.122.1
+IP4.ROUTE[1]:                           dst = 0.0.0.0/0, nh = 192.168.122.1, mt = 100
+IP4.ROUTE[2]:                           dst = 192.168.122.0/24, nh = 0.0.0.0, mt = 100
+IP4.DNS[1]:                             192.168.122.1
+IP6.ADDRESS[1]:                         fe80::603d:bde5:557e:af24/64
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = fe80::/64, nh = ::, mt = 100
+IP6.ROUTE[2]:                           dst = ff00::/8, nh = ::, mt = 256, table=255
+
+GENERAL.DEVICE:                         virbr0
+GENERAL.TYPE:                           bridge
+GENERAL.HWADDR:                         52:54:00:CA:CD:7E
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          100 (connected (externally))
+GENERAL.CONNECTION:                     virbr0
+GENERAL.CON-PATH:                       /org/freedesktop/NetworkManager/ActiveConnection/2
+IP4.ADDRESS[1]:                         192.168.124.1/24
+IP4.GATEWAY:                            --
+IP4.ROUTE[1]:                           dst = 192.168.124.0/24, nh = 0.0.0.0, mt = 0
+IP6.GATEWAY:                            --
+
+GENERAL.DEVICE:                         lo
+GENERAL.TYPE:                           loopback
+GENERAL.HWADDR:                         00:00:00:00:00:00
+GENERAL.MTU:                            65536
+GENERAL.STATE:                          10 (unmanaged)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --
+IP4.ADDRESS[1]:                         127.0.0.1/8
+IP4.GATEWAY:                            --
+IP6.ADDRESS[1]:                         ::1/128
+IP6.GATEWAY:                            --
+IP6.ROUTE[1]:                           dst = ::1/128, nh = ::, mt = 256
+
+GENERAL.DEVICE:                         virbr0-nic
+GENERAL.TYPE:                           tun
+GENERAL.HWADDR:                         52:54:00:CA:CD:7E
+GENERAL.MTU:                            1500
+GENERAL.STATE:                          10 (unmanaged)
+GENERAL.CONNECTION:                     --
+GENERAL.CON-PATH:                       --

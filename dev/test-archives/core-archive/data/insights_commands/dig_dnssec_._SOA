@@ -1,0 +1,22 @@
+
+; <<>> DiG 9.11.20-RedHat-9.11.20-5.el8 <<>> +dnssec . SOA
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 57946
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags: do; udp: 1220
+; COOKIE: 007801edd6c4cc10281e8e285fb2ecb93bc2ce03f2c97bfb (good)
+;; QUESTION SECTION:
+;.				IN	SOA
+
+;; ANSWER SECTION:
+.			61568	IN	SOA	a.root-servers.net. nstld.verisign-grs.com. 2020111600 1800 900 604800 86400
+.			61568	IN	RRSIG	SOA 8 0 86400 20201129050000 20201116040000 26116 . GUHJRCNHHIieJ/A1ZE1gt+5EEeL723GzSIPVMrsJV4IPFf5ZFNeb+se1 mPfIySUG5zjRl1gv+5OHGNjK7oxj3ziXGmMjUGg418DGPHp9VqdZ2uNB TPN4MGvLR77cR8/QyUWHonp3J2X0dxCL0bM7/zJZk0GEOVIlISd+GsxU PmjuQ9XfJ1G83O9KO/+59i8cXaBpn8ljSLASBkajA/Lbslj3cdxZSGjo /HtYwirSdwrqeEGqcLuWMCVjTST+XjM1VbRTChpLBh4vSvspeHNlD7++ 1Ujsr4dere+A76BdenE4IgJQ9IZ31jSp5NQai38g+zU57reqpwti3rrf o5o2gw==
+
+;; Query time: 26 msec
+;; SERVER: 192.168.122.1#53(192.168.122.1)
+;; WHEN: Mon Nov 09 18:33:13 EST 2020
+;; MSG SIZE  rcvd: 417
+

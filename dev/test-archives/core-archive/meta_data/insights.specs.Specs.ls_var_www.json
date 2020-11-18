@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ls_var_www", "exec_time": 0.00021529197692871094, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -la /dev/null /var/www", "args": null, "relative_path": "insights_commands/ls_-la_.dev.null_.var.www"}}, "ser_time": 0.00644683837890625}

@@ -1,0 +1,46 @@
+/dev/disk:
+total 0
+drwxr-xr-x.  6 0 0  120 Nov  9 15:54 .
+drwxr-xr-x. 21 0 0 3240 Nov  9 15:54 ..
+drwxr-xr-x.  2 0 0  160 Nov  9 15:54 by-id
+drwxr-xr-x.  2 0 0   80 Nov  9 15:54 by-partuuid
+drwxr-xr-x.  2 0 0  180 Nov  9 15:54 by-path
+drwxr-xr-x.  2 0 0  100 Nov  9 15:54 by-uuid
+
+/dev/disk/by-id:
+total 0
+drwxr-xr-x. 2 0 0 160 Nov  9 15:54 .
+drwxr-xr-x. 6 0 0 120 Nov  9 15:54 ..
+lrwxrwxrwx. 1 0 0   9 Nov  9 15:54 ata-QEMU_DVD-ROM_QM00003 -> ../../sr0
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 dm-name-rhel-root -> ../../dm-0
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 dm-name-rhel-swap -> ../../dm-1
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 dm-uuid-LVM-ZfV882Qif0XfUNWkiP7WbxLZJUQf5mUK3yGeb97DcmE1nR57jFLWUzmTbV92JMlA -> ../../dm-1
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 dm-uuid-LVM-ZfV882Qif0XfUNWkiP7WbxLZJUQf5mUKTQAJRhGepSWD4IeheTgawSgvuYOwjejP -> ../../dm-0
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 lvm-pv-uuid-XvSpmw-90T3-3GxU-Q67M-xs7E-QhoL-Dcoe77 -> ../../vda2
+
+/dev/disk/by-partuuid:
+total 0
+drwxr-xr-x. 2 0 0  80 Nov  9 15:54 .
+drwxr-xr-x. 6 0 0 120 Nov  9 15:54 ..
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 2b07a6ad-01 -> ../../vda1
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 2b07a6ad-02 -> ../../vda2
+
+/dev/disk/by-path:
+total 0
+drwxr-xr-x. 2 0 0 180 Nov  9 15:54 .
+drwxr-xr-x. 6 0 0 120 Nov  9 15:54 ..
+lrwxrwxrwx. 1 0 0   9 Nov  9 15:54 pci-0000:00:01.1-ata-2 -> ../../sr0
+lrwxrwxrwx. 1 0 0   9 Nov  9 15:54 pci-0000:00:07.0 -> ../../vda
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 pci-0000:00:07.0-part1 -> ../../vda1
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 pci-0000:00:07.0-part2 -> ../../vda2
+lrwxrwxrwx. 1 0 0   9 Nov  9 15:54 virtio-pci-0000:00:07.0 -> ../../vda
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 virtio-pci-0000:00:07.0-part1 -> ../../vda1
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 virtio-pci-0000:00:07.0-part2 -> ../../vda2
+
+/dev/disk/by-uuid:
+total 0
+drwxr-xr-x. 2 0 0 100 Nov  9 15:54 .
+drwxr-xr-x. 6 0 0 120 Nov  9 15:54 ..
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 4fc4c2da-4a90-4ff7-a057-8338289180b5 -> ../../dm-1
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 742a06c8-2818-4bbb-9228-a0db649c987a -> ../../dm-0
+lrwxrwxrwx. 1 0 0  10 Nov  9 15:54 945fe137-e919-4f73-8a61-dd290dc2d17d -> ../../vda1

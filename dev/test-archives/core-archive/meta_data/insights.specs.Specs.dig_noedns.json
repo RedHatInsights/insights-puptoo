@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.dig_noedns", "exec_time": 5.364418029785156e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/dig +noedns . SOA", "args": null, "relative_path": "insights_commands/dig_noedns_._SOA"}}, "ser_time": 0.13217973709106445}

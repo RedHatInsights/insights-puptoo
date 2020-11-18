@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ipv6_neigh", "exec_time": 5.745887756347656e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/ip -6 neighbor show nud all", "args": null, "relative_path": "insights_commands/ip_-6_neighbor_show_nud_all"}}, "ser_time": 0.007402181625366211}

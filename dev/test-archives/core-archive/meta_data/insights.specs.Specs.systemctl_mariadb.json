@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_mariadb", "exec_time": 2.384185791015625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl show mariadb", "args": null, "relative_path": "insights_commands/systemctl_show_mariadb"}}, "ser_time": 0.010894775390625}

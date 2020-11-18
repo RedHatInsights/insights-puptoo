@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.fstab", "exec_time": 0.0002148151397705078, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/fstab", "rc": null}}, "ser_time": 0.003020763397216797}

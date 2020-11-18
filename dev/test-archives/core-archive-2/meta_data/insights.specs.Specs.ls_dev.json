@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ls_dev", "exec_time": 9.465217590332031e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lanR /dev", "args": null, "relative_path": "insights_commands/ls_-lanR_.dev"}}, "ser_time": 0.02725362777709961}

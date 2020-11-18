@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_qpidd", "exec_time": 2.8133392333984375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl show qpidd", "args": null, "relative_path": "insights_commands/systemctl_show_qpidd"}}, "ser_time": 0.010353803634643555}

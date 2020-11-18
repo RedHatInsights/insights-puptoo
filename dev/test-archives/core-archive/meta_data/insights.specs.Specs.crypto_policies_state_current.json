@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.crypto_policies_state_current", "exec_time": 0.0003714561462402344, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/crypto-policies/state/current", "rc": null}}, "ser_time": 0.002943754196166992}

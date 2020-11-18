@@ -1,0 +1,7 @@
+# Host *
+#   HostbasedAuthentication no
+#   CheckHostIP yes
+#   StrictHostKeyChecking ask
+#   VisualHostKey no
+#   ProxyCommand ssh -q -W %h:%p gateway.example.com
+Include /etc/ssh/ssh_config.d/*.conf

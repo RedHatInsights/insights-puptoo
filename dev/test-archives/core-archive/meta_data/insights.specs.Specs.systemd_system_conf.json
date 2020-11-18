@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemd_system_conf", "exec_time": 2.193450927734375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/systemd/system.conf", "rc": null}}, "ser_time": 0.002850055694580078}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.testparm_v_s", "exec_time": 2.2649765014648438e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/testparm -v -s", "args": null, "relative_path": "insights_commands/testparm_-v_-s"}}, "ser_time": 0.02112579345703125}

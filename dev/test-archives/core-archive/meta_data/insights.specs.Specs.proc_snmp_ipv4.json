@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.proc_snmp_ipv4", "exec_time": 2.1457672119140625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "proc/net/snmp", "rc": null}}, "ser_time": 0.0024712085723876953}

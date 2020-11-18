@@ -1,0 +1,21 @@
+
+; <<>> DiG 9.11.20-RedHat-9.11.20-5.el8 <<>> +edns=0 . SOA
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 45517
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1220
+; COOKIE: 380637c1a57c29ce5ea4cf055fb2ecb98102add81ef491c7 (good)
+;; QUESTION SECTION:
+;.				IN	SOA
+
+;; ANSWER SECTION:
+.			61568	IN	SOA	a.root-servers.net. nstld.verisign-grs.com. 2020111600 1800 900 604800 86400
+
+;; Query time: 23 msec
+;; SERVER: 192.168.122.1#53(192.168.122.1)
+;; WHEN: Mon Nov 09 18:33:13 EST 2020
+;; MSG SIZE  rcvd: 131
+

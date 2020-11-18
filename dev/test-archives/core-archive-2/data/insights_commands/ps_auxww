@@ -1,0 +1,9 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+chrony      1113  0.0  0.0 119872    12 ?        S    15:54   0:00 /usr/sbin/chronyd
+rngd        1143  0.1  0.0 381308     0 ?        Ssl  15:54   0:17 /sbin/rngd -f --fill-watermark=0
+root        1156  0.0  0.0  17044   300 ?        S    15:54   0:00 /bin/bash /usr/sbin/ksmtuned
+root        1321  0.0  0.1 426320   840 ?        Ssl  15:54   0:01 /usr/libexec/platform-python -Es /usr/sbin/tuned -l -P
+gdm         8244  0.1  0.3 4375412 2576 tty1     Sl+  15:54   0:12 /usr/bin/gnome-shell
+jason       8923  2.4  5.1 4831632 42888 tty2    Sl+  15:55   3:48 /usr/bin/gnome-shell
+jason      10189  0.0  0.0  25928   424 pts/0    Ss   15:56   0:00 bash
+root       54392  0.0  0.1   9184  1048 pts/0    S+   18:33   0:00 grep -F smbd nfsd pacemaker-controld tuned multipath pacemakerd docker greenplum goferd httpd virt-who /usr/bin/teamd spausedd ntpd openshift start master controllers openshift start node iscsid crmd corosync nginx nova-conductor COMMAND heat-engine /usr/bin/openshift start node /sbin/rngd nova-compute catalina.base /usr/sbin/fcoemon --syslog dlm_controld pcsd chronyd bash octavia-worker openshift start master api ora /usr/bin/gnome-shell nfs-server pkla-check-auth target_completi /usr/bin/openshift start master postgres ceilometer-coll elasticsearch tgtd clvmd /opt/perf/bin/midaemon /sbin/multipathd

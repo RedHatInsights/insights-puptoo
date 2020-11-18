@@ -1,0 +1,5 @@
+Server role: ROLE_STANDALONE
+[global]
+[homes]
+[printers]
+[print$]

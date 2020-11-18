@@ -1,0 +1,7 @@
+total 676876
+lrwxrwxrwx.   1 0  0       21 Jun 18 04:20 liblber-2.4.so.2 -> liblber-2.4.so.2.10.9
+-rwxr-xr-x.   1 0  0    67128 Jun 18 04:21 liblber-2.4.so.2.10.9
+lrwxrwxrwx.   1 0  0       21 Jun 18 04:20 libldap-2.4.so.2 -> libldap-2.4.so.2.10.9
+-rwxr-xr-x.   1 0  0   325176 Jun 18 04:21 libldap-2.4.so.2.10.9
+lrwxrwxrwx.   1 0  0       23 Jun 18 04:20 libldap_r-2.4.so.2 -> libldap_r-2.4.so.2.10.9
+-rwxr-xr-x.   1 0  0   354040 Jun 18 04:21 libldap_r-2.4.so.2.10.9

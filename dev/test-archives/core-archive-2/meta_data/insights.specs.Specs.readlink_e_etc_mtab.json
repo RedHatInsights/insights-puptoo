@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.readlink_e_etc_mtab", "exec_time": 4.7206878662109375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/readlink -e /etc/mtab", "args": null, "relative_path": "insights_commands/readlink_-e_.etc.mtab"}}, "ser_time": 0.004300117492675781}

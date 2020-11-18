@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.messages", "exec_time": 9.036064147949219e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "var/log/messages", "rc": null}}, "ser_time": 0.010362625122070312}

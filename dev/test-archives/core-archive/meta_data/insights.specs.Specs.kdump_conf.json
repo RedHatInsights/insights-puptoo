@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.kdump_conf", "exec_time": 0.00047135353088378906, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/kdump.conf", "rc": null}}, "ser_time": 0.0062367916107177734}

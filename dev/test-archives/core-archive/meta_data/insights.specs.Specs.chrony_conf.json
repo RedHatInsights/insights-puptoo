@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.chrony_conf", "exec_time": 0.0002548694610595703, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/chrony.conf", "rc": null}}, "ser_time": 0.0027387142181396484}

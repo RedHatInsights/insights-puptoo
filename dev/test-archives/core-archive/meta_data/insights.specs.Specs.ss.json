@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ss", "exec_time": 0.00015878677368164062, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/ss -tupna", "args": null, "relative_path": "insights_commands/ss_-tupna"}}, "ser_time": 0.07958602905273438}

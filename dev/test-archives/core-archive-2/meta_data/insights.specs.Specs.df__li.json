@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.df__li", "exec_time": 2.288818359375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/df -li -x autofs", "args": null, "relative_path": "insights_commands/df_-li_-x_autofs"}}, "ser_time": 0.003932476043701172}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.auditctl_status", "exec_time": 2.8848648071289062e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/auditctl -s", "args": null, "relative_path": "insights_commands/auditctl_-s"}}, "ser_time": 0.005876064300537109}

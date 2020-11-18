@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.mount", "exec_time": 2.9087066650390625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/mount", "args": null, "relative_path": "insights_commands/mount"}}, "ser_time": 0.004892110824584961}

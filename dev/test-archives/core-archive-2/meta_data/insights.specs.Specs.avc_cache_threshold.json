@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.avc_cache_threshold", "exec_time": 2.3365020751953125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "sys/fs/selinux/avc/cache_threshold", "rc": null}}, "ser_time": 0.002364635467529297}

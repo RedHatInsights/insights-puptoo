@@ -1,0 +1,22 @@
+total 24
+dr-xr-xr-x.  17 0 0  224 Nov  9 15:52 .
+dr-xr-xr-x.  17 0 0  224 Nov  9 15:52 ..
+lrwxrwxrwx.   1 0 0    7 Apr 23  2020 bin -> usr/bin
+dr-xr-xr-x.   6 0 0 4096 Nov  9 15:54 boot
+drwxr-xr-x.  21 0 0 3240 Nov  9 15:54 dev
+drwxr-xr-x. 162 0 0 8192 Nov  9 16:15 etc
+drwxr-xr-x.   3 0 0   19 Nov  9 15:52 home
+lrwxrwxrwx.   1 0 0    7 Apr 23  2020 lib -> usr/lib
+lrwxrwxrwx.   1 0 0    9 Apr 23  2020 lib64 -> usr/lib64
+drwxr-xr-x.   2 0 0    6 Apr 23  2020 media
+drwxr-xr-x.   2 0 0    6 Apr 23  2020 mnt
+drwxr-xr-x.   2 0 0    6 Apr 23  2020 opt
+dr-xr-xr-x. 326 0 0    0 Nov  9 15:54 proc
+dr-xr-x---.   6 0 0  198 Nov  9 15:54 root
+drwxr-xr-x.  52 0 0 1440 Nov  9 18:33 run
+lrwxrwxrwx.   1 0 0    8 Apr 23  2020 sbin -> usr/sbin
+drwxr-xr-x.   2 0 0    6 Apr 23  2020 srv
+dr-xr-xr-x.  13 0 0    0 Nov  9 15:54 sys
+drwxrwxrwt.  19 0 0 4096 Nov  9 18:33 tmp
+drwxr-xr-x.  12 0 0  144 Nov  9 15:39 usr
+drwxr-xr-x.  23 0 0 4096 Nov  9 15:54 var

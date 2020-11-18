@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.rhsm_conf", "exec_time": 0.00011301040649414062, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/rhsm/rhsm.conf", "rc": null}}, "ser_time": 0.010921955108642578}

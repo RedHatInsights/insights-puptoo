@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.auditd_conf", "exec_time": 4.0531158447265625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/audit/auditd.conf", "rc": null}}, "ser_time": 0.0037069320678710938}
