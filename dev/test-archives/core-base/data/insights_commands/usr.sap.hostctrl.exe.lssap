@@ -1,0 +1,6 @@
+- lssap version 1.0 -
+=========================================
+SID   Nr   Instance    SAPLOCALHOST                        Version                 DIR_EXECUTABLE
+A2|  16|       D16|   sap-hana-01.josh.lab.msp.redhat.com|749, patch 10, changelist 1698137|          /usr/sap/HA2/D16/exe
+A2|  22|     HDB22|   sap-hana-01.josh.lab.msp.redhat.com|749, patch 10, changelist 1698137|          /usr/sap/HA2/D22/exe
+=========================================

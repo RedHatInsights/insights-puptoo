@@ -1,2 +1,0 @@
-type=AVC msg=audit(1604963120.933:248): avc:  denied  { getattr } for  pid=52455 comm="rhsmcertd-worke" path="/usr/sbin/kpatch" dev="dm-0" ino=11426472 scontext=system_u:system_r:rhsmcertd_t:s0 tcontext=system_u:object_r:kpatch_exec_t:s0 tclass=file permissive=0
-type=AVC msg=audit(1604963120.980:249): avc:  denied  { getattr } for  pid=52455 comm="rhsmcertd-worke" path="/usr/sbin/kpatch" dev="dm-0" ino=11426472 scontext=system_u:system_r:rhsmcertd_t:s0 tcontext=system_u:object_r:kpatch_exec_t:s0 tclass=file permissive=0

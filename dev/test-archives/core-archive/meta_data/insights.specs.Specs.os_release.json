@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.os_release", "exec_time": 3.218650817871094e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/os-release", "rc": null}}, "ser_time": 0.002620697021484375}

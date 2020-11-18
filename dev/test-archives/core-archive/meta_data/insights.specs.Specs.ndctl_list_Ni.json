@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ndctl_list_Ni", "exec_time": 3.0517578125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/ndctl list -Ni", "args": null, "relative_path": "insights_commands/ndctl_list_-Ni"}}, "ser_time": 0.011293411254882812}

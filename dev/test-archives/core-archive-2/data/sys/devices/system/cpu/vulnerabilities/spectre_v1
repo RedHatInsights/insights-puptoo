@@ -1,1 +1,0 @@
-Mitigation: usercopy/swapgs barriers and __user pointer sanitization

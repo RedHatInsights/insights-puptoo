@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.vgdisplay", "exec_time": 3.0040740966796875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/vgdisplay", "args": null, "relative_path": "insights_commands/vgdisplay"}}, "ser_time": 0.04175591468811035}

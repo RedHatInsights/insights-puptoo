@@ -1,0 +1,16 @@
+*********************************************************
+ CreationClassName , String , SAPInstance
+ SID , String , D90
+ SystemNumber , String , 90
+ InstanceName , String , HDB90
+ Hostname , String , sap-hana-01
+ FullQualifiedHostname , String , sap-hana-01.josh.lab.msp.redhat.com
+ SapVersionInfo , String , 749, patch 211, changelist 1754007
+*********************************************************
+ CreationClassName , String , SAPInstance
+ SID , String , D88
+ SystemNumber , String , 88
+ InstanceName , String , D88
+ Hostname , String , sap-hana-01
+ FullQualifiedHostname , String , sap-hana-01.josh.lab.msp.redhat.com
+ SapVersionInfo , String , 749, patch 211, changelist 1754007

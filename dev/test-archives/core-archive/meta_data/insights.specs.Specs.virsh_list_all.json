@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.virsh_list_all", "exec_time": 5.698204040527344e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/virsh --readonly list --all", "args": null, "relative_path": "insights_commands/virsh_--readonly_list_--all"}}, "ser_time": 2.0307469367980957}

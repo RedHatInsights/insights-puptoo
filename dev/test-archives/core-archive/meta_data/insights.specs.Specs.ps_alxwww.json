@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ps_alxwww", "exec_time": 0.00017547607421875, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ps alxwww", "args": null, "relative_path": "insights_commands/ps_alxwww"}}, "ser_time": 0.02380990982055664}

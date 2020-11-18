@@ -1,8 +1,0 @@
-UID          PID    PPID  C STIME TTY          TIME CMD
-chrony      1113       1  0 15:54 ?        00:00:00 /usr/sbin/chronyd
-root        1156       1  0 15:54 ?        00:00:00 /bin/bash /usr/sbin/ksmtuned
-root        1321       1  0 15:54 ?        00:00:01 /usr/libexec/platform-python -Es /usr/sbin/tuned -l -P
-gdm         8244    8235  0 15:54 tty1     00:00:12 /usr/bin/gnome-shell
-jason       8923    8854  2 15:55 tty2     00:03:48 /usr/bin/gnome-shell
-jason      10189   10183  0 15:56 pts/0    00:00:00 bash
-root       54876   53898  0 18:33 pts/0    00:00:00 grep -F heat-engine /usr/bin/openshift start node nova-compute pacemaker-controld tuned nginx: worker process pacemakerd docker neutron-ns-metadata-proxy dlm_controld pcsd chronyd bash openshift start master api ora /usr/bin/gnome-shell spausedd ntpd openshift start master controllers CMD openshift start node /usr/bin/openshift start master crmd nginx: master process clvmd corosync nova-conductor

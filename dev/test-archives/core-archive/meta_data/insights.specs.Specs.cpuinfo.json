@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.cpuinfo", "exec_time": 0.0005884170532226562, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "proc/cpuinfo", "rc": null}}, "ser_time": 0.0030367374420166016}

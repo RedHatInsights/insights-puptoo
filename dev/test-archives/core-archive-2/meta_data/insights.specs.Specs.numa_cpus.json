@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.numa_cpus", "exec_time": 4.315376281738281e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "sys/devices/system/node/node0/cpulist", "rc": null}}], "ser_time": 0.003804445266723633}

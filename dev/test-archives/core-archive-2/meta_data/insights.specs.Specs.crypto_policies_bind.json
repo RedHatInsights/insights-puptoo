@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.crypto_policies_bind", "exec_time": 2.384185791015625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/crypto-policies/back-ends/bind.config", "rc": null}}, "ser_time": 0.0028955936431884766}

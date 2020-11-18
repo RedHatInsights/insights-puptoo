@@ -1,8 +1,0 @@
-crw-rw-rw-. 1 root root 1, 3 Nov  9 15:54 /dev/null
-
-/var/www:
-total 4
-drwxr-xr-x.  4 root root   33 Nov  9 15:41 .
-drwxr-xr-x. 23 root root 4096 Nov  9 15:54 ..
-drwxr-xr-x.  2 root root    6 Jun 15 07:55 cgi-bin
-drwxr-xr-x.  2 root root    6 Jun 15 07:55 html

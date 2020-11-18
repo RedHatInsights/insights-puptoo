@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.fcoeadm_i", "exec_time": 3.409385681152344e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/fcoeadm -i", "args": null, "relative_path": "insights_commands/fcoeadm_-i"}}, "ser_time": 0.0072252750396728516}

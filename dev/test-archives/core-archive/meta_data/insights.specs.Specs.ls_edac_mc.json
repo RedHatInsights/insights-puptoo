@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ls_edac_mc", "exec_time": 5.316734313964844e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lan /sys/devices/system/edac/mc", "args": null, "relative_path": "insights_commands/ls_-lan_.sys.devices.system.edac.mc"}}, "ser_time": 0.0073549747467041016}

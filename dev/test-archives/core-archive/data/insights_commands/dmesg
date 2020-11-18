@@ -1,7 +1,0 @@
-[    0.000000] Linux version 4.18.0-240.1.1.el8_3.x86_64 (mockbuild@x86-vm-09.build.eng.bos.redhat.com) (gcc version 8.3.1 20191121 (Red Hat 8.3.1-5) (GCC)) #1 SMP Fri Oct 16 13:36:46 EDT 2020
-[    0.000000] SMBIOS 2.8 present.
-[    0.000000] clocksource: refined-jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 1910969940391419 ns
-[    0.001000] FEATURE SPEC_CTRL Present
-[    0.001000] FEATURE IBPB_SUPPORT Present
-[    0.007037] smp: Brought up 1 node, 8 CPUs
-[    0.082299] EDAC MC: Ver: 3.0.0

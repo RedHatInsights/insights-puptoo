@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ls_var_log", "exec_time": 2.3603439331054688e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -la /var/log /var/log/audit", "args": null, "relative_path": "insights_commands/ls_-la_.var.log_.var.log.audit"}}, "ser_time": 0.014109134674072266}

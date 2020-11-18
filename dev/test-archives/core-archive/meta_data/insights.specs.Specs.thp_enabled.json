@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.thp_enabled", "exec_time": 2.3603439331054688e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "sys/kernel/mm/transparent_hugepage/enabled", "rc": null}}, "ser_time": 0.0025293827056884766}
