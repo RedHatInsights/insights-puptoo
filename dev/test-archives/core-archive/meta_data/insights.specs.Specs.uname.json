@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.uname", "exec_time": 8.320808410644531e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/uname -a", "args": null, "relative_path": "insights_commands/uname_-a"}}, "ser_time": 0.011948347091674805}

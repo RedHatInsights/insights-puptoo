@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.cpuset_cpus", "exec_time": 2.574920654296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "sys/fs/cgroup/cpuset/cpuset.cpus", "rc": null}}, "ser_time": 0.0028176307678222656}

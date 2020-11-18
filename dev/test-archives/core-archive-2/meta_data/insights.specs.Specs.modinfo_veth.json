@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.modinfo_veth", "exec_time": 2.574920654296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/modinfo veth", "args": null, "relative_path": "insights_commands/modinfo_veth"}}, "ser_time": 0.0070111751556396484}

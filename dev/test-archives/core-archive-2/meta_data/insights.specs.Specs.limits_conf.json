@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.limits_conf", "exec_time": 3.218650817871094e-05, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/security/limits.conf", "rc": null}}], "ser_time": 0.004075527191162109}

@@ -1,0 +1,45 @@
+/var/log:
+total 420
+drwxr-xr-x. 22 root    root      4096 Nov  9 15:54 .
+drwxr-xr-x. 23 root    root      4096 Nov  9 15:54 ..
+-rw-r--r--.  1 root    root     25131 Nov  9 15:54 Xorg.9.log
+drwxr-xr-x.  2 root    root       263 Nov  9 15:53 anaconda
+drwx------.  2 root    root        23 Nov  9 15:54 audit
+-rw-------.  1 root    root      7984 Nov  9 15:54 boot.log
+-rw-rw----.  1 root    utmp         0 Nov  9 15:41 btmp
+drwxr-xr-x.  2 chrony  chrony       6 May 22  2019 chrony
+-rw-------.  1 root    root      2011 Nov  9 18:01 cron
+drwxr-xr-x.  2 lp      sys         57 Nov  9 15:46 cups
+-rw-rw-rw-.  1 root    root     11194 Nov  9 18:33 dnf.librepo.log
+-rw-r--r--.  1 root    root     30151 Nov  9 18:33 dnf.log
+-rw-r--r--.  1 root    root      1567 Nov  9 18:33 dnf.rpm.log
+-rw-r-----.  1 root    root       186 Nov  9 15:54 firewalld
+drwx--x--x.  2 root    gdm          6 Sep 16 10:36 gdm
+drwxr-xr-x.  2 root    root        21 Nov  9 15:52 glusterfs
+drwxr-xr-x.  2 grafana grafana      6 Aug 20 06:32 grafana
+-rw-rw-rw-.  1 root    root       714 Nov  9 18:33 hawkey.log
+drwx------.  2 root    root         6 Jun 15 07:51 httpd
+drwxr-xr-x.  2 root    root       120 Nov  9 18:33 insights-client
+-rw-rw-r--.  1 root    utmp    292292 Nov  9 15:55 lastlog
+drwx------.  3 root    root        18 Nov  9 15:44 libvirt
+-rw-------.  1 root    root         0 Nov  9 15:41 maillog
+-rw-------.  1 root    root    265921 Nov  9 18:33 messages
+drwxrwxr-x.  7 pcp     pcp         89 Nov  9 15:54 pcp
+drwx------.  2 root    root         6 Nov  9 15:41 private
+drwxr-xr-x.  2 root    root         6 Sep  8 22:03 qemu-ga
+drwxr-xr-x.  2 root    root        43 Nov  9 15:54 rhsm
+drwxr-xr-x.  2 root    root        18 Nov  9 15:54 sa
+drwx------.  3 root    root        17 Nov  9 15:41 samba
+-rw-------.  1 root    root      4348 Nov  9 18:33 secure
+drwx------.  2 root    root         6 Dec 10  2018 speech-dispatcher
+-rw-------.  1 root    root         0 Nov  9 15:41 spooler
+drwxr-x---.  2 sssd    sssd        93 Nov  9 15:55 sssd
+drwxr-xr-x.  3 root    root        21 Nov  9 15:44 swtpm
+drwxr-xr-x.  2 root    root        23 Nov  9 15:54 tuned
+-rw-rw-r--.  1 root    utmp      1152 Nov  9 15:55 wtmp
+
+/var/log/audit:
+total 132
+drwx------.  2 root root    23 Nov  9 15:54 .
+drwxr-xr-x. 22 root root  4096 Nov  9 15:54 ..
+-rw-------.  1 root root 84314 Nov  9 18:33 audit.log

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ls_run_systemd_generator", "exec_time": 3.457069396972656e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lan /run/systemd/generator", "args": null, "relative_path": "insights_commands/ls_-lan_.run.systemd.generator"}}, "ser_time": 0.004538536071777344}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ls_usr_lib64", "exec_time": 5.2928924560546875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lan /usr/lib64", "args": null, "relative_path": "insights_commands/ls_-lan_.usr.lib64"}}, "ser_time": 0.09649467468261719}

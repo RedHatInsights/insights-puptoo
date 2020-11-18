@@ -1,0 +1,4 @@
+/dev/vda1: UUID="945fe137-e919-4f73-8a61-dd290dc2d17d" BLOCK_SIZE="512" TYPE="xfs" PARTUUID="2b07a6ad-01"
+/dev/vda2: UUID="XvSpmw-90T3-3GxU-Q67M-xs7E-QhoL-Dcoe77" TYPE="LVM2_member" PARTUUID="2b07a6ad-02"
+/dev/mapper/rhel-root: UUID="742a06c8-2818-4bbb-9228-a0db649c987a" BLOCK_SIZE="512" TYPE="xfs"
+/dev/mapper/rhel-swap: UUID="4fc4c2da-4a90-4ff7-a057-8338289180b5" TYPE="swap"

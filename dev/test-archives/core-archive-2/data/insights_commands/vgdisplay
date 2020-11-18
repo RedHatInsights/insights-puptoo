@@ -1,0 +1,21 @@
+  --- Volume group ---
+  VG Name               rhel
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <17.74 GiB
+  PE Size               4.00 MiB
+  Total PE              4541
+  Alloc PE / Size       4541 / <17.74 GiB
+  Free  PE / Size       0 / 0   
+  VG UUID               ZfV882-Qif0-XfUN-WkiP-7Wbx-LZJU-Qf5mUK
+   

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.dmesg", "exec_time": 4.9591064453125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/dmesg", "args": null, "relative_path": "insights_commands/dmesg"}}, "ser_time": 0.008989810943603516}

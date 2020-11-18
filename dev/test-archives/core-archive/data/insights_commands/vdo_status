@@ -1,0 +1,12 @@
+VDO status:
+  Date: '2020-11-09 18:33:28-05:00'
+  Node: localhost.localdomain
+Kernel module:
+  Loaded: false
+  Name: kvdo
+  Version information:
+    kvdo version: 6.2.3.114
+Configuration:
+  File: does not exist
+  Last modified: not available
+VDOs: {}

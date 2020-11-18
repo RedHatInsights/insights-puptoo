@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.lspci", "exec_time": 2.956390380859375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/lspci -k", "args": null, "relative_path": "insights_commands/lspci_-k"}}, "ser_time": 0.021639347076416016}

@@ -1,0 +1,43 @@
+SELinux is preventing /usr/libexec/platform-python3.6 from getattr access on the file /usr/sbin/kpatch.
+
+*****  Plugin catchall (100. confidence) suggests   **************************
+
+If you believe that platform-python3.6 should be allowed getattr access on the kpatch file by default.
+Then you should report this as a bug.
+You can generate a local policy module to allow this access.
+Do
+allow this access for now by executing:
+# ausearch -c 'rhsmcertd-worke' --raw | audit2allow -M my-rhsmcertdworke
+# semodule -X 300 -i my-rhsmcertdworke.pp
+
+
+Additional Information:
+Source Context                system_u:system_r:rhsmcertd_t:s0
+Target Context                system_u:object_r:kpatch_exec_t:s0
+Target Objects                /usr/sbin/kpatch [ file ]
+Source                        rhsmcertd-worke
+Source Path                   /usr/libexec/platform-python3.6
+Port                          <Unknown>
+Host                          localhost.localdomain
+Source RPM Packages           
+Target RPM Packages           kpatch-0.6.1-6.el8.noarch
+SELinux Policy RPM            selinux-policy-targeted-3.14.3-54.el8.noarch
+Local Policy RPM              selinux-policy-targeted-3.14.3-54.el8.noarch
+Selinux Enabled               True
+Policy Type                   targeted
+Enforcing Mode                Enforcing
+Host Name                     localhost.localdomain
+Platform                      Linux localhost.localdomain
+                              4.18.0-240.1.1.el8_3.x86_64 #1 SMP Fri Oct 16
+                              13:36:46 EDT 2020 x86_64 x86_64
+Alert Count                   2
+First Seen                    2020-11-09 18:05:20 EST
+Last Seen                     2020-11-09 18:05:20 EST
+Local ID                      f8304563-a998-4d90-ae86-bf11c87cfdda
+
+Raw Audit Messages
+type=AVC msg=audit(1604963120.980:249): avc:  denied  { getattr } for  pid=52455 comm="rhsmcertd-worke" path="/usr/sbin/kpatch" dev="dm-0" ino=11426472 scontext=system_u:system_r:rhsmcertd_t:s0 tcontext=system_u:object_r:kpatch_exec_t:s0 tclass=file permissive=0
+
+
+Hash: rhsmcertd-worke,rhsmcertd_t,kpatch_exec_t,file,getattr
+

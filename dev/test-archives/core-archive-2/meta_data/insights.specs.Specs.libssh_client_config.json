@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.libssh_client_config", "exec_time": 2.6464462280273438e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/libssh/libssh_client.config", "rc": null}}, "ser_time": 0.003048419952392578}

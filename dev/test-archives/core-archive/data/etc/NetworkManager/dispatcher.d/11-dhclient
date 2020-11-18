@@ -1,0 +1,37 @@
+#!/bin/bash
+# run dhclient.d scripts in an emulated environment
+
+PATH=/bin:/usr/bin:/sbin
+ETCDIR=/etc/dhcp
+SAVEDIR=/var/lib/dhclient
+interface=$1
+
+for optname in "${!DHCP4_@}"; do
+    newoptname=${optname,,};
+    newoptname=new_${newoptname#dhcp4_};
+    export "${newoptname}"="${!optname}";
+done
+
+[ -f /etc/sysconfig/network ] && . /etc/sysconfig/network
+
+[ -f /etc/sysconfig/network-scripts/ifcfg-"${interface}" ] && \
+    . /etc/sysconfig/network-scripts/ifcfg-"${interface}"
+
+if [ -d $ETCDIR/dhclient.d ]; then
+    for f in $ETCDIR/dhclient.d/*.sh; do
+        if [ -x "${f}" ]; then
+            subsystem="${f%.sh}"
+            subsystem="${subsystem##*/}"
+            . "${f}"
+            if [ "$2" = "up" ]; then
+                "${subsystem}_config"
+            elif [ "$2" = "dhcp4-change" ]; then
+                if [ "$subsystem" = "chrony" -o "$subsystem" = "ntp" ]; then
+                    "${subsystem}_config"
+                fi
+            elif [ "$2" = "down" ]; then
+                "${subsystem}_restore"
+            fi
+        fi
+    done
+fi

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.etc_journald_conf", "exec_time": 2.574920654296875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/systemd/journald.conf", "rc": null}}, "ser_time": 0.00413823127746582}

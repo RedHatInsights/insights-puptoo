@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.vdo_status", "exec_time": 3.743171691894531e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/vdo status", "args": null, "relative_path": "insights_commands/vdo_status"}}, "ser_time": 0.21077489852905273}

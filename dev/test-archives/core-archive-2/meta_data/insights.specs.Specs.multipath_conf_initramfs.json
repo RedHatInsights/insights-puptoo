@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.multipath_conf_initramfs", "exec_time": 2.47955322265625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/lsinitrd -f /etc/multipath.conf", "args": null, "relative_path": "insights_commands/lsinitrd_-f_.etc.multipath.conf"}}, "ser_time": 1.461700677871704}

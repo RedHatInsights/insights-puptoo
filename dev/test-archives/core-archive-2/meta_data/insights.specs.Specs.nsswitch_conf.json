@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.nsswitch_conf", "exec_time": 3.0040740966796875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/nsswitch.conf", "rc": null}}, "ser_time": 0.0035696029663085938}

@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_nginx", "exec_time": 8.0108642578125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl show nginx", "args": null, "relative_path": "insights_commands/systemctl_show_nginx"}}, "ser_time": 0.07808089256286621}

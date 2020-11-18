@@ -1,0 +1,3592 @@
+/lib/firmware:
+total 155724
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 .
+dr-xr-xr-x. 41 0 0    4096 Nov  9 15:47 ..
+drwxr-xr-x.  2 0 0      42 Nov  9 15:39 3com
+drwxr-xr-x.  3 0 0     140 Nov  9 15:48 4.18.0-240.1.1.el8_3.x86_64
+drwxr-xr-x.  2 0 0      54 Nov  9 15:39 RTL8192E
+-rw-r--r--.  1 0 0   37028 Jun 20 05:12 TDA7706_OM_v2.5.1_boot.txt
+-rw-r--r--.  1 0 0   10509 Jun 20 05:12 TDA7706_OM_v3.0.2_boot.txt
+lrwxrwxrwx.  1 0 0      16 Jun 20 05:12 a300_pfp.fw -> qcom/a300_pfp.fw
+lrwxrwxrwx.  1 0 0      16 Jun 20 05:12 a300_pm4.fw -> qcom/a300_pm4.fw
+drwxr-xr-x.  2 0 0      36 Nov  9 15:39 acenic
+drwxr-xr-x.  2 0 0      52 Nov  9 15:39 adaptec
+drwxr-xr-x.  2 0 0      77 Nov  9 15:39 advansys
+-rw-r--r--.  1 0 0   50698 Jun 20 05:12 agere_ap_fw.bin
+-rw-r--r--.  1 0 0   65046 Jun 20 05:12 agere_sta_fw.bin
+drwxr-xr-x.  2 0 0      42 Nov  9 15:39 amd
+drwxr-xr-x.  2 0 0     127 Nov  9 15:39 amd-ucode
+drwxr-xr-x.  2 0 0   12288 Nov  9 15:39 amdgpu
+drwxr-xr-x.  8 0 0    4096 Nov  9 15:39 ar3k
+-rw-r--r--.  1 0 0  153416 Jun 20 05:12 ar5523.bin
+-rw-r--r--.  1 0 0   70624 Jun 20 05:12 ar7010.fw
+-rw-r--r--.  1 0 0   70624 Jun 20 05:12 ar7010_1_1.fw
+-rw-r--r--.  1 0 0   83968 Jun 20 05:12 ar9170-1.fw
+-rw-r--r--.  1 0 0    3508 Jun 20 05:12 ar9170-2.fw
+-rw-r--r--.  1 0 0   51312 Jun 20 05:12 ar9271.fw
+-rw-r--r--.  1 0 0   95500 Jun 20 05:12 as102_data1_st.hex
+-rw-r--r--.  1 0 0   81820 Jun 20 05:12 as102_data2_st.hex
+drwxr-xr-x. 11 0 0     141 Nov  9 15:39 ath10k
+-rw-r--r--.  1 0 0  246804 Jun 20 05:12 ath3k-1.fw
+drwxr-xr-x.  6 0 0      64 Nov  9 15:39 ath6k
+drwxr-xr-x.  2 0 0      56 Nov  9 15:39 ath9k_htc
+drwxr-xr-x.  2 0 0     116 Nov  9 15:39 atmel
+-rw-r--r--.  1 0 0    9726 Jun 20 05:12 atmsar11.fw
+drwxr-xr-x.  2 0 0      69 Nov  9 15:39 atusb
+drwxr-xr-x.  2 0 0      26 Nov  9 15:39 av7110
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 bnx2
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 bnx2x
+-rw-r--r--.  1 0 0  165768 Jun 20 05:12 bnx2x-e1-4.8.53.0.fw
+-rw-r--r--.  1 0 0  163000 Jun 20 05:12 bnx2x-e1-5.2.13.0.fw
+-rw-r--r--.  1 0 0  162800 Jun 20 05:12 bnx2x-e1-5.2.7.0.fw
+-rw-r--r--.  1 0 0  192400 Jun 20 05:12 bnx2x-e1h-4.8.53.0.fw
+-rw-r--r--.  1 0 0  205512 Jun 20 05:12 bnx2x-e1h-5.2.13.0.fw
+-rw-r--r--.  1 0 0  205488 Jun 20 05:12 bnx2x-e1h-5.2.7.0.fw
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 brcm
+drwxr-xr-x.  2 0 0      26 Nov  9 15:39 cadence
+-rw-r--r--.  1 0 0   13388 Jun 20 05:12 carl9170-1.fw
+drwxr-xr-x.  2 0 0      48 Nov  9 15:39 cavium
+-rw-r--r--.  1 0 0  412528 Jun 20 05:12 cbfw-3.2.1.1.bin
+-rw-r--r--.  1 0 0  414016 Jun 20 05:12 cbfw-3.2.3.0.bin
+-rw-r--r--.  1 0 0  414480 Jun 20 05:12 cbfw-3.2.5.1.bin
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 cis
+-rw-r--r--.  1 0 0   62780 Jun 20 05:12 cmmb_vega_12mhz.inp
+-rw-r--r--.  1 0 0   97016 Jun 20 05:12 cmmb_venice_12mhz.inp
+drwxr-xr-x.  2 0 0      29 Nov  9 15:39 cpia2
+-rw-r--r--.  1 0 0  582440 Jun 20 05:12 ct2fw-3.2.1.1.bin
+-rw-r--r--.  1 0 0  583688 Jun 20 05:12 ct2fw-3.2.3.0.bin
+-rw-r--r--.  1 0 0  584216 Jun 20 05:12 ct2fw-3.2.5.1.bin
+-rw-r--r--.  1 0 0  537160 Jun 20 05:12 ctfw-3.2.1.1.bin
+-rw-r--r--.  1 0 0  538712 Jun 20 05:12 ctfw-3.2.3.0.bin
+-rw-r--r--.  1 0 0  539144 Jun 20 05:12 ctfw-3.2.5.1.bin
+drwxr-xr-x.  3 0 0    4096 Nov  9 15:39 cxgb4
+drwxr-xr-x.  2 0 0      46 Nov  9 15:39 dabusb
+drwxr-xr-x.  3 0 0      16 Nov  9 15:39 dpaa2
+drwxr-xr-x.  2 0 0      27 Nov  9 15:39 dsp56k
+-rw-r--r--.  1 0 0   18643 Jun 20 05:12 dvb-fe-xc4000-1.4.1.fw
+-rw-r--r--.  1 0 0   12401 Jun 20 05:12 dvb-fe-xc5000-1.6.114.fw
+-rw-r--r--.  1 0 0   16497 Jun 20 05:12 dvb-fe-xc5000c-4.1.30.7.fw
+-rw-r--r--.  1 0 0   33768 Jun 20 05:12 dvb-usb-dib0700-1.20.fw
+-rw-r--r--.  1 0 0    8128 Jun 20 05:12 dvb-usb-it9135-01.fw
+-rw-r--r--.  1 0 0    5834 Jun 20 05:12 dvb-usb-it9135-02.fw
+-rw-r--r--.  1 0 0   50222 Jun 20 05:12 dvb-usb-terratec-h5-drxk.fw
+-rw-r--r--.  1 0 0   93516 Jun 20 05:12 dvb_nova_12mhz.inp
+-rw-r--r--.  1 0 0  101888 Jun 20 05:12 dvb_nova_12mhz_b0.inp
+drwxr-xr-x.  2 0 0      75 Nov  9 15:39 e100
+drwxr-xr-x.  2 0 0      85 Nov  9 15:39 edgeport
+drwxr-xr-x.  2 0 0      62 Nov  9 15:39 emi26
+drwxr-xr-x.  2 0 0      74 Nov  9 15:39 emi62
+drwxr-xr-x.  2 0 0     123 Nov  9 15:39 ene-ub6250
+-rw-r--r--.  1 0 0  181312 Jun 20 05:12 f2255usb.bin
+drwxr-xr-x.  2 0 0     160 Nov  9 15:39 go7007
+-rw-r--r--.  1 0 0   32348 Jun 20 05:12 hfi1_dc8051.fw
+-rw-r--r--.  1 0 0   16848 Jun 20 05:12 hfi1_fabric.fw
+-rw-r--r--.  1 0 0   33296 Jun 20 05:12 hfi1_pcie.fw
+-rw-r--r--.  1 0 0    5360 Jun 20 05:12 hfi1_sbus.fw
+-rw-r--r--.  1 0 0   72684 Jun 20 05:12 htc_7010.fw
+-rw-r--r--.  1 0 0   50980 Jun 20 05:12 htc_9271.fw
+-rw-r--r--.  1 0 0 1251036 Jun 20 05:12 i2400m-fw-usb-1.4.sbcf
+-rw-r--r--.  1 0 0 1334532 Jun 20 05:12 i2400m-fw-usb-1.5.sbcf
+-rw-r--r--.  1 0 0 1531932 Jun 20 05:12 i6050-fw-usb-1.5.sbcf
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 i915
+drwxr-xr-x.  3 0 0      18 Nov  9 15:39 imx
+drwxr-xr-x.  3 0 0      27 Nov  9 15:39 inside-secure
+drwxr-xr-x.  3 0 0    8192 Nov  9 15:39 intel
+drwxr-xr-x.  2 0 0       6 Nov  9 15:48 intel-ucode
+-rw-r--r--.  1 0 0   34304 Jun 20 05:12 intelliport2.bin
+drwxr-xr-x.  2 0 0      31 Nov  9 15:39 isci
+-rw-r--r--.  1 0 0   75876 Jun 20 05:12 isdbt_nova_12mhz.inp
+-rw-r--r--.  1 0 0   98384 Jun 20 05:12 isdbt_nova_12mhz_b0.inp
+-rw-r--r--.  1 0 0   85840 Jun 20 05:12 isdbt_rio.inp
+-rw-r--r--.  1 0 0  337572 Jun 20 05:12 iwlwifi-100-5.ucode
+-rw-r--r--.  1 0 0  335056 Jun 20 05:12 iwlwifi-1000-3.ucode
+-rw-r--r--.  1 0 0  337520 Jun 20 05:12 iwlwifi-1000-5.ucode
+-rw-r--r--.  1 0 0  689680 Jun 20 05:12 iwlwifi-105-6.ucode
+-rw-r--r--.  1 0 0  701228 Jun 20 05:12 iwlwifi-135-6.ucode
+-rw-r--r--.  1 0 0  695876 Jun 20 05:12 iwlwifi-2000-6.ucode
+-rw-r--r--.  1 0 0  707392 Jun 20 05:12 iwlwifi-2030-6.ucode
+-rw-r--r--.  1 0 0  609892 Jun 20 05:12 iwlwifi-3160-10.ucode
+-rw-r--r--.  1 0 0  683996 Jun 20 05:12 iwlwifi-3160-12.ucode
+-rw-r--r--.  1 0 0  688616 Jun 20 05:12 iwlwifi-3160-13.ucode
+-rw-r--r--.  1 0 0  918212 Jun 20 05:12 iwlwifi-3160-16.ucode
+-rw-r--r--.  1 0 0  918268 Jun 20 05:12 iwlwifi-3160-17.ucode
+-rw-r--r--.  1 0 0  670484 Jun 20 05:12 iwlwifi-3160-7.ucode
+-rw-r--r--.  1 0 0  667284 Jun 20 05:12 iwlwifi-3160-8.ucode
+-rw-r--r--.  1 0 0  669872 Jun 20 05:12 iwlwifi-3160-9.ucode
+-rw-r--r--.  1 0 0 1384856 Jun 20 05:12 iwlwifi-3168-21.ucode
+-rw-r--r--.  1 0 0 1028092 Jun 20 05:12 iwlwifi-3168-22.ucode
+-rw-r--r--.  1 0 0 1032436 Jun 20 05:12 iwlwifi-3168-27.ucode
+-rw-r--r--.  1 0 0 1036288 Jun 20 05:12 iwlwifi-3168-29.ucode
+-rw-r--r--.  1 0 0  150100 Jun 20 05:12 iwlwifi-3945-2.ucode
+-rw-r--r--.  1 0 0  187972 Jun 20 05:12 iwlwifi-4965-2.ucode
+-rw-r--r--.  1 0 0  345008 Jun 20 05:12 iwlwifi-5000-1.ucode
+-rw-r--r--.  1 0 0  353240 Jun 20 05:12 iwlwifi-5000-2.ucode
+-rw-r--r--.  1 0 0  340696 Jun 20 05:12 iwlwifi-5000-5.ucode
+-rw-r--r--.  1 0 0  337400 Jun 20 05:12 iwlwifi-5150-2.ucode
+-rw-r--r--.  1 0 0  454608 Jun 20 05:12 iwlwifi-6000-4.ucode
+-rw-r--r--.  1 0 0  444128 Jun 20 05:12 iwlwifi-6000g2a-5.ucode
+-rw-r--r--.  1 0 0  677296 Jun 20 05:12 iwlwifi-6000g2a-6.ucode
+-rw-r--r--.  1 0 0  460236 Jun 20 05:12 iwlwifi-6000g2b-5.ucode
+-rw-r--r--.  1 0 0  679436 Jun 20 05:12 iwlwifi-6000g2b-6.ucode
+-rw-r--r--.  1 0 0  463692 Jun 20 05:12 iwlwifi-6050-4.ucode
+-rw-r--r--.  1 0 0  469780 Jun 20 05:12 iwlwifi-6050-5.ucode
+-rw-r--r--.  1 0 0  672352 Jun 20 05:12 iwlwifi-7260-10.ucode
+-rw-r--r--.  1 0 0  782300 Jun 20 05:12 iwlwifi-7260-12.ucode
+-rw-r--r--.  1 0 0  786920 Jun 20 05:12 iwlwifi-7260-13.ucode
+-rw-r--r--.  1 0 0 1049284 Jun 20 05:12 iwlwifi-7260-16.ucode
+-rw-r--r--.  1 0 0 1049340 Jun 20 05:12 iwlwifi-7260-17.ucode
+-rw-r--r--.  1 0 0  683236 Jun 20 05:12 iwlwifi-7260-7.ucode
+-rw-r--r--.  1 0 0  679780 Jun 20 05:12 iwlwifi-7260-8.ucode
+-rw-r--r--.  1 0 0  680508 Jun 20 05:12 iwlwifi-7260-9.ucode
+-rw-r--r--.  1 0 0  736844 Jun 20 05:12 iwlwifi-7265-10.ucode
+-rw-r--r--.  1 0 0  880604 Jun 20 05:12 iwlwifi-7265-12.ucode
+-rw-r--r--.  1 0 0  885224 Jun 20 05:12 iwlwifi-7265-13.ucode
+-rw-r--r--.  1 0 0 1180356 Jun 20 05:12 iwlwifi-7265-16.ucode
+-rw-r--r--.  1 0 0 1180412 Jun 20 05:12 iwlwifi-7265-17.ucode
+-rw-r--r--.  1 0 0  690452 Jun 20 05:12 iwlwifi-7265-8.ucode
+-rw-r--r--.  1 0 0  697828 Jun 20 05:12 iwlwifi-7265-9.ucode
+lrwxrwxrwx.  1 0 0      21 Jun 20 05:12 iwlwifi-7265D-10.ucode -> iwlwifi-7265-10.ucode
+-rw-r--r--.  1 0 0 1002800 Jun 20 05:12 iwlwifi-7265D-12.ucode
+-rw-r--r--.  1 0 0 1008692 Jun 20 05:12 iwlwifi-7265D-13.ucode
+-rw-r--r--.  1 0 0 1384500 Jun 20 05:12 iwlwifi-7265D-16.ucode
+-rw-r--r--.  1 0 0 1383604 Jun 20 05:12 iwlwifi-7265D-17.ucode
+-rw-r--r--.  1 0 0 1385368 Jun 20 05:12 iwlwifi-7265D-21.ucode
+-rw-r--r--.  1 0 0 1028376 Jun 20 05:12 iwlwifi-7265D-22.ucode
+-rw-r--r--.  1 0 0 1032740 Jun 20 05:12 iwlwifi-7265D-27.ucode
+-rw-r--r--.  1 0 0 1036656 Jun 20 05:12 iwlwifi-7265D-29.ucode
+-rw-r--r--.  1 0 0 1745176 Jun 20 05:12 iwlwifi-8000C-13.ucode
+-rw-r--r--.  1 0 0 2351636 Jun 20 05:12 iwlwifi-8000C-16.ucode
+-rw-r--r--.  1 0 0 2394060 Jun 20 05:12 iwlwifi-8000C-21.ucode
+-rw-r--r--.  1 0 0 2120860 Jun 20 05:12 iwlwifi-8000C-22.ucode
+-rw-r--r--.  1 0 0 2227284 Jun 20 05:12 iwlwifi-8000C-27.ucode
+-rw-r--r--.  1 0 0 2310116 Jun 20 05:12 iwlwifi-8000C-31.ucode
+-rw-r--r--.  1 0 0 2448976 Jun 20 05:12 iwlwifi-8000C-34.ucode
+-rw-r--r--.  1 0 0 2401100 Jun 20 05:12 iwlwifi-8000C-36.ucode
+-rw-r--r--.  1 0 0 2389968 Jun 20 05:12 iwlwifi-8265-21.ucode
+-rw-r--r--.  1 0 0 1811984 Jun 20 05:12 iwlwifi-8265-22.ucode
+-rw-r--r--.  1 0 0 2234528 Jun 20 05:12 iwlwifi-8265-27.ucode
+-rw-r--r--.  1 0 0 2307104 Jun 20 05:12 iwlwifi-8265-31.ucode
+-rw-r--r--.  1 0 0 2440780 Jun 20 05:12 iwlwifi-8265-34.ucode
+-rw-r--r--.  1 0 0 2409984 Jun 20 05:12 iwlwifi-8265-36.ucode
+-rw-r--r--.  1 0 0 2632620 Jun 20 05:12 iwlwifi-9000-pu-b0-jf-b0-33.ucode
+-rw-r--r--.  1 0 0 2678284 Jun 20 05:12 iwlwifi-9000-pu-b0-jf-b0-34.ucode
+-rw-r--r--.  1 0 0 2520568 Jun 20 05:12 iwlwifi-9000-pu-b0-jf-b0-38.ucode
+-rw-r--r--.  1 0 0 2620464 Jun 20 05:12 iwlwifi-9000-pu-b0-jf-b0-41.ucode
+-rw-r--r--.  1 0 0 2543536 Jun 20 05:12 iwlwifi-9000-pu-b0-jf-b0-43.ucode
+-rw-r--r--.  1 0 0 1481104 Jun 20 05:12 iwlwifi-9000-pu-b0-jf-b0-46.ucode
+-rw-r--r--.  1 0 0 2637216 Jun 20 05:12 iwlwifi-9260-th-b0-jf-b0-33.ucode
+-rw-r--r--.  1 0 0 2678092 Jun 20 05:12 iwlwifi-9260-th-b0-jf-b0-34.ucode
+-rw-r--r--.  1 0 0 2521412 Jun 20 05:12 iwlwifi-9260-th-b0-jf-b0-38.ucode
+-rw-r--r--.  1 0 0 2620656 Jun 20 05:12 iwlwifi-9260-th-b0-jf-b0-41.ucode
+-rw-r--r--.  1 0 0 2558176 Jun 20 05:12 iwlwifi-9260-th-b0-jf-b0-43.ucode
+-rw-r--r--.  1 0 0 1470272 Jun 20 05:12 iwlwifi-9260-th-b0-jf-b0-46.ucode
+-rw-r--r--.  1 0 0 1106228 Jun 20 05:12 iwlwifi-Qu-b0-hr-b0-48.ucode
+-rw-r--r--.  1 0 0 1103952 Jun 20 05:12 iwlwifi-Qu-b0-hr-b0-50.ucode
+-rw-r--r--.  1 0 0 1209628 Jun 20 05:12 iwlwifi-Qu-b0-hr-b0-53.ucode
+-rw-r--r--.  1 0 0 1223144 Jun 20 05:12 iwlwifi-Qu-b0-hr-b0-55.ucode
+-rw-r--r--.  1 0 0 1052796 Jun 20 05:12 iwlwifi-Qu-b0-jf-b0-48.ucode
+-rw-r--r--.  1 0 0 1053004 Jun 20 05:12 iwlwifi-Qu-b0-jf-b0-50.ucode
+-rw-r--r--.  1 0 0 1147104 Jun 20 05:12 iwlwifi-Qu-b0-jf-b0-53.ucode
+-rw-r--r--.  1 0 0 1163672 Jun 20 05:12 iwlwifi-Qu-b0-jf-b0-55.ucode
+-rw-r--r--.  1 0 0 1106248 Jun 20 05:12 iwlwifi-Qu-c0-hr-b0-48.ucode
+-rw-r--r--.  1 0 0 1103968 Jun 20 05:12 iwlwifi-Qu-c0-hr-b0-50.ucode
+-rw-r--r--.  1 0 0 1209644 Jun 20 05:12 iwlwifi-Qu-c0-hr-b0-53.ucode
+-rw-r--r--.  1 0 0 1223160 Jun 20 05:12 iwlwifi-Qu-c0-hr-b0-55.ucode
+-rw-r--r--.  1 0 0 1052816 Jun 20 05:12 iwlwifi-Qu-c0-jf-b0-48.ucode
+-rw-r--r--.  1 0 0 1053020 Jun 20 05:12 iwlwifi-Qu-c0-jf-b0-50.ucode
+-rw-r--r--.  1 0 0 1147120 Jun 20 05:12 iwlwifi-Qu-c0-jf-b0-53.ucode
+-rw-r--r--.  1 0 0 1163688 Jun 20 05:12 iwlwifi-Qu-c0-jf-b0-55.ucode
+-rw-r--r--.  1 0 0 1105668 Jun 20 05:12 iwlwifi-QuZ-a0-hr-b0-48.ucode
+-rw-r--r--.  1 0 0 1103952 Jun 20 05:12 iwlwifi-QuZ-a0-hr-b0-50.ucode
+-rw-r--r--.  1 0 0 1209628 Jun 20 05:12 iwlwifi-QuZ-a0-hr-b0-53.ucode
+-rw-r--r--.  1 0 0 1223140 Jun 20 05:12 iwlwifi-QuZ-a0-hr-b0-55.ucode
+-rw-r--r--.  1 0 0 1052608 Jun 20 05:12 iwlwifi-QuZ-a0-jf-b0-48.ucode
+-rw-r--r--.  1 0 0 1053004 Jun 20 05:12 iwlwifi-QuZ-a0-jf-b0-50.ucode
+-rw-r--r--.  1 0 0 1147104 Jun 20 05:12 iwlwifi-QuZ-a0-jf-b0-53.ucode
+-rw-r--r--.  1 0 0 1163668 Jun 20 05:12 iwlwifi-QuZ-a0-jf-b0-55.ucode
+-rw-r--r--.  1 0 0 1044452 Jun 20 05:12 iwlwifi-cc-a0-46.ucode
+-rw-r--r--.  1 0 0 1096704 Jun 20 05:12 iwlwifi-cc-a0-48.ucode
+-rw-r--r--.  1 0 0 1101228 Jun 20 05:12 iwlwifi-cc-a0-50.ucode
+-rw-r--r--.  1 0 0 1205332 Jun 20 05:12 iwlwifi-cc-a0-53.ucode
+-rw-r--r--.  1 0 0 1219356 Jun 20 05:12 iwlwifi-cc-a0-55.ucode
+drwxr-xr-x.  2 0 0     102 Nov  9 15:39 kaweth
+drwxr-xr-x.  2 0 0     211 Nov  9 15:39 keyspan
+drwxr-xr-x.  2 0 0      49 Nov  9 15:39 keyspan_pda
+-rw-r--r--.  1 0 0  118888 Jun 20 05:12 lbtf_usb.bin
+-rw-r--r--.  1 0 0     262 Jun 20 05:12 lgs8g75.fw
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:48 libertas
+drwxr-xr-x.  2 0 0     105 Nov  9 15:39 liquidio
+drwxr-xr-x.  2 0 0      46 Nov  9 15:39 matrox
+drwxr-xr-x.  4 0 0    4096 Nov  9 15:39 mediatek
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 mellanox
+drwxr-xr-x.  3 0 0      18 Nov  9 15:39 meson
+drwxr-xr-x.  2 0 0      90 Nov  9 15:39 microchip
+drwxr-xr-x.  2 0 0     286 Nov  9 15:39 moxa
+drwxr-xr-x.  3 0 0    4096 Nov  9 15:39 mrvl
+-rw-r--r--.  1 0 0   45412 Jun 20 05:12 mt7601u.bin
+-rw-r--r--.  1 0 0  368220 Jun 20 05:12 mt7650.bin
+-rw-r--r--.  1 0 0   81908 Jun 20 05:12 mt7662.bin
+-rw-r--r--.  1 0 0   26350 Jun 20 05:12 mt7662_rom_patch.bin
+-rw-r--r--.  1 0 0   13847 Jun 20 05:12 mts_cdma.fw
+-rw-r--r--.  1 0 0   14067 Jun 20 05:12 mts_edge.fw
+-rw-r--r--.  1 0 0   13847 Jun 20 05:12 mts_gsm.fw
+-rw-r--r--.  1 0 0   13769 Jun 20 05:12 mts_mt9234mu.fw
+-rw-r--r--.  1 0 0   13769 Jun 20 05:12 mts_mt9234zba.fw
+drwxr-xr-x.  2 0 0     208 Nov  9 15:39 mwl8k
+drwxr-xr-x.  2 0 0      44 Nov  9 15:39 mwlwifi
+-rw-r--r--.  1 0 0  378832 Jun 20 05:12 myri10ge_eth_big_z8e.dat
+-rw-r--r--.  1 0 0  378736 Jun 20 05:12 myri10ge_eth_z8e.dat
+-rw-r--r--.  1 0 0  389144 Jun 20 05:12 myri10ge_ethp_big_z8e.dat
+-rw-r--r--.  1 0 0  389056 Jun 20 05:12 myri10ge_ethp_z8e.dat
+-rw-r--r--.  1 0 0  536192 Jun 20 05:12 myri10ge_rss_eth_big_z8e.dat
+-rw-r--r--.  1 0 0  536176 Jun 20 05:12 myri10ge_rss_eth_z8e.dat
+-rw-r--r--.  1 0 0  545936 Jun 20 05:12 myri10ge_rss_ethp_big_z8e.dat
+-rw-r--r--.  1 0 0  545920 Jun 20 05:12 myri10ge_rss_ethp_z8e.dat
+drwxr-xr-x.  2 0 0      23 Nov  9 15:39 myricom
+drwxr-xr-x.  6 0 0    4096 Nov  9 15:39 netronome
+drwxr-xr-x. 25 0 0    4096 Nov  9 15:39 nvidia
+drwxr-xr-x.  2 0 0      27 Nov  9 15:39 ositech
+-rw-r--r--.  1 0 0 1845305 Jun 20 05:12 phanfw.bin
+-rw-r--r--.  1 0 0  446300 Jun 20 05:12 qat_895xcc.bin
+-rw-r--r--.  1 0 0  114176 Jun 20 05:12 qat_895xcc_mmp.bin
+-rw-r--r--.  1 0 0  265444 Jun 20 05:12 qat_c3xxx.bin
+-rw-r--r--.  1 0 0  114820 Jun 20 05:12 qat_c3xxx_mmp.bin
+-rw-r--r--.  1 0 0  398144 Jun 20 05:12 qat_c62x.bin
+-rw-r--r--.  1 0 0  114820 Jun 20 05:12 qat_c62x_mmp.bin
+lrwxrwxrwx.  1 0 0      18 Jun 20 05:12 qat_mmp.bin -> qat_895xcc_mmp.bin
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 qca
+drwxr-xr-x.  7 0 0    4096 Nov  9 15:39 qcom
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 qed
+-rw-r--r--.  1 0 0   76802 Jun 20 05:12 ql2100_fw.bin
+-rw-r--r--.  1 0 0   84566 Jun 20 05:12 ql2200_fw.bin
+-rw-r--r--.  1 0 0  125252 Jun 20 05:12 ql2300_fw.bin
+-rw-r--r--.  1 0 0  136038 Jun 20 05:12 ql2322_fw.bin
+-rw-r--r--.  1 0 0  265300 Jun 20 05:12 ql2400_fw.bin
+-rw-r--r--.  1 0 0  275128 Jun 20 05:12 ql2500_fw.bin
+drwxr-xr-x.  2 0 0      91 Nov  9 15:39 qlogic
+drwxr-xr-x.  2 0 0      26 Nov  9 15:39 r128
+-rw-r--r--.  1 0 0    9452 Jun 20 05:12 r8a779x_usb3_v1.dlmem
+-rw-r--r--.  1 0 0    9416 Jun 20 05:12 r8a779x_usb3_v2.dlmem
+-rw-r--r--.  1 0 0    9416 Jun 20 05:12 r8a779x_usb3_v3.dlmem
+drwxr-xr-x.  2 0 0   12288 Nov  9 15:39 radeon
+drwxr-xr-x.  2 0 0      22 Nov  9 15:39 rockchip
+-rw-r--r--.  1 0 0      63 Jun 20 05:12 rp2.fw
+drwxr-xr-x.  2 0 0     161 Nov  9 15:39 rsi
+-rw-r--r--.  1 0 0   94100 Jun 20 05:12 rsi_91x.fw
+-rw-r--r--.  1 0 0    8192 Jun 20 05:12 rt2561.bin
+-rw-r--r--.  1 0 0    8192 Jun 20 05:12 rt2561s.bin
+-rw-r--r--.  1 0 0    8192 Jun 20 05:12 rt2661.bin
+-rw-r--r--.  1 0 0    8192 Jun 20 05:12 rt2860.bin
+-rw-r--r--.  1 0 0    8192 Jun 20 05:12 rt2870.bin
+lrwxrwxrwx.  1 0 0      10 Jun 20 05:12 rt3070.bin -> rt2870.bin
+-rw-r--r--.  1 0 0    4096 Jun 20 05:12 rt3071.bin
+lrwxrwxrwx.  1 0 0      10 Jun 20 05:12 rt3090.bin -> rt2860.bin
+-rw-r--r--.  1 0 0    4096 Jun 20 05:12 rt3290.bin
+-rw-r--r--.  1 0 0    2048 Jun 20 05:12 rt73.bin
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 rtl_bt
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 rtl_nic
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 rtlwifi
+drwxr-xr-x.  2 0 0     139 Nov  9 15:39 rtw88
+lrwxrwxrwx.  1 0 0      17 Jun 20 05:12 s2250.fw -> go7007/s2250-2.fw
+lrwxrwxrwx.  1 0 0      17 Jun 20 05:12 s2250_loader.fw -> go7007/s2250-1.fw
+-rw-r--r--.  1 0 0  343756 Jun 20 05:12 s5p-mfc-v6-v2.fw
+-rw-r--r--.  1 0 0  306312 Jun 20 05:12 s5p-mfc-v6.fw
+-rw-r--r--.  1 0 0  382724 Jun 20 05:12 s5p-mfc-v7.fw
+-rw-r--r--.  1 0 0  360576 Jun 20 05:12 s5p-mfc-v8.fw
+-rw-r--r--.  1 0 0  352652 Jun 20 05:12 s5p-mfc.fw
+-rw-r--r--.  1 0 0     816 Jun 20 05:12 sdd_sagrad_1091_1098.bin
+drwxr-xr-x.  2 0 0     128 Nov  9 15:39 slicoss
+-rw-r--r--.  1 0 0   85656 Jun 20 05:12 sms1xxx-hcw-55xxx-dvbt-02.fw
+-rw-r--r--.  1 0 0   70472 Jun 20 05:12 sms1xxx-hcw-55xxx-isdbt-02.fw
+-rw-r--r--.  1 0 0   85656 Jun 20 05:12 sms1xxx-nova-a-dvbt-01.fw
+-rw-r--r--.  1 0 0   76364 Jun 20 05:12 sms1xxx-nova-b-dvbt-01.fw
+-rw-r--r--.  1 0 0   39900 Jun 20 05:12 sms1xxx-stellar-dvbt-01.fw
+drwxr-xr-x.  2 0 0      25 Nov  9 15:39 sun
+drwxr-xr-x.  2 0 0      63 Nov  9 15:39 sxg
+-rw-r--r--.  1 0 0   40096 Jun 20 05:12 tdmb_nova_12mhz.inp
+drwxr-xr-x.  2 0 0      21 Nov  9 15:39 tehuti
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 ti-connectivity
+drwxr-xr-x.  2 0 0      51 Nov  9 15:39 ti-keystone
+-rw-r--r--.  1 0 0   13765 Jun 20 05:12 ti_3410.fw
+-rw-r--r--.  1 0 0   13764 Jun 20 05:12 ti_5052.fw
+drwxr-xr-x.  2 0 0      80 Nov  9 15:39 tigon
+-rw-r--r--.  1 0 0   51972 Jun 20 05:12 tlg2300_firmware.bin
+-rw-r--r--.  1 0 0    7614 Jun 20 05:12 tr_smctr.bin
+drwxr-xr-x.  2 0 0      29 Nov  9 15:39 ttusb-budget
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 ueagle-atm
+drwxr-xr-x.  2 0 0       6 Jun 20 05:12 updates
+-rw-r--r--.  1 0 0    1770 Jun 20 05:12 usbdux_firmware.bin
+-rw-r--r--.  1 0 0     999 Jun 20 05:12 usbduxfast_firmware.bin
+-rw-r--r--.  1 0 0    8192 Jun 20 05:12 usbduxsigma_firmware.bin
+-rw-r--r--.  1 0 0   16382 Jun 20 05:12 v4l-cx231xx-avcore-01.fw
+-rw-r--r--.  1 0 0  141200 Jun 20 05:12 v4l-cx23418-apu.fw
+-rw-r--r--.  1 0 0  158332 Jun 20 05:12 v4l-cx23418-cpu.fw
+-rw-r--r--.  1 0 0   16382 Jun 20 05:12 v4l-cx23418-dig.fw
+-rw-r--r--.  1 0 0   16382 Jun 20 05:12 v4l-cx23885-avcore-01.fw
+-rw-r--r--.  1 0 0   16382 Jun 20 05:12 v4l-cx25840.fw
+drwxr-xr-x.  2 0 0      25 Nov  9 15:39 vicam
+-rw-r--r--.  1 0 0   11341 Jun 20 05:12 vntwusb.fw
+lrwxrwxrwx.  1 0 0      25 Jun 20 05:12 vpu_d.bin -> mediatek/mt8173/vpu_d.bin
+lrwxrwxrwx.  1 0 0      25 Jun 20 05:12 vpu_p.bin -> mediatek/mt8173/vpu_p.bin
+drwxr-xr-x.  2 0 0      42 Nov  9 15:39 vxge
+-rw-r--r--.  1 0 0   23554 Jun 20 05:12 whiteheat.fw
+-rw-r--r--.  1 0 0    5626 Jun 20 05:12 whiteheat_loader.fw
+-rw-r--r--.  1 0 0    3588 Jun 20 05:12 wil6210.brd
+-rw-r--r--.  1 0 0  400364 Jun 20 05:12 wil6210.fw
+-rw-r--r--.  1 0 0   97824 Jun 20 05:12 wsm_22.bin
+drwxr-xr-x.  2 0 0      38 Nov  9 15:39 yam
+
+/lib/firmware/3com:
+total 88
+drwxr-xr-x.  2 0 0    42 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 24880 Jun 20 05:12 3C359.bin
+-rw-r--r--.  1 0 0 44548 Jun 20 05:12 typhoon.bin
+
+/lib/firmware/4.18.0-240.1.1.el8_3.x86_64:
+total 40
+drwxr-xr-x.  3 0 0   140 Nov  9 15:48 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:48 intel-ucode
+-rw-r--r--.  1 0 0  2461 Nov  9 15:48 readme-intel
+-rw-r--r--.  1 0 0  2978 Nov  9 15:48 readme-intel-06-2d-07
+-rw-r--r--.  1 0 0  3604 Nov  9 15:48 readme-intel-06-55-04
+-rw-r--r--.  1 0 0  6473 Nov  9 15:48 readme-intel-06-8e-9e-0x-dell
+
+/lib/firmware/4.18.0-240.1.1.el8_3.x86_64/intel-ucode:
+total 4
+drwxr-xr-x. 2 0 0 4096 Nov  9 15:48 .
+drwxr-xr-x. 3 0 0  140 Nov  9 15:48 ..
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-03-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-03-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-05-00 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-05-00
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-05-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-05-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-05-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-05-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-05-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-05-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-06-00 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-06-00
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-06-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-06-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-06-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-06-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-06-0d -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-06-0d
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-07-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-07-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-07-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-07-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-07-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-07-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-08-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-08-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-08-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-08-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-08-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-08-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-08-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-08-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-09-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-09-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0a-00 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0a-00
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0a-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0a-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0b-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0b-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0b-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0b-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0d-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0d-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0e-08 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0e-08
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0e-0c -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0e-0c
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0f-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0f-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0f-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0f-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0f-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0f-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0f-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0f-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0f-0b -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0f-0b
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-0f-0d -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-0f-0d
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-16-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-16-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-17-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-17-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-17-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-17-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-17-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-17-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-1a-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-1a-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-1a-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-1a-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-1c-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-1c-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-1c-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-1c-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-1d-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-1d-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-1e-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-1e-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-25-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-25-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-25-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-25-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-26-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-26-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-2a-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-2a-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-2c-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-2c-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-2d-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-2d-06
+lrwxrwxrwx. 1 0 0   79 Nov  9 15:48 06-2d-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-2d-07/intel-ucode/06-2d-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-2e-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-2e-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-2f-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-2f-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-37-08 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-37-08
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-37-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-37-09
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3a-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3a-09
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3c-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3c-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3d-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3d-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3e-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3e-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3e-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3e-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3e-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3e-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3f-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3f-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-3f-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-3f-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-45-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-45-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-46-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-46-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-47-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-47-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-4c-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-4c-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-4c-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-4c-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-4d-08 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-4d-08
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-4e-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-4e-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-55-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-55-03
+lrwxrwxrwx. 1 0 0   79 Nov  9 15:48 06-55-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-55-04/intel-ucode/06-55-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-55-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-55-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-55-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-55-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-56-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-56-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-56-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-56-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-56-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-56-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-56-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-56-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-5c-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-5c-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-5c-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-5c-09
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-5c-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-5c-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-5e-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-5e-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-5f-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-5f-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-66-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-66-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-7a-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-7a-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-7a-08 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-7a-08
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-7e-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-7e-05
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-8e-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-8e-09
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-8e-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-8e-0a
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-8e-0b -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-8e-0b
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-8e-0c -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-8e-0c
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-9e-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-9e-09
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-9e-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-9e-0a
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-9e-0b -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-9e-0b
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-9e-0c -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-9e-0c
+lrwxrwxrwx. 1 0 0   87 Nov  9 15:48 06-9e-0d -> /usr/share/microcode_ctl/ucode_with_caveats/intel-06-8e-9e-0x-dell/intel-ucode/06-9e-0d
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 06-a6-00 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/06-a6-00
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-00-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-00-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-00-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-00-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-01-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-01-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-02-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-02-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-02-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-02-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-02-06 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-02-06
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-02-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-02-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-02-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-02-09
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-03-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-03-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-03-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-03-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-03-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-03-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-01 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-01
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-03 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-03
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-07 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-07
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-08 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-08
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-09 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-09
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-04-0a -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-04-0a
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-06-02 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-06-02
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-06-04 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-06-04
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-06-05 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-06-05
+lrwxrwxrwx. 1 0 0   70 Nov  9 15:48 0f-06-08 -> /usr/share/microcode_ctl/ucode_with_caveats/intel/intel-ucode/0f-06-08
+
+/lib/firmware/RTL8192E:
+total 68
+drwxr-xr-x.  2 0 0    54 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   344 Jun 20 05:12 boot.img
+-rw-r--r--.  1 0 0   848 Jun 20 05:12 data.img
+-rw-r--r--.  1 0 0 42944 Jun 20 05:12 main.img
+
+/lib/firmware/acenic:
+total 164
+drwxr-xr-x.  2 0 0    36 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 73116 Jun 20 05:12 tg1.bin
+-rw-r--r--.  1 0 0 77452 Jun 20 05:12 tg2.bin
+
+/lib/firmware/adaptec:
+total 24
+drwxr-xr-x.  2 0 0    52 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   832 Jun 20 05:12 starfire_rx.bin
+-rw-r--r--.  1 0 0   832 Jun 20 05:12 starfire_tx.bin
+
+/lib/firmware/advansys:
+total 44
+drwxr-xr-x.  2 0 0    77 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  5026 Jun 20 05:12 3550.bin
+-rw-r--r--.  1 0 0  5340 Jun 20 05:12 38C0800.bin
+-rw-r--r--.  1 0 0  6334 Jun 20 05:12 38C1600.bin
+-rw-r--r--.  1 0 0  2308 Jun 20 05:12 mcode.bin
+
+/lib/firmware/amd:
+total 48
+drwxr-xr-x.  2 0 0    42 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 32576 Jun 20 05:12 amd_sev_fam17h_model0xh.sbin
+
+/lib/firmware/amd-ucode:
+total 52
+drwxr-xr-x.  2 0 0   127 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 12684 Jun 20 05:12 microcode_amd.bin
+-rw-r--r--.  1 0 0  7876 Jun 20 05:12 microcode_amd_fam15h.bin
+-rw-r--r--.  1 0 0  3510 Jun 20 05:12 microcode_amd_fam16h.bin
+-rw-r--r--.  1 0 0  6476 Jun 20 05:12 microcode_amd_fam17h.bin
+
+/lib/firmware/amdgpu:
+total 33816
+drwxr-xr-x.  2 0 0  12288 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  61932 Jun 20 05:12 banks_k_2_smc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 bonaire_ce.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 bonaire_k_smc.bin
+-rw-r--r--.  1 0 0  32336 Jun 20 05:12 bonaire_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 bonaire_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 bonaire_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 bonaire_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 bonaire_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 bonaire_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 bonaire_sdma1.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 bonaire_smc.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 bonaire_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 bonaire_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 carrizo_ce.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 carrizo_me.bin
+-rw-r--r--.  1 0 0 262784 Jun 20 05:12 carrizo_mec.bin
+-rw-r--r--.  1 0 0 262784 Jun 20 05:12 carrizo_mec2.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 carrizo_pfp.bin
+-rw-r--r--.  1 0 0  18836 Jun 20 05:12 carrizo_rlc.bin
+-rw-r--r--.  1 0 0  10624 Jun 20 05:12 carrizo_sdma.bin
+-rw-r--r--.  1 0 0  10624 Jun 20 05:12 carrizo_sdma1.bin
+-rw-r--r--.  1 0 0 271712 Jun 20 05:12 carrizo_uvd.bin
+-rw-r--r--.  1 0 0 175840 Jun 20 05:12 carrizo_vce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 fiji_ce.bin
+-rw-r--r--.  1 0 0  16028 Jun 20 05:12 fiji_mc.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 fiji_me.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 fiji_mec.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 fiji_mec2.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 fiji_pfp.bin
+-rw-r--r--.  1 0 0  16636 Jun 20 05:12 fiji_rlc.bin
+-rw-r--r--.  1 0 0  10644 Jun 20 05:12 fiji_sdma.bin
+-rw-r--r--.  1 0 0  10644 Jun 20 05:12 fiji_sdma1.bin
+-rw-r--r--.  1 0 0 129604 Jun 20 05:12 fiji_smc.bin
+-rw-r--r--.  1 0 0 266768 Jun 20 05:12 fiji_uvd.bin
+-rw-r--r--.  1 0 0 161024 Jun 20 05:12 fiji_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hainan_ce.bin
+-rw-r--r--.  1 0 0  61876 Jun 20 05:12 hainan_k_smc.bin
+-rw-r--r--.  1 0 0  31996 Jun 20 05:12 hainan_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hainan_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hainan_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 hainan_rlc.bin
+-rw-r--r--.  1 0 0  61444 Jun 20 05:12 hainan_smc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hawaii_ce.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 hawaii_k_smc.bin
+-rw-r--r--.  1 0 0  32796 Jun 20 05:12 hawaii_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hawaii_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 hawaii_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hawaii_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 hawaii_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 hawaii_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 hawaii_sdma1.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 hawaii_smc.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 hawaii_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 hawaii_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kabini_ce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kabini_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 kabini_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kabini_pfp.bin
+-rw-r--r--.  1 0 0  10496 Jun 20 05:12 kabini_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kabini_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kabini_sdma1.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 kabini_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 kabini_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kaveri_ce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kaveri_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 kaveri_mec.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 kaveri_mec2.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kaveri_pfp.bin
+-rw-r--r--.  1 0 0  10496 Jun 20 05:12 kaveri_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kaveri_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kaveri_sdma1.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 kaveri_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 kaveri_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 mullins_ce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 mullins_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 mullins_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 mullins_pfp.bin
+-rw-r--r--.  1 0 0  10496 Jun 20 05:12 mullins_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 mullins_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 mullins_sdma1.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 mullins_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 mullins_vce.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 navi10_asd.bin
+-rw-r--r--.  1 0 0 263296 Jun 20 05:12 navi10_ce.bin
+-rw-r--r--.  1 0 0    772 Jun 20 05:12 navi10_gpu_info.bin
+-rw-r--r--.  1 0 0 263424 Jun 20 05:12 navi10_me.bin
+-rw-r--r--.  1 0 0 268592 Jun 20 05:12 navi10_mec.bin
+-rw-r--r--.  1 0 0 268592 Jun 20 05:12 navi10_mec2.bin
+-rw-r--r--.  1 0 0 263424 Jun 20 05:12 navi10_pfp.bin
+-rw-r--r--.  1 0 0  43968 Jun 20 05:12 navi10_rlc.bin
+-rw-r--r--.  1 0 0  33792 Jun 20 05:12 navi10_sdma.bin
+-rw-r--r--.  1 0 0  33792 Jun 20 05:12 navi10_sdma1.bin
+-rw-r--r--.  1 0 0 267970 Jun 20 05:12 navi10_smc.bin
+-rw-r--r--.  1 0 0 184480 Jun 20 05:12 navi10_sos.bin
+-rw-r--r--.  1 0 0  29440 Jun 20 05:12 navi10_ta.bin
+-rw-r--r--.  1 0 0 457856 Jun 20 05:12 navi10_vcn.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 navi14_asd.bin
+-rw-r--r--.  1 0 0 263296 Jun 20 05:12 navi14_ce.bin
+-rw-r--r--.  1 0 0 263296 Jun 20 05:12 navi14_ce_wks.bin
+-rw-r--r--.  1 0 0    772 Jun 20 05:12 navi14_gpu_info.bin
+-rw-r--r--.  1 0 0 263424 Jun 20 05:12 navi14_me.bin
+-rw-r--r--.  1 0 0 263424 Jun 20 05:12 navi14_me_wks.bin
+-rw-r--r--.  1 0 0 268592 Jun 20 05:12 navi14_mec.bin
+-rw-r--r--.  1 0 0 268592 Jun 20 05:12 navi14_mec2.bin
+-rw-r--r--.  1 0 0 268592 Jun 20 05:12 navi14_mec2_wks.bin
+-rw-r--r--.  1 0 0 268592 Jun 20 05:12 navi14_mec_wks.bin
+-rw-r--r--.  1 0 0 263424 Jun 20 05:12 navi14_pfp.bin
+-rw-r--r--.  1 0 0 263424 Jun 20 05:12 navi14_pfp_wks.bin
+-rw-r--r--.  1 0 0  42728 Jun 20 05:12 navi14_rlc.bin
+-rw-r--r--.  1 0 0  33792 Jun 20 05:12 navi14_sdma.bin
+-rw-r--r--.  1 0 0  33792 Jun 20 05:12 navi14_sdma1.bin
+-rw-r--r--.  1 0 0 264586 Jun 20 05:12 navi14_smc.bin
+-rw-r--r--.  1 0 0 171856 Jun 20 05:12 navi14_sos.bin
+-rw-r--r--.  1 0 0  29440 Jun 20 05:12 navi14_ta.bin
+-rw-r--r--.  1 0 0 457856 Jun 20 05:12 navi14_vcn.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 oland_ce.bin
+-rw-r--r--.  1 0 0  62692 Jun 20 05:12 oland_k_smc.bin
+-rw-r--r--.  1 0 0  31996 Jun 20 05:12 oland_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 oland_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 oland_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 oland_rlc.bin
+-rw-r--r--.  1 0 0  62260 Jun 20 05:12 oland_smc.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 picasso_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 picasso_ce.bin
+-rw-r--r--.  1 0 0    316 Jun 20 05:12 picasso_gpu_info.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 picasso_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 picasso_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 picasso_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 picasso_pfp.bin
+-rw-r--r--.  1 0 0  39140 Jun 20 05:12 picasso_rlc.bin
+-rw-r--r--.  1 0 0  39140 Jun 20 05:12 picasso_rlc_am4.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 picasso_sdma.bin
+-rw-r--r--.  1 0 0  29440 Jun 20 05:12 picasso_ta.bin
+-rw-r--r--.  1 0 0 355264 Jun 20 05:12 picasso_vcn.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 pitcairn_ce.bin
+-rw-r--r--.  1 0 0  61712 Jun 20 05:12 pitcairn_k_smc.bin
+-rw-r--r--.  1 0 0  31644 Jun 20 05:12 pitcairn_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 pitcairn_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 pitcairn_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 pitcairn_rlc.bin
+-rw-r--r--.  1 0 0  61280 Jun 20 05:12 pitcairn_smc.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 polaris10_ce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 polaris10_ce_2.bin
+-rw-r--r--.  1 0 0 130228 Jun 20 05:12 polaris10_k2_smc.bin
+-rw-r--r--.  1 0 0  32832 Jun 20 05:12 polaris10_k_mc.bin
+-rw-r--r--.  1 0 0 130244 Jun 20 05:12 polaris10_k_smc.bin
+-rw-r--r--.  1 0 0  32732 Jun 20 05:12 polaris10_mc.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris10_me.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris10_me_2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris10_mec.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris10_mec2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris10_mec2_2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris10_mec_2.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris10_pfp.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris10_pfp_2.bin
+-rw-r--r--.  1 0 0  23488 Jun 20 05:12 polaris10_rlc.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 polaris10_sdma.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 polaris10_sdma1.bin
+-rw-r--r--.  1 0 0 130216 Jun 20 05:12 polaris10_smc.bin
+-rw-r--r--.  1 0 0 130196 Jun 20 05:12 polaris10_smc_sk.bin
+-rw-r--r--.  1 0 0 375424 Jun 20 05:12 polaris10_uvd.bin
+-rw-r--r--.  1 0 0 166816 Jun 20 05:12 polaris10_vce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 polaris11_ce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 polaris11_ce_2.bin
+-rw-r--r--.  1 0 0 130228 Jun 20 05:12 polaris11_k2_smc.bin
+-rw-r--r--.  1 0 0  32832 Jun 20 05:12 polaris11_k_mc.bin
+-rw-r--r--.  1 0 0 130228 Jun 20 05:12 polaris11_k_smc.bin
+-rw-r--r--.  1 0 0  33104 Jun 20 05:12 polaris11_mc.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris11_me.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris11_me_2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris11_mec.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris11_mec2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris11_mec2_2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris11_mec_2.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris11_pfp.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris11_pfp_2.bin
+-rw-r--r--.  1 0 0  22688 Jun 20 05:12 polaris11_rlc.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 polaris11_sdma.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 polaris11_sdma1.bin
+-rw-r--r--.  1 0 0 130196 Jun 20 05:12 polaris11_smc.bin
+-rw-r--r--.  1 0 0 130196 Jun 20 05:12 polaris11_smc_sk.bin
+-rw-r--r--.  1 0 0 375424 Jun 20 05:12 polaris11_uvd.bin
+-rw-r--r--.  1 0 0 166816 Jun 20 05:12 polaris11_vce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 polaris12_ce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 polaris12_ce_2.bin
+-rw-r--r--.  1 0 0  32832 Jun 20 05:12 polaris12_k_mc.bin
+-rw-r--r--.  1 0 0 130388 Jun 20 05:12 polaris12_k_smc.bin
+-rw-r--r--.  1 0 0  32608 Jun 20 05:12 polaris12_mc.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris12_me.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris12_me_2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris12_mec.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris12_mec2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris12_mec2_2.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 polaris12_mec_2.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris12_pfp.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 polaris12_pfp_2.bin
+-rw-r--r--.  1 0 0  16660 Jun 20 05:12 polaris12_rlc.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 polaris12_sdma.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 polaris12_sdma1.bin
+-rw-r--r--.  1 0 0 130388 Jun 20 05:12 polaris12_smc.bin
+-rw-r--r--.  1 0 0 375424 Jun 20 05:12 polaris12_uvd.bin
+-rw-r--r--.  1 0 0 166816 Jun 20 05:12 polaris12_vce.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 raven2_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 raven2_ce.bin
+-rw-r--r--.  1 0 0    316 Jun 20 05:12 raven2_gpu_info.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 raven2_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 raven2_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 raven2_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 raven2_pfp.bin
+-rw-r--r--.  1 0 0  38324 Jun 20 05:12 raven2_rlc.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 raven2_sdma.bin
+-rw-r--r--.  1 0 0  29440 Jun 20 05:12 raven2_ta.bin
+-rw-r--r--.  1 0 0 355264 Jun 20 05:12 raven2_vcn.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 raven_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 raven_ce.bin
+-rw-r--r--.  1 0 0  23264 Jun 20 05:12 raven_dmcu.bin
+-rw-r--r--.  1 0 0    316 Jun 20 05:12 raven_gpu_info.bin
+-rw-r--r--.  1 0 0  39140 Jun 20 05:12 raven_kicker_rlc.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 raven_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 raven_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 raven_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 raven_pfp.bin
+-rw-r--r--.  1 0 0  39140 Jun 20 05:12 raven_rlc.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 raven_sdma.bin
+-rw-r--r--.  1 0 0  29440 Jun 20 05:12 raven_ta.bin
+-rw-r--r--.  1 0 0 355264 Jun 20 05:12 raven_vcn.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 renoir_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 renoir_ce.bin
+-rw-r--r--.  1 0 0  57940 Jun 20 05:12 renoir_dmcub.bin
+-rw-r--r--.  1 0 0    316 Jun 20 05:12 renoir_gpu_info.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 renoir_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 renoir_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 renoir_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 renoir_pfp.bin
+-rw-r--r--.  1 0 0  39204 Jun 20 05:12 renoir_rlc.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 renoir_sdma.bin
+-rw-r--r--.  1 0 0 457856 Jun 20 05:12 renoir_vcn.bin
+-rw-r--r--.  1 0 0  32488 Jun 20 05:12 si58_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 stoney_ce.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 stoney_me.bin
+-rw-r--r--.  1 0 0 262784 Jun 20 05:12 stoney_mec.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 stoney_pfp.bin
+-rw-r--r--.  1 0 0  17236 Jun 20 05:12 stoney_rlc.bin
+-rw-r--r--.  1 0 0  10624 Jun 20 05:12 stoney_sdma.bin
+-rw-r--r--.  1 0 0 277216 Jun 20 05:12 stoney_uvd.bin
+-rw-r--r--.  1 0 0 166816 Jun 20 05:12 stoney_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 tahiti_ce.bin
+-rw-r--r--.  1 0 0  64364 Jun 20 05:12 tahiti_k_smc.bin
+-rw-r--r--.  1 0 0  31776 Jun 20 05:12 tahiti_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 tahiti_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 tahiti_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 tahiti_rlc.bin
+-rw-r--r--.  1 0 0  63932 Jun 20 05:12 tahiti_smc.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 tonga_ce.bin
+-rw-r--r--.  1 0 0 130460 Jun 20 05:12 tonga_k_smc.bin
+-rw-r--r--.  1 0 0  31352 Jun 20 05:12 tonga_mc.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 tonga_me.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 tonga_mec.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 tonga_mec2.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 tonga_pfp.bin
+-rw-r--r--.  1 0 0  14756 Jun 20 05:12 tonga_rlc.bin
+-rw-r--r--.  1 0 0  10644 Jun 20 05:12 tonga_sdma.bin
+-rw-r--r--.  1 0 0  10644 Jun 20 05:12 tonga_sdma1.bin
+-rw-r--r--.  1 0 0 130460 Jun 20 05:12 tonga_smc.bin
+-rw-r--r--.  1 0 0 325312 Jun 20 05:12 tonga_uvd.bin
+-rw-r--r--.  1 0 0 161024 Jun 20 05:12 tonga_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 topaz_ce.bin
+-rw-r--r--.  1 0 0  80544 Jun 20 05:12 topaz_k_smc.bin
+-rw-r--r--.  1 0 0  32100 Jun 20 05:12 topaz_mc.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 topaz_me.bin
+-rw-r--r--.  1 0 0 262784 Jun 20 05:12 topaz_mec.bin
+-rw-r--r--.  1 0 0 262784 Jun 20 05:12 topaz_mec2.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 topaz_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 topaz_rlc.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 topaz_sdma.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 topaz_sdma1.bin
+-rw-r--r--.  1 0 0  80544 Jun 20 05:12 topaz_smc.bin
+-rw-r--r--.  1 0 0 262912 Jun 20 05:12 vega10_acg_smc.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 vega10_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 vega10_ce.bin
+-rw-r--r--.  1 0 0    316 Jun 20 05:12 vega10_gpu_info.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 vega10_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 vega10_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 vega10_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 vega10_pfp.bin
+-rw-r--r--.  1 0 0  17152 Jun 20 05:12 vega10_rlc.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 vega10_sdma.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 vega10_sdma1.bin
+-rw-r--r--.  1 0 0 262912 Jun 20 05:12 vega10_smc.bin
+-rw-r--r--.  1 0 0 166800 Jun 20 05:12 vega10_sos.bin
+-rw-r--r--.  1 0 0 380832 Jun 20 05:12 vega10_uvd.bin
+-rw-r--r--.  1 0 0 173856 Jun 20 05:12 vega10_vce.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 vega12_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 vega12_ce.bin
+-rw-r--r--.  1 0 0    316 Jun 20 05:12 vega12_gpu_info.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 vega12_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 vega12_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 vega12_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 vega12_pfp.bin
+-rw-r--r--.  1 0 0  28636 Jun 20 05:12 vega12_rlc.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 vega12_sdma.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 vega12_sdma1.bin
+-rw-r--r--.  1 0 0 262912 Jun 20 05:12 vega12_smc.bin
+-rw-r--r--.  1 0 0 166800 Jun 20 05:12 vega12_sos.bin
+-rw-r--r--.  1 0 0 380832 Jun 20 05:12 vega12_uvd.bin
+-rw-r--r--.  1 0 0 173856 Jun 20 05:12 vega12_vce.bin
+-rw-r--r--.  1 0 0 147968 Jun 20 05:12 vega20_asd.bin
+-rw-r--r--.  1 0 0   9344 Jun 20 05:12 vega20_ce.bin
+-rw-r--r--.  1 0 0  17536 Jun 20 05:12 vega20_me.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 vega20_mec.bin
+-rw-r--r--.  1 0 0 268048 Jun 20 05:12 vega20_mec2.bin
+-rw-r--r--.  1 0 0  21632 Jun 20 05:12 vega20_pfp.bin
+-rw-r--r--.  1 0 0  49436 Jun 20 05:12 vega20_rlc.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 vega20_sdma.bin
+-rw-r--r--.  1 0 0  17408 Jun 20 05:12 vega20_sdma1.bin
+-rw-r--r--.  1 0 0 262912 Jun 20 05:12 vega20_smc.bin
+-rw-r--r--.  1 0 0 170896 Jun 20 05:12 vega20_sos.bin
+-rw-r--r--.  1 0 0 383520 Jun 20 05:12 vega20_uvd.bin
+-rw-r--r--.  1 0 0 173856 Jun 20 05:12 vega20_vce.bin
+-rw-r--r--.  1 0 0   8852 Jun 20 05:12 vegam_ce.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 vegam_me.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 vegam_mec.bin
+-rw-r--r--.  1 0 0 262824 Jun 20 05:12 vegam_mec2.bin
+-rw-r--r--.  1 0 0  17044 Jun 20 05:12 vegam_pfp.bin
+-rw-r--r--.  1 0 0  16660 Jun 20 05:12 vegam_rlc.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 vegam_sdma.bin
+-rw-r--r--.  1 0 0  12692 Jun 20 05:12 vegam_sdma1.bin
+-rw-r--r--.  1 0 0 130964 Jun 20 05:12 vegam_smc.bin
+-rw-r--r--.  1 0 0 375424 Jun 20 05:12 vegam_uvd.bin
+-rw-r--r--.  1 0 0 166816 Jun 20 05:12 vegam_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 verde_ce.bin
+-rw-r--r--.  1 0 0  63804 Jun 20 05:12 verde_k_smc.bin
+-rw-r--r--.  1 0 0  32044 Jun 20 05:12 verde_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 verde_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 verde_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 verde_rlc.bin
+-rw-r--r--.  1 0 0  61776 Jun 20 05:12 verde_smc.bin
+
+/lib/firmware/ar3k:
+total 400
+drwxr-xr-x.  8 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0    67 Nov  9 15:39 1020200
+drwxr-xr-x.  2 0 0    45 Nov  9 15:39 1020201
+drwxr-xr-x.  2 0 0    50 Nov  9 15:39 1020201coex
+drwxr-xr-x.  2 0 0    67 Nov  9 15:39 30000
+drwxr-xr-x.  2 0 0    67 Nov  9 15:39 30101
+drwxr-xr-x.  2 0 0   126 Nov  9 15:39 30101coex
+-rw-r--r--.  1 0 0 55244 Jun 20 05:12 AthrBT_0x01020001.dfu
+-rw-r--r--.  1 0 0 40724 Jun 20 05:12 AthrBT_0x01020200.dfu
+-rw-r--r--.  1 0 0 48188 Jun 20 05:12 AthrBT_0x01020201.dfu
+-rw-r--r--.  1 0 0 36828 Jun 20 05:12 AthrBT_0x11020000.dfu
+-rw-r--r--.  1 0 0 46852 Jun 20 05:12 AthrBT_0x11020100.dfu
+-rw-r--r--.  1 0 0 40652 Jun 20 05:12 AthrBT_0x31010000.dfu
+-rw-r--r--.  1 0 0 37796 Jun 20 05:12 AthrBT_0x31010100.dfu
+-rw-r--r--.  1 0 0 31500 Jun 20 05:12 AthrBT_0x41020000.dfu
+-rw-r--r--.  1 0 0  1224 Jun 20 05:12 ramps_0x01020001_26.dfu
+-rw-r--r--.  1 0 0  1274 Jun 20 05:12 ramps_0x01020200_26.dfu
+-rw-r--r--.  1 0 0  1204 Jun 20 05:12 ramps_0x01020200_40.dfu
+-rw-r--r--.  1 0 0   264 Jun 20 05:12 ramps_0x01020201_26.dfu
+-rw-r--r--.  1 0 0   264 Jun 20 05:12 ramps_0x01020201_40.dfu
+-rw-r--r--.  1 0 0  1796 Jun 20 05:12 ramps_0x11020000_40.dfu
+-rw-r--r--.  1 0 0  1802 Jun 20 05:12 ramps_0x11020100_40.dfu
+-rw-r--r--.  1 0 0  1926 Jun 20 05:12 ramps_0x31010000_40.dfu
+-rw-r--r--.  1 0 0  1922 Jun 20 05:12 ramps_0x31010100_40.dfu
+-rw-r--r--.  1 0 0  1820 Jun 20 05:12 ramps_0x41020000_40.dfu
+
+/lib/firmware/ar3k/1020200:
+total 68
+drwxr-xr-x. 2 0 0    67 Nov  9 15:39 .
+drwxr-xr-x. 8 0 0  4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  4742 Jun 20 05:12 PS_ASIC.pst
+-rw-r--r--. 1 0 0 52221 Jun 20 05:12 RamPatch.txt
+-rw-r--r--. 1 0 0    14 Jun 20 05:12 ar3kbdaddr.pst
+
+/lib/firmware/ar3k/1020201:
+total 44
+drwxr-xr-x. 2 0 0    45 Nov  9 15:39 .
+drwxr-xr-x. 8 0 0  4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   910 Jun 20 05:12 PS_ASIC.pst
+-rw-r--r--. 1 0 0 34299 Jun 20 05:12 RamPatch.txt
+
+/lib/firmware/ar3k/1020201coex:
+total 8
+drwxr-xr-x. 2 0 0   50 Nov  9 15:39 .
+drwxr-xr-x. 8 0 0 4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  336 Jun 20 05:12 ramps_0x01020201_26_HighPriority.dfu
+
+/lib/firmware/ar3k/30000:
+total 16
+drwxr-xr-x. 2 0 0   67 Nov  9 15:39 .
+drwxr-xr-x. 8 0 0 4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 1353 Jun 20 05:12 PS_ASIC.pst
+-rw-r--r--. 1 0 0 2776 Jun 20 05:12 RamPatch.txt
+-rw-r--r--. 1 0 0   14 Jun 20 05:12 ar3kbdaddr.pst
+
+/lib/firmware/ar3k/30101:
+total 32
+drwxr-xr-x. 2 0 0    67 Nov  9 15:39 .
+drwxr-xr-x. 8 0 0  4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  1479 Jun 20 05:12 PS_ASIC.pst
+-rw-r--r--. 1 0 0 17300 Jun 20 05:12 RamPatch.txt
+-rw-r--r--. 1 0 0    14 Jun 20 05:12 ar3kbdaddr.pst
+
+/lib/firmware/ar3k/30101coex:
+total 40
+drwxr-xr-x. 2 0 0   126 Nov  9 15:39 .
+drwxr-xr-x. 8 0 0  4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  2166 Jun 20 05:12 PS_ASIC.pst
+-rw-r--r--. 1 0 0  2166 Jun 20 05:12 PS_ASIC_aclHighPri.pst
+-rw-r--r--. 1 0 0  2166 Jun 20 05:12 PS_ASIC_aclLowPri.pst
+-rw-r--r--. 1 0 0 19436 Jun 20 05:12 RamPatch.txt
+-rw-r--r--. 1 0 0    13 Jun 20 05:12 ar3kbdaddr.pst
+
+/lib/firmware/ath10k:
+total 16
+drwxr-xr-x. 11 0 0   141 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA4019
+drwxr-xr-x.  4 0 0    32 Nov  9 15:39 QCA6174
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA9377
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA9887
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA9888
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA988X
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA9984
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 QCA99X0
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 WCN3990
+
+/lib/firmware/ath10k/QCA4019:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  47 Nov  9 15:39 hw1.0
+
+/lib/firmware/ath10k/QCA4019/hw1.0:
+total 1168
+drwxr-xr-x. 2 0 0     47 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 607304 Jun 20 05:12 board-2.bin
+-rw-r--r--. 1 0 0 583344 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/QCA6174:
+total 0
+drwxr-xr-x.  4 0 0  32 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  64 Nov  9 15:39 hw2.1
+drwxr-xr-x.  2 0 0  86 Nov  9 15:39 hw3.0
+
+/lib/firmware/ath10k/QCA6174/hw2.1:
+total 756
+drwxr-xr-x. 2 0 0     64 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0     32 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 263188 Jun 20 05:12 board-2.bin
+-rw-r--r--. 1 0 0   8124 Jun 20 05:12 board.bin
+-rw-r--r--. 1 0 0 498172 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/QCA6174/hw3.0:
+total 1988
+drwxr-xr-x. 2 0 0     86 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0     32 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 584036 Jun 20 05:12 board-2.bin
+-rw-r--r--. 1 0 0   8124 Jun 20 05:12 board.bin
+-rw-r--r--. 1 0 0 733784 Jun 20 05:12 firmware-4.bin
+-rw-r--r--. 1 0 0 700988 Jun 20 05:12 firmware-6.bin
+
+/lib/firmware/ath10k/QCA9377:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  86 Nov  9 15:39 hw1.0
+
+/lib/firmware/ath10k/QCA9377/hw1.0:
+total 1812
+drwxr-xr-x. 2 0 0     86 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 304308 Jun 20 05:12 board-2.bin
+-rw-r--r--. 1 0 0   8124 Jun 20 05:12 board.bin
+-rw-r--r--. 1 0 0 783336 Jun 20 05:12 firmware-5.bin
+-rw-r--r--. 1 0 0 751436 Jun 20 05:12 firmware-6.bin
+
+/lib/firmware/ath10k/QCA9887:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  45 Nov  9 15:39 hw1.0
+
+/lib/firmware/ath10k/QCA9887/hw1.0:
+total 240
+drwxr-xr-x. 2 0 0     45 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   1024 Jun 20 05:12 board.bin
+-rw-r--r--. 1 0 0 238548 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/QCA9888:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  47 Nov  9 15:39 hw2.0
+
+/lib/firmware/ath10k/QCA9888/hw2.0:
+total 760
+drwxr-xr-x. 2 0 0     47 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  84928 Jun 20 05:12 board-2.bin
+-rw-r--r--. 1 0 0 688140 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/QCA988X:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  67 Nov  9 15:39 hw2.0
+
+/lib/firmware/ath10k/QCA988X/hw2.0:
+total 488
+drwxr-xr-x. 2 0 0     67 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   2116 Jun 20 05:12 board.bin
+-rw-r--r--. 1 0 0 241892 Jun 20 05:12 firmware-4.bin
+-rw-r--r--. 1 0 0 249044 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/QCA9984:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  47 Nov  9 15:39 hw1.0
+
+/lib/firmware/ath10k/QCA9984/hw1.0:
+total 832
+drwxr-xr-x. 2 0 0     47 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 171916 Jun 20 05:12 board-2.bin
+-rw-r--r--. 1 0 0 675948 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/QCA99X0:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  45 Nov  9 15:39 hw2.0
+
+/lib/firmware/ath10k/QCA99X0/hw2.0:
+total 484
+drwxr-xr-x. 2 0 0     45 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  12064 Jun 20 05:12 board.bin
+-rw-r--r--. 1 0 0 479332 Jun 20 05:12 firmware-5.bin
+
+/lib/firmware/ath10k/WCN3990:
+total 0
+drwxr-xr-x.  3 0 0  19 Nov  9 15:39 .
+drwxr-xr-x. 11 0 0 141 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  48 Nov  9 15:39 hw1.0
+
+/lib/firmware/ath10k/WCN3990/hw1.0:
+total 3644
+drwxr-xr-x. 2 0 0      48 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0      19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0      60 Jun 20 05:12 firmware-5.bin
+-rw-r--r--. 1 0 0 3725044 Jun 20 05:12 wlanmdsp.mbn
+
+/lib/firmware/ath6k:
+total 16
+drwxr-xr-x.  6 0 0    64 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0    94 Nov  9 15:39 AR6002
+drwxr-xr-x.  5 0 0    47 Nov  9 15:39 AR6003
+drwxr-xr-x.  3 0 0    21 Nov  9 15:39 AR6003.1
+drwxr-xr-x.  4 0 0    32 Nov  9 15:39 AR6004
+
+/lib/firmware/ath6k/AR6002:
+total 112
+drwxr-xr-x. 2 0 0    94 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    64 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 98425 Jun 20 05:12 athwlan.bin.z77
+-rw-r--r--. 1 0 0  1336 Jun 20 05:12 data.patch.hw2_0.bin
+-rw-r--r--. 1 0 0   784 Jun 20 05:12 eeprom.bin
+-rw-r--r--. 1 0 0    48 Jun 20 05:12 eeprom.data
+
+/lib/firmware/ath6k/AR6003:
+total 0
+drwxr-xr-x. 5 0 0  47 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  64 Nov  9 15:39 ..
+drwxr-xr-x. 2 0 0 136 Nov  9 15:39 hw1.0
+drwxr-xr-x. 2 0 0 136 Nov  9 15:39 hw2.0
+drwxr-xr-x. 2 0 0 184 Nov  9 15:39 hw2.1.1
+
+/lib/firmware/ath6k/AR6003/hw1.0:
+total 144
+drwxr-xr-x. 2 0 0    136 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0     47 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 122209 Jun 20 05:12 athwlan.bin.z77
+-rw-r--r--. 1 0 0   1024 Jun 20 05:12 bdata.SD31.bin
+-rw-r--r--. 1 0 0   1024 Jun 20 05:12 bdata.SD32.bin
+-rw-r--r--. 1 0 0   1024 Jun 20 05:12 bdata.WB31.bin
+-rw-r--r--. 1 0 0   5524 Jun 20 05:12 data.patch.bin
+-rw-r--r--. 1 0 0   1665 Jun 20 05:12 otp.bin.z77
+
+/lib/firmware/ath6k/AR6003/hw2.0:
+total 124
+drwxr-xr-x. 2 0 0    136 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0     47 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 100694 Jun 20 05:12 athwlan.bin.z77
+-rw-r--r--. 1 0 0   1792 Jun 20 05:12 bdata.SD31.bin
+-rw-r--r--. 1 0 0   1792 Jun 20 05:12 bdata.SD32.bin
+-rw-r--r--. 1 0 0   1792 Jun 20 05:12 bdata.WB31.bin
+-rw-r--r--. 1 0 0   6012 Jun 20 05:12 data.patch.bin
+-rw-r--r--. 1 0 0   3689 Jun 20 05:12 otp.bin.z77
+
+/lib/firmware/ath6k/AR6003/hw2.1.1:
+total 296
+drwxr-xr-x. 2 0 0    184 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0     47 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  68975 Jun 20 05:12 athwlan.bin
+-rw-r--r--. 1 0 0   1792 Jun 20 05:12 bdata.SD31.bin
+-rw-r--r--. 1 0 0   1792 Jun 20 05:12 bdata.SD32.bin
+-rw-r--r--. 1 0 0   1792 Jun 20 05:12 bdata.WB31.bin
+-rw-r--r--. 1 0 0    140 Jun 20 05:12 data.patch.bin
+-rw-r--r--. 1 0 0  12810 Jun 20 05:12 endpointping.bin
+-rw-r--r--. 1 0 0  89844 Jun 20 05:12 fw-2.bin
+-rw-r--r--. 1 0 0 104562 Jun 20 05:12 fw-3.bin
+-rw-r--r--. 1 0 0   2783 Jun 20 05:12 otp.bin
+
+/lib/firmware/ath6k/AR6003.1:
+total 0
+drwxr-xr-x. 3 0 0  21 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  64 Nov  9 15:39 ..
+drwxr-xr-x. 2 0 0 152 Nov  9 15:39 hw2.1.1
+
+/lib/firmware/ath6k/AR6003.1/hw2.1.1:
+total 104
+drwxr-xr-x. 2 0 0   152 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0    21 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 69434 Jun 20 05:12 athwlan.bin
+-rw-r--r--. 1 0 0  1792 Jun 20 05:12 bdata.SD31.bin
+-rw-r--r--. 1 0 0  1792 Jun 20 05:12 bdata.SD32.bin
+-rw-r--r--. 1 0 0  1792 Jun 20 05:12 bdata.WB31.bin
+-rw-r--r--. 1 0 0   140 Jun 20 05:12 data.patch.bin
+-rw-r--r--. 1 0 0 12893 Jun 20 05:12 endpointping.bin
+-rw-r--r--. 1 0 0  2784 Jun 20 05:12 otp.bin
+
+/lib/firmware/ath6k/AR6004:
+total 0
+drwxr-xr-x. 4 0 0 32 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 64 Nov  9 15:39 ..
+drwxr-xr-x. 2 0 0 39 Nov  9 15:39 hw1.2
+drwxr-xr-x. 2 0 0 39 Nov  9 15:39 hw1.3
+
+/lib/firmware/ath6k/AR6004/hw1.2:
+total 60
+drwxr-xr-x. 2 0 0    39 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    32 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  6144 Jun 20 05:12 bdata.bin
+-rw-r--r--. 1 0 0 53122 Jun 20 05:12 fw-2.bin
+
+/lib/firmware/ath6k/AR6004/hw1.3:
+total 60
+drwxr-xr-x. 2 0 0    39 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    32 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  6144 Jun 20 05:12 bdata.bin
+-rw-r--r--. 1 0 0 50662 Jun 20 05:12 fw-3.bin
+
+/lib/firmware/ath9k_htc:
+total 140
+drwxr-xr-x.  2 0 0    56 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 72812 Jun 20 05:12 htc_7010-1.4.0.fw
+-rw-r--r--.  1 0 0 51008 Jun 20 05:12 htc_9271-1.4.0.fw
+
+/lib/firmware/atmel:
+total 524
+drwxr-xr-x.  2 0 0    116 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 109828 Jun 20 05:12 wilc1000_ap_fw.bin
+-rw-r--r--.  1 0 0 124540 Jun 20 05:12 wilc1000_fw.bin
+-rw-r--r--.  1 0 0 143116 Jun 20 05:12 wilc1000_p2p_fw.bin
+-rw-r--r--.  1 0 0 136344 Jun 20 05:12 wilc1000_wifi_firmware.bin
+
+/lib/firmware/atusb:
+total 40
+drwxr-xr-x.  2 0 0    69 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  5800 Jun 20 05:12 atusb-0.2.dfu
+-rw-r--r--.  1 0 0  6042 Jun 20 05:12 atusb-0.3.dfu
+-rw-r--r--.  1 0 0  6058 Jun 20 05:12 rzusb-0.3.bin
+
+/lib/firmware/av7110:
+total 20
+drwxr-xr-x.  2 0 0    26 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   212 Jun 20 05:12 bootcode.bin
+
+/lib/firmware/bnx2:
+total 1452
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  92628 Jun 20 05:12 bnx2-mips-06-4.6.16.fw
+-rw-r--r--.  1 0 0  93172 Jun 20 05:12 bnx2-mips-06-5.0.0.j3.fw
+-rw-r--r--.  1 0 0  94252 Jun 20 05:12 bnx2-mips-06-5.0.0.j6.fw
+-rw-r--r--.  1 0 0  92780 Jun 20 05:12 bnx2-mips-06-6.0.15.fw
+-rw-r--r--.  1 0 0  92792 Jun 20 05:12 bnx2-mips-06-6.2.1.fw
+-rw-r--r--.  1 0 0  92824 Jun 20 05:12 bnx2-mips-06-6.2.3.fw
+-rw-r--r--.  1 0 0  92760 Jun 20 05:12 bnx2-mips-09-4.6.17.fw
+-rw-r--r--.  1 0 0  96996 Jun 20 05:12 bnx2-mips-09-5.0.0.j15.fw
+-rw-r--r--.  1 0 0  96504 Jun 20 05:12 bnx2-mips-09-5.0.0.j3.fw
+-rw-r--r--.  1 0 0  96616 Jun 20 05:12 bnx2-mips-09-5.0.0.j9.fw
+-rw-r--r--.  1 0 0 103488 Jun 20 05:12 bnx2-mips-09-6.0.17.fw
+-rw-r--r--.  1 0 0 104104 Jun 20 05:12 bnx2-mips-09-6.2.1.fw
+-rw-r--r--.  1 0 0 103868 Jun 20 05:12 bnx2-mips-09-6.2.1a.fw
+-rw-r--r--.  1 0 0 103904 Jun 20 05:12 bnx2-mips-09-6.2.1b.fw
+-rw-r--r--.  1 0 0   6872 Jun 20 05:12 bnx2-rv2p-06-4.6.16.fw
+-rw-r--r--.  1 0 0   6600 Jun 20 05:12 bnx2-rv2p-06-5.0.0.j3.fw
+-rw-r--r--.  1 0 0   5696 Jun 20 05:12 bnx2-rv2p-06-6.0.15.fw
+-rw-r--r--.  1 0 0   7672 Jun 20 05:12 bnx2-rv2p-09-4.6.15.fw
+-rw-r--r--.  1 0 0   7224 Jun 20 05:12 bnx2-rv2p-09-5.0.0.j10.fw
+-rw-r--r--.  1 0 0   7216 Jun 20 05:12 bnx2-rv2p-09-5.0.0.j3.fw
+-rw-r--r--.  1 0 0   6104 Jun 20 05:12 bnx2-rv2p-09-6.0.17.fw
+-rw-r--r--.  1 0 0   7808 Jun 20 05:12 bnx2-rv2p-09ax-5.0.0.j10.fw
+-rw-r--r--.  1 0 0   7800 Jun 20 05:12 bnx2-rv2p-09ax-5.0.0.j3.fw
+-rw-r--r--.  1 0 0   6616 Jun 20 05:12 bnx2-rv2p-09ax-6.0.17.fw
+
+/lib/firmware/bnx2x:
+total 10096
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 151568 Jun 20 05:12 bnx2x-e1-6.0.34.0.fw
+-rw-r--r--.  1 0 0 151680 Jun 20 05:12 bnx2x-e1-6.2.5.0.fw
+-rw-r--r--.  1 0 0 151688 Jun 20 05:12 bnx2x-e1-6.2.9.0.fw
+-rw-r--r--.  1 0 0 161144 Jun 20 05:12 bnx2x-e1-7.0.20.0.fw
+-rw-r--r--.  1 0 0 161248 Jun 20 05:12 bnx2x-e1-7.0.23.0.fw
+-rw-r--r--.  1 0 0 161368 Jun 20 05:12 bnx2x-e1-7.0.29.0.fw
+-rw-r--r--.  1 0 0 164392 Jun 20 05:12 bnx2x-e1-7.10.51.0.fw
+-rw-r--r--.  1 0 0 170192 Jun 20 05:12 bnx2x-e1-7.12.30.0.fw
+-rw-r--r--.  1 0 0 170096 Jun 20 05:12 bnx2x-e1-7.13.1.0.fw
+-rw-r--r--.  1 0 0 169904 Jun 20 05:12 bnx2x-e1-7.13.11.0.fw
+-rw-r--r--.  1 0 0 170168 Jun 20 05:12 bnx2x-e1-7.13.15.0.fw
+-rw-r--r--.  1 0 0 162128 Jun 20 05:12 bnx2x-e1-7.2.16.0.fw
+-rw-r--r--.  1 0 0 162152 Jun 20 05:12 bnx2x-e1-7.2.51.0.fw
+-rw-r--r--.  1 0 0 163576 Jun 20 05:12 bnx2x-e1-7.8.17.0.fw
+-rw-r--r--.  1 0 0 163592 Jun 20 05:12 bnx2x-e1-7.8.19.0.fw
+-rw-r--r--.  1 0 0 163352 Jun 20 05:12 bnx2x-e1-7.8.2.0.fw
+-rw-r--r--.  1 0 0 210776 Jun 20 05:12 bnx2x-e1h-6.0.34.0.fw
+-rw-r--r--.  1 0 0 210824 Jun 20 05:12 bnx2x-e1h-6.2.5.0.fw
+-rw-r--r--.  1 0 0 211000 Jun 20 05:12 bnx2x-e1h-6.2.9.0.fw
+-rw-r--r--.  1 0 0 168552 Jun 20 05:12 bnx2x-e1h-7.0.20.0.fw
+-rw-r--r--.  1 0 0 168544 Jun 20 05:12 bnx2x-e1h-7.0.23.0.fw
+-rw-r--r--.  1 0 0 168680 Jun 20 05:12 bnx2x-e1h-7.0.29.0.fw
+-rw-r--r--.  1 0 0 173016 Jun 20 05:12 bnx2x-e1h-7.10.51.0.fw
+-rw-r--r--.  1 0 0 178984 Jun 20 05:12 bnx2x-e1h-7.12.30.0.fw
+-rw-r--r--.  1 0 0 178992 Jun 20 05:12 bnx2x-e1h-7.13.1.0.fw
+-rw-r--r--.  1 0 0 178328 Jun 20 05:12 bnx2x-e1h-7.13.11.0.fw
+-rw-r--r--.  1 0 0 178608 Jun 20 05:12 bnx2x-e1h-7.13.15.0.fw
+-rw-r--r--.  1 0 0 169896 Jun 20 05:12 bnx2x-e1h-7.2.16.0.fw
+-rw-r--r--.  1 0 0 169960 Jun 20 05:12 bnx2x-e1h-7.2.51.0.fw
+-rw-r--r--.  1 0 0 171920 Jun 20 05:12 bnx2x-e1h-7.8.17.0.fw
+-rw-r--r--.  1 0 0 171920 Jun 20 05:12 bnx2x-e1h-7.8.19.0.fw
+-rw-r--r--.  1 0 0 171368 Jun 20 05:12 bnx2x-e1h-7.8.2.0.fw
+-rw-r--r--.  1 0 0 247008 Jun 20 05:12 bnx2x-e2-6.0.34.0.fw
+-rw-r--r--.  1 0 0 247232 Jun 20 05:12 bnx2x-e2-6.2.5.0.fw
+-rw-r--r--.  1 0 0 247504 Jun 20 05:12 bnx2x-e2-6.2.9.0.fw
+-rw-r--r--.  1 0 0 290952 Jun 20 05:12 bnx2x-e2-7.0.20.0.fw
+-rw-r--r--.  1 0 0 289448 Jun 20 05:12 bnx2x-e2-7.0.23.0.fw
+-rw-r--r--.  1 0 0 289848 Jun 20 05:12 bnx2x-e2-7.0.29.0.fw
+-rw-r--r--.  1 0 0 321456 Jun 20 05:12 bnx2x-e2-7.10.51.0.fw
+-rw-r--r--.  1 0 0 321320 Jun 20 05:12 bnx2x-e2-7.12.30.0.fw
+-rw-r--r--.  1 0 0 320936 Jun 20 05:12 bnx2x-e2-7.13.1.0.fw
+-rw-r--r--.  1 0 0 322296 Jun 20 05:12 bnx2x-e2-7.13.11.0.fw
+-rw-r--r--.  1 0 0 323360 Jun 20 05:12 bnx2x-e2-7.13.15.0.fw
+-rw-r--r--.  1 0 0 295072 Jun 20 05:12 bnx2x-e2-7.2.16.0.fw
+-rw-r--r--.  1 0 0 295264 Jun 20 05:12 bnx2x-e2-7.2.51.0.fw
+-rw-r--r--.  1 0 0 310032 Jun 20 05:12 bnx2x-e2-7.8.17.0.fw
+-rw-r--r--.  1 0 0 310440 Jun 20 05:12 bnx2x-e2-7.8.19.0.fw
+-rw-r--r--.  1 0 0 304664 Jun 20 05:12 bnx2x-e2-7.8.2.0.fw
+
+/lib/firmware/brcm:
+total 16748
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 ..
+lrwxrwxrwx.  1 0 0      17 Jun 20 05:12 BCM-0a5c-6410.hcd -> BCM-0bb4-0306.hcd
+-rw-r--r--.  1 0 0   54734 Jun 20 05:12 BCM-0bb4-0306.hcd
+-rw-r--r--.  1 0 0  269595 Jun 20 05:12 bcm4329-fullmac-4.bin
+-rw-r--r--.  1 0 0   96224 Jun 20 05:12 bcm43xx-0.fw
+-rw-r--r--.  1 0 0     180 Jun 20 05:12 bcm43xx_hdr-0.fw
+-rw-r--r--.  1 0 0  385067 Jun 20 05:12 brcmfmac43143-sdio.bin
+-rw-r--r--.  1 0 0  397312 Jun 20 05:12 brcmfmac43143.bin
+-rw-r--r--.  1 0 0  348160 Jun 20 05:12 brcmfmac43236b.bin
+-rw-r--r--.  1 0 0  455745 Jun 20 05:12 brcmfmac43241b0-sdio.bin
+-rw-r--r--.  1 0 0  403855 Jun 20 05:12 brcmfmac43241b4-sdio.bin
+-rw-r--r--.  1 0 0  408682 Jun 20 05:12 brcmfmac43241b5-sdio.bin
+-rw-r--r--.  1 0 0  479232 Jun 20 05:12 brcmfmac43242a.bin
+-rw-r--r--.  1 0 0  253748 Jun 20 05:12 brcmfmac4329-sdio.bin
+-rw-r--r--.  1 0 0    1509 Jun 20 05:12 brcmfmac4330-sdio.Prowise-PT301.txt
+-rw-r--r--.  1 0 0  222126 Jun 20 05:12 brcmfmac4330-sdio.bin
+-rw-r--r--.  1 0 0  451566 Jun 20 05:12 brcmfmac4334-sdio.bin
+-rw-r--r--.  1 0 0  400864 Jun 20 05:12 brcmfmac43340-sdio.bin
+-rw-r--r--.  1 0 0    1693 Jun 20 05:12 brcmfmac43340-sdio.meegopad-t08.txt
+-rw-r--r--.  1 0 0    1724 Jun 20 05:12 brcmfmac43340-sdio.pov-tab-p1006w-data.txt
+-rw-r--r--.  1 0 0  569291 Jun 20 05:12 brcmfmac4335-sdio.bin
+-rw-r--r--.  1 0 0  202107 Jun 20 05:12 brcmfmac43362-sdio.bin
+-rw-r--r--.  1 0 0     803 Jun 20 05:12 brcmfmac43362-sdio.cubietech,cubietruck.txt
+lrwxrwxrwx.  1 0 0      43 Jun 20 05:12 brcmfmac43362-sdio.lemaker,bananapro.txt -> brcmfmac43362-sdio.cubietech,cubietruck.txt
+-rw-r--r--.  1 0 0  562183 Jun 20 05:12 brcmfmac4339-sdio.bin
+-rw-r--r--.  1 0 0     875 Jun 20 05:12 brcmfmac43430-sdio.AP6212.txt
+-rw-r--r--.  1 0 0     928 Jun 20 05:12 brcmfmac43430-sdio.Hampoo-D2D3_Vi8A1.txt
+-rw-r--r--.  1 0 0     831 Jun 20 05:12 brcmfmac43430-sdio.MUR1DX.txt
+-rw-r--r--.  1 0 0  388739 Jun 20 05:12 brcmfmac43430-sdio.bin
+-rw-r--r--.  1 0 0     874 Jun 20 05:12 brcmfmac43430-sdio.raspberrypi,3-model-b.txt
+-rw-r--r--.  1 0 0     989 Jun 20 05:12 brcmfmac43430a0-sdio.ONDA-V80 PLUS.txt
+-rw-r--r--.  1 0 0  382455 Jun 20 05:12 brcmfmac43430a0-sdio.bin
+-rw-r--r--.  1 0 0     951 Jun 20 05:12 brcmfmac43430a0-sdio.jumper-ezpad-mini3.txt
+-rw-r--r--.  1 0 0    2510 Jun 20 05:12 brcmfmac43455-sdio.MINIX-NEO Z83-4.txt
+-rw-r--r--.  1 0 0  488193 Jun 20 05:12 brcmfmac43455-sdio.bin
+-rw-r--r--.  1 0 0    1864 Jun 20 05:12 brcmfmac43455-sdio.raspberrypi,3-model-b-plus.txt
+-rw-r--r--.  1 0 0    1863 Jun 20 05:12 brcmfmac43455-sdio.raspberrypi,4-model-b.txt
+-rw-r--r--.  1 0 0  626140 Jun 20 05:12 brcmfmac4350-pcie.bin
+-rw-r--r--.  1 0 0  623304 Jun 20 05:12 brcmfmac4350c2-pcie.bin
+-rw-r--r--.  1 0 0  605388 Jun 20 05:12 brcmfmac4354-sdio.bin
+-rw-r--r--.  1 0 0  648770 Jun 20 05:12 brcmfmac4356-pcie.bin
+-rw-r--r--.  1 0 0    2515 Jun 20 05:12 brcmfmac4356-pcie.gpd-win-pocket.txt
+-rw-r--r--.  1 0 0  526383 Jun 20 05:12 brcmfmac4356-sdio.bin
+-rw-r--r--.  1 0 0  557056 Jun 20 05:12 brcmfmac43569.bin
+-rw-r--r--.  1 0 0  550333 Jun 20 05:12 brcmfmac43570-pcie.bin
+-rw-r--r--.  1 0 0  633817 Jun 20 05:12 brcmfmac4358-pcie.bin
+-rw-r--r--.  1 0 0  595472 Jun 20 05:12 brcmfmac43602-pcie.ap.bin
+-rw-r--r--.  1 0 0  635449 Jun 20 05:12 brcmfmac43602-pcie.bin
+-rw-r--r--.  1 0 0 1105361 Jun 20 05:12 brcmfmac4366b-pcie.bin
+-rw-r--r--.  1 0 0 1120971 Jun 20 05:12 brcmfmac4366c-pcie.bin
+-rw-r--r--.  1 0 0  623448 Jun 20 05:12 brcmfmac4371-pcie.bin
+-rw-r--r--.  1 0 0  457994 Jun 20 05:12 brcmfmac4373-sdio.bin
+-rw-r--r--.  1 0 0  479232 Jun 20 05:12 brcmfmac4373.bin
+
+/lib/firmware/cadence:
+total 144
+drwxr-xr-x.  2 0 0     26 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rwxr-xr-x.  1 0 0 131072 Jun 20 05:12 mhdp8546.bin
+
+/lib/firmware/cavium:
+total 68
+drwxr-xr-x.  2 0 0    48 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 15794 Jun 20 05:12 cnn55xx_ae.fw
+-rw-r--r--.  1 0 0 35010 Jun 20 05:12 cnn55xx_se.fw
+
+/lib/firmware/cis:
+total 84
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   137 Jun 20 05:12 3CCFEM556.cis
+-rw-r--r--.  1 0 0   134 Jun 20 05:12 3CXEM556.cis
+-rw-r--r--.  1 0 0   109 Jun 20 05:12 COMpad2.cis
+-rw-r--r--.  1 0 0    76 Jun 20 05:12 COMpad4.cis
+-rw-r--r--.  1 0 0   136 Jun 20 05:12 DP83903.cis
+-rw-r--r--.  1 0 0   253 Jun 20 05:12 LA-PCM.cis
+-rw-r--r--.  1 0 0   107 Jun 20 05:12 MT5634ZLX.cis
+-rw-r--r--.  1 0 0    54 Jun 20 05:12 NE2K.cis
+-rw-r--r--.  1 0 0   210 Jun 20 05:12 PCMLM28.cis
+-rw-r--r--.  1 0 0    68 Jun 20 05:12 PE-200.cis
+-rw-r--r--.  1 0 0    74 Jun 20 05:12 PE520.cis
+-rw-r--r--.  1 0 0    86 Jun 20 05:12 RS-COM-2P.cis
+-rw-r--r--.  1 0 0   122 Jun 20 05:12 SW_555_SER.cis
+-rw-r--r--.  1 0 0   140 Jun 20 05:12 SW_7xx_SER.cis
+-rw-r--r--.  1 0 0   132 Jun 20 05:12 SW_8xx_SER.cis
+-rw-r--r--.  1 0 0    85 Jun 20 05:12 tamarack.cis
+
+/lib/firmware/cpia2:
+total 20
+drwxr-xr-x.  2 0 0    29 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   824 Jun 20 05:12 stv0672_vp4.bin
+
+/lib/firmware/cxgb4:
+total 4556
+drwxr-xr-x.  3 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 179202 Jun 20 05:12 aq1202_fw.cld
+-rw-r--r--.  1 0 0 208900 Jun 20 05:12 bcm8483.bin
+drwxr-xr-x.  2 0 0    157 Nov  9 15:39 configs
+lrwxrwxrwx.  1 0 0     29 Jun 20 05:12 t4-config.txt -> configs/t4-config-default.txt
+-rw-r--r--.  1 0 0 539648 Jun 20 05:12 t4fw-1.14.4.0.bin
+-rw-r--r--.  1 0 0 541184 Jun 20 05:12 t4fw-1.15.37.0.bin
+-rw-r--r--.  1 0 0 568832 Jun 20 05:12 t4fw-1.24.17.0.bin
+lrwxrwxrwx.  1 0 0     18 Jun 20 05:12 t4fw.bin -> t4fw-1.24.17.0.bin
+lrwxrwxrwx.  1 0 0     29 Jun 20 05:12 t5-config.txt -> configs/t5-config-default.txt
+-rw-r--r--.  1 0 0 593920 Jun 20 05:12 t5fw-1.14.4.0.bin
+-rw-r--r--.  1 0 0 596992 Jun 20 05:12 t5fw-1.15.37.0.bin
+-rw-r--r--.  1 0 0 672768 Jun 20 05:12 t5fw-1.24.17.0.bin
+lrwxrwxrwx.  1 0 0     18 Jun 20 05:12 t5fw.bin -> t5fw-1.24.17.0.bin
+lrwxrwxrwx.  1 0 0     29 Jun 20 05:12 t6-config.txt -> configs/t6-config-default.txt
+-rw-r--r--.  1 0 0 727040 Jun 20 05:12 t6fw-1.24.17.0.bin
+lrwxrwxrwx.  1 0 0     18 Jun 20 05:12 t6fw.bin -> t6fw-1.24.17.0.bin
+
+/lib/firmware/cxgb4/configs:
+total 112
+drwxr-xr-x. 2 0 0   157 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0  4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 21429 Jun 20 05:12 t4-config-default.txt
+-rw-r--r--. 1 0 0 21855 Jun 20 05:12 t5-config-default.txt
+-rw-r--r--. 1 0 0 16714 Jun 20 05:12 t5-config-hashfilter.txt
+-rw-r--r--. 1 0 0 22571 Jun 20 05:12 t6-config-default.txt
+-rw-r--r--. 1 0 0 16097 Jun 20 05:12 t6-config-hashfilter.txt
+
+/lib/firmware/dabusb:
+total 40
+drwxr-xr-x.  2 0 0    46 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 12042 Jun 20 05:12 bitstream.bin
+-rw-r--r--.  1 0 0  9822 Jun 20 05:12 firmware.fw
+
+/lib/firmware/dpaa2:
+total 20
+drwxr-xr-x.  3 0 0    16 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 mc
+
+/lib/firmware/dpaa2/mc:
+total 11808
+drwxr-xr-x. 2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0      16 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  904152 Jun 20 05:12 mc_10.10.0_ls1088a.itb
+-rw-r--r--. 1 0 0 1012808 Jun 20 05:12 mc_10.10.0_ls2088a.itb
+-rw-r--r--. 1 0 0 1014024 Jun 20 05:12 mc_10.10.0_lx2160a.itb
+-rw-r--r--. 1 0 0  954240 Jun 20 05:12 mc_10.14.3_ls1088a.itb
+-rw-r--r--. 1 0 0 1063216 Jun 20 05:12 mc_10.14.3_ls2088a.itb
+-rw-r--r--. 1 0 0 1064880 Jun 20 05:12 mc_10.14.3_lx2160a.itb
+-rw-r--r--. 1 0 0  930560 Jun 20 05:12 mc_10.16.2_ls1088a.itb
+-rw-r--r--. 1 0 0 1039984 Jun 20 05:12 mc_10.16.2_ls2088a.itb
+-rw-r--r--. 1 0 0 1043696 Jun 20 05:12 mc_10.16.2_lx2160a.itb
+-rw-r--r--. 1 0 0  937920 Jun 20 05:12 mc_10.18.0_ls1088a.itb
+-rw-r--r--. 1 0 0 1048880 Jun 20 05:12 mc_10.18.0_ls2088a.itb
+-rw-r--r--. 1 0 0 1053040 Jun 20 05:12 mc_10.18.0_lx2160a.itb
+
+/lib/firmware/dsp56k:
+total 20
+drwxr-xr-x.  2 0 0    27 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   375 Jun 20 05:12 bootstrap.bin
+
+/lib/firmware/e100:
+total 28
+drwxr-xr-x.  2 0 0    75 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   539 Jun 20 05:12 d101m_ucode.bin
+-rw-r--r--.  1 0 0   539 Jun 20 05:12 d101s_ucode.bin
+-rw-r--r--.  1 0 0   539 Jun 20 05:12 d102e_ucode.bin
+
+/lib/firmware/edgeport:
+total 88
+drwxr-xr-x.  2 0 0    85 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  7250 Jun 20 05:12 boot.fw
+-rw-r--r--.  1 0 0  7042 Jun 20 05:12 boot2.fw
+-rw-r--r--.  1 0 0 18098 Jun 20 05:12 down.fw
+-rw-r--r--.  1 0 0 16566 Jun 20 05:12 down2.fw
+-rw-r--r--.  1 0 0 12942 Jun 20 05:12 down3.bin
+
+/lib/firmware/emi26:
+total 152
+drwxr-xr-x.  2 0 0     62 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 104858 Jun 20 05:12 bitstream.fw
+-rw-r--r--.  1 0 0  28070 Jun 20 05:12 firmware.fw
+-rw-r--r--.  1 0 0   1942 Jun 20 05:12 loader.fw
+
+/lib/firmware/emi62:
+total 224
+drwxr-xr-x.  2 0 0     74 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 146490 Jun 20 05:12 bitstream.fw
+-rw-r--r--.  1 0 0   1910 Jun 20 05:12 loader.fw
+-rw-r--r--.  1 0 0  28798 Jun 20 05:12 midi.fw
+-rw-r--r--.  1 0 0  28606 Jun 20 05:12 spdif.fw
+
+/lib/firmware/ene-ub6250:
+total 40
+drwxr-xr-x.  2 0 0   123 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 ms_init.bin
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 ms_rdwr.bin
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 msp_rdwr.bin
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 sd_init1.bin
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 sd_init2.bin
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 sd_rdwr.bin
+
+/lib/firmware/go7007:
+total 220
+drwxr-xr-x.  2 0 0    160 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  30800 Jun 20 05:12 go7007fw.bin
+-rw-r--r--.  1 0 0 124668 Jun 20 05:12 go7007tv.bin
+-rw-r--r--.  1 0 0   5793 Jun 20 05:12 lr192.fw
+-rw-r--r--.  1 0 0   5838 Jun 20 05:12 px-m402u.fw
+-rw-r--r--.  1 0 0   6581 Jun 20 05:12 px-tv402u.fw
+-rw-r--r--.  1 0 0   1092 Jun 20 05:12 s2250-1.fw
+-rw-r--r--.  1 0 0   9508 Jun 20 05:12 s2250-2.fw
+-rw-r--r--.  1 0 0   6381 Jun 20 05:12 wis-startrek.fw
+
+/lib/firmware/i915:
+total 8776
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+lrwxrwxrwx.  1 0 0     19 Jun 20 05:12 bxt_dmc_ver1.bin -> bxt_dmc_ver1_07.bin
+-rw-r--r--.  1 0 0   8380 Jun 20 05:12 bxt_dmc_ver1_07.bin
+-rw-r--r--.  1 0 0 176256 Jun 20 05:12 bxt_guc_32.0.3.bin
+-rw-r--r--.  1 0 0 181888 Jun 20 05:12 bxt_guc_33.0.0.bin
+-rw-r--r--.  1 0 0 140928 Jun 20 05:12 bxt_guc_ver8_7.bin
+-rw-r--r--.  1 0 0 146432 Jun 20 05:12 bxt_guc_ver9_29.bin
+-rw-r--r--.  1 0 0 149824 Jun 20 05:12 bxt_huc_2.0.0.bin
+-rw-r--r--.  1 0 0 154432 Jun 20 05:12 bxt_huc_ver01_07_1398.bin
+-rw-r--r--.  1 0 0 146880 Jun 20 05:12 bxt_huc_ver01_8_2893.bin
+-rw-r--r--.  1 0 0 182912 Jun 20 05:12 cml_guc_33.0.0.bin
+-rw-r--r--.  1 0 0 226048 Jun 20 05:12 cml_huc_4.0.0.bin
+-rw-r--r--.  1 0 0  11224 Jun 20 05:12 cnl_dmc_ver1_06.bin
+-rw-r--r--.  1 0 0  11268 Jun 20 05:12 cnl_dmc_ver1_07.bin
+-rw-r--r--.  1 0 0 396288 Jun 20 05:12 ehl_guc_33.0.4.bin
+-rw-r--r--.  1 0 0 498880 Jun 20 05:12 ehl_huc_9.0.0.bin
+-rw-r--r--.  1 0 0   8800 Jun 20 05:12 glk_dmc_ver1_04.bin
+-rw-r--r--.  1 0 0 176640 Jun 20 05:12 glk_guc_32.0.3.bin
+-rw-r--r--.  1 0 0 182336 Jun 20 05:12 glk_guc_33.0.0.bin
+-rw-r--r--.  1 0 0 226048 Jun 20 05:12 glk_huc_4.0.0.bin
+-rw-r--r--.  1 0 0 222080 Jun 20 05:12 glk_huc_ver03_01_2893.bin
+-rw-r--r--.  1 0 0  25716 Jun 20 05:12 icl_dmc_ver1_07.bin
+-rw-r--r--.  1 0 0  25952 Jun 20 05:12 icl_dmc_ver1_09.bin
+-rw-r--r--.  1 0 0 380096 Jun 20 05:12 icl_guc_32.0.3.bin
+-rw-r--r--.  1 0 0 385280 Jun 20 05:12 icl_guc_33.0.0.bin
+-rw-r--r--.  1 0 0 498880 Jun 20 05:12 icl_huc_9.0.0.bin
+-rw-r--r--.  1 0 0 488960 Jun 20 05:12 icl_huc_ver8_4_3238.bin
+lrwxrwxrwx.  1 0 0     19 Jun 20 05:12 kbl_dmc_ver1.bin -> kbl_dmc_ver1_01.bin
+-rw-r--r--.  1 0 0   8616 Jun 20 05:12 kbl_dmc_ver1_01.bin
+-rw-r--r--.  1 0 0   8840 Jun 20 05:12 kbl_dmc_ver1_04.bin
+-rw-r--r--.  1 0 0 176448 Jun 20 05:12 kbl_guc_32.0.3.bin
+-rw-r--r--.  1 0 0 182912 Jun 20 05:12 kbl_guc_33.0.0.bin
+-rw-r--r--.  1 0 0 142656 Jun 20 05:12 kbl_guc_ver9_14.bin
+-rw-r--r--.  1 0 0 147776 Jun 20 05:12 kbl_guc_ver9_39.bin
+-rw-r--r--.  1 0 0 226048 Jun 20 05:12 kbl_huc_4.0.0.bin
+-rw-r--r--.  1 0 0 218688 Jun 20 05:12 kbl_huc_ver02_00_1810.bin
+lrwxrwxrwx.  1 0 0     19 Jun 20 05:12 skl_dmc_ver1.bin -> skl_dmc_ver1_26.bin
+-rw-r--r--.  1 0 0   8824 Jun 20 05:12 skl_dmc_ver1_23.bin
+-rw-r--r--.  1 0 0   8928 Jun 20 05:12 skl_dmc_ver1_26.bin
+-rw-r--r--.  1 0 0   8928 Jun 20 05:12 skl_dmc_ver1_27.bin
+-rw-r--r--.  1 0 0 175552 Jun 20 05:12 skl_guc_32.0.3.bin
+-rw-r--r--.  1 0 0 182080 Jun 20 05:12 skl_guc_33.0.0.bin
+-rw-r--r--.  1 0 0 109636 Jun 20 05:12 skl_guc_ver1.bin
+-rw-r--r--.  1 0 0 128320 Jun 20 05:12 skl_guc_ver4.bin
+lrwxrwxrwx.  1 0 0     18 Jun 20 05:12 skl_guc_ver6.bin -> skl_guc_ver6_1.bin
+-rw-r--r--.  1 0 0 129024 Jun 20 05:12 skl_guc_ver6_1.bin
+-rw-r--r--.  1 0 0 147520 Jun 20 05:12 skl_guc_ver9_33.bin
+-rw-r--r--.  1 0 0 136320 Jun 20 05:12 skl_huc_2.0.0.bin
+-rw-r--r--.  1 0 0 140992 Jun 20 05:12 skl_huc_ver01_07_1398.bin
+-rw-r--r--.  1 0 0  18436 Jun 20 05:12 tgl_dmc_ver2_04.bin
+-rw-r--r--.  1 0 0  18660 Jun 20 05:12 tgl_dmc_ver2_06.bin
+-rw-r--r--.  1 0 0 417728 Jun 20 05:12 tgl_guc_35.2.0.bin
+-rw-r--r--.  1 0 0 530368 Jun 20 05:12 tgl_huc_7.0.12.bin
+-rw-r--r--.  1 0 0 521408 Jun 20 05:12 tgl_huc_7.0.3.bin
+
+/lib/firmware/imx:
+total 16
+drwxr-xr-x.  3 0 0    18 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0    50 Nov  9 15:39 sdma
+
+/lib/firmware/imx/sdma:
+total 8
+drwxr-xr-x. 2 0 0   50 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0   18 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 2746 Jun 20 05:12 sdma-imx6q.bin
+-rw-r--r--. 1 0 0 2862 Jun 20 05:12 sdma-imx7d.bin
+
+/lib/firmware/inside-secure:
+total 16
+drwxr-xr-x.  3 0 0    27 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0    38 Nov  9 15:39 eip197_minifw
+
+/lib/firmware/inside-secure/eip197_minifw:
+total 8
+drwxr-xr-x. 2 0 0  38 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0  27 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 100 Jun 20 05:12 ifpp.bin
+-rw-r--r--. 1 0 0 108 Jun 20 05:12 ipue.bin
+
+/lib/firmware/intel:
+total 25280
+drwxr-xr-x.  3 0 0    8192 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  260320 Jun 20 05:12 IntcSST2.bin
+lrwxrwxrwx.  1 0 0      21 Jun 20 05:12 dsp_fw_bxtn.bin -> dsp_fw_bxtn_v3366.bin
+-rw-r--r--.  1 0 0  505608 Jun 20 05:12 dsp_fw_bxtn_v2219.bin
+-rw-r--r--.  1 0 0  505608 Jun 20 05:12 dsp_fw_bxtn_v3366.bin
+lrwxrwxrwx.  1 0 0      20 Jun 20 05:12 dsp_fw_cnl.bin -> dsp_fw_cnl_v1858.bin
+-rw-r--r--.  1 0 0  583852 Jun 20 05:12 dsp_fw_cnl_v1191.bin
+-rw-r--r--.  1 0 0  583852 Jun 20 05:12 dsp_fw_cnl_v1858.bin
+lrwxrwxrwx.  1 0 0      20 Jun 20 05:12 dsp_fw_glk.bin -> dsp_fw_glk_v3366.bin
+-rw-r--r--.  1 0 0  505608 Jun 20 05:12 dsp_fw_glk_v1814.bin
+-rw-r--r--.  1 0 0  505608 Jun 20 05:12 dsp_fw_glk_v2768.bin
+-rw-r--r--.  1 0 0  505608 Jun 20 05:12 dsp_fw_glk_v2880.bin
+-rw-r--r--.  1 0 0  505608 Jun 20 05:12 dsp_fw_glk_v3366.bin
+lrwxrwxrwx.  1 0 0      20 Jun 20 05:12 dsp_fw_kbl.bin -> dsp_fw_kbl_v3402.bin
+-rw-r--r--.  1 0 0  238920 Jun 20 05:12 dsp_fw_kbl_v1037.bin
+-rw-r--r--.  1 0 0  238920 Jun 20 05:12 dsp_fw_kbl_v2042.bin
+-rw-r--r--.  1 0 0  243016 Jun 20 05:12 dsp_fw_kbl_v2630.bin
+-rw-r--r--.  1 0 0  243016 Jun 20 05:12 dsp_fw_kbl_v3266.bin
+-rw-r--r--.  1 0 0  247112 Jun 20 05:12 dsp_fw_kbl_v3402.bin
+-rw-r--r--.  1 0 0  243016 Jun 20 05:12 dsp_fw_kbl_v3420.bin
+-rw-r--r--.  1 0 0  238920 Jun 20 05:12 dsp_fw_kbl_v701.bin
+lrwxrwxrwx.  1 0 0      24 Jun 20 05:12 dsp_fw_release.bin -> dsp_fw_release_v3402.bin
+-rw-r--r--.  1 0 0  247112 Jun 20 05:12 dsp_fw_release_v3402.bin
+-rw-r--r--.  1 0 0  221184 Jun 20 05:12 dsp_fw_release_v969.bin
+-rw-r--r--.  1 0 0  701622 Jun 20 05:12 fw_sst_0f28.bin
+-rw-r--r--.  1 0 0  265684 Jun 20 05:12 fw_sst_0f28.bin-48kHz_i2s_master
+-rw-r--r--.  1 0 0  701622 Jun 20 05:12 fw_sst_0f28_ssp0.bin
+-rw-r--r--.  1 0 0  701694 Jun 20 05:12 fw_sst_22a8.bin
+-rw-r--r--.  1 0 0      18 Jun 20 05:12 ibt-11-5.ddc
+-rw-r--r--.  1 0 0  588196 Jun 20 05:12 ibt-11-5.sfi
+-rw-r--r--.  1 0 0      14 Jun 20 05:12 ibt-12-16.ddc
+-rw-r--r--.  1 0 0  585744 Jun 20 05:12 ibt-12-16.sfi
+-rw-r--r--.  1 0 0      14 Jun 20 05:12 ibt-17-0-1.ddc
+-rw-r--r--.  1 0 0  625216 Jun 20 05:12 ibt-17-0-1.sfi
+-rw-r--r--.  1 0 0      14 Jun 20 05:12 ibt-17-1.ddc
+-rw-r--r--.  1 0 0  625216 Jun 20 05:12 ibt-17-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-17-16-1.ddc
+-rw-r--r--.  1 0 0  670704 Jun 20 05:12 ibt-17-16-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-17-2.ddc
+-rw-r--r--.  1 0 0  670704 Jun 20 05:12 ibt-17-2.sfi
+-rw-r--r--.  1 0 0      14 Jun 20 05:12 ibt-18-0-1.ddc
+-rw-r--r--.  1 0 0  625216 Jun 20 05:12 ibt-18-0-1.sfi
+-rw-r--r--.  1 0 0      14 Jun 20 05:12 ibt-18-1.ddc
+-rw-r--r--.  1 0 0  625216 Jun 20 05:12 ibt-18-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-18-16-1.ddc
+-rw-r--r--.  1 0 0  670704 Jun 20 05:12 ibt-18-16-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-18-2.ddc
+-rw-r--r--.  1 0 0  670704 Jun 20 05:12 ibt-18-2.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-0-0.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-0-0.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-0-1.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-0-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-0-4.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-0-4.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-16-4.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-16-4.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-240-1.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-240-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-240-4.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-240-4.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-32-0.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-32-0.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-32-1.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-32-1.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-19-32-4.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-19-32-4.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-20-0-3.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-20-0-3.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-20-1-3.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-20-1-3.sfi
+-rw-r--r--.  1 0 0       9 Jun 20 05:12 ibt-20-1-4.ddc
+-rw-r--r--.  1 0 0  739660 Jun 20 05:12 ibt-20-1-4.sfi
+-rw-r--r--.  1 0 0   22069 Jun 20 05:12 ibt-hw-37.7.10-fw-1.0.1.2d.d.bseq
+-rw-r--r--.  1 0 0   25853 Jun 20 05:12 ibt-hw-37.7.10-fw-1.0.2.3.d.bseq
+-rw-r--r--.  1 0 0   23105 Jun 20 05:12 ibt-hw-37.7.10-fw-1.80.1.2d.d.bseq
+-rw-r--r--.  1 0 0   25775 Jun 20 05:12 ibt-hw-37.7.10-fw-1.80.2.3.d.bseq
+-rw-r--r--.  1 0 0      96 Jun 20 05:12 ibt-hw-37.7.bseq
+-rw-r--r--.  1 0 0   31056 Jun 20 05:12 ibt-hw-37.8.10-fw-1.10.2.27.d.bseq
+-rw-r--r--.  1 0 0   39295 Jun 20 05:12 ibt-hw-37.8.10-fw-1.10.3.11.e.bseq
+-rw-r--r--.  1 0 0   48587 Jun 20 05:12 ibt-hw-37.8.10-fw-22.50.19.14.f.bseq
+-rw-r--r--.  1 0 0      96 Jun 20 05:12 ibt-hw-37.8.bseq
+drwxr-xr-x.  3 0 0      17 Nov  9 15:39 ice
+lrwxrwxrwx.  1 0 0      52 Jun 20 05:12 ipu3-fw.bin -> irci_irci_ecr-master_20161208_0213_20170112_1500.bin
+-rw-r--r--.  1 0 0 1212984 Jun 20 05:12 irci_irci_ecr-master_20161208_0213_20170112_1500.bin
+
+/lib/firmware/intel/ice:
+total 12
+drwxr-xr-x. 3 0 0   17 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0 8192 Nov  9 15:39 ..
+drwxr-xr-x. 2 0 0   44 Nov  9 15:39 ddp
+
+/lib/firmware/intel/ice/ddp:
+total 568
+drwxr-xr-x. 2 0 0     44 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     17 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 577796 Jun 20 05:12 ice-1.3.4.0.pkg
+lrwxrwxrwx. 1 0 0     15 Jun 20 05:12 ice.pkg -> ice-1.3.4.0.pkg
+
+/lib/firmware/intel-ucode:
+total 16
+drwxr-xr-x.  2 0 0     6 Nov  9 15:48 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+
+/lib/firmware/isci:
+total 20
+drwxr-xr-x.  2 0 0    31 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   232 Jun 20 05:12 isci_firmware.bin
+
+/lib/firmware/kaweth:
+total 32
+drwxr-xr-x.  2 0 0   102 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  3276 Jun 20 05:12 new_code.bin
+-rw-r--r--.  1 0 0   622 Jun 20 05:12 new_code_fix.bin
+-rw-r--r--.  1 0 0   182 Jun 20 05:12 trigger_code.bin
+-rw-r--r--.  1 0 0    22 Jun 20 05:12 trigger_code_fix.bin
+
+/lib/firmware/keyspan:
+total 112
+drwxr-xr-x.  2 0 0   211 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  4658 Jun 20 05:12 mpr.fw
+-rw-r--r--.  1 0 0  7650 Jun 20 05:12 usa18x.fw
+-rw-r--r--.  1 0 0  4690 Jun 20 05:12 usa19.fw
+-rw-r--r--.  1 0 0  4678 Jun 20 05:12 usa19qi.fw
+-rw-r--r--.  1 0 0  7638 Jun 20 05:12 usa19qw.fw
+-rw-r--r--.  1 0 0  7634 Jun 20 05:12 usa19w.fw
+-rw-r--r--.  1 0 0  7938 Jun 20 05:12 usa28.fw
+-rw-r--r--.  1 0 0  7634 Jun 20 05:12 usa28x.fw
+-rw-r--r--.  1 0 0  7634 Jun 20 05:12 usa28xa.fw
+-rw-r--r--.  1 0 0  7638 Jun 20 05:12 usa28xb.fw
+-rw-r--r--.  1 0 0  7938 Jun 20 05:12 usa49w.fw
+-rw-r--r--.  1 0 0  7946 Jun 20 05:12 usa49wlc.fw
+
+/lib/firmware/keyspan_pda:
+total 24
+drwxr-xr-x.  2 0 0    49 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  1914 Jun 20 05:12 keyspan_pda.fw
+-rw-r--r--.  1 0 0  2018 Jun 20 05:12 xircom_pgs.fw
+
+/lib/firmware/libertas:
+total 1436
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:48 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  95132 Jun 20 05:12 cf8381.bin
+-rw-r--r--.  1 0 0   2132 Jun 20 05:12 cf8381_helper.bin
+-rw-r--r--.  1 0 0  97128 Jun 20 05:12 cf8385.bin
+-rw-r--r--.  1 0 0   2140 Jun 20 05:12 cf8385_helper.bin
+-rw-r--r--.  1 0 0 154608 Jun 20 05:12 gspi8682.bin
+-rw-r--r--.  1 0 0   2140 Jun 20 05:12 gspi8682_helper.bin
+-rw-r--r--.  1 0 0 126652 Jun 20 05:12 gspi8686_v9.bin
+-rw-r--r--.  1 0 0   2140 Jun 20 05:12 gspi8686_v9_helper.bin
+-rw-r--r--.  1 0 0 261596 Jun 20 05:12 gspi8688.bin
+-rw-r--r--.  1 0 0   2140 Jun 20 05:12 gspi8688_helper.bin
+-rw-r--r--.  1 0 0 120924 Jun 20 05:12 lbtf_sdio.bin
+-rw-r--r--.  1 0 0  96716 Jun 20 05:12 sd8385.bin
+-rw-r--r--.  1 0 0   2140 Jun 20 05:12 sd8385_helper.bin
+-rw-r--r--.  1 0 0 155648 Jun 20 05:12 sd8682.bin
+-rw-r--r--.  1 0 0   2616 Jun 20 05:12 sd8682_helper.bin
+lrwxrwxrwx.  1 0 0     18 Jun 20 05:12 sd8688.bin -> ../mrvl/sd8688.bin
+lrwxrwxrwx.  1 0 0     25 Jun 20 05:12 sd8688_helper.bin -> ../mrvl/sd8688_helper.bin
+-rw-r--r--.  1 0 0 126644 Jun 20 05:12 usb8388_v9.bin
+-rw-r--r--.  1 0 0 174332 Jun 20 05:12 usb8682.bin
+
+/lib/firmware/liquidio:
+total 4932
+drwxr-xr-x.  2 0 0     105 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 1281464 Jun 20 05:12 lio_210nv_nic.bin
+-rw-r--r--.  1 0 0 1179352 Jun 20 05:12 lio_210sv_nic.bin
+-rw-r--r--.  1 0 0 1287264 Jun 20 05:12 lio_23xx_nic.bin
+-rw-r--r--.  1 0 0 1281464 Jun 20 05:12 lio_410nv_nic.bin
+
+/lib/firmware/matrox:
+total 48
+drwxr-xr-x.  2 0 0    46 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 11214 Jun 20 05:12 g200_warp.fw
+-rw-r--r--.  1 0 0 16790 Jun 20 05:12 g400_warp.fw
+
+/lib/firmware/mediatek:
+total 4612
+drwxr-xr-x.  4 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   80680 Jun 20 05:12 mt7610e.bin
+-rw-r--r--.  1 0 0   80288 Jun 20 05:12 mt7610u.bin
+-rw-r--r--.  1 0 0  122644 Jun 20 05:12 mt7615_cr4.bin
+-rw-r--r--.  1 0 0  457992 Jun 20 05:12 mt7615_n9.bin
+-rw-r--r--.  1 0 0   11102 Jun 20 05:12 mt7615_rom_patch.bin
+-rw-r--r--.  1 0 0  300072 Jun 20 05:12 mt7622_n9.bin
+-rw-r--r--.  1 0 0   82110 Jun 20 05:12 mt7622_rom_patch.bin
+-rwxr-xr-x.  1 0 0   78158 Jun 20 05:12 mt7622pr2h.bin
+-rw-r--r--.  1 0 0  382212 Jun 20 05:12 mt7650e.bin
+-rw-r--r--.  1 0 0   91412 Jun 20 05:12 mt7662u.bin
+-rw-r--r--.  1 0 0   20686 Jun 20 05:12 mt7662u_rom_patch.bin
+-rw-r--r--.  1 0 0  335072 Jun 20 05:12 mt7663_n9_rebb.bin
+-rw-r--r--.  1 0 0  439624 Jun 20 05:12 mt7663_n9_v3.bin
+-rw-r--r--.  1 0 0  278558 Jun 20 05:12 mt7663pr2h.bin
+-rw-r--r--.  1 0 0  209230 Jun 20 05:12 mt7663pr2h_rebb.bin
+-rwxr-xr-x.  1 0 0  170990 Jun 20 05:12 mt7668pr2h.bin
+-rw-r--r--.  1 0 0  144304 Jun 20 05:12 mt7915_rom_patch.bin
+-rw-r--r--.  1 0 0  110848 Jun 20 05:12 mt7915_wa.bin
+-rw-r--r--.  1 0 0 1260896 Jun 20 05:12 mt7915_wm.bin
+drwxr-xr-x.  2 0 0      40 Nov  9 15:39 mt8173
+drwxr-xr-x.  2 0 0      21 Nov  9 15:39 mt8183
+
+/lib/firmware/mediatek/mt8173:
+total 3044
+drwxr-xr-x. 2 0 0      40 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 2977184 Jun 20 05:12 vpu_d.bin
+-rw-r--r--. 1 0 0  131180 Jun 20 05:12 vpu_p.bin
+
+/lib/firmware/mediatek/mt8183:
+total 1008
+drwxr-xr-x. 2 0 0      21 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 1027104 Jun 20 05:12 scp.img
+
+/lib/firmware/mellanox:
+total 14344
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  860424 Jun 20 05:12 mlxsw_spectrum-13.1420.122.mfa2
+-rw-r--r--.  1 0 0  924020 Jun 20 05:12 mlxsw_spectrum-13.1530.152.mfa2
+-rw-r--r--.  1 0 0 1091848 Jun 20 05:12 mlxsw_spectrum-13.1620.192.mfa2
+-rw-r--r--.  1 0 0  863220 Jun 20 05:12 mlxsw_spectrum-13.1702.6.mfa2
+-rw-r--r--.  1 0 0 1150296 Jun 20 05:12 mlxsw_spectrum-13.1703.4.mfa2
+-rw-r--r--.  1 0 0  932092 Jun 20 05:12 mlxsw_spectrum-13.1910.622.mfa2
+-rw-r--r--.  1 0 0  994184 Jun 20 05:12 mlxsw_spectrum-13.2000.1122.mfa2
+-rw-r--r--.  1 0 0 1015156 Jun 20 05:12 mlxsw_spectrum-13.2000.1886.mfa2
+-rw-r--r--.  1 0 0 1044268 Jun 20 05:12 mlxsw_spectrum-13.2000.2308.mfa2
+-rw-r--r--.  1 0 0 1043016 Jun 20 05:12 mlxsw_spectrum-13.2000.2714.mfa2
+-rw-r--r--.  1 0 0 1046392 Jun 20 05:12 mlxsw_spectrum-13.2007.1168.mfa2
+-rw-r--r--.  1 0 0  932040 Jun 20 05:12 mlxsw_spectrum2-29.2000.2308.mfa2
+-rw-r--r--.  1 0 0  943856 Jun 20 05:12 mlxsw_spectrum2-29.2000.2714.mfa2
+-rw-r--r--.  1 0 0  984460 Jun 20 05:12 mlxsw_spectrum2-29.2007.1168.mfa2
+-rw-r--r--.  1 0 0  816704 Jun 20 05:12 mlxsw_spectrum3-30.2007.1168.mfa2
+
+/lib/firmware/meson:
+total 20
+drwxr-xr-x.  3 0 0    18 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 vdec
+
+/lib/firmware/meson/vdec:
+total 324
+drwxr-xr-x. 2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0    18 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 36864 Jun 20 05:12 g12a_h264.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 g12a_hevc_mmu.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 g12a_vp9.bin
+-rw-r--r--. 1 0 0 36864 Jun 20 05:12 gxbb_h264.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_h263.bin
+-rw-r--r--. 1 0 0 36864 Jun 20 05:12 gxl_h264.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_hevc.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_hevc_mmu.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_mjpeg.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_mpeg12.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_mpeg4_5.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 gxl_vp9.bin
+-rw-r--r--. 1 0 0 36864 Jun 20 05:12 gxm_h264.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 sm1_hevc_mmu.bin
+-rw-r--r--. 1 0 0 16384 Jun 20 05:12 sm1_vp9_mmu.bin
+
+/lib/firmware/microchip:
+total 24
+drwxr-xr-x.  2 0 0    90 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  1655 Jun 20 05:12 mscc_vsc8574_revb_int8051_29e8.bin
+-rw-r--r--.  1 0 0    92 Jun 20 05:12 mscc_vsc8584_revb_int8051_fb48.bin
+
+/lib/firmware/moxa:
+total 420
+drwxr-xr-x.  2 0 0   286 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 12462 Jun 20 05:12 moxa-1110.fw
+-rw-r--r--.  1 0 0 12462 Jun 20 05:12 moxa-1130.fw
+-rw-r--r--.  1 0 0 12462 Jun 20 05:12 moxa-1131.fw
+-rw-r--r--.  1 0 0 12462 Jun 20 05:12 moxa-1150.fw
+-rw-r--r--.  1 0 0 12462 Jun 20 05:12 moxa-1151.fw
+-rw-r--r--.  1 0 0 33681 Jun 20 05:12 moxa-1250.fw
+-rw-r--r--.  1 0 0 33685 Jun 20 05:12 moxa-1251.fw
+-rw-r--r--.  1 0 0 33521 Jun 20 05:12 moxa-1410.fw
+-rw-r--r--.  1 0 0 33521 Jun 20 05:12 moxa-1450.fw
+-rw-r--r--.  1 0 0 33525 Jun 20 05:12 moxa-1451.fw
+-rw-r--r--.  1 0 0 33529 Jun 20 05:12 moxa-1613.fw
+-rw-r--r--.  1 0 0 33525 Jun 20 05:12 moxa-1618.fw
+-rw-r--r--.  1 0 0 33529 Jun 20 05:12 moxa-1653.fw
+-rw-r--r--.  1 0 0 33525 Jun 20 05:12 moxa-1658.fw
+
+/lib/firmware/mrvl:
+total 8520
+drwxr-xr-x.  3 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 723540 Jun 20 05:12 pcie8897_uapsta.bin
+-rw-r--r--.  1 0 0 456488 Jun 20 05:12 pcie8997_wlan_v4.bin
+-rw-r--r--.  1 0 0 632240 Jun 20 05:12 pcieuart8997_combo_v4.bin
+-rw-r--r--.  1 0 0 634228 Jun 20 05:12 pcieusb8997_combo_v4.bin
+drwxr-xr-x.  2 0 0     39 Nov  9 15:39 prestera
+-rw-r--r--.  1 0 0 259172 Jun 20 05:12 sd8688.bin
+-rw-r--r--.  1 0 0   2616 Jun 20 05:12 sd8688_helper.bin
+-rw-r--r--.  1 0 0 533976 Jun 20 05:12 sd8797_uapsta.bin
+-rw-r--r--.  1 0 0 255988 Jun 20 05:12 sd8801_uapsta.bin
+-rw-r--r--.  1 0 0 616840 Jun 20 05:12 sd8887_uapsta.bin
+-rw-r--r--.  1 0 0 701072 Jun 20 05:12 sd8897_uapsta.bin
+-rwxr-xr-x.  1 0 0 587052 Jun 20 05:12 sdsd8977_combo_v2.bin
+-rw-r--r--.  1 0 0 621896 Jun 20 05:12 sdsd8997_combo_v4.bin
+-rw-r--r--.  1 0 0 478836 Jun 20 05:12 usb8766_uapsta.bin
+-rw-r--r--.  1 0 0 553940 Jun 20 05:12 usb8797_uapsta.bin
+-rw-r--r--.  1 0 0 252260 Jun 20 05:12 usb8801_uapsta.bin
+-rw-r--r--.  1 0 0 752340 Jun 20 05:12 usb8897_uapsta.bin
+-rw-r--r--.  1 0 0 610252 Jun 20 05:12 usbusb8997_combo_v4.bin
+
+/lib/firmware/mrvl/prestera:
+total 13372
+drwxr-xr-x. 2 0 0       39 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     4096 Nov  9 15:39 ..
+-rwxr-xr-x. 1 0 0 13687252 Jun 20 05:12 mvsw_prestera_fw-v2.0.img
+
+/lib/firmware/mwl8k:
+total 616
+drwxr-xr-x.  2 0 0    208 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  96664 Jun 20 05:12 fmimage_8366.fw
+-rw-r--r--.  1 0 0 101780 Jun 20 05:12 fmimage_8366_ap-1.fw
+-rw-r--r--.  1 0 0 101976 Jun 20 05:12 fmimage_8366_ap-2.fw
+-rw-r--r--.  1 0 0 105552 Jun 20 05:12 fmimage_8366_ap-3.fw
+-rw-r--r--.  1 0 0  73252 Jun 20 05:12 fmimage_8687.fw
+-rw-r--r--.  1 0 0 121380 Jun 20 05:12 fmimage_8764_ap-1.fw
+-rw-r--r--.  1 0 0   2476 Jun 20 05:12 helper_8366.fw
+-rw-r--r--.  1 0 0   2476 Jun 20 05:12 helper_8687.fw
+
+/lib/firmware/mwlwifi:
+total 612
+drwxr-xr-x.  2 0 0     44 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 116356 Jun 20 05:12 88W8864.bin
+-rw-r--r--.  1 0 0 489084 Jun 20 05:12 88W8897.bin
+
+/lib/firmware/myricom:
+total 92
+drwxr-xr-x.  2 0 0    23 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 76258 Jun 20 05:12 lanai.bin
+
+/lib/firmware/netronome:
+total 36
+drwxr-xr-x.  6 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 bpf
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 flower
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 nic
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 nic-sriov
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0058-0011_2x40.nffw -> nic/nic_AMDA0058-0011_2x40.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0058-0012_2x40.nffw -> nic/nic_AMDA0058-0012_2x40.nffw
+lrwxrwxrwx.  1 0 0    32 Jun 20 05:12 nic_AMDA0078-0011_1x100.nffw -> nic/nic_AMDA0078-0011_1x100.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0081-0001_1x40.nffw -> nic/nic_AMDA0081-0001_1x40.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0081-0001_4x10.nffw -> nic/nic_AMDA0081-0001_4x10.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0096-0001_2x10.nffw -> nic/nic_AMDA0096-0001_2x10.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0097-0001_2x40.nffw -> nic/nic_AMDA0097-0001_2x40.nffw
+lrwxrwxrwx.  1 0 0    36 Jun 20 05:12 nic_AMDA0097-0001_4x10_1x40.nffw -> nic/nic_AMDA0097-0001_4x10_1x40.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0097-0001_8x10.nffw -> nic/nic_AMDA0097-0001_8x10.nffw
+lrwxrwxrwx.  1 0 0    36 Jun 20 05:12 nic_AMDA0099-0001_1x10_1x25.nffw -> nic/nic_AMDA0099-0001_1x10_1x25.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0099-0001_2x10.nffw -> nic/nic_AMDA0099-0001_2x10.nffw
+lrwxrwxrwx.  1 0 0    31 Jun 20 05:12 nic_AMDA0099-0001_2x25.nffw -> nic/nic_AMDA0099-0001_2x25.nffw
+
+/lib/firmware/netronome/bpf:
+total 26796
+drwxr-xr-x. 2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 2240160 Jun 20 05:12 nic_AMDA0058-0011_2x40.nffw
+-rw-r--r--. 1 0 0 2240160 Jun 20 05:12 nic_AMDA0058-0012_2x40.nffw
+-rw-r--r--. 1 0 0 2173816 Jun 20 05:12 nic_AMDA0078-0011_1x100.nffw
+-rw-r--r--. 1 0 0 2174120 Jun 20 05:12 nic_AMDA0081-0001_1x40.nffw
+-rw-r--r--. 1 0 0 2362248 Jun 20 05:12 nic_AMDA0081-0001_4x10.nffw
+-rw-r--r--. 1 0 0 2239192 Jun 20 05:12 nic_AMDA0096-0001_2x10.nffw
+-rw-r--r--. 1 0 0 2239384 Jun 20 05:12 nic_AMDA0097-0001_2x40.nffw
+-rw-r--r--. 1 0 0 2423968 Jun 20 05:12 nic_AMDA0097-0001_4x10_1x40.nffw
+-rw-r--r--. 1 0 0 2608288 Jun 20 05:12 nic_AMDA0097-0001_8x10.nffw
+-rw-r--r--. 1 0 0 2240440 Jun 20 05:12 nic_AMDA0099-0001_1x10_1x25.nffw
+-rw-r--r--. 1 0 0 2239192 Jun 20 05:12 nic_AMDA0099-0001_2x10.nffw
+-rw-r--r--. 1 0 0 2240088 Jun 20 05:12 nic_AMDA0099-0001_2x25.nffw
+
+/lib/firmware/netronome/flower:
+total 19176
+drwxr-xr-x. 2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    4096 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0011_1x100.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0011_2x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0011_4x10_1x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0011_8x10.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0012_1x100.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0012_2x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0012_4x10_1x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0058-0012_8x10.nffw -> nic_AMDA0058.nffw
+-rw-r--r--. 1 0 0 6683216 Jun 20 05:12 nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0011_1x100.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0011_2x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0011_4x10_1x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0011_8x10.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0012_1x100.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0012_2x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0012_4x10_1x40.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0078-0012_8x10.nffw -> nic_AMDA0058.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0081-0001_1x40.nffw -> nic_AMDA0081.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0081-0001_4x10.nffw -> nic_AMDA0081.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0081.nffw -> nic_AMDA0097.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0096-0001_2x10.nffw -> nic_AMDA0096.nffw
+-rw-r--r--. 1 0 0 4312000 Jun 20 05:12 nic_AMDA0096.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0097-0001_2x40.nffw -> nic_AMDA0097.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0097-0001_4x10_1x40.nffw -> nic_AMDA0097.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0097-0001_8x10.nffw -> nic_AMDA0097.nffw
+-rw-r--r--. 1 0 0 4312000 Jun 20 05:12 nic_AMDA0097.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0099-0001_1x10_1x25.nffw -> nic_AMDA0099.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0099-0001_2x10.nffw -> nic_AMDA0099.nffw
+lrwxrwxrwx. 1 0 0      17 Jun 20 05:12 nic_AMDA0099-0001_2x25.nffw -> nic_AMDA0099.nffw
+-rw-r--r--. 1 0 0 4314368 Jun 20 05:12 nic_AMDA0099.nffw
+
+/lib/firmware/netronome/nic:
+total 38116
+drwxr-xr-x. 2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 3222512 Jun 20 05:12 nic_AMDA0058-0011_2x40.nffw
+-rw-r--r--. 1 0 0 3222512 Jun 20 05:12 nic_AMDA0058-0012_2x40.nffw
+-rw-r--r--. 1 0 0 3180672 Jun 20 05:12 nic_AMDA0078-0011_1x100.nffw
+-rw-r--r--. 1 0 0 3181080 Jun 20 05:12 nic_AMDA0081-0001_1x40.nffw
+-rw-r--r--. 1 0 0 3297408 Jun 20 05:12 nic_AMDA0081-0001_4x10.nffw
+-rw-r--r--. 1 0 0 3221848 Jun 20 05:12 nic_AMDA0096-0001_2x10.nffw
+-rw-r--r--. 1 0 0 3221944 Jun 20 05:12 nic_AMDA0097-0001_2x40.nffw
+-rw-r--r--. 1 0 0 3335048 Jun 20 05:12 nic_AMDA0097-0001_4x10_1x40.nffw
+-rw-r--r--. 1 0 0 3449264 Jun 20 05:12 nic_AMDA0097-0001_8x10.nffw
+-rw-r--r--. 1 0 0 3222856 Jun 20 05:12 nic_AMDA0099-0001_1x10_1x25.nffw
+-rw-r--r--. 1 0 0 3221832 Jun 20 05:12 nic_AMDA0099-0001_2x10.nffw
+-rw-r--r--. 1 0 0 3222648 Jun 20 05:12 nic_AMDA0099-0001_2x25.nffw
+
+/lib/firmware/netronome/nic-sriov:
+total 59020
+drwxr-xr-x. 2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 4958776 Jun 20 05:12 nic_AMDA0058-0011_2x40.nffw
+-rw-r--r--. 1 0 0 4958776 Jun 20 05:12 nic_AMDA0058-0012_2x40.nffw
+-rw-r--r--. 1 0 0 5203752 Jun 20 05:12 nic_AMDA0078-0011_1x100.nffw
+-rw-r--r--. 1 0 0 5204048 Jun 20 05:12 nic_AMDA0081-0001_1x40.nffw
+-rw-r--r--. 1 0 0 5033952 Jun 20 05:12 nic_AMDA0081-0001_4x10.nffw
+-rw-r--r--. 1 0 0 4958016 Jun 20 05:12 nic_AMDA0096-0001_2x10.nffw
+-rw-r--r--. 1 0 0 4958128 Jun 20 05:12 nic_AMDA0097-0001_2x40.nffw
+-rw-r--r--. 1 0 0 5072120 Jun 20 05:12 nic_AMDA0097-0001_4x10_1x40.nffw
+-rw-r--r--. 1 0 0 5185472 Jun 20 05:12 nic_AMDA0097-0001_8x10.nffw
+-rw-r--r--. 1 0 0 4959328 Jun 20 05:12 nic_AMDA0099-0001_1x10_1x25.nffw
+-rw-r--r--. 1 0 0 4958000 Jun 20 05:12 nic_AMDA0099-0001_2x10.nffw
+-rw-r--r--. 1 0 0 4958832 Jun 20 05:12 nic_AMDA0099-0001_2x25.nffw
+
+/lib/firmware/nvidia:
+total 20
+drwxr-xr-x. 25 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+drwxr-xr-x.  2 0 0   183 Nov  9 15:39 gk20a
+drwxr-xr-x.  4 0 0    27 Nov  9 15:39 gm200
+drwxr-xr-x.  4 0 0    27 Nov  9 15:39 gm204
+drwxr-xr-x.  4 0 0    27 Nov  9 15:39 gm206
+drwxr-xr-x.  5 0 0    38 Nov  9 15:39 gm20b
+drwxr-xr-x.  4 0 0    27 Nov  9 15:39 gp100
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 gp102
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 gp104
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 gp106
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 gp107
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 gp108
+drwxr-xr-x.  5 0 0    38 Nov  9 15:39 gp10b
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 gv100
+drwxr-xr-x.  2 0 0    60 Nov  9 15:39 tegra124
+drwxr-xr-x.  2 0 0    60 Nov  9 15:39 tegra186
+drwxr-xr-x.  2 0 0    22 Nov  9 15:39 tegra194
+drwxr-xr-x.  2 0 0    60 Nov  9 15:39 tegra210
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 tu102
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 tu104
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 tu106
+drwxr-xr-x.  3 0 0    19 Nov  9 15:39 tu10x
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 tu116
+drwxr-xr-x.  6 0 0    52 Nov  9 15:39 tu117
+
+/lib/firmware/nvidia/gk20a:
+total 68
+drwxr-xr-x.  2 0 0   183 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0  4096 Nov  9 15:39 ..
+-rw-r--r--.  1 0 0  1920 Jun 20 05:12 fecs_data.bin
+-rw-r--r--.  1 0 0 15356 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--.  1 0 0  1800 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--.  1 0 0  8171 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--.  1 0 0  6696 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--.  1 0 0  4464 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--.  1 0 0 10304 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--.  1 0 0  1360 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gm200:
+total 4
+drwxr-xr-x.  4 0 0   27 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   66 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+
+/lib/firmware/nvidia/gm200/acr:
+total 20
+drwxr-xr-x. 2 0 0    66 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    27 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   832 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 10144 Jun 20 05:12 ucode_load.bin
+-rw-r--r--. 1 0 0  1440 Jun 20 05:12 ucode_unload.bin
+
+/lib/firmware/nvidia/gm200/gr:
+total 84
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    27 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  1968 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 16271 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2056 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0  9768 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7616 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  5592 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 10800 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  1440 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gm204:
+total 4
+drwxr-xr-x.  4 0 0   27 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   66 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+
+/lib/firmware/nvidia/gm204/acr:
+total 0
+drwxr-xr-x. 2 0 0 66 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0 27 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 22 Jun 20 05:12 bl.bin -> ../../gm200/acr/bl.bin
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 ucode_load.bin -> ../../gm200/acr/ucode_load.bin
+lrwxrwxrwx. 1 0 0 32 Jun 20 05:12 ucode_unload.bin -> ../../gm200/acr/ucode_unload.bin
+
+/lib/firmware/nvidia/gm204/gr:
+total 16
+drwxr-xr-x. 2 0 0  263 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0   27 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0   26 Jun 20 05:12 fecs_bl.bin -> ../../gm200/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0 1968 Jun 20 05:12 fecs_data.bin
+lrwxrwxrwx. 1 0 0   28 Jun 20 05:12 fecs_inst.bin -> ../../gm200/gr/fecs_inst.bin
+-rw-r--r--. 1 0 0   76 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0   27 Jun 20 05:12 gpccs_bl.bin -> ../../gm200/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0 2056 Jun 20 05:12 gpccs_data.bin
+lrwxrwxrwx. 1 0 0   29 Jun 20 05:12 gpccs_inst.bin -> ../../gm200/gr/gpccs_inst.bin
+-rw-r--r--. 1 0 0   76 Jun 20 05:12 gpccs_sig.bin
+lrwxrwxrwx. 1 0 0   33 Jun 20 05:12 sw_bundle_init.bin -> ../../gm200/gr/sw_bundle_init.bin
+lrwxrwxrwx. 1 0 0   25 Jun 20 05:12 sw_ctx.bin -> ../../gm200/gr/sw_ctx.bin
+lrwxrwxrwx. 1 0 0   33 Jun 20 05:12 sw_method_init.bin -> ../../gm200/gr/sw_method_init.bin
+lrwxrwxrwx. 1 0 0   28 Jun 20 05:12 sw_nonctx.bin -> ../../gm200/gr/sw_nonctx.bin
+
+/lib/firmware/nvidia/gm206:
+total 4
+drwxr-xr-x.  4 0 0   27 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   66 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+
+/lib/firmware/nvidia/gm206/acr:
+total 16
+drwxr-xr-x. 2 0 0    66 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    27 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    22 Jun 20 05:12 bl.bin -> ../../gm200/acr/bl.bin
+-rw-r--r--. 1 0 0 10144 Jun 20 05:12 ucode_load.bin
+-rw-r--r--. 1 0 0  1440 Jun 20 05:12 ucode_unload.bin
+
+/lib/firmware/nvidia/gm206/gr:
+total 16
+drwxr-xr-x. 2 0 0  263 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0   27 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0   26 Jun 20 05:12 fecs_bl.bin -> ../../gm200/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0 1968 Jun 20 05:12 fecs_data.bin
+lrwxrwxrwx. 1 0 0   28 Jun 20 05:12 fecs_inst.bin -> ../../gm200/gr/fecs_inst.bin
+-rw-r--r--. 1 0 0   76 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0   27 Jun 20 05:12 gpccs_bl.bin -> ../../gm200/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0 2056 Jun 20 05:12 gpccs_data.bin
+lrwxrwxrwx. 1 0 0   29 Jun 20 05:12 gpccs_inst.bin -> ../../gm200/gr/gpccs_inst.bin
+-rw-r--r--. 1 0 0   76 Jun 20 05:12 gpccs_sig.bin
+lrwxrwxrwx. 1 0 0   33 Jun 20 05:12 sw_bundle_init.bin -> ../../gm200/gr/sw_bundle_init.bin
+lrwxrwxrwx. 1 0 0   25 Jun 20 05:12 sw_ctx.bin -> ../../gm200/gr/sw_ctx.bin
+lrwxrwxrwx. 1 0 0   33 Jun 20 05:12 sw_method_init.bin -> ../../gm200/gr/sw_method_init.bin
+lrwxrwxrwx. 1 0 0   28 Jun 20 05:12 sw_nonctx.bin -> ../../gm200/gr/sw_nonctx.bin
+
+/lib/firmware/nvidia/gm20b:
+total 4
+drwxr-xr-x.  5 0 0   38 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   42 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  222 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 pmu
+
+/lib/firmware/nvidia/gm20b/acr:
+total 24
+drwxr-xr-x. 2 0 0    42 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0    38 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   832 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 18592 Jun 20 05:12 ucode_load.bin
+
+/lib/firmware/nvidia/gm20b/gr:
+total 68
+drwxr-xr-x. 2 0 0   222 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0    38 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  1964 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 17021 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0  2068 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0  9964 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0  7616 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  5448 Jun 20 05:12 sw_ctx.bin
+lrwxrwxrwx. 1 0 0    33 Jun 20 05:12 sw_method_init.bin -> ../../gm200/gr/sw_method_init.bin
+-rw-r--r--. 1 0 0  1432 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gm20b/pmu:
+total 56
+drwxr-xr-x. 2 0 0    54 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0    38 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   652 Jun 20 05:12 desc.bin
+-rw-r--r--. 1 0 0 47872 Jun 20 05:12 image.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 sig.bin
+
+/lib/firmware/nvidia/gp100:
+total 4
+drwxr-xr-x.  4 0 0   27 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   66 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+
+/lib/firmware/nvidia/gp100/acr:
+total 20
+drwxr-xr-x. 2 0 0   66 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0   27 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  832 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 9632 Jun 20 05:12 ucode_load.bin
+-rw-r--r--. 1 0 0 1440 Jun 20 05:12 ucode_unload.bin
+
+/lib/firmware/nvidia/gp100/gr:
+total 88
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 4 0 0    27 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    26 Jun 20 05:12 fecs_bl.bin -> ../../gm200/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0  2028 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 20955 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0    27 Jun 20 05:12 gpccs_bl.bin -> ../../gm200/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0  2080 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12458 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7664 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6240 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 11928 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  2248 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gp102:
+total 4
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   87 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0  108 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/gp102/acr:
+total 32
+drwxr-xr-x. 2 0 0    87 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 17152 Jun 20 05:12 ucode_load.bin
+-rw-r--r--. 1 0 0  3328 Jun 20 05:12 ucode_unload.bin
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 unload_bl.bin
+
+/lib/firmware/nvidia/gp102/gr:
+total 88
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    26 Jun 20 05:12 fecs_bl.bin -> ../../gm200/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0  2256 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 20927 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0    27 Jun 20 05:12 gpccs_bl.bin -> ../../gm200/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0  1832 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 13307 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7680 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6216 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 12288 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  2496 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gp102/nvdec:
+total 4
+drwxr-xr-x. 2 0 0   26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0   52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 3840 Jun 20 05:12 scrubber.bin
+
+/lib/firmware/nvidia/gp102/sec2:
+total 224
+drwxr-xr-x. 2 0 0    108 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0     52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0    656 Jun 20 05:12 desc-1.bin
+-rw-r--r--. 1 0 0    656 Jun 20 05:12 desc.bin
+-rw-r--r--. 1 0 0 109568 Jun 20 05:12 image-1.bin
+-rw-r--r--. 1 0 0  99072 Jun 20 05:12 image.bin
+-rw-r--r--. 1 0 0    192 Jun 20 05:12 sig-1.bin
+-rw-r--r--. 1 0 0    192 Jun 20 05:12 sig.bin
+
+/lib/firmware/nvidia/gp104:
+total 4
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   87 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0  108 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/gp104/acr:
+total 0
+drwxr-xr-x. 2 0 0 87 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 22 Jun 20 05:12 bl.bin -> ../../gp102/acr/bl.bin
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 ucode_load.bin -> ../../gp102/acr/ucode_load.bin
+lrwxrwxrwx. 1 0 0 32 Jun 20 05:12 ucode_unload.bin -> ../../gp102/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0 29 Jun 20 05:12 unload_bl.bin -> ../../gp102/acr/unload_bl.bin
+
+/lib/firmware/nvidia/gp104/gr:
+total 56
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    26 Jun 20 05:12 fecs_bl.bin -> ../../gp102/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0  2576 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 22760 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0    27 Jun 20 05:12 gpccs_bl.bin -> ../../gp102/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0  1832 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 13307 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+lrwxrwxrwx. 1 0 0    33 Jun 20 05:12 sw_bundle_init.bin -> ../../gp102/gr/sw_bundle_init.bin
+lrwxrwxrwx. 1 0 0    25 Jun 20 05:12 sw_ctx.bin -> ../../gp102/gr/sw_ctx.bin
+lrwxrwxrwx. 1 0 0    33 Jun 20 05:12 sw_method_init.bin -> ../../gp102/gr/sw_method_init.bin
+lrwxrwxrwx. 1 0 0    28 Jun 20 05:12 sw_nonctx.bin -> ../../gp102/gr/sw_nonctx.bin
+
+/lib/firmware/nvidia/gp104/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../gp102/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/gp104/sec2:
+total 0
+drwxr-xr-x. 2 0 0 108 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0  27 Jun 20 05:12 desc-1.bin -> ../../gp102/sec2/desc-1.bin
+lrwxrwxrwx. 1 0 0  25 Jun 20 05:12 desc.bin -> ../../gp102/sec2/desc.bin
+lrwxrwxrwx. 1 0 0  28 Jun 20 05:12 image-1.bin -> ../../gp102/sec2/image-1.bin
+lrwxrwxrwx. 1 0 0  26 Jun 20 05:12 image.bin -> ../../gp102/sec2/image.bin
+lrwxrwxrwx. 1 0 0  26 Jun 20 05:12 sig-1.bin -> ../../gp102/sec2/sig-1.bin
+lrwxrwxrwx. 1 0 0  24 Jun 20 05:12 sig.bin -> ../../gp102/sec2/sig.bin
+
+/lib/firmware/nvidia/gp106:
+total 4
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   87 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0  108 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/gp106/acr:
+total 0
+drwxr-xr-x. 2 0 0 87 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 22 Jun 20 05:12 bl.bin -> ../../gp102/acr/bl.bin
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 ucode_load.bin -> ../../gp102/acr/ucode_load.bin
+lrwxrwxrwx. 1 0 0 32 Jun 20 05:12 ucode_unload.bin -> ../../gp102/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0 29 Jun 20 05:12 unload_bl.bin -> ../../gp102/acr/unload_bl.bin
+
+/lib/firmware/nvidia/gp106/gr:
+total 16
+drwxr-xr-x. 2 0 0  263 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0   52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0   26 Jun 20 05:12 fecs_bl.bin -> ../../gp102/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0 2256 Jun 20 05:12 fecs_data.bin
+lrwxrwxrwx. 1 0 0   28 Jun 20 05:12 fecs_inst.bin -> ../../gp102/gr/fecs_inst.bin
+-rw-r--r--. 1 0 0  192 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0   27 Jun 20 05:12 gpccs_bl.bin -> ../../gp102/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0 1832 Jun 20 05:12 gpccs_data.bin
+lrwxrwxrwx. 1 0 0   29 Jun 20 05:12 gpccs_inst.bin -> ../../gp102/gr/gpccs_inst.bin
+-rw-r--r--. 1 0 0  192 Jun 20 05:12 gpccs_sig.bin
+lrwxrwxrwx. 1 0 0   33 Jun 20 05:12 sw_bundle_init.bin -> ../../gp102/gr/sw_bundle_init.bin
+lrwxrwxrwx. 1 0 0   25 Jun 20 05:12 sw_ctx.bin -> ../../gp102/gr/sw_ctx.bin
+lrwxrwxrwx. 1 0 0   33 Jun 20 05:12 sw_method_init.bin -> ../../gp102/gr/sw_method_init.bin
+lrwxrwxrwx. 1 0 0   28 Jun 20 05:12 sw_nonctx.bin -> ../../gp102/gr/sw_nonctx.bin
+
+/lib/firmware/nvidia/gp106/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../gp102/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/gp106/sec2:
+total 0
+drwxr-xr-x. 2 0 0 108 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0  27 Jun 20 05:12 desc-1.bin -> ../../gp102/sec2/desc-1.bin
+lrwxrwxrwx. 1 0 0  25 Jun 20 05:12 desc.bin -> ../../gp102/sec2/desc.bin
+lrwxrwxrwx. 1 0 0  28 Jun 20 05:12 image-1.bin -> ../../gp102/sec2/image-1.bin
+lrwxrwxrwx. 1 0 0  26 Jun 20 05:12 image.bin -> ../../gp102/sec2/image.bin
+lrwxrwxrwx. 1 0 0  26 Jun 20 05:12 sig-1.bin -> ../../gp102/sec2/sig-1.bin
+lrwxrwxrwx. 1 0 0  24 Jun 20 05:12 sig.bin -> ../../gp102/sec2/sig.bin
+
+/lib/firmware/nvidia/gp107:
+total 4
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   87 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0  108 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/gp107/acr:
+total 0
+drwxr-xr-x. 2 0 0 87 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 22 Jun 20 05:12 bl.bin -> ../../gp102/acr/bl.bin
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 ucode_load.bin -> ../../gp102/acr/ucode_load.bin
+lrwxrwxrwx. 1 0 0 32 Jun 20 05:12 ucode_unload.bin -> ../../gp102/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0 29 Jun 20 05:12 unload_bl.bin -> ../../gp102/acr/unload_bl.bin
+
+/lib/firmware/nvidia/gp107/gr:
+total 76
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  2756 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 22879 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2100 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12587 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+lrwxrwxrwx. 1 0 0    33 Jun 20 05:12 sw_bundle_init.bin -> ../../gp102/gr/sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6000 Jun 20 05:12 sw_ctx.bin
+lrwxrwxrwx. 1 0 0    33 Jun 20 05:12 sw_method_init.bin -> ../../gp102/gr/sw_method_init.bin
+-rw-r--r--. 1 0 0  2496 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gp107/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../gp102/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/gp107/sec2:
+total 0
+drwxr-xr-x. 2 0 0 108 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0  27 Jun 20 05:12 desc-1.bin -> ../../gp102/sec2/desc-1.bin
+lrwxrwxrwx. 1 0 0  25 Jun 20 05:12 desc.bin -> ../../gp102/sec2/desc.bin
+lrwxrwxrwx. 1 0 0  28 Jun 20 05:12 image-1.bin -> ../../gp102/sec2/image-1.bin
+lrwxrwxrwx. 1 0 0  26 Jun 20 05:12 image.bin -> ../../gp102/sec2/image.bin
+lrwxrwxrwx. 1 0 0  26 Jun 20 05:12 sig-1.bin -> ../../gp102/sec2/sig-1.bin
+lrwxrwxrwx. 1 0 0  24 Jun 20 05:12 sig.bin -> ../../gp102/sec2/sig.bin
+
+/lib/firmware/nvidia/gp108:
+total 4
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   87 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/gp108/acr:
+total 0
+drwxr-xr-x. 2 0 0 87 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 22 Jun 20 05:12 bl.bin -> ../../gp102/acr/bl.bin
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 ucode_load.bin -> ../../gp102/acr/ucode_load.bin
+lrwxrwxrwx. 1 0 0 32 Jun 20 05:12 ucode_unload.bin -> ../../gp102/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0 29 Jun 20 05:12 unload_bl.bin -> ../../gp102/acr/unload_bl.bin
+
+/lib/firmware/nvidia/gp108/gr:
+total 96
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  2248 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 21161 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2092 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 13095 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7680 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6000 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 12288 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  2496 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gp108/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../gp102/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/gp108/sec2:
+total 0
+drwxr-xr-x. 2 0 0 54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 27 Jun 20 05:12 desc.bin -> ../../gp102/sec2/desc-1.bin
+lrwxrwxrwx. 1 0 0 28 Jun 20 05:12 image.bin -> ../../gp102/sec2/image-1.bin
+lrwxrwxrwx. 1 0 0 26 Jun 20 05:12 sig.bin -> ../../gp102/sec2/sig-1.bin
+
+/lib/firmware/nvidia/gp10b:
+total 4
+drwxr-xr-x.  5 0 0   38 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   42 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 pmu
+
+/lib/firmware/nvidia/gp10b/acr:
+total 24
+drwxr-xr-x. 2 0 0    42 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0    38 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 19456 Jun 20 05:12 ucode_load.bin
+
+/lib/firmware/nvidia/gp10b/gr:
+total 96
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0    38 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  3668 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 22306 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2340 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12921 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7664 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6036 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 11928 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  2744 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gp10b/pmu:
+total 60
+drwxr-xr-x. 2 0 0    54 Nov  9 15:39 .
+drwxr-xr-x. 5 0 0    38 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   652 Jun 20 05:12 desc.bin
+-rw-r--r--. 1 0 0 49408 Jun 20 05:12 image.bin
+-rw-r--r--. 1 0 0    76 Jun 20 05:12 sig.bin
+
+/lib/firmware/nvidia/gv100:
+total 4
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   87 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0  263 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/gv100/acr:
+total 36
+drwxr-xr-x. 2 0 0    87 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 18688 Jun 20 05:12 ucode_load.bin
+-rw-r--r--. 1 0 0  6400 Jun 20 05:12 ucode_unload.bin
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 unload_bl.bin
+
+/lib/firmware/nvidia/gv100/gr:
+total 112
+drwxr-xr-x. 2 0 0   263 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  4788 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 25632 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2128 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12643 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7664 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  9756 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 12296 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  2728 Jun 20 05:12 sw_nonctx.bin
+
+/lib/firmware/nvidia/gv100/nvdec:
+total 8
+drwxr-xr-x. 2 0 0   26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0   52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 4352 Jun 20 05:12 scrubber.bin
+
+/lib/firmware/nvidia/gv100/sec2:
+total 100
+drwxr-xr-x. 2 0 0    54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   656 Jun 20 05:12 desc.bin
+-rw-r--r--. 1 0 0 91136 Jun 20 05:12 image.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 sig.bin
+
+/lib/firmware/nvidia/tegra124:
+total 152
+drwxr-xr-x.  2 0 0     60 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0   4096 Nov  9 15:39 ..
+lrwxrwxrwx.  1 0 0     15 Jun 20 05:12 vic.bin -> vic03_ucode.bin
+-rw-r--r--.  1 0 0  16128 Jun 20 05:12 vic03_ucode.bin
+-rw-r--r--.  1 0 0 134656 Jun 20 05:12 xusb.bin
+
+/lib/firmware/nvidia/tegra186:
+total 148
+drwxr-xr-x.  2 0 0     60 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0   4096 Nov  9 15:39 ..
+lrwxrwxrwx.  1 0 0     15 Jun 20 05:12 vic.bin -> vic04_ucode.bin
+-rw-r--r--.  1 0 0  19200 Jun 20 05:12 vic04_ucode.bin
+-rw-r--r--.  1 0 0 124416 Jun 20 05:12 xusb.bin
+
+/lib/firmware/nvidia/tegra194:
+total 128
+drwxr-xr-x.  2 0 0     22 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0   4096 Nov  9 15:39 ..
+-rw-r--r--.  1 0 0 124928 Jun 20 05:12 xusb.bin
+
+/lib/firmware/nvidia/tegra210:
+total 148
+drwxr-xr-x.  2 0 0     60 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0   4096 Nov  9 15:39 ..
+lrwxrwxrwx.  1 0 0     15 Jun 20 05:12 vic.bin -> vic04_ucode.bin
+-rw-r--r--.  1 0 0  16640 Jun 20 05:12 vic04_ucode.bin
+-rw-r--r--.  1 0 0 124416 Jun 20 05:12 xusb.bin
+
+/lib/firmware/nvidia/tu102:
+total 8
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  111 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0 4096 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/tu102/acr:
+total 60
+drwxr-xr-x. 2 0 0   111 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 22784 Jun 20 05:12 ucode_ahesasc.bin
+-rw-r--r--. 1 0 0 13312 Jun 20 05:12 ucode_asb.bin
+-rw-r--r--. 1 0 0 12288 Jun 20 05:12 ucode_unload.bin
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 unload_bl.bin
+
+/lib/firmware/nvidia/tu102/gr:
+total 120
+drwxr-xr-x. 2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  5256 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 29080 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2640 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12717 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7456 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6936 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 13424 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  3856 Jun 20 05:12 sw_nonctx.bin
+-rw-r--r--. 1 0 0   176 Jun 20 05:12 sw_veid_bundle_init.bin
+
+/lib/firmware/nvidia/tu102/nvdec:
+total 8
+drwxr-xr-x. 2 0 0   26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0   52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 4864 Jun 20 05:12 scrubber.bin
+
+/lib/firmware/nvidia/tu102/sec2:
+total 68
+drwxr-xr-x. 2 0 0    54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   656 Jun 20 05:12 desc.bin
+-rw-r--r--. 1 0 0 60928 Jun 20 05:12 image.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 sig.bin
+
+/lib/firmware/nvidia/tu104:
+total 8
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  111 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0 4096 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/tu104/acr:
+total 0
+drwxr-xr-x. 2 0 0 111 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0  22 Jun 20 05:12 bl.bin -> ../../tu102/acr/bl.bin
+lrwxrwxrwx. 1 0 0  33 Jun 20 05:12 ucode_ahesasc.bin -> ../../tu102/acr/ucode_ahesasc.bin
+lrwxrwxrwx. 1 0 0  29 Jun 20 05:12 ucode_asb.bin -> ../../tu102/acr/ucode_asb.bin
+lrwxrwxrwx. 1 0 0  32 Jun 20 05:12 ucode_unload.bin -> ../../tu102/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0  29 Jun 20 05:12 unload_bl.bin -> ../../tu102/acr/unload_bl.bin
+
+/lib/firmware/nvidia/tu104/gr:
+total 112
+drwxr-xr-x. 2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    26 Jun 20 05:12 fecs_bl.bin -> ../../tu102/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0  5256 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 29080 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0    27 Jun 20 05:12 gpccs_bl.bin -> ../../tu102/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0  2640 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12717 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7456 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6936 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 13424 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  3856 Jun 20 05:12 sw_nonctx.bin
+-rw-r--r--. 1 0 0   176 Jun 20 05:12 sw_veid_bundle_init.bin
+
+/lib/firmware/nvidia/tu104/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../tu102/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/tu104/sec2:
+total 0
+drwxr-xr-x. 2 0 0 54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 25 Jun 20 05:12 desc.bin -> ../../tu102/sec2/desc.bin
+lrwxrwxrwx. 1 0 0 26 Jun 20 05:12 image.bin -> ../../tu102/sec2/image.bin
+lrwxrwxrwx. 1 0 0 24 Jun 20 05:12 sig.bin -> ../../tu102/sec2/sig.bin
+
+/lib/firmware/nvidia/tu106:
+total 8
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  111 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0 4096 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/tu106/acr:
+total 0
+drwxr-xr-x. 2 0 0 111 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0  22 Jun 20 05:12 bl.bin -> ../../tu102/acr/bl.bin
+lrwxrwxrwx. 1 0 0  33 Jun 20 05:12 ucode_ahesasc.bin -> ../../tu102/acr/ucode_ahesasc.bin
+lrwxrwxrwx. 1 0 0  29 Jun 20 05:12 ucode_asb.bin -> ../../tu102/acr/ucode_asb.bin
+lrwxrwxrwx. 1 0 0  32 Jun 20 05:12 ucode_unload.bin -> ../../tu102/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0  29 Jun 20 05:12 unload_bl.bin -> ../../tu102/acr/unload_bl.bin
+
+/lib/firmware/nvidia/tu106/gr:
+total 112
+drwxr-xr-x. 2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    26 Jun 20 05:12 fecs_bl.bin -> ../../tu102/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0  5256 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 29080 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0    27 Jun 20 05:12 gpccs_bl.bin -> ../../tu102/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0  2640 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12717 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7456 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6936 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 13424 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  3856 Jun 20 05:12 sw_nonctx.bin
+-rw-r--r--. 1 0 0   176 Jun 20 05:12 sw_veid_bundle_init.bin
+
+/lib/firmware/nvidia/tu106/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../tu102/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/tu106/sec2:
+total 0
+drwxr-xr-x. 2 0 0 54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 25 Jun 20 05:12 desc.bin -> ../../tu102/sec2/desc.bin
+lrwxrwxrwx. 1 0 0 26 Jun 20 05:12 image.bin -> ../../tu102/sec2/image.bin
+lrwxrwxrwx. 1 0 0 24 Jun 20 05:12 sig.bin -> ../../tu102/sec2/sig.bin
+
+/lib/firmware/nvidia/tu10x:
+total 4
+drwxr-xr-x.  3 0 0   19 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0   80 Nov  9 15:39 typec
+
+/lib/firmware/nvidia/tu10x/typec:
+total 332
+drwxr-xr-x. 2 0 0     80 Nov  9 15:39 .
+drwxr-xr-x. 3 0 0     19 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  90658 Jun 20 05:12 ccg_boot.cyacd
+-rw-r--r--. 1 0 0 145523 Jun 20 05:12 ccg_primary.cyacd
+-rw-r--r--. 1 0 0  96512 Jun 20 05:12 ccg_secondary.cyacd
+
+/lib/firmware/nvidia/tu116:
+total 8
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  111 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0 4096 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/tu116/acr:
+total 60
+drwxr-xr-x. 2 0 0   111 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 bl.bin
+-rw-r--r--. 1 0 0 22784 Jun 20 05:12 ucode_ahesasc.bin
+-rw-r--r--. 1 0 0 13312 Jun 20 05:12 ucode_asb.bin
+-rw-r--r--. 1 0 0 12288 Jun 20 05:12 ucode_unload.bin
+-rw-r--r--. 1 0 0  1280 Jun 20 05:12 unload_bl.bin
+
+/lib/firmware/nvidia/tu116/gr:
+total 120
+drwxr-xr-x. 2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 fecs_bl.bin
+-rw-r--r--. 1 0 0  5256 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 28783 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+-rw-r--r--. 1 0 0   576 Jun 20 05:12 gpccs_bl.bin
+-rw-r--r--. 1 0 0  2640 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12717 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7456 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6936 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 13424 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  3856 Jun 20 05:12 sw_nonctx.bin
+-rw-r--r--. 1 0 0   176 Jun 20 05:12 sw_veid_bundle_init.bin
+
+/lib/firmware/nvidia/tu116/nvdec:
+total 8
+drwxr-xr-x. 2 0 0   26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0   52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0 4352 Jun 20 05:12 scrubber.bin
+
+/lib/firmware/nvidia/tu116/sec2:
+total 68
+drwxr-xr-x. 2 0 0    54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0   656 Jun 20 05:12 desc.bin
+-rw-r--r--. 1 0 0 60928 Jun 20 05:12 image.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 sig.bin
+
+/lib/firmware/nvidia/tu117:
+total 8
+drwxr-xr-x.  6 0 0   52 Nov  9 15:39 .
+drwxr-xr-x. 25 0 0 4096 Nov  9 15:39 ..
+drwxr-xr-x.  2 0 0  111 Nov  9 15:39 acr
+drwxr-xr-x.  2 0 0 4096 Nov  9 15:39 gr
+drwxr-xr-x.  2 0 0   26 Nov  9 15:39 nvdec
+drwxr-xr-x.  2 0 0   54 Nov  9 15:39 sec2
+
+/lib/firmware/nvidia/tu117/acr:
+total 0
+drwxr-xr-x. 2 0 0 111 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0  52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0  22 Jun 20 05:12 bl.bin -> ../../tu116/acr/bl.bin
+lrwxrwxrwx. 1 0 0  33 Jun 20 05:12 ucode_ahesasc.bin -> ../../tu116/acr/ucode_ahesasc.bin
+lrwxrwxrwx. 1 0 0  29 Jun 20 05:12 ucode_asb.bin -> ../../tu116/acr/ucode_asb.bin
+lrwxrwxrwx. 1 0 0  32 Jun 20 05:12 ucode_unload.bin -> ../../tu116/acr/ucode_unload.bin
+lrwxrwxrwx. 1 0 0  29 Jun 20 05:12 unload_bl.bin -> ../../tu116/acr/unload_bl.bin
+
+/lib/firmware/nvidia/tu117/gr:
+total 112
+drwxr-xr-x. 2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0    52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0    26 Jun 20 05:12 fecs_bl.bin -> ../../tu116/gr/fecs_bl.bin
+-rw-r--r--. 1 0 0  5256 Jun 20 05:12 fecs_data.bin
+-rw-r--r--. 1 0 0 28783 Jun 20 05:12 fecs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 fecs_sig.bin
+lrwxrwxrwx. 1 0 0    27 Jun 20 05:12 gpccs_bl.bin -> ../../tu116/gr/gpccs_bl.bin
+-rw-r--r--. 1 0 0  2640 Jun 20 05:12 gpccs_data.bin
+-rw-r--r--. 1 0 0 12717 Jun 20 05:12 gpccs_inst.bin
+-rw-r--r--. 1 0 0   192 Jun 20 05:12 gpccs_sig.bin
+-rw-r--r--. 1 0 0  7456 Jun 20 05:12 sw_bundle_init.bin
+-rw-r--r--. 1 0 0  6936 Jun 20 05:12 sw_ctx.bin
+-rw-r--r--. 1 0 0 13424 Jun 20 05:12 sw_method_init.bin
+-rw-r--r--. 1 0 0  3856 Jun 20 05:12 sw_nonctx.bin
+-rw-r--r--. 1 0 0   176 Jun 20 05:12 sw_veid_bundle_init.bin
+
+/lib/firmware/nvidia/tu117/nvdec:
+total 0
+drwxr-xr-x. 2 0 0 26 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 30 Jun 20 05:12 scrubber.bin -> ../../tu116/nvdec/scrubber.bin
+
+/lib/firmware/nvidia/tu117/sec2:
+total 0
+drwxr-xr-x. 2 0 0 54 Nov  9 15:39 .
+drwxr-xr-x. 6 0 0 52 Nov  9 15:39 ..
+lrwxrwxrwx. 1 0 0 25 Jun 20 05:12 desc.bin -> ../../tu116/sec2/desc.bin
+lrwxrwxrwx. 1 0 0 26 Jun 20 05:12 image.bin -> ../../tu116/sec2/image.bin
+lrwxrwxrwx. 1 0 0 24 Jun 20 05:12 sig.bin -> ../../tu116/sec2/sig.bin
+
+/lib/firmware/ositech:
+total 20
+drwxr-xr-x.  2 0 0    27 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2778 Jun 20 05:12 Xilinx7OD.bin
+
+/lib/firmware/qca:
+total 988
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 177060 Jun 20 05:12 crbtfw21.tlv
+-rw-r--r--.  1 0 0  95784 Jun 20 05:12 crbtfw32.tlv
+-rw-r--r--.  1 0 0   4587 Jun 20 05:12 crnv21.bin
+-rw-r--r--.  1 0 0   5388 Jun 20 05:12 crnv32.bin
+-rw-r--r--.  1 0 0 179068 Jun 20 05:12 htbtfw20.tlv
+-rw-r--r--.  1 0 0   5615 Jun 20 05:12 htnv20.bin
+-rw-r--r--.  1 0 0   1937 Jun 20 05:12 nvm_00130300.bin
+-rw-r--r--.  1 0 0   1968 Jun 20 05:12 nvm_00130302.bin
+-rw-r--r--.  1 0 0   1996 Jun 20 05:12 nvm_00230302.bin
+-rw-r--r--.  1 0 0   2010 Jun 20 05:12 nvm_00440302.bin
+-rw-r--r--.  1 0 0   2041 Jun 20 05:12 nvm_00440302_eu.bin
+-rw-r--r--.  1 0 0   2041 Jun 20 05:12 nvm_00440302_i2s_eu.bin
+-rw-r--r--.  1 0 0   1859 Jun 20 05:12 nvm_usb_00000200.bin
+-rw-r--r--.  1 0 0   1859 Jun 20 05:12 nvm_usb_00000201.bin
+-rw-r--r--.  1 0 0   1857 Jun 20 05:12 nvm_usb_00000300.bin
+-rw-r--r--.  1 0 0   1996 Jun 20 05:12 nvm_usb_00000302.bin
+-rw-r--r--.  1 0 0   1998 Jun 20 05:12 nvm_usb_00000302_eu.bin
+-rw-r--r--.  1 0 0  65864 Jun 20 05:12 rampatch_00130300.bin
+-rw-r--r--.  1 0 0  32064 Jun 20 05:12 rampatch_00130302.bin
+-rw-r--r--.  1 0 0  33064 Jun 20 05:12 rampatch_00230302.bin
+-rw-r--r--.  1 0 0  66332 Jun 20 05:12 rampatch_00440302.bin
+-rw-r--r--.  1 0 0  54432 Jun 20 05:12 rampatch_usb_00000200.bin
+-rw-r--r--.  1 0 0  54432 Jun 20 05:12 rampatch_usb_00000201.bin
+-rw-r--r--.  1 0 0  65776 Jun 20 05:12 rampatch_usb_00000300.bin
+-rw-r--r--.  1 0 0  66964 Jun 20 05:12 rampatch_usb_00000302.bin
+
+/lib/firmware/qcom:
+total 172
+drwxr-xr-x.  7 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  1156 Jun 20 05:12 a300_pfp.fw
+-rw-r--r--.  1 0 0  9220 Jun 20 05:12 a300_pm4.fw
+-rw-r--r--.  1 0 0 15876 Jun 20 05:12 a530_pfp.fw
+-rw-r--r--.  1 0 0 19572 Jun 20 05:12 a530_pm4.fw
+-rw-r--r--.  1 0 0   148 Jun 20 05:12 a530_zap.b00
+-rw-r--r--.  1 0 0  6536 Jun 20 05:12 a530_zap.b01
+-rw-r--r--.  1 0 0  4900 Jun 20 05:12 a530_zap.b02
+-rw-r--r--.  1 0 0  6684 Jun 20 05:12 a530_zap.mdt
+-rw-r--r--.  1 0 0  8184 Jun 20 05:12 a530v3_gpmu.fw2
+-rw-r--r--.  1 0 0 32768 Jun 20 05:12 a630_gmu.bin
+-rw-r--r--.  1 0 0 31316 Jun 20 05:12 a630_sqe.fw
+drwxr-xr-x.  2 0 0   181 Nov  9 15:39 sdm845
+drwxr-xr-x.  2 0 0   108 Nov  9 15:39 venus-1.8
+drwxr-xr-x.  2 0 0   108 Nov  9 15:39 venus-4.2
+drwxr-xr-x.  2 0 0   125 Nov  9 15:39 venus-5.2
+drwxr-xr-x.  2 0 0   125 Nov  9 15:39 venus-5.4
+
+/lib/firmware/qcom/sdm845:
+total 18624
+drwxr-xr-x. 2 0 0      181 Nov  9 15:39 .
+drwxr-xr-x. 7 0 0     4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0    14256 Jun 20 05:12 a630_zap.mbn
+-rw-r--r--. 1 0 0 10420560 Jun 20 05:12 adsp.mbn
+-rw-r--r--. 1 0 0      403 Jun 20 05:12 adspr.jsn
+-rw-r--r--. 1 0 0      555 Jun 20 05:12 adspua.jsn
+-rw-r--r--. 1 0 0  2704916 Jun 20 05:12 cdsp.mbn
+-rw-r--r--. 1 0 0      403 Jun 20 05:12 cdspr.jsn
+-rw-r--r--. 1 0 0   242400 Jun 20 05:12 mba.mbn
+-rw-r--r--. 1 0 0  5652688 Jun 20 05:12 modem.mbn
+-rw-r--r--. 1 0 0      713 Jun 20 05:12 modemuw.jsn
+lrwxrwxrwx. 1 0 0       39 Jun 20 05:12 wlanmdsp.mbn -> ../../ath10k/WCN3990/hw1.0/wlanmdsp.mbn
+
+/lib/firmware/qcom/venus-1.8:
+total 992
+drwxr-xr-x. 2 0 0    108 Nov  9 15:39 .
+drwxr-xr-x. 7 0 0   4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0    212 Jun 20 05:12 venus.b00
+-rw-r--r--. 1 0 0   6600 Jun 20 05:12 venus.b01
+-rw-r--r--. 1 0 0 975088 Jun 20 05:12 venus.b02
+-rw-r--r--. 1 0 0   5568 Jun 20 05:12 venus.b03
+-rw-r--r--. 1 0 0     32 Jun 20 05:12 venus.b04
+-rw-r--r--. 1 0 0   6812 Jun 20 05:12 venus.mdt
+
+/lib/firmware/qcom/venus-4.2:
+total 924
+drwxr-xr-x. 2 0 0    108 Nov  9 15:39 .
+drwxr-xr-x. 7 0 0   4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0    212 Jun 20 05:12 venus.b00
+-rw-r--r--. 1 0 0   6600 Jun 20 05:12 venus.b01
+-rw-r--r--. 1 0 0 884136 Jun 20 05:12 venus.b02
+-rw-r--r--. 1 0 0  28976 Jun 20 05:12 venus.b03
+-rw-r--r--. 1 0 0     32 Jun 20 05:12 venus.b04
+-rw-r--r--. 1 0 0   6812 Jun 20 05:12 venus.mdt
+
+/lib/firmware/qcom/venus-5.2:
+total 1748
+drwxr-xr-x. 2 0 0    125 Nov  9 15:39 .
+drwxr-xr-x. 7 0 0   4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0    212 Jun 20 05:12 venus.b00
+-rw-r--r--. 1 0 0   6600 Jun 20 05:12 venus.b01
+-rw-r--r--. 1 0 0 837304 Jun 20 05:12 venus.b02
+-rw-r--r--. 1 0 0  33640 Jun 20 05:12 venus.b03
+-rw-r--r--. 1 0 0     32 Jun 20 05:12 venus.b04
+-rw-r--r--. 1 0 0 883264 Jun 20 05:12 venus.mbn
+-rw-r--r--. 1 0 0   6812 Jun 20 05:12 venus.mdt
+
+/lib/firmware/qcom/venus-5.4:
+total 1812
+drwxr-xr-x. 2 0 0    125 Nov  9 15:39 .
+drwxr-xr-x. 7 0 0   4096 Nov  9 15:39 ..
+-rw-r--r--. 1 0 0    212 Jun 20 05:12 venus.b00
+-rw-r--r--. 1 0 0   6808 Jun 20 05:12 venus.b01
+-rw-r--r--. 1 0 0 870812 Jun 20 05:12 venus.b02
+-rw-r--r--. 1 0 0  33792 Jun 20 05:12 venus.b03
+-rw-r--r--. 1 0 0     32 Jun 20 05:12 venus.b04
+-rw-r--r--. 1 0 0 916924 Jun 20 05:12 venus.mbn
+-rw-r--r--. 1 0 0   7020 Jun 20 05:12 venus.mdt
+
+/lib/firmware/qed:
+total 20016
+drwxr-xr-x.  2 0 0    4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0   12288 Nov  9 15:48 ..
+-rwxr-xr-x.  1 0 0 1434652 Jun 20 05:12 qed_init_values-8.10.9.0.bin
+-rwxr-xr-x.  1 0 0 1459040 Jun 20 05:12 qed_init_values-8.14.6.0.bin
+-rwxr-xr-x.  1 0 0 1536984 Jun 20 05:12 qed_init_values-8.18.9.0.bin
+-rwxr-xr-x.  1 0 0 1443340 Jun 20 05:12 qed_init_values-8.20.0.0.bin
+-rwxr-xr-x.  1 0 0 1507052 Jun 20 05:12 qed_init_values-8.30.12.0.bin
+-rwxr-xr-x.  1 0 0 1562920 Jun 20 05:12 qed_init_values-8.33.12.0.bin
+-rwxr-xr-x.  1 0 0 1559500 Jun 20 05:12 qed_init_values-8.37.7.0.bin
+-rwxr-xr-x.  1 0 0 1595600 Jun 20 05:12 qed_init_values-8.40.33.0.bin
+-rw-r--r--.  1 0 0  780576 Jun 20 05:12 qed_init_values_zipped-8.10.10.0.bin
+-rw-r--r--.  1 0 0  767532 Jun 20 05:12 qed_init_values_zipped-8.10.5.0.bin
+-rw-r--r--.  1 0 0  789540 Jun 20 05:12 qed_init_values_zipped-8.15.3.0.bin
+-rw-r--r--.  1 0 0  794456 Jun 20 05:12 qed_init_values_zipped-8.20.0.0.bin
+-rwxr-xr-x.  1 0 0  838612 Jun 20 05:12 qed_init_values_zipped-8.33.1.0.bin
+-rwxr-xr-x.  1 0 0  852456 Jun 20 05:12 qed_init_values_zipped-8.33.11.0.bin
+-rwxr-xr-x.  1 0 0  867472 Jun 20 05:12 qed_init_values_zipped-8.37.2.0.bin
+-rwxr-xr-x.  1 0 0  872296 Jun 20 05:12 qed_init_values_zipped-8.37.7.0.bin
+-rw-r--r--.  1 0 0  416930 Jun 20 05:12 qed_init_values_zipped-8.4.2.0.bin
+-rwxr-xr-x.  1 0 0  890336 Jun 20 05:12 qed_init_values_zipped-8.42.2.0.bin
+-rw-r--r--.  1 0 0  473792 Jun 20 05:12 qed_init_values_zipped-8.7.3.0.bin
+
+/lib/firmware/qlogic:
+total 140
+drwxr-xr-x.  2 0 0    91 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 33462 Jun 20 05:12 1040.bin
+-rw-r--r--.  1 0 0 28056 Jun 20 05:12 12160.bin
+-rw-r--r--.  1 0 0 31842 Jun 20 05:12 1280.bin
+-rw-r--r--.  1 0 0 18482 Jun 20 05:12 isp1000.bin
+-rw-r--r--.  1 0 0  8192 Jun 20 05:12 sd7220.fw
+
+/lib/firmware/r128:
+total 20
+drwxr-xr-x.  2 0 0    26 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2048 Jun 20 05:12 r128_cce.bin
+
+/lib/firmware/radeon:
+total 7588
+drwxr-xr-x.  2 0 0  12288 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   8704 Jun 20 05:12 ARUBA_me.bin
+-rw-r--r--.  1 0 0   8704 Jun 20 05:12 ARUBA_pfp.bin
+-rw-r--r--.  1 0 0   6144 Jun 20 05:12 ARUBA_rlc.bin
+-rw-r--r--.  1 0 0  24096 Jun 20 05:12 BARTS_mc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 BARTS_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 BARTS_pfp.bin
+-rw-r--r--.  1 0 0  24840 Jun 20 05:12 BARTS_smc.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 BONAIRE_ce.bin
+-rw-r--r--.  1 0 0  31464 Jun 20 05:12 BONAIRE_mc.bin
+-rw-r--r--.  1 0 0  31792 Jun 20 05:12 BONAIRE_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 BONAIRE_me.bin
+-rw-r--r--.  1 0 0  16768 Jun 20 05:12 BONAIRE_mec.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 BONAIRE_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 BONAIRE_rlc.bin
+-rw-r--r--.  1 0 0   4200 Jun 20 05:12 BONAIRE_sdma.bin
+-rw-r--r--.  1 0 0 130540 Jun 20 05:12 BONAIRE_smc.bin
+-rw-r--r--.  1 0 0 232240 Jun 20 05:12 BONAIRE_uvd.bin
+-rw-r--r--.  1 0 0  78248 Jun 20 05:12 BONAIRE_vce.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 BTC_rlc.bin
+-rw-r--r--.  1 0 0  24096 Jun 20 05:12 CAICOS_mc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 CAICOS_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 CAICOS_pfp.bin
+-rw-r--r--.  1 0 0  24512 Jun 20 05:12 CAICOS_smc.bin
+-rw-r--r--.  1 0 0  24148 Jun 20 05:12 CAYMAN_mc.bin
+-rw-r--r--.  1 0 0   8704 Jun 20 05:12 CAYMAN_me.bin
+-rw-r--r--.  1 0 0   8704 Jun 20 05:12 CAYMAN_pfp.bin
+-rw-r--r--.  1 0 0   4096 Jun 20 05:12 CAYMAN_rlc.bin
+-rw-r--r--.  1 0 0  31212 Jun 20 05:12 CAYMAN_smc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 CEDAR_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 CEDAR_pfp.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 CEDAR_rlc.bin
+-rw-r--r--.  1 0 0  23888 Jun 20 05:12 CEDAR_smc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 CYPRESS_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 CYPRESS_pfp.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 CYPRESS_rlc.bin
+-rw-r--r--.  1 0 0  25080 Jun 20 05:12 CYPRESS_smc.bin
+-rw-r--r--.  1 0 0 115736 Jun 20 05:12 CYPRESS_uvd.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 HAINAN_ce.bin
+-rw-r--r--.  1 0 0  31452 Jun 20 05:12 HAINAN_mc.bin
+-rw-r--r--.  1 0 0  31452 Jun 20 05:12 HAINAN_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 HAINAN_me.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 HAINAN_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 HAINAN_rlc.bin
+-rw-r--r--.  1 0 0  59004 Jun 20 05:12 HAINAN_smc.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 HAWAII_ce.bin
+-rw-r--r--.  1 0 0  31732 Jun 20 05:12 HAWAII_mc.bin
+-rw-r--r--.  1 0 0  32364 Jun 20 05:12 HAWAII_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 HAWAII_me.bin
+-rw-r--r--.  1 0 0  16768 Jun 20 05:12 HAWAII_mec.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 HAWAII_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 HAWAII_rlc.bin
+-rw-r--r--.  1 0 0   4200 Jun 20 05:12 HAWAII_sdma.bin
+-rw-r--r--.  1 0 0 130540 Jun 20 05:12 HAWAII_smc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 JUNIPER_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 JUNIPER_pfp.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 JUNIPER_rlc.bin
+-rw-r--r--.  1 0 0  24352 Jun 20 05:12 JUNIPER_smc.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 KABINI_ce.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 KABINI_me.bin
+-rw-r--r--.  1 0 0  16768 Jun 20 05:12 KABINI_mec.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 KABINI_pfp.bin
+-rw-r--r--.  1 0 0  10240 Jun 20 05:12 KABINI_rlc.bin
+-rw-r--r--.  1 0 0   4200 Jun 20 05:12 KABINI_sdma.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 KAVERI_ce.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 KAVERI_me.bin
+-rw-r--r--.  1 0 0  16768 Jun 20 05:12 KAVERI_mec.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 KAVERI_pfp.bin
+-rw-r--r--.  1 0 0  10240 Jun 20 05:12 KAVERI_rlc.bin
+-rw-r--r--.  1 0 0   4200 Jun 20 05:12 KAVERI_sdma.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 MULLINS_ce.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 MULLINS_me.bin
+-rw-r--r--.  1 0 0  16768 Jun 20 05:12 MULLINS_mec.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 MULLINS_pfp.bin
+-rw-r--r--.  1 0 0  10240 Jun 20 05:12 MULLINS_rlc.bin
+-rw-r--r--.  1 0 0   4200 Jun 20 05:12 MULLINS_sdma.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 OLAND_ce.bin
+-rw-r--r--.  1 0 0  31452 Jun 20 05:12 OLAND_mc.bin
+-rw-r--r--.  1 0 0  31452 Jun 20 05:12 OLAND_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 OLAND_me.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 OLAND_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 OLAND_rlc.bin
+-rw-r--r--.  1 0 0  59316 Jun 20 05:12 OLAND_smc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 PALM_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 PALM_pfp.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 PITCAIRN_ce.bin
+-rw-r--r--.  1 0 0  31076 Jun 20 05:12 PITCAIRN_mc.bin
+-rw-r--r--.  1 0 0  31100 Jun 20 05:12 PITCAIRN_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 PITCAIRN_me.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 PITCAIRN_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 PITCAIRN_rlc.bin
+-rw-r--r--.  1 0 0  59892 Jun 20 05:12 PITCAIRN_smc.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 R100_cp.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 R200_cp.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 R300_cp.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 R420_cp.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 R520_cp.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 R600_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 R600_pfp.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 R600_rlc.bin
+-rw-r--r--.  1 0 0  74188 Jun 20 05:12 R600_uvd.bin
+-rw-r--r--.  1 0 0   4096 Jun 20 05:12 R700_rlc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 REDWOOD_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 REDWOOD_pfp.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 REDWOOD_rlc.bin
+-rw-r--r--.  1 0 0  24332 Jun 20 05:12 REDWOOD_smc.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 RS600_cp.bin
+-rw-r--r--.  1 0 0   2048 Jun 20 05:12 RS690_cp.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 RS780_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 RS780_pfp.bin
+-rw-r--r--.  1 0 0  90164 Jun 20 05:12 RS780_uvd.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 RV610_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 RV610_pfp.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 RV620_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 RV620_pfp.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 RV630_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 RV630_pfp.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 RV635_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 RV635_pfp.bin
+-rw-r--r--.  1 0 0  21504 Jun 20 05:12 RV670_me.bin
+-rw-r--r--.  1 0 0   2304 Jun 20 05:12 RV670_pfp.bin
+-rw-r--r--.  1 0 0   5440 Jun 20 05:12 RV710_me.bin
+-rw-r--r--.  1 0 0   3392 Jun 20 05:12 RV710_pfp.bin
+-rw-r--r--.  1 0 0  16160 Jun 20 05:12 RV710_smc.bin
+-rw-r--r--.  1 0 0 116120 Jun 20 05:12 RV710_uvd.bin
+-rw-r--r--.  1 0 0   5440 Jun 20 05:12 RV730_me.bin
+-rw-r--r--.  1 0 0   3392 Jun 20 05:12 RV730_pfp.bin
+-rw-r--r--.  1 0 0  16684 Jun 20 05:12 RV730_smc.bin
+-rw-r--r--.  1 0 0  16840 Jun 20 05:12 RV740_smc.bin
+-rw-r--r--.  1 0 0   5440 Jun 20 05:12 RV770_me.bin
+-rw-r--r--.  1 0 0   3392 Jun 20 05:12 RV770_pfp.bin
+-rw-r--r--.  1 0 0  16656 Jun 20 05:12 RV770_smc.bin
+-rw-r--r--.  1 0 0  90668 Jun 20 05:12 RV770_uvd.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 SUMO2_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 SUMO2_pfp.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 SUMO_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 SUMO_pfp.bin
+-rw-r--r--.  1 0 0   3072 Jun 20 05:12 SUMO_rlc.bin
+-rw-r--r--.  1 0 0 205080 Jun 20 05:12 SUMO_uvd.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 TAHITI_ce.bin
+-rw-r--r--.  1 0 0  31076 Jun 20 05:12 TAHITI_mc.bin
+-rw-r--r--.  1 0 0  31232 Jun 20 05:12 TAHITI_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 TAHITI_me.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 TAHITI_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 TAHITI_rlc.bin
+-rw-r--r--.  1 0 0  62552 Jun 20 05:12 TAHITI_smc.bin
+-rw-r--r--.  1 0 0 219672 Jun 20 05:12 TAHITI_uvd.bin
+-rw-r--r--.  1 0 0  48424 Jun 20 05:12 TAHITI_vce.bin
+-rw-r--r--.  1 0 0  24096 Jun 20 05:12 TURKS_mc.bin
+-rw-r--r--.  1 0 0   5504 Jun 20 05:12 TURKS_me.bin
+-rw-r--r--.  1 0 0   4480 Jun 20 05:12 TURKS_pfp.bin
+-rw-r--r--.  1 0 0  24668 Jun 20 05:12 TURKS_smc.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 VERDE_ce.bin
+-rw-r--r--.  1 0 0  31076 Jun 20 05:12 VERDE_mc.bin
+-rw-r--r--.  1 0 0  31500 Jun 20 05:12 VERDE_mc2.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 VERDE_me.bin
+-rw-r--r--.  1 0 0   8576 Jun 20 05:12 VERDE_pfp.bin
+-rw-r--r--.  1 0 0   8192 Jun 20 05:12 VERDE_rlc.bin
+-rw-r--r--.  1 0 0  60388 Jun 20 05:12 VERDE_smc.bin
+-rw-r--r--.  1 0 0  61932 Jun 20 05:12 banks_k_2_smc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 bonaire_ce.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 bonaire_k_smc.bin
+-rw-r--r--.  1 0 0  32336 Jun 20 05:12 bonaire_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 bonaire_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 bonaire_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 bonaire_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 bonaire_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 bonaire_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 bonaire_sdma1.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 bonaire_smc.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 bonaire_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 bonaire_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hainan_ce.bin
+-rw-r--r--.  1 0 0  61876 Jun 20 05:12 hainan_k_smc.bin
+-rw-r--r--.  1 0 0  31996 Jun 20 05:12 hainan_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hainan_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hainan_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 hainan_rlc.bin
+-rw-r--r--.  1 0 0  61444 Jun 20 05:12 hainan_smc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hawaii_ce.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 hawaii_k_smc.bin
+-rw-r--r--.  1 0 0  32796 Jun 20 05:12 hawaii_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hawaii_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 hawaii_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 hawaii_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 hawaii_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 hawaii_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 hawaii_sdma1.bin
+-rw-r--r--.  1 0 0 130796 Jun 20 05:12 hawaii_smc.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 hawaii_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 hawaii_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kabini_ce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kabini_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 kabini_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kabini_pfp.bin
+-rw-r--r--.  1 0 0  10496 Jun 20 05:12 kabini_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kabini_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kabini_sdma1.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 kabini_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 kabini_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kaveri_ce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kaveri_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 kaveri_mec.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 kaveri_mec2.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 kaveri_pfp.bin
+-rw-r--r--.  1 0 0  10496 Jun 20 05:12 kaveri_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kaveri_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 kaveri_sdma1.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 kaveri_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 kaveri_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 mullins_ce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 mullins_me.bin
+-rw-r--r--.  1 0 0  17024 Jun 20 05:12 mullins_mec.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 mullins_pfp.bin
+-rw-r--r--.  1 0 0  10496 Jun 20 05:12 mullins_rlc.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 mullins_sdma.bin
+-rw-r--r--.  1 0 0   4456 Jun 20 05:12 mullins_sdma1.bin
+-rw-r--r--.  1 0 0 232752 Jun 20 05:12 mullins_uvd.bin
+-rw-r--r--.  1 0 0 101072 Jun 20 05:12 mullins_vce.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 oland_ce.bin
+-rw-r--r--.  1 0 0  62692 Jun 20 05:12 oland_k_smc.bin
+-rw-r--r--.  1 0 0  31996 Jun 20 05:12 oland_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 oland_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 oland_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 oland_rlc.bin
+-rw-r--r--.  1 0 0  62260 Jun 20 05:12 oland_smc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 pitcairn_ce.bin
+-rw-r--r--.  1 0 0  61712 Jun 20 05:12 pitcairn_k_smc.bin
+-rw-r--r--.  1 0 0  31644 Jun 20 05:12 pitcairn_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 pitcairn_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 pitcairn_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 pitcairn_rlc.bin
+-rw-r--r--.  1 0 0  61280 Jun 20 05:12 pitcairn_smc.bin
+-rw-r--r--.  1 0 0  32488 Jun 20 05:12 si58_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 tahiti_ce.bin
+-rw-r--r--.  1 0 0  64364 Jun 20 05:12 tahiti_k_smc.bin
+-rw-r--r--.  1 0 0  31776 Jun 20 05:12 tahiti_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 tahiti_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 tahiti_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 tahiti_rlc.bin
+-rw-r--r--.  1 0 0  63932 Jun 20 05:12 tahiti_smc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 verde_ce.bin
+-rw-r--r--.  1 0 0  63804 Jun 20 05:12 verde_k_smc.bin
+-rw-r--r--.  1 0 0  32044 Jun 20 05:12 verde_mc.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 verde_me.bin
+-rw-r--r--.  1 0 0   8832 Jun 20 05:12 verde_pfp.bin
+-rw-r--r--.  1 0 0   8448 Jun 20 05:12 verde_rlc.bin
+-rw-r--r--.  1 0 0  61776 Jun 20 05:12 verde_smc.bin
+
+/lib/firmware/rockchip:
+total 116
+drwxr-xr-x.  2 0 0    22 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 98320 Jun 20 05:12 dptx.bin
+
+/lib/firmware/rsi:
+total 1296
+drwxr-xr-x.  2 0 0    161 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 342312 Jun 20 05:12 rs9113_ap_bt_dual_mode.rps
+-rw-r--r--.  1 0 0 332008 Jun 20 05:12 rs9113_wlan_bt_dual_mode.rps
+-rw-r--r--.  1 0 0 201188 Jun 20 05:12 rs9113_wlan_qspi.rps
+-rw-r--r--.  1 0 0 103872 Jun 20 05:12 rs9116_wlan.rps
+-rw-r--r--.  1 0 0 315840 Jun 20 05:12 rs9116_wlan_bt_classic.rps
+
+/lib/firmware/rtl_bt:
+total 656
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 38764 Jun 20 05:12 rtl8192ee_fw.bin
+-rw-r--r--.  1 0 0 37904 Jun 20 05:12 rtl8192eu_fw.bin
+-rw-r--r--.  1 0 0 24548 Jun 20 05:12 rtl8723a_fw.bin
+-rw-r--r--.  1 0 0 45048 Jun 20 05:12 rtl8723b_fw.bin
+-rw-r--r--.  1 0 0    64 Jun 20 05:12 rtl8723bs_config-OBDA8723.bin
+-rw-r--r--.  1 0 0 52116 Jun 20 05:12 rtl8723bs_fw.bin
+-rw-r--r--.  1 0 0    10 Jun 20 05:12 rtl8723d_config.bin
+-rw-r--r--.  1 0 0 52080 Jun 20 05:12 rtl8723d_fw.bin
+-rw-r--r--.  1 0 0 74488 Jun 20 05:12 rtl8761a_fw.bin
+-rw-r--r--.  1 0 0 40520 Jun 20 05:12 rtl8812ae_fw.bin
+-rw-r--r--.  1 0 0 37420 Jun 20 05:12 rtl8821a_fw.bin
+-rw-r--r--.  1 0 0    10 Jun 20 05:12 rtl8821c_config.bin
+-rw-r--r--.  1 0 0 37356 Jun 20 05:12 rtl8821c_fw.bin
+-rw-r--r--.  1 0 0    14 Jun 20 05:12 rtl8822b_config.bin
+-rw-r--r--.  1 0 0 51176 Jun 20 05:12 rtl8822b_fw.bin
+-rw-r--r--.  1 0 0    33 Jun 20 05:12 rtl8822cs_config.bin
+-rw-r--r--.  1 0 0 56288 Jun 20 05:12 rtl8822cs_fw.bin
+-rw-r--r--.  1 0 0     6 Jun 20 05:12 rtl8822cu_config.bin
+-rw-r--r--.  1 0 0 55296 Jun 20 05:12 rtl8822cu_fw.bin
+
+/lib/firmware/rtl_nic:
+total 152
+drwxr-xr-x.  2 0 0  4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2076 Jun 20 05:12 rtl8105e-1.fw
+-rw-r--r--.  1 0 0  1856 Jun 20 05:12 rtl8106e-1.fw
+-rw-r--r--.  1 0 0   832 Jun 20 05:12 rtl8106e-2.fw
+-rw-r--r--.  1 0 0   992 Jun 20 05:12 rtl8107e-1.fw
+-rw-r--r--.  1 0 0   976 Jun 20 05:12 rtl8107e-2.fw
+-rw-r--r--.  1 0 0  3456 Jun 20 05:12 rtl8125a-3.fw
+-rw-r--r--.  1 0 0  9952 Jun 20 05:12 rtl8125b-1.fw
+-rw-r--r--.  1 0 0  3264 Jun 20 05:12 rtl8125b-2.fw
+-rw-r--r--.  1 0 0  1768 Jun 20 05:12 rtl8153a-2.fw
+-rw-r--r--.  1 0 0  1440 Jun 20 05:12 rtl8153a-3.fw
+-rw-r--r--.  1 0 0   712 Jun 20 05:12 rtl8153a-4.fw
+-rw-r--r--.  1 0 0  1088 Jun 20 05:12 rtl8153b-2.fw
+-rw-r--r--.  1 0 0  1492 Jun 20 05:12 rtl8168d-1.fw
+-rw-r--r--.  1 0 0  1324 Jun 20 05:12 rtl8168d-2.fw
+-rw-r--r--.  1 0 0  5500 Jun 20 05:12 rtl8168e-1.fw
+-rw-r--r--.  1 0 0  3920 Jun 20 05:12 rtl8168e-2.fw
+-rw-r--r--.  1 0 0  3872 Jun 20 05:12 rtl8168e-3.fw
+-rw-r--r--.  1 0 0  3424 Jun 20 05:12 rtl8168f-1.fw
+-rw-r--r--.  1 0 0  1232 Jun 20 05:12 rtl8168f-2.fw
+-rw-r--r--.  1 0 0   336 Jun 20 05:12 rtl8168fp-3.fw
+-rw-r--r--.  1 0 0  4304 Jun 20 05:12 rtl8168g-1.fw
+-rw-r--r--.  1 0 0  4896 Jun 20 05:12 rtl8168g-2.fw
+-rw-r--r--.  1 0 0   832 Jun 20 05:12 rtl8168g-3.fw
+-rw-r--r--.  1 0 0   992 Jun 20 05:12 rtl8168h-1.fw
+-rw-r--r--.  1 0 0   976 Jun 20 05:12 rtl8168h-2.fw
+-rw-r--r--.  1 0 0  1824 Jun 20 05:12 rtl8402-1.fw
+-rw-r--r--.  1 0 0  2112 Jun 20 05:12 rtl8411-1.fw
+-rw-r--r--.  1 0 0  1040 Jun 20 05:12 rtl8411-2.fw
+
+/lib/firmware/rtlwifi:
+total 1148
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  11216 Jun 20 05:12 rtl8188efw.bin
+-rw-r--r--.  1 0 0  13904 Jun 20 05:12 rtl8188eufw.bin
+-rw-r--r--.  1 0 0  16192 Jun 20 05:12 rtl8192cfw.bin
+-rw-r--r--.  1 0 0  14818 Jun 20 05:12 rtl8192cfwU.bin
+-rw-r--r--.  1 0 0  16332 Jun 20 05:12 rtl8192cfwU_B.bin
+-rw-r--r--.  1 0 0  16014 Jun 20 05:12 rtl8192cufw.bin
+-rw-r--r--.  1 0 0  16116 Jun 20 05:12 rtl8192cufw_A.bin
+-rw-r--r--.  1 0 0  16096 Jun 20 05:12 rtl8192cufw_B.bin
+-rw-r--r--.  1 0 0  16116 Jun 20 05:12 rtl8192cufw_TMSC.bin
+-rw-r--r--.  1 0 0  31376 Jun 20 05:12 rtl8192defw.bin
+-rw-r--r--.  1 0 0  31818 Jun 20 05:12 rtl8192eefw.bin
+-rw-r--r--.  1 0 0  25264 Jun 20 05:12 rtl8192eu_ap_wowlan.bin
+-rw-r--r--.  1 0 0  31818 Jun 20 05:12 rtl8192eu_nic.bin
+-rw-r--r--.  1 0 0  25878 Jun 20 05:12 rtl8192eu_wowlan.bin
+-rw-r--r--.  1 0 0  80208 Jun 20 05:12 rtl8192sefw.bin
+-rw-r--r--.  1 0 0 122328 Jun 20 05:12 rtl8712u.bin
+-rw-r--r--.  1 0 0  22172 Jun 20 05:12 rtl8723aufw_A.bin
+-rw-r--r--.  1 0 0  24118 Jun 20 05:12 rtl8723aufw_B.bin
+-rw-r--r--.  1 0 0  19200 Jun 20 05:12 rtl8723aufw_B_NoBT.bin
+-rw-r--r--.  1 0 0  30746 Jun 20 05:12 rtl8723befw.bin
+-rw-r--r--.  1 0 0  31762 Jun 20 05:12 rtl8723befw_36.bin
+-rw-r--r--.  1 0 0  20886 Jun 20 05:12 rtl8723bs_ap_wowlan.bin
+-rw-r--r--.  1 0 0   9120 Jun 20 05:12 rtl8723bs_bt.bin
+-rw-r--r--.  1 0 0  32108 Jun 20 05:12 rtl8723bs_nic.bin
+-rw-r--r--.  1 0 0  26398 Jun 20 05:12 rtl8723bs_wowlan.bin
+-rw-r--r--.  1 0 0  20886 Jun 20 05:12 rtl8723bu_ap_wowlan.bin
+-rw-r--r--.  1 0 0  32108 Jun 20 05:12 rtl8723bu_nic.bin
+-rw-r--r--.  1 0 0  26398 Jun 20 05:12 rtl8723bu_wowlan.bin
+-rw-r--r--.  1 0 0  27726 Jun 20 05:12 rtl8723defw.bin
+-rw-r--r--.  1 0 0  11662 Jun 20 05:12 rtl8723fw.bin
+-rw-r--r--.  1 0 0  22996 Jun 20 05:12 rtl8723fw_B.bin
+-rw-r--r--.  1 0 0  27516 Jun 20 05:12 rtl8812aefw.bin
+-rw-r--r--.  1 0 0  21204 Jun 20 05:12 rtl8812aefw_wowlan.bin
+-rw-r--r--.  1 0 0  28984 Jun 20 05:12 rtl8821aefw.bin
+-rw-r--r--.  1 0 0  28348 Jun 20 05:12 rtl8821aefw_29.bin
+-rw-r--r--.  1 0 0  19858 Jun 20 05:12 rtl8821aefw_wowlan.bin
+-rw-r--r--.  1 0 0 127496 Jun 20 05:12 rtl8822befw.bin
+
+/lib/firmware/rtw88:
+total 676
+drwxr-xr-x.  2 0 0    139 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0   1087 Jun 20 05:12 README
+-rw-r--r--.  1 0 0  28884 Jun 20 05:12 rtw8723d_fw.bin
+-rw-r--r--.  1 0 0 137896 Jun 20 05:12 rtw8821c_fw.bin
+-rw-r--r--.  1 0 0 150984 Jun 20 05:12 rtw8822b_fw.bin
+-rw-r--r--.  1 0 0 199680 Jun 20 05:12 rtw8822c_fw.bin
+-rw-r--r--.  1 0 0 145088 Jun 20 05:12 rtw8822c_wow_fw.bin
+
+/lib/firmware/slicoss:
+total 292
+drwxr-xr-x.  2 0 0   128 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 98324 Jun 20 05:12 gbdownload.sys
+-rw-r--r--.  1 0 0  2564 Jun 20 05:12 gbrcvucode.sys
+-rw-r--r--.  1 0 0 81940 Jun 20 05:12 oasisdbgdownload.sys
+-rw-r--r--.  1 0 0 81940 Jun 20 05:12 oasisdownload.sys
+-rw-r--r--.  1 0 0  2564 Jun 20 05:12 oasisrcvucode.sys
+
+/lib/firmware/sun:
+total 20
+drwxr-xr-x.  2 0 0    25 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2253 Jun 20 05:12 cassini.bin
+
+/lib/firmware/sxg:
+total 136
+drwxr-xr-x.  2 0 0    63 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 62972 Jun 20 05:12 saharadbgdownloadB.sys
+-rw-r--r--.  1 0 0 54140 Jun 20 05:12 saharadownloadB.sys
+
+/lib/firmware/tehuti:
+total 60
+drwxr-xr-x.  2 0 0    21 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 42768 Jun 20 05:12 bdx.bin
+
+/lib/firmware/ti-connectivity:
+total 8896
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  50699 Jun 20 05:12 TIInit_6.2.31.bts
+-rw-r--r--.  1 0 0  15614 Jun 20 05:12 TIInit_6.6.15.bts
+-rw-r--r--.  1 0 0  48909 Jun 20 05:12 TIInit_7.2.31.bts
+-rw-r--r--.  1 0 0 194180 Jun 20 05:12 wl1251-fw.bin
+-rw-r--r--.  1 0 0    752 Jun 20 05:12 wl1251-nvs.bin
+-rw-r--r--.  1 0 0 273880 Jun 20 05:12 wl1271-fw-2.bin
+-rw-r--r--.  1 0 0 272836 Jun 20 05:12 wl1271-fw-ap.bin
+-rw-r--r--.  1 0 0 271832 Jun 20 05:12 wl1271-fw.bin
+lrwxrwxrwx.  1 0 0     14 Jun 20 05:12 wl1271-nvs.bin -> wl127x-nvs.bin
+-rw-r--r--.  1 0 0 280388 Jun 20 05:12 wl127x-fw-3.bin
+-rw-r--r--.  1 0 0 260852 Jun 20 05:12 wl127x-fw-4-mr.bin
+-rw-r--r--.  1 0 0 261892 Jun 20 05:12 wl127x-fw-4-plt.bin
+-rw-r--r--.  1 0 0 276684 Jun 20 05:12 wl127x-fw-4-sr.bin
+-rwxr-xr-x.  1 0 0 356428 Jun 20 05:12 wl127x-fw-5-mr.bin
+-rwxr-xr-x.  1 0 0 345392 Jun 20 05:12 wl127x-fw-5-plt.bin
+-rwxr-xr-x.  1 0 0 364044 Jun 20 05:12 wl127x-fw-5-sr.bin
+-rw-r--r--.  1 0 0 267496 Jun 20 05:12 wl127x-fw-plt-3.bin
+-rw-r--r--.  1 0 0    912 Jun 20 05:12 wl127x-nvs.bin
+-rw-r--r--.  1 0 0 284784 Jun 20 05:12 wl128x-fw-3.bin
+-rw-r--r--.  1 0 0 264904 Jun 20 05:12 wl128x-fw-4-mr.bin
+-rw-r--r--.  1 0 0 269424 Jun 20 05:12 wl128x-fw-4-plt.bin
+-rw-r--r--.  1 0 0 284156 Jun 20 05:12 wl128x-fw-4-sr.bin
+-rwxr-xr-x.  1 0 0 361756 Jun 20 05:12 wl128x-fw-5-mr.bin
+-rwxr-xr-x.  1 0 0 354280 Jun 20 05:12 wl128x-fw-5-plt.bin
+-rwxr-xr-x.  1 0 0 373172 Jun 20 05:12 wl128x-fw-5-sr.bin
+-rw-r--r--.  1 0 0 265460 Jun 20 05:12 wl128x-fw-ap.bin
+-rw-r--r--.  1 0 0 271932 Jun 20 05:12 wl128x-fw-plt-3.bin
+-rw-r--r--.  1 0 0 273324 Jun 20 05:12 wl128x-fw.bin
+-rw-r--r--.  1 0 0   1113 Jun 20 05:12 wl128x-nvs.bin
+lrwxrwxrwx.  1 0 0     14 Jun 20 05:12 wl12xx-nvs.bin -> wl127x-nvs.bin
+-rw-r--r--.  1 0 0 639276 Jun 20 05:12 wl18xx-fw-2.bin
+-rw-r--r--.  1 0 0 673328 Jun 20 05:12 wl18xx-fw-3.bin
+-rwxr-xr-x.  1 0 0 746028 Jun 20 05:12 wl18xx-fw-4.bin
+-rw-r--r--.  1 0 0 413860 Jun 20 05:12 wl18xx-fw.bin
+
+/lib/firmware/ti-keystone:
+total 20
+drwxr-xr-x.  2 0 0    51 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  1764 Jun 20 05:12 ks2_qmss_pdsp_acc48_k2_le_1_0_0_9.bin
+
+/lib/firmware/tigon:
+total 36
+drwxr-xr-x.  2 0 0    80 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2668 Jun 20 05:12 tg3.bin
+-rw-r--r--.  1 0 0   144 Jun 20 05:12 tg357766.bin
+-rw-r--r--.  1 0 0  7004 Jun 20 05:12 tg3_tso.bin
+-rw-r--r--.  1 0 0  3884 Jun 20 05:12 tg3_tso5.bin
+
+/lib/firmware/ttusb-budget:
+total 32
+drwxr-xr-x.  2 0 0    29 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 13104 Jun 20 05:12 dspbootcode.bin
+
+/lib/firmware/ueagle-atm:
+total 2220
+drwxr-xr-x.  2 0 0   4096 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  22395 Jun 20 05:12 930-fpga.bin
+-rw-r--r--.  1 0 0    137 Jun 20 05:12 CMV4p.bin.v2
+-rw-r--r--.  1 0 0     71 Jun 20 05:12 CMV9i.bin
+-rw-r--r--.  1 0 0     61 Jun 20 05:12 CMV9p.bin
+-rw-r--r--.  1 0 0    161 Jun 20 05:12 CMVei.bin
+-rw-r--r--.  1 0 0    161 Jun 20 05:12 CMVeiWO.bin
+-rw-r--r--.  1 0 0    161 Jun 20 05:12 CMVep.bin
+-rw-r--r--.  1 0 0    151 Jun 20 05:12 CMVepES.bin
+-rw-r--r--.  1 0 0    151 Jun 20 05:12 CMVepES03.bin
+-rw-r--r--.  1 0 0    151 Jun 20 05:12 CMVepFR.bin
+-rw-r--r--.  1 0 0    151 Jun 20 05:12 CMVepFR04.bin
+-rw-r--r--.  1 0 0    181 Jun 20 05:12 CMVepFR10.bin
+-rw-r--r--.  1 0 0    161 Jun 20 05:12 CMVepIT.bin
+-rw-r--r--.  1 0 0    151 Jun 20 05:12 CMVepWO.bin
+-rw-r--r--.  1 0 0 456436 Jun 20 05:12 DSP4p.bin
+-rw-r--r--.  1 0 0 339717 Jun 20 05:12 DSP9i.bin
+-rw-r--r--.  1 0 0 436947 Jun 20 05:12 DSP9p.bin
+-rw-r--r--.  1 0 0 447099 Jun 20 05:12 DSPei.bin
+-rw-r--r--.  1 0 0 427697 Jun 20 05:12 DSPep.bin
+-rw-r--r--.  1 0 0   7759 Jun 20 05:12 adi930.fw
+-rw-r--r--.  1 0 0  10981 Jun 20 05:12 eagleI.fw
+-rw-r--r--.  1 0 0  10875 Jun 20 05:12 eagleII.fw
+-rw-r--r--.  1 0 0  10975 Jun 20 05:12 eagleIII.fw
+-rw-r--r--.  1 0 0  10492 Jun 20 05:12 eagleIV.fw
+
+/lib/firmware/updates:
+total 16
+drwxr-xr-x.  2 0 0     6 Jun 20 05:12 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+
+/lib/firmware/vicam:
+total 20
+drwxr-xr-x.  2 0 0    25 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  2106 Jun 20 05:12 firmware.fw
+
+/lib/firmware/vxge:
+total 840
+drwxr-xr-x.  2 0 0     42 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0  12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0 481410 Jun 20 05:12 X3fw-pxe.ncf
+-rw-r--r--.  1 0 0 359046 Jun 20 05:12 X3fw.ncf
+
+/lib/firmware/yam:
+total 32
+drwxr-xr-x.  2 0 0    38 Nov  9 15:39 .
+drwxr-xr-x. 84 0 0 12288 Nov  9 15:48 ..
+-rw-r--r--.  1 0 0  5302 Jun 20 05:12 1200.bin
+-rw-r--r--.  1 0 0  5302 Jun 20 05:12 9600.bin

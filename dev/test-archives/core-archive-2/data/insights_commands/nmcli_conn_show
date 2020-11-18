@@ -1,0 +1,3 @@
+NAME    UUID                                  TYPE      DEVICE 
+ens3    230d056e-e216-4b5b-892a-2b43c97db37c  ethernet  ens3   
+virbr0  00da51a3-acbe-48ae-9594-95ee82494f33  bridge    virbr0 

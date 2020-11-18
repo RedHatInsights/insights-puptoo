@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.crypto_policies_opensshserver", "exec_time": 2.86102294921875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/crypto-policies/back-ends/opensshserver.config", "rc": null}}, "ser_time": 0.0029556751251220703}

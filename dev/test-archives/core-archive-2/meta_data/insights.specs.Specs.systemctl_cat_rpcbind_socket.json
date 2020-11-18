@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.systemctl_cat_rpcbind_socket", "exec_time": 3.719329833984375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl cat rpcbind.socket", "args": null, "relative_path": "insights_commands/systemctl_cat_rpcbind.socket"}}, "ser_time": 0.012292861938476562}

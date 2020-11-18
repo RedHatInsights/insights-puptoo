@@ -1,0 +1,10 @@
+F   UID     PID    PPID PRI  NI    VSZ   RSS WCHAN  STAT TTY        TIME COMMAND
+5   990    1113       1  20   0 119872    12 -      S    ?          0:00 /usr/sbin/chronyd
+4    70    1124       1  20   0  58152   144 -      Ss   ?          0:00 avahi-daemon: running [linux.local]
+1     0    1156       1  20   0  17044   296 -      S    ?          0:00 /bin/bash /usr/sbin/ksmtuned
+1    70    1175    1124  20   0  58028     4 -      S    ?          0:00 avahi-daemon: chroot helper
+4     0    1321       1  20   0 426576  1792 -      Ssl  ?          0:01 /usr/libexec/platform-python -Es /usr/sbin/tuned -l -P
+0    42    8244    8235  20   0 4375412  184 x64_sy Sl+  tty1       0:12 /usr/bin/gnome-shell
+0  1000    8923    8854  20   0 4831632 32596 -     Sl+  tty2       3:48 /usr/bin/gnome-shell
+0  1000   10189   10183  20   0  25928   284 -      Ss   pts/0      0:00 bash
+0     0   54868   53898  20   0   9184   992 -      S+   pts/0      0:00 grep -F heat-engine /usr/bin/openshift start node avahi nova-compute pacemaker-controld tuned pacemakerd docker dlm_controld pcsd chronyd bash openshift start master api ora /usr/bin/gnome-shell spausedd ntpd openshift start master controllers openshift start node /usr/bin/openshift start master crmd clvmd corosync nova-conductor COMMAND

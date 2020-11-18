@@ -1,0 +1,76 @@
+Ip:
+    Forwarding: 1
+    48741 total packets received
+    2 with invalid addresses
+    0 forwarded
+    0 incoming packets discarded
+    48591 incoming packets delivered
+    36621 requests sent out
+    4 dropped because of missing route
+Icmp:
+    0 ICMP messages received
+    0 input ICMP message failed
+    ICMP input histogram:
+    6 ICMP messages sent
+    0 ICMP messages failed
+    ICMP output histogram:
+        destination unreachable: 6
+IcmpMsg:
+        OutType3: 6
+Tcp:
+    374 active connection openings
+    0 passive connection openings
+    6 failed connection attempts
+    10 connection resets received
+    1 connections established
+    47596 segments received
+    36109 segments sent out
+    23 segments retransmitted
+    0 bad segments received
+    465 resets sent
+Udp:
+    1001 packets received
+    0 packets to unknown port received
+    0 packet receive errors
+    1068 packets sent
+    0 receive buffer errors
+    0 send buffer errors
+UdpLite:
+TcpExt:
+    156 TCP sockets finished time wait in fast timer
+    185 delayed acks sent
+    2 delayed acks further delayed because of locked socket
+    Quick ack mode was activated 60 times
+    39096 packet headers predicted
+    2714 acknowledgments not containing data payload received
+    1251 predicted acknowledgments
+    Detected reordering 4 times using SACK
+    TCPLostRetransmit: 14
+    TCPTimeouts: 2
+    TCPLossProbes: 7
+    TCPBacklogCoalesce: 1
+    TCPDSACKOldSent: 60
+    TCPDSACKRecv: 5
+    173 connections reset due to unexpected data
+    1 connections reset due to early user close
+    2 connections aborted due to timeout
+    TCPDSACKIgnoredNoUndo: 2
+    TCPSackShiftFallback: 3
+    TCPRcvCoalesce: 1029
+    TCPOFOQueue: 42
+    TCPAutoCorking: 167
+    TCPFromZeroWindowAdv: 2
+    TCPToZeroWindowAdv: 2
+    TCPOrigDataSent: 4050
+    TCPKeepAlive: 919
+    TCPDelivered: 4242
+    TCPAckCompressed: 15
+IpExt:
+    InMcastPkts: 138
+    OutMcastPkts: 78
+    InOctets: 268301467
+    OutOctets: 4401039
+    InMcastOctets: 14986
+    OutMcastOctets: 8980
+    InNoECTPkts: 48859
+MPTcpExt:

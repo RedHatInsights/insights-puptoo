@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.dmsetup_info", "exec_time": 3.0040740966796875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/dmsetup info -C", "args": null, "relative_path": "insights_commands/dmsetup_info_-C"}}, "ser_time": 0.007722139358520508}

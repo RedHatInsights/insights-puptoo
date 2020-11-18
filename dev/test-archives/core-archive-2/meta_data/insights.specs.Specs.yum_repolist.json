@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.yum_repolist", "exec_time": 0.0001308917999267578, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/yum -C --noplugins repolist", "args": null, "relative_path": "insights_commands/yum_-C_--noplugins_repolist"}}, "ser_time": 1.0799696445465088}
