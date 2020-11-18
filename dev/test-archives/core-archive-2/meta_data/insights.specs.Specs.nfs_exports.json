@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.nfs_exports", "exec_time": 2.0503997802734375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/exports", "rc": null}}, "ser_time": 0.0028390884399414062}

@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.virtlogd_conf", "exec_time": 5.364418029785156e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/libvirt/virtlogd.conf", "rc": null}}, "ser_time": 0.0029916763305664062}

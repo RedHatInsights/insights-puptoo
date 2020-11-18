@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.getenforce", "exec_time": 0.00032138824462890625, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/getenforce", "args": null, "relative_path": "insights_commands/getenforce"}}, "ser_time": 0.004091739654541016}

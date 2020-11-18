@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ip_s_link", "exec_time": 2.8848648071289062e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/ip -s -d link", "args": null, "relative_path": "insights_commands/ip_-s_-d_link"}}, "ser_time": 0.00413823127746582}

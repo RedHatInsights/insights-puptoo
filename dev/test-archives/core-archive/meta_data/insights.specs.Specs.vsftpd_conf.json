@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.vsftpd_conf", "exec_time": 2.6702880859375e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/vsftpd/vsftpd.conf", "rc": null}}, "ser_time": 0.003466367721557617}

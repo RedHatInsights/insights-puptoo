@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.qemu_conf", "exec_time": 0.00011301040649414062, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/libvirt/qemu.conf", "rc": null}}, "ser_time": 0.0029757022857666016}

@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.networkmanager_dispatcher_d", "exec_time": 0.0003845691680908203, "errors": [], "results": [{"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/NetworkManager/dispatcher.d/11-dhclient", "rc": null}}], "ser_time": 0.003270387649536133}

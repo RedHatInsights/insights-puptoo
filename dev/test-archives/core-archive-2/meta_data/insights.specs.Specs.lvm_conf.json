@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.lvm_conf", "exec_time": 3.147125244140625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/lvm/lvm.conf", "rc": null}}, "ser_time": 0.0033953189849853516}

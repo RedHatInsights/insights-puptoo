@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.modinfo_i40e", "exec_time": 2.9325485229492188e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/modinfo i40e", "args": null, "relative_path": "insights_commands/modinfo_i40e"}}, "ser_time": 0.026832103729248047}

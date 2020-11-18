@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.mounts", "exec_time": 2.2411346435546875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "proc/mounts", "rc": null}}, "ser_time": 0.0024421215057373047}

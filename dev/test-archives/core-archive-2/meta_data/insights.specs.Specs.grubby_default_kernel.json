@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.grubby_default_kernel", "exec_time": 3.147125244140625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/grubby --default-kernel", "args": null, "relative_path": "insights_commands/grubby_--default-kernel"}}, "ser_time": 0.07312440872192383}

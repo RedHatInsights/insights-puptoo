@@ -1,9 +1,0 @@
-Filesystem             Inodes  IUsed   IFree IUse% Mounted on
-devtmpfs                95551    452   95099    1% /dev
-tmpfs                  103136     58  103078    1% /dev/shm
-tmpfs                  103136    927  102209    1% /run
-tmpfs                  103136     17  103119    1% /sys/fs/cgroup
-/dev/mapper/rhel-root 8316928 184939 8131989    3% /
-/dev/vda1              524288    364  523924    1% /boot
-tmpfs                  103136     24  103112    1% /run/user/42
-tmpfs                  103136     55  103081    1% /run/user/1000

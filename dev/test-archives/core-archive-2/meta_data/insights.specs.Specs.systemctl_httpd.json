@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.systemctl_httpd", "exec_time": 2.4080276489257812e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/systemctl show httpd", "args": null, "relative_path": "insights_commands/systemctl_show_httpd"}}, "ser_time": 0.020631790161132812}

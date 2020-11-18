@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.cpu_smt_active", "exec_time": 4.124641418457031e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "sys/devices/system/cpu/smt/active", "rc": null}}, "ser_time": 0.004549503326416016}

@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.lsscsi", "exec_time": 3.457069396972656e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/lsscsi", "args": null, "relative_path": "insights_commands/lsscsi"}}, "ser_time": 0.00792551040649414}

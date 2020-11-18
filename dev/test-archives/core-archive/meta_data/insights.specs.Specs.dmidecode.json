@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.dmidecode", "exec_time": 5.340576171875e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/dmidecode", "args": null, "relative_path": "insights_commands/dmidecode"}}, "ser_time": 0.006976127624511719}

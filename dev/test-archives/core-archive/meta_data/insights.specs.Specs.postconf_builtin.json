@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.postconf_builtin", "exec_time": 0.0002143383026123047, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/sbin/postconf -C builtin", "args": null, "relative_path": "insights_commands/postconf_-C_builtin"}}, "ser_time": 0.024649620056152344}

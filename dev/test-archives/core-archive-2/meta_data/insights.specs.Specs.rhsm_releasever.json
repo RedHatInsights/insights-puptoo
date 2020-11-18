@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.rhsm_releasever", "exec_time": 2.8848648071289062e-05, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "var/lib/rhsm/cache/releasever.json", "rc": null}}, "ser_time": 0.0030105113983154297}

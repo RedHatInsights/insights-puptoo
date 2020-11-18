@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ip6tables", "exec_time": 4.291534423828125e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/ip6tables-save", "args": null, "relative_path": "insights_commands/ip6tables-save"}}, "ser_time": 0.009602069854736328}

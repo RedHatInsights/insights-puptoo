@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.abrt_ccpp_conf", "exec_time": 0.0002117156982421875, "errors": [], "results": {"type": "insights.core.spec_factory.TextFileProvider", "object": {"relative_path": "etc/abrt/plugins/CCpp.conf", "rc": null}}, "ser_time": 0.004303455352783203}

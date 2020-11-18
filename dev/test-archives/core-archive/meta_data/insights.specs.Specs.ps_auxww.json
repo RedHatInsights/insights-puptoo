@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ps_auxww", "exec_time": 3.314018249511719e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ps auxww", "args": null, "relative_path": "insights_commands/ps_auxww"}}, "ser_time": 0.03792095184326172}

@@ -1,7 +1,0 @@
-210 Number of sources = 4
-MS Name/IP address         Stratum Poll Reach LastRx Last sample               
-===============================================================================
-^- ntp.speculation.org           2  10   377   886  -2382us[-3051us] +/-   63ms
-^* ntp3.your.org                 1  10   377   271   -161us[ -828us] +/-   17ms
-^- 108.61.73.243                 2  10   377   832  +7240us[+6571us] +/-   68ms
-^- ntp.backplanedns.org          2  10   377   931   -716us[-1386us] +/-   56ms

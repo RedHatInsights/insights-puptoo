@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.netstat_i", "exec_time": 0.0004265308380126953, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/netstat -i", "args": null, "relative_path": "insights_commands/netstat_-i"}}, "ser_time": 0.007032155990600586}

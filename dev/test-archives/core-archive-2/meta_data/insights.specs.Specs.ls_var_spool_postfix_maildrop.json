@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ls_var_spool_postfix_maildrop", "exec_time": 2.9802322387695312e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -ln /var/spool/postfix/maildrop", "args": null, "relative_path": "insights_commands/ls_-ln_.var.spool.postfix.maildrop"}}, "ser_time": 0.004900932312011719}

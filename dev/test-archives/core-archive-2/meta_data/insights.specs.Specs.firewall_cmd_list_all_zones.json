@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.firewall_cmd_list_all_zones", "exec_time": 7.796287536621094e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/firewall-cmd --list-all-zones", "args": null, "relative_path": "insights_commands/firewall-cmd_--list-all-zones"}}, "ser_time": 3.9896881580352783}

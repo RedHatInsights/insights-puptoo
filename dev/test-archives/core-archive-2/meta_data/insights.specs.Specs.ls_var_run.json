@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ls_var_run", "exec_time": 2.6941299438476562e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lnL /var/run", "args": null, "relative_path": "insights_commands/ls_-lnL_.var.run"}}, "ser_time": 0.006007671356201172}

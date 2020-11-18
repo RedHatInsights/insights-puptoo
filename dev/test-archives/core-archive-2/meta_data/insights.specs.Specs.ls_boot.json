@@ -1,1 +1,0 @@
-{"name": "insights.specs.Specs.ls_boot", "exec_time": 9.179115295410156e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/bin/ls -lanR /boot", "args": null, "relative_path": "insights_commands/ls_-lanR_.boot"}}, "ser_time": 0.046535491943359375}
