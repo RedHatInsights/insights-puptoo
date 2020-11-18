@@ -373,6 +373,29 @@ def _remove_bad_display_name(facts):
     return defined_facts
 
 
+def run_profile():
+
+    args = None
+
+    import argparse
+    import os
+    import sys
+    p = argparse.ArgumentParser(add_help=False)
+    p.add_argument("archive", nargs="?", help="Archive to analyze.")
+    args = p.parse_args()
+
+    root = args.archive
+    if root:
+        root = os.path.realpath(root)
+    try:
+        broker = run(system_profile, root=root)
+        result = broker[system_profile]
+        print(result)
+    except Exception as e:
+        print("something went wrong: %s" % e)
+        sys.exit(1)
+
+
 @metrics.SYSTEM_PROFILE.time()
 def get_system_profile(path=None):
     broker = run(system_profile, root=path)
