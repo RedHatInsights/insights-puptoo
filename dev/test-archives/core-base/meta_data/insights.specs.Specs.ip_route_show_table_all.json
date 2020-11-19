@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.ip_route_show_table_all", "exec_time": 0.0004229545593261719, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/sbin/ip route show table all", "args": null, "relative_path": "insights_commands/ip_route_show_table_all"}}, "ser_time": 0.006380319595336914}

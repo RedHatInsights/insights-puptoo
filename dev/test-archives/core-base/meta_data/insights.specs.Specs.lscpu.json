@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.lscpu", "exec_time": 2.384185791015625e-05, "errors": [], "results": {"type": "insights.core.spec_factory.CommandOutputProvider", "object": {"rc": null, "cmd": "/usr/bin/lscpu", "args": null, "relative_path": "insights_commands/lscpu"}}, "ser_time": 0.006742238998413086}

@@ -1,0 +1,5 @@
+repo id                            repo name
+ansible-2.9-for-rhel-8-x86_64-rpms Red Hat Ansible Engine 2.9 for RHEL 8 x86_64 (RPMs)
+rhel-8-for-x86_64-appstream-rpms   Red Hat Enterprise Linux 8 for x86_64 - AppStream (RPMs)
+rhel-8-for-x86_64-baseos-rpms      Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)
+rhocp-4.6-for-rhel-8-x86_64-rpms   Red Hat OpenShift Container Platform 4.6 for RHEL 8 x86_64 (RPMs)

@@ -1,0 +1,8 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+chrony      1113  0.0  0.0 119872    12 ?        S    15:54   0:00 /usr/sbin/chronyd
+root        1156  0.0  0.0  17044   296 ?        S    15:54   0:00 /bin/bash /usr/sbin/ksmtuned
+root        1321  0.0  0.2 426576  1792 ?        Ssl  15:54   0:01 /usr/libexec/platform-python -Es /usr/sbin/tuned -l -P
+gdm         8244  0.1  0.0 4375412  184 tty1     Sl+  15:54   0:12 /usr/bin/gnome-shell
+jason       8923  2.4  3.9 4831632 32596 tty2    Sl+  15:55   3:48 /usr/bin/gnome-shell
+jason      10189  0.0  0.0  25928   288 pts/0    Ss   15:56   0:00 bash
+root       54871  0.0  0.1   9184  1056 pts/0    S+   18:33   0:00 grep -F heat-engine /usr/bin/openshift start node /usr/bin/dockerd-current oc observe csr ceph-osd nova-compute ptp4l pacemaker-controld STAP/8.2 tuned /usr/bin/docker pacemakerd docker dlm_controld pcsd /usr/bin/hyperkube kubelet mysqld chronyd bash phc2sys openshift start master api ora /usr/bin/gnome-shell spausedd ntpd openshift start master controllers openshift start node /usr/bin/openshift start master postgres crmd /usr/bin/docker daemon /usr/bin/docker-current clvmd /usr/bin/docker-current daemon corosync nova-conductor COMMAND
