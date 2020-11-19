@@ -10,6 +10,7 @@ from prometheus_client import Info, Summary, start_http_server
 from . import process
 from .mq import consume, msgs, produce
 from .utils import config, metrics, puptoo_logging
+from .utils.puptoo_logging import threadctx
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"
@@ -26,6 +27,8 @@ def start_prometheus():
 
 
 def get_extra(account="unknown", request_id="unknown"):
+    threadctx.request_id = request_id
+    threadctx.account = account
     return {"account": account, "request_id": request_id}
 
 

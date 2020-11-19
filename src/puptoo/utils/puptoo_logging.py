@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+from threading import local
 
 import watchtower
 
@@ -8,6 +9,9 @@ from logstash_formatter import LogstashFormatterV1
 from boto3.session import Session
 
 from . import config
+
+
+threadctx = local()
 
 
 def config_cloudwatch(logger):
@@ -32,6 +36,7 @@ def initialize_logging():
     if any("KUBERNETES" in k for k in os.environ):
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(LogstashFormatterV1())
+        handler.addFilter(ContextualFilter())
         logging.root.setLevel(os.getenv("LOG_LEVEL", "INFO"))
         logging.root.addHandler(handler)
     else:
@@ -49,3 +54,24 @@ def initialize_logging():
         logger.info("Skipping cloudwatch configuration")
 
     return logger
+
+
+class ContextualFilter(logging.Filter):
+    """
+    This filter gets the request_id from the message and adds it to
+    each log record. This way we do not have to explicitly retreive/pass
+    around the request_id for each log message
+    """
+
+    def filter(self, log_record):
+        try:
+            log_record.request_id = threadctx.request_id
+        except Exception:
+            log_record.request_id = "-1"
+
+        try:
+            log_record.account = threadctx.account
+        except Exception:
+            log_record.account = "000001"
+
+        return True
