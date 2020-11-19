@@ -14,6 +14,9 @@ for file in dev/test-archives/*; do
      filename="$(basename "$file").tar.gz"
      tar -zcf $filename "$file"
      puptoo-run $filename
+     if [ $? != 0 ]; then
+        exit 1
+     fi
      rm $filename
 done
 
