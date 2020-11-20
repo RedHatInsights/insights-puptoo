@@ -27,6 +27,7 @@ def config_cloudwatch(logger):
         create_log_group=False,
     )
     cw_handler.setFormatter(LogstashFormatterV1())
+    cw_handler.addFilter(ContextualFilter())
     logger.addHandler(cw_handler)
 
 
