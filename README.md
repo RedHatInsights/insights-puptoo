@@ -8,7 +8,7 @@ service.
 
 The PUPTOO service is a component of the Insights Platform that validates the payloads uploaded
 to Red Hat by the insights-client. The service is engaged after an upload has been recieved and stored in
-cloud storage.
+cloud storage. 
 
 PUPTOO retrieves payloads via URL in the message, processes it through
 insights-core to extract facts and guarantee integrity of the archive, and send the extracted info to the inventory service. 
