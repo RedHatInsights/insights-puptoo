@@ -162,7 +162,8 @@ def system_profile(
 
     if tuned:
         try:
-            profile["tuned_profile"] = tuned.data['active']
+            if 'active' in tuned.data:
+                profile["tuned_profile"] = tuned.data['active']
         except Exception as e:
             catch_error("tuned", e)
             raise
