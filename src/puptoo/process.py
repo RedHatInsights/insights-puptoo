@@ -124,9 +124,10 @@ def system_profile(
 
     if dmidecode:
         try:
-            profile["bios_release_date"] = dmidecode.bios.get("release_date")
-            profile["bios_vendor"] = dmidecode.bios.get("vendor")
-            profile["bios_version"] = dmidecode.bios.get("version")
+            if dmidecode.bios:
+                profile["bios_release_date"] = dmidecode.bios.get("release_date")
+                profile["bios_vendor"] = dmidecode.bios.get("vendor")
+                profile["bios_version"] = dmidecode.bios.get("version")
         except Exception as e:
             catch_error("dmidecode", e)
             raise
