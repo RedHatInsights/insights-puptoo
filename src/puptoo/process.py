@@ -258,6 +258,11 @@ def system_profile(
     if redhat_release:
         try:
             profile["os_release"] = redhat_release.rhel
+            profile["operating_system"] = {
+                "major": redhat_release.major,
+                "minor": redhat_release.minor,
+                "name": "RHEL"
+            }
         except Exception as e:
             catch_error("redhat_release", e)
             raise
