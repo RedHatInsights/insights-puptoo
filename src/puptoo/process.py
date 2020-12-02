@@ -143,7 +143,7 @@ def system_profile(
 
     if lscpu:
         try:
-            profile["cores_per_socket"] = lscpu.info['Cores per socket']
+            profile["cores_per_socket"] = lscpu.info.get('Cores per socket')
         except Exception as e:
             catch_error("lscpu", e)
             raise
