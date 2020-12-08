@@ -1,10 +1,10 @@
 #!/bin/bash
 
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
-pip install poetry
-python -m poetry install
-INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json poetry run pytest
+pip install .
+pip install -r requirements.txt
+INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
 
 if [ $? != 0 ]; then
     exit 1
@@ -13,7 +13,7 @@ fi
 for file in dev/test-archives/*; do
      filename="$(basename "$file").tar.gz"
      tar -zcf $filename "$file"
-     poetry run puptoo-run $filename
+     puptoo-run $filename
      if [ $? != 0 ]; then
         exit 1
      fi
