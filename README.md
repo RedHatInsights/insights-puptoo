@@ -87,13 +87,16 @@ PUPTOO does expect a kafka message queue to be available for connection.
 
     python3
 
+    optional:
+    [poetry](https://python-poetry.org/)
+
 #### Python
 
 Create a virtualenv using pipenv and install requirements. Once complete you can start the app by running `puptoo`
 
     python -m venv path/to/venv
     source path/to/venv/bin/activate
-    pip install .
+    pip3 install .
 
 #### Running Locally
 

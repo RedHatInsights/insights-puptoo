@@ -4,6 +4,8 @@ RUN yum install -y git && yum remove -y nodejs npm kernel-headers \
 && git clone -b 3.0 https://github.com/RedHatInsights/insights-core \
 && pip3 install ./insights-core
 COPY src src
-COPY setup.py .
-RUN pip3 install .
+COPY poetry.lock poetry.lock
+COPY pyproject.toml pyproject.toml
+RUN pip3 install --upgrade pip && pip3 install .
+USER 1001
 ENTRYPOINT ["puptoo"]
