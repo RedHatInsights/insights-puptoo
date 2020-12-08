@@ -1,7 +1,8 @@
 #!/bin/bash
 
-python -m venv .venv
+python3 -m venv .venv
 source .venv/bin/activate
+pip install --upgrade pip
 pip install .
 pip install -r requirements.txt
 INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest

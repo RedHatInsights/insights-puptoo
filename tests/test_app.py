@@ -1,4 +1,4 @@
-from puptoo import app
+from src.puptoo import app
 from freezegun import freeze_time
 from datetime import datetime
 
