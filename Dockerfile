@@ -7,5 +7,5 @@ USER 1001
 COPY src src
 COPY poetry.lock poetry.lock
 COPY pyproject.toml pyproject.toml
-RUN pip3 install poetry && poetry install
-ENTRYPOINT ["poetry run puptoo"]
+RUN pip3 install .
+ENTRYPOINT ["puptoo"]
