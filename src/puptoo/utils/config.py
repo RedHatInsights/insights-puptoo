@@ -29,8 +29,8 @@ def get_namespace():
 CLOWDER_ENABLED = os.environ.get("CLOWDER_ENABLED", False)
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
-    from app_common_python import LoadedConfig, KafkaTopics
-    BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", LoadedConfig.kafka.brokers[0].hostname+":"+str(LoadedConfig.kafka.brokers[0].port)).split(",")
+    from app_common_python import LoadedConfig, KafkaTopics, KafkaServers
+    BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", KafkaServers)
     ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", KafkaTopics["platform.upload.advisor"].name)
     COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", KafkaTopics["platform.upload.compliance"].name)
     INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC") or KafkaTopics["platform.inventory.host-ingress-p1"].name
