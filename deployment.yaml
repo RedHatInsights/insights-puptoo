@@ -64,6 +64,8 @@ objects:
       - replicas: 3
         partitions: 4
         topicName: platform.payload-status
+    dependencies:
+      - ingress
 
 parameters:
 - name: LOG_LEVEL
