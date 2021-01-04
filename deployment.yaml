@@ -37,7 +37,7 @@ objects:
         - name: LOG_LEVEL
           value: ${LOG_LEVEL}
         - name: CLOWDER_ENABLED
-          value: "true"
+          value: ${CLOWDER_ENABLED}
       resources:
         limits:
           cpu: ${CPU_LIMIT}
@@ -91,3 +91,6 @@ parameters:
   name: INVENTORY_TOPIC
   value: platform.inventory.host-ingress-p1
   required: true
+- description: Is clowder enabled
+  name: CLOWDER_ENABLED
+  value: "true"
