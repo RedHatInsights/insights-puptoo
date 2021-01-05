@@ -93,4 +93,4 @@ parameters:
   required: true
 - description: Is clowder enabled
   name: CLOWDER_ENABLED
-  value: "true"
+  value: "True"

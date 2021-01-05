@@ -26,7 +26,7 @@ def get_namespace():
 
 
 # Shim layer for dual support of using Clowder and Legacy Mode
-CLOWDER_ENABLED = os.environ.get("CLOWDER_ENABLED", False)
+CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() in ["true", "t", "yes", "y"] else False
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
     from app_common_python import LoadedConfig, KafkaTopics
