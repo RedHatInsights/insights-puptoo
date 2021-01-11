@@ -154,8 +154,7 @@ def system_profile(
             profile["sap_sids"] = sorted(list(sids))
             if sap.local_instances:
                 inst = sap.local_instances[0]
-                if sap[inst].number not in ["98", "99"]:
-                    profile["sap_instance_number"] = sap[inst].number
+                profile["sap_instance_number"] = sap[inst].number
         except Exception as e:
             catch_error("sap", e)
             raise
