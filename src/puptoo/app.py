@@ -7,7 +7,7 @@ from time import time
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
 
-from . import process
+from .process import extract
 from .mq import consume, msgs, produce
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
@@ -95,7 +95,7 @@ def main():
 
 
 def process_archive(msg, extra):
-    facts = process.extraction(msg, extra)
+    facts = extract(msg, extra)
     if facts.get("error"):
         metrics.extract_failure.inc()
         send_message(

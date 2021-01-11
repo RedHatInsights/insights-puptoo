@@ -30,7 +30,7 @@ CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() 
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
     from app_common_python import LoadedConfig, KafkaTopics
-    BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", LoadedConfig.kafka.brokers[0].hostname+":"+str(LoadedConfig.kafka.brokers[0].port)).split(",")
+    BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", LoadedConfig.kafka.brokers[0].hostname + ":" + str(LoadedConfig.kafka.brokers[0].port)).split(",")
     ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", KafkaTopics["platform.upload.advisor"].name)
     COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", KafkaTopics["platform.upload.compliance"].name)
     INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC") or KafkaTopics["platform.inventory.host-ingress-p1"].name
