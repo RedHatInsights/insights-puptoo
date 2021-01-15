@@ -1,10 +1,8 @@
 import datetime
 import json
 import logging
-from tempfile import NamedTemporaryFile
 
-import requests
-from insights import extract, make_metadata, rule, run
+from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.virt_what import VirtWhat
@@ -28,18 +26,12 @@ from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
 from insights.specs import Specs
-from insights.util.canonical_facts import get_canonical_facts
 
-from .utils import config, metrics, puptoo_logging
+from ..utils import config, metrics, puptoo_logging
 
 logger = logging.getLogger(config.APP_NAME)
 
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
-
-@metrics.GET_FILE.time()
-def get_archive(url):
-    archive = requests.get(url)
-    return archive.content
 
 
 def catch_error(parser, error):
@@ -525,29 +517,12 @@ def get_system_profile(path=None):
     return result
 
 
-@metrics.EXTRACT.time()
-def extraction(msg, extra, remove=True):
-    metrics.extraction_count.inc()
-    facts = {"system_profile": {}}
-    try:
-        with NamedTemporaryFile(delete=remove) as tf:
-            tf.write(get_archive(msg["url"]))
-            tf.flush()
-            logger.debug("extracting facts from %s", tf.name, extra=extra)
-            with extract(tf.name) as ex:
-                facts = get_canonical_facts(path=ex.tmp_dir)
-                facts["system_profile"] = get_system_profile(path=ex.tmp_dir)
-    except Exception as e:
-        logger.exception("Failed to extract facts: %s", str(e), extra=extra)
-        facts["error"] = str(e)
-    finally:
-        if facts["system_profile"].get("display_name"):
-            facts["display_name"] = facts["system_profile"].get("display_name")
-        if facts["system_profile"].get("satellite_id"):
-            facts["satellite_id"] = facts["system_profile"].get("satellite_id")
-        if facts["system_profile"].get("tags"):
-            facts["tags"] = facts["system_profile"].pop("tags")
-        groomed_facts = _remove_empties(_remove_bad_display_name(facts))
-        metrics.msg_processed.inc()
-        metrics.extract_success.inc()
-        return groomed_facts
+def postprocess(facts):
+    if facts["system_profile"].get("display_name"):
+        facts["display_name"] = facts["system_profile"].get("display_name")
+    if facts["system_profile"].get("satellite_id"):
+        facts["satellite_id"] = facts["system_profile"].get("satellite_id")
+    if facts["system_profile"].get("tags"):
+        facts["tags"] = facts["system_profile"].pop("tags")
+    groomed_facts = _remove_empties(_remove_bad_display_name(facts))
+    return groomed_facts
