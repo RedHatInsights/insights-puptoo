@@ -22,13 +22,14 @@ for file in dev/test-archives/*; do
      if [ $? != 0 ]; then
         exit 1
      fi
-     # add the schema stuff
      python parse_json.py
      python inventory-schemas/tools/simple-test/tester.py inventory-schemas/schemas/system_profile/v1.yaml output.json
      if [ $? != 0 ]; then
         exit 1
      fi
      rm $filename
+     rm -rf inventory-schemas
+     rm output.json
 done
 
 deactivate
