@@ -7,18 +7,29 @@ pip install .
 pip install -r requirements.txt
 INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
 
+git clone https://github.com/RedHatInsights/inventory-schemas.git
+
 if [ $? != 0 ]; then
     exit 1
 fi
-
+# --------------------------------
+# Run the profile and schema check
+# --------------------------------
 for file in dev/test-archives/*; do
      filename="$(basename "$file").tar.gz"
      tar -zcf $filename "$file"
-     puptoo-run $filename
+     insights-run -p src/puptoo -f json $filename > output.json
+     if [ $? != 0 ]; then
+        exit 1
+     fi
+     python parse_json.py
+     python inventory-schemas/tools/simple-test/tester.py inventory-schemas/schemas/system_profile/v1.yaml output.json
      if [ $? != 0 ]; then
         exit 1
      fi
      rm $filename
+     rm -rf inventory-schemas
+     rm output.json
 done
 
 deactivate
