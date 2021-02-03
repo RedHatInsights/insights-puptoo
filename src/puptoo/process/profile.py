@@ -12,6 +12,7 @@ from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
+from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
 from insights.parsers.ip import IpAddr
@@ -54,6 +55,7 @@ def catch_error(parser, error):
         Sap,
         SEStatus,
         Tuned,
+        HDBVersion,
         InstalledRpms,
         UnitFiles,
         PsAuxcww,
@@ -83,6 +85,7 @@ def system_profile(
     sap,
     sestatus,
     tuned,
+    hdb_version,
     installed_rpms,
     unit_files,
     ps_auxcww,
@@ -149,6 +152,13 @@ def system_profile(
                 profile["sap_instance_number"] = sap[inst].number
         except Exception as e:
             catch_error("sap", e)
+            raise
+
+    if hdb_version:
+        try:
+            profile["sap_version"] = hdb_version.version
+        except Exception as e:
+            catch_error("hdb_version", e)
             raise
 
     if tuned:
