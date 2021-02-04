@@ -39,12 +39,11 @@ def get_staletime():
 
 
 def get_owner(ident):
-    owner_id = None
     s = b64decode(ident).decode("utf-8")
     identity = json.loads(s)
     if identity["identity"].get("system"):
         owner_id = identity["identity"]["system"].get("cn")
-    return owner_id
+        return owner_id
 
 
 producer = None
@@ -190,7 +189,7 @@ def handle_message(msg):
     if facts:
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
-        if facts.get("system_profile"):
+        if owner_id:
             facts["system_profile"]["owner_id"] = owner_id
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
