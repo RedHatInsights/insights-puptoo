@@ -3,6 +3,7 @@ import signal
 from datetime import datetime, timedelta
 from functools import partial
 from time import time
+from base64 import b64decode
 
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
@@ -35,6 +36,15 @@ def get_extra(account="unknown", request_id="unknown"):
 def get_staletime():
     the_time = datetime.now() + timedelta(hours=26)
     return the_time.astimezone().isoformat()
+
+
+def get_owner(ident):
+    owner_id = None
+    s = b64decode(ident).decode("utf-8")
+    identity = json.loads(s)
+    if identity["identity"].get("system"):
+        owner_id = identity["identity"]["system"].get("cn")
+    return owner_id
 
 
 producer = None
@@ -170,6 +180,7 @@ def handle_message(msg):
         extra,
     )
     metrics.msg_count.inc()
+    owner_id = get_owner(msg["b64_identity"])
 
     if msg.get("service") == "advisor":
         facts = process_archive(msg, extra)
@@ -179,6 +190,8 @@ def handle_message(msg):
     if facts:
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
+        if facts.get("system_profile"):
+            facts["system_profile"]["owner_id"] = owner_id
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )
