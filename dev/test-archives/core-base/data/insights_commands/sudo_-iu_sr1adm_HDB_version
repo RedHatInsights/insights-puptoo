@@ -1,0 +1,11 @@
+HDB version info:
+  version:             2.00.030.00.1522210459
+  branch:              hanaws
+  machine config:      linuxx86_64
+  git hash:            bb2ff6b25b8eab5ab382c170a43dc95ae6ce298f
+  git merge time:      2018-03-28 06:14:19
+  weekstone:           2018.13.0
+  cloud edition:       0000.00.00
+  compile date:        2018-03-28 06:19:13
+  compile host:        ld2221
+  compile type:        rel

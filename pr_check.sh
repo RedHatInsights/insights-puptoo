@@ -19,6 +19,7 @@ for file in dev/test-archives/*; do
      filename="$(basename "$file").tar.gz"
      tar -zcf $filename "$file"
      insights-run -p src/puptoo -f json $filename > output.json
+     insights-run -p src/puptoo $filename # this is to print the results in the test console
      if [ $? != 0 ]; then
         exit 1
      fi
