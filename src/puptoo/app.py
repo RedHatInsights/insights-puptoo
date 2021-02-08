@@ -189,7 +189,7 @@ def handle_message(msg):
     if facts:
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
-        if owner_id:
+        if owner_id and facts.get("system_profile"):
             facts["system_profile"]["owner_id"] = owner_id
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
