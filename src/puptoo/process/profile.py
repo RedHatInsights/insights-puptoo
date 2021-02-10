@@ -214,7 +214,7 @@ def system_profile(
 
     if lsmod:
         try:
-            profile["kernel_modules"] = list(lsmod.data.keys())
+            profile["kernel_modules"] = sorted(list(lsmod.data.keys()))
         except Exception as e:
             catch_error("lsmod", e)
             raise
@@ -252,7 +252,7 @@ def system_profile(
                 }
                 network_interfaces.append(_remove_empties(interface))
 
-            profile["network_interfaces"] = network_interfaces
+            profile["network_interfaces"] = sorted(network_interfaces, key=lambda k: k["name"])
         except Exception as e:
             catch_error("ip_addr", e)
             raise
@@ -279,7 +279,7 @@ def system_profile(
 
     if ps_auxcww:
         try:
-            profile["running_processes"] = list(ps_auxcww.running)
+            profile["running_processes"] = sorted(list(ps_auxcww.running))
         except Exception as e:
             catch_error("ps_auxcww", e)
             raise
@@ -309,7 +309,7 @@ def system_profile(
                         ),
                     }
                     repos.append(_remove_empties(repo))
-            profile["yum_repos"] = repos
+            profile["yum_repos"] = sorted(repos, key=lambda k: k["name"])
         except Exception as e:
             catch_error("yum_repos_d", e)
             raise
@@ -322,7 +322,7 @@ def system_profile(
                     modules.append(
                         {"name": module_name, "stream": module.get(module_name, "stream")}
                     )
-            profile["dnf_modules"] = modules
+            profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
         except Exception as e:
             catch_error("dnf_modules", e)
             raise
@@ -369,10 +369,11 @@ def system_profile(
             raise
 
     if product_ids:
+        installed_products = []
         try:
-            profile["installed_products"] = [
-                {"id": product_id} for product_id in product_ids.ids
-            ]
+            for product_id in product_ids.ids:
+                installed_products.append(product_id)
+            profile["installed_products"] = sorted(installed_products, key=lambda k: k["id"])
         except Exception as e:
             catch_error("product_ids", e)
             raise
