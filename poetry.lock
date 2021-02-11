@@ -180,7 +180,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 
 [[package]]
 name = "insights-core"
-version = "3.0.209"
+version = "3.0.211"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
@@ -198,22 +198,22 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["six", "requests", "redis", "pyyaml", "defusedxml", "lockfile", "cachecontrol", "jinja2", "cachecontrol", "cachecontrol"]
-client-develop = ["six", "requests", "redis", "pyyaml", "pytest (==3.0.6)", "mock (==2.0.0)", "futures (==3.0.5)", "defusedxml", "lockfile", "cachecontrol", "pytest-cov (==2.4.0)", "jinja2", "coverage (==4.3.4)", "cachecontrol", "cachecontrol", "flake8 (==2.6.2)", "wheel"]
-cluster = ["six", "requests", "redis", "pyyaml", "pandas", "defusedxml", "lockfile", "cachecontrol", "jinja2", "colorama", "ansible", "cachecontrol", "cachecontrol"]
-develop = ["redis", "requests", "pandas", "ipython", "sphinx-rtd-theme", "nbsphinx", "defusedxml", "pytest-cov (==2.4.0)", "colorama", "jedi (<0.18.0)", "ansible", "cachecontrol", "flake8 (==2.6.2)", "wheel", "six", "pyyaml", "mock (==2.0.0)", "pytest (==3.0.6)", "futures (==3.0.5)", "lockfile", "Sphinx (<=3.0.2)", "pygments", "cachecontrol", "jinja2", "coverage (==4.3.4)", "cachecontrol"]
-develop26 = ["redis", "requests", "pandas", "defusedxml", "pytest-cov (==2.4.0)", "colorama", "ansible", "cachecontrol", "flake8 (==2.6.2)", "wheel", "six", "pyyaml", "mock (==2.0.0)", "pytest (==3.0.6)", "futures (==3.0.5)", "lockfile", "cachecontrol", "jinja2", "coverage (==4.3.4)", "cachecontrol"]
-docs = ["ipython", "sphinx-rtd-theme", "nbsphinx", "Sphinx (<=3.0.2)", "pygments", "jinja2", "colorama", "jedi (<0.18.0)"]
-linting = ["requests", "flake8 (==2.6.2)"]
-openshift = ["six", "requests", "redis", "pyyaml", "defusedxml", "lockfile", "cachecontrol", "jinja2", "openshift", "cachecontrol", "cachecontrol"]
-optional = ["python-cjson", "python-logstash", "watchdog", "python-statsd"]
-testing = ["pytest-cov (==2.4.0)", "mock (==2.0.0)", "pytest (==3.0.6)", "requests", "coverage (==4.3.4)"]
+client = ["redis", "lockfile", "jinja2", "requests", "cachecontrol", "pyyaml", "defusedxml", "six", "cachecontrol", "cachecontrol"]
+client-develop = ["flake8 (==2.6.2)", "redis", "lockfile", "pytest-cov (==2.4.0)", "jinja2", "wheel", "mock (==2.0.0)", "requests", "cachecontrol", "pyyaml", "defusedxml", "pytest (==3.0.6)", "coverage (==4.3.4)", "futures (==3.0.5)", "six", "cachecontrol", "cachecontrol"]
+cluster = ["redis", "lockfile", "jinja2", "colorama", "requests", "cachecontrol", "pyyaml", "defusedxml", "ansible", "pandas", "six", "cachecontrol", "cachecontrol"]
+develop = ["wheel", "colorama", "mock (==2.0.0)", "requests", "jedi (<0.18.0)", "pyyaml", "pytest (==3.0.6)", "coverage (==4.3.4)", "nbsphinx", "futures (==3.0.5)", "ansible", "pandas", "sphinx-rtd-theme", "flake8 (==2.6.2)", "redis", "lockfile", "pytest-cov (==2.4.0)", "jinja2", "ipython", "cachecontrol", "Sphinx (<=3.0.2)", "defusedxml", "pygments", "six", "cachecontrol", "cachecontrol"]
+develop26 = ["wheel", "colorama", "mock (==2.0.0)", "requests", "pyyaml", "pytest (==3.0.6)", "coverage (==4.3.4)", "futures (==3.0.5)", "ansible", "pandas", "flake8 (==2.6.2)", "redis", "lockfile", "pytest-cov (==2.4.0)", "jinja2", "cachecontrol", "defusedxml", "six", "cachecontrol", "cachecontrol"]
+docs = ["sphinx-rtd-theme", "jinja2", "colorama", "ipython", "jedi (<0.18.0)", "Sphinx (<=3.0.2)", "nbsphinx", "pygments"]
+linting = ["flake8 (==2.6.2)", "requests"]
+openshift = ["redis", "lockfile", "jinja2", "requests", "cachecontrol", "pyyaml", "defusedxml", "openshift", "six", "cachecontrol", "cachecontrol"]
+optional = ["python-statsd", "watchdog", "python-logstash", "python-cjson"]
+testing = ["pytest (==3.0.6)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "mock (==2.0.0)", "requests"]
 
 [package.source]
 type = "git"
 url = "https://github.com/RedHatInsights/insights-core.git"
 reference = "3.0"
-resolved_reference = "8e639719ba64c4471ff968cc070e76b9aecf2306"
+resolved_reference = "f1954cbcdfb225e8ce59f1cf9c1c95f6c56c32c3"
 
 [[package]]
 name = "jinja2"
