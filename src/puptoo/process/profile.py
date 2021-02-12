@@ -369,11 +369,10 @@ def system_profile(
             raise
 
     if product_ids:
-        installed_products = []
+        profile["installed_products"] = []
         try:
             for product_id in list(product_ids.ids):
-                installed_products.append(product_id)
-            profile["installed_products"] = sorted(installed_products)
+                profile["installed_products"].append({"id": product_id})
         except Exception as e:
             catch_error("product_ids", e)
             raise
