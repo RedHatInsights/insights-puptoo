@@ -29,33 +29,6 @@ tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)"
 tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six"]
 
 [[package]]
-name = "boto3"
-version = "1.12.38"
-description = "The AWS SDK for Python"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-botocore = ">=1.15.38,<1.16.0"
-jmespath = ">=0.7.1,<1.0.0"
-s3transfer = ">=0.3.0,<0.4.0"
-
-[[package]]
-name = "botocore"
-version = "1.15.49"
-description = "Low-level, data-driven core of boto 3."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-docutils = ">=0.10,<0.16"
-jmespath = ">=0.7.1,<1.0.0"
-python-dateutil = ">=2.1,<3.0.0"
-urllib3 = {version = ">=1.20,<1.26", markers = "python_version != \"3.4\""}
-
-[[package]]
 name = "cachecontrol"
 version = "0.12.6"
 description = "httplib2 caching for requests"
@@ -64,7 +37,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.dependencies]
-lockfile = {version = ">=0.9", optional = true, markers = "extra == \"filecache\""}
 msgpack = ">=0.5.2"
 requests = "*"
 
@@ -121,14 +93,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
-name = "docutils"
-version = "0.15.2"
-description = "Docutils -- Python Documentation Utilities"
-category = "main"
-optional = false
-python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
-
-[[package]]
 name = "flake8"
 version = "3.8.4"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -180,7 +144,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 
 [[package]]
 name = "insights-core"
-version = "3.0.211"
+version = "3.0.212"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
@@ -188,7 +152,7 @@ python-versions = "*"
 develop = false
 
 [package.dependencies]
-cachecontrol = {version = "*", extras = ["filecache"]}
+cachecontrol = "*"
 defusedxml = "*"
 jinja2 = "*"
 lockfile = "*"
@@ -198,22 +162,22 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["redis", "lockfile", "jinja2", "requests", "cachecontrol", "pyyaml", "defusedxml", "six", "cachecontrol", "cachecontrol"]
-client-develop = ["flake8 (==2.6.2)", "redis", "lockfile", "pytest-cov (==2.4.0)", "jinja2", "wheel", "mock (==2.0.0)", "requests", "cachecontrol", "pyyaml", "defusedxml", "pytest (==3.0.6)", "coverage (==4.3.4)", "futures (==3.0.5)", "six", "cachecontrol", "cachecontrol"]
-cluster = ["redis", "lockfile", "jinja2", "colorama", "requests", "cachecontrol", "pyyaml", "defusedxml", "ansible", "pandas", "six", "cachecontrol", "cachecontrol"]
-develop = ["wheel", "colorama", "mock (==2.0.0)", "requests", "jedi (<0.18.0)", "pyyaml", "pytest (==3.0.6)", "coverage (==4.3.4)", "nbsphinx", "futures (==3.0.5)", "ansible", "pandas", "sphinx-rtd-theme", "flake8 (==2.6.2)", "redis", "lockfile", "pytest-cov (==2.4.0)", "jinja2", "ipython", "cachecontrol", "Sphinx (<=3.0.2)", "defusedxml", "pygments", "six", "cachecontrol", "cachecontrol"]
-develop26 = ["wheel", "colorama", "mock (==2.0.0)", "requests", "pyyaml", "pytest (==3.0.6)", "coverage (==4.3.4)", "futures (==3.0.5)", "ansible", "pandas", "flake8 (==2.6.2)", "redis", "lockfile", "pytest-cov (==2.4.0)", "jinja2", "cachecontrol", "defusedxml", "six", "cachecontrol", "cachecontrol"]
-docs = ["sphinx-rtd-theme", "jinja2", "colorama", "ipython", "jedi (<0.18.0)", "Sphinx (<=3.0.2)", "nbsphinx", "pygments"]
+client = ["redis", "cachecontrol", "six", "cachecontrol", "jinja2", "lockfile", "pyyaml", "requests", "defusedxml", "cachecontrol"]
+client-develop = ["redis", "cachecontrol", "six", "cachecontrol", "jinja2", "lockfile", "pyyaml", "wheel", "pytest (==3.0.6)", "requests", "defusedxml", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "cachecontrol", "mock (==2.0.0)", "flake8 (==2.6.2)", "futures (==3.0.5)"]
+cluster = ["redis", "cachecontrol", "six", "cachecontrol", "jinja2", "lockfile", "pyyaml", "requests", "defusedxml", "cachecontrol", "pandas", "colorama", "ansible"]
+develop = ["cachecontrol", "ipython", "requests", "defusedxml", "cachecontrol", "pandas", "jedi (<0.18.0)", "colorama", "flake8 (==2.6.2)", "mock (==2.0.0)", "futures (==3.0.5)", "ansible", "redis", "Sphinx (<=3.0.2)", "six", "cachecontrol", "jinja2", "lockfile", "pyyaml", "wheel", "pytest (==3.0.6)", "pygments", "coverage (==4.3.4)", "sphinx-rtd-theme", "nbsphinx", "pytest-cov (==2.4.0)"]
+develop26 = ["cachecontrol", "requests", "defusedxml", "cachecontrol", "pandas", "mock (==2.0.0)", "colorama", "flake8 (==2.6.2)", "futures (==3.0.5)", "ansible", "redis", "six", "cachecontrol", "jinja2", "lockfile", "pyyaml", "wheel", "pytest (==3.0.6)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)"]
+docs = ["Sphinx (<=3.0.2)", "ipython", "jedi (<0.18.0)", "jinja2", "pygments", "sphinx-rtd-theme", "nbsphinx", "colorama"]
 linting = ["flake8 (==2.6.2)", "requests"]
-openshift = ["redis", "lockfile", "jinja2", "requests", "cachecontrol", "pyyaml", "defusedxml", "openshift", "six", "cachecontrol", "cachecontrol"]
-optional = ["python-statsd", "watchdog", "python-logstash", "python-cjson"]
-testing = ["pytest (==3.0.6)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "mock (==2.0.0)", "requests"]
+openshift = ["redis", "cachecontrol", "openshift", "six", "cachecontrol", "jinja2", "lockfile", "pyyaml", "requests", "defusedxml", "cachecontrol"]
+optional = ["python-statsd", "python-cjson", "watchdog", "python-logstash"]
+testing = ["coverage (==4.3.4)", "requests", "mock (==2.0.0)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)"]
 
 [package.source]
 type = "git"
 url = "https://github.com/RedHatInsights/insights-core.git"
 reference = "3.0"
-resolved_reference = "f1954cbcdfb225e8ce59f1cf9c1c95f6c56c32c3"
+resolved_reference = "28511534ce9501f14ea8a7997eacc48d6043f5ae"
 
 [[package]]
 name = "jinja2"
@@ -228,14 +192,6 @@ MarkupSafe = ">=0.23"
 
 [package.extras]
 i18n = ["Babel (>=0.8)"]
-
-[[package]]
-name = "jmespath"
-version = "0.10.0"
-description = "JSON Matching Expressions"
-category = "main"
-optional = false
-python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "jsonschema"
@@ -406,7 +362,7 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "requests", "xm
 name = "python-dateutil"
 version = "2.8.1"
 description = "Extensions to the standard Python datetime module"
-category = "main"
+category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 
@@ -451,17 +407,6 @@ security = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)"]
 socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
 
 [[package]]
-name = "s3transfer"
-version = "0.3.4"
-description = "An Amazon S3 Transfer Manager"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-botocore = ">=1.12.36,<2.0a.0"
-
-[[package]]
 name = "six"
 version = "1.15.0"
 description = "Python 2 and 3 compatibility utilities"
@@ -491,20 +436,6 @@ secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "cer
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
 [[package]]
-name = "watchtower"
-version = "0.7.3"
-description = "Python CloudWatch Logging"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-boto3 = ">=1.3.0"
-
-[package.extras]
-test = ["eight (>=0.3.0)", "flake8", "pyyaml", "mock"]
-
-[[package]]
 name = "wcwidth"
 version = "0.2.5"
 description = "Measures the displayed width of unicode strings in a terminal"
@@ -527,7 +458,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "da736e25c9355391fb4085d513a4e5c5e88d0a3461b8d8fe4ef21040cf4a83ac"
+content-hash = "883cc7ba85a5d68468ebffc935ebde63f8b3a7e55b5a7bf6c1e9d06d13f807a1"
 
 [metadata.files]
 app-common-python = [
@@ -540,14 +471,6 @@ atomicwrites = [
 attrs = [
     {file = "attrs-20.3.0-py2.py3-none-any.whl", hash = "sha256:31b2eced602aa8423c2aea9c76a724617ed67cf9513173fd3a4f03e3a929c7e6"},
     {file = "attrs-20.3.0.tar.gz", hash = "sha256:832aa3cde19744e49938b91fea06d69ecb9e649c93ba974535d08ad92164f700"},
-]
-boto3 = [
-    {file = "boto3-1.12.38-py2.py3-none-any.whl", hash = "sha256:c61ab9b65b05f58c6ec6fcec6820f45e2a72f7a9b52ec894e2152bbf419e9d4e"},
-    {file = "boto3-1.12.38.tar.gz", hash = "sha256:fb3d5dbded3b5c4ff6e1c0750b9fa8a0f9d1cbe056f6d542cc2beda2ebaa71ed"},
-]
-botocore = [
-    {file = "botocore-1.15.49-py2.py3-none-any.whl", hash = "sha256:b805691b4dedcb2a252f52347479ff351429624a873f001b6a1c81aca03dccee"},
-    {file = "botocore-1.15.49.tar.gz", hash = "sha256:a474131ba7a7d700b91696a27e8cdcf1b473084addf92f90b269ebd8f5c3d3e0"},
 ]
 cachecontrol = [
     {file = "CacheControl-0.12.6-py2.py3-none-any.whl", hash = "sha256:10d056fa27f8563a271b345207402a6dcce8efab7e5b377e270329c62471b10d"},
@@ -597,11 +520,6 @@ defusedxml = [
     {file = "defusedxml-0.6.0-py2.py3-none-any.whl", hash = "sha256:6687150770438374ab581bb7a1b327a847dd9c5749e396102de3fad4e8a3ef93"},
     {file = "defusedxml-0.6.0.tar.gz", hash = "sha256:f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5"},
 ]
-docutils = [
-    {file = "docutils-0.15.2-py2-none-any.whl", hash = "sha256:9e4d7ecfc600058e07ba661411a2b7de2fd0fafa17d1a7f7361cd47b1175c827"},
-    {file = "docutils-0.15.2-py3-none-any.whl", hash = "sha256:6c4f696463b79f1fb8ba0c594b63840ebd41f059e92b31957c46b74a4599b6d0"},
-    {file = "docutils-0.15.2.tar.gz", hash = "sha256:a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"},
-]
 flake8 = [
     {file = "flake8-3.8.4-py2.py3-none-any.whl", hash = "sha256:749dbbd6bfd0cf1318af27bf97a14e28e5ff548ef8e5b1566ccfb25a11e7c839"},
     {file = "flake8-3.8.4.tar.gz", hash = "sha256:aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b"},
@@ -622,10 +540,6 @@ insights-core = []
 jinja2 = [
     {file = "Jinja2-2.11.2-py2.py3-none-any.whl", hash = "sha256:f0a4641d3cf955324a89c04f3d94663aa4d638abe8f733ecd3582848e1c37035"},
     {file = "Jinja2-2.11.2.tar.gz", hash = "sha256:89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0"},
-]
-jmespath = [
-    {file = "jmespath-0.10.0-py2.py3-none-any.whl", hash = "sha256:cdf6525904cc597730141d61b36f2e4b8ecc257c420fa2f4549bac2c2d0cb72f"},
-    {file = "jmespath-0.10.0.tar.gz", hash = "sha256:b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9"},
 ]
 jsonschema = [
     {file = "jsonschema-3.2.0-py2.py3-none-any.whl", hash = "sha256:4e5b3cf8216f577bee9ce139cbe72eca3ea4f292ec60928ff24758ce626cd163"},
@@ -781,10 +695,6 @@ requests = [
     {file = "requests-2.23.0-py2.py3-none-any.whl", hash = "sha256:43999036bfa82904b6af1d99e4882b560e5e2c68e5c4b0aa03b655f3d7d73fee"},
     {file = "requests-2.23.0.tar.gz", hash = "sha256:b3f43d496c6daba4493e7c431722aeb7dbc6288f52a6e04e7b6023b0247817e6"},
 ]
-s3transfer = [
-    {file = "s3transfer-0.3.4-py2.py3-none-any.whl", hash = "sha256:1e28620e5b444652ed752cf87c7e0cb15b0e578972568c6609f0f18212f259ed"},
-    {file = "s3transfer-0.3.4.tar.gz", hash = "sha256:7fdddb4f22275cf1d32129e21f056337fd2a80b6ccef1664528145b72c49e6d2"},
-]
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
     {file = "six-1.15.0.tar.gz", hash = "sha256:30639c035cdb23534cd4aa2dd52c3bf48f06e5f4a941509c8bafd8ce11080259"},
@@ -797,10 +707,6 @@ typing-extensions = [
 urllib3 = [
     {file = "urllib3-1.25.11-py2.py3-none-any.whl", hash = "sha256:f5321fbe4bf3fefa0efd0bfe7fb14e90909eb62a48ccda331726b4319897dd5e"},
     {file = "urllib3-1.25.11.tar.gz", hash = "sha256:8d7eaa5a82a1cac232164990f04874c594c9453ec55eef02eab885aa02fc17a2"},
-]
-watchtower = [
-    {file = "watchtower-0.7.3-py2.py3-none-any.whl", hash = "sha256:82eee8350999825c84bbfc305406a483304d4a6c848a53ec84b151e95364f8d2"},
-    {file = "watchtower-0.7.3.tar.gz", hash = "sha256:715e2480633490719280a89bfec60fb383510fe577644418ccb6b980e55f9826"},
 ]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},
