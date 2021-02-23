@@ -220,14 +220,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "logstash-formatter"
-version = "0.5.17"
-description = "JSON formatter meant for logstash"
-category = "main"
-optional = false
-python-versions = "*"
-
-[[package]]
 name = "markupsafe"
 version = "1.1.1"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -458,7 +450,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "883cc7ba85a5d68468ebffc935ebde63f8b3a7e55b5a7bf6c1e9d06d13f807a1"
+content-hash = "64b2ae0ea480a17a5e42a5accc8c623dfcaaa20a4295be9ac886e60797e2dd93"
 
 [metadata.files]
 app-common-python = [
@@ -548,9 +540,6 @@ jsonschema = [
 lockfile = [
     {file = "lockfile-0.12.2-py2.py3-none-any.whl", hash = "sha256:6c3cb24f344923d30b2785d5ad75182c8ea7ac1b6171b08657258ec7429d50fa"},
     {file = "lockfile-0.12.2.tar.gz", hash = "sha256:6aed02de03cba24efabcd600b30540140634fc06cfa603822d508d5361e9f799"},
-]
-logstash-formatter = [
-    {file = "logstash_formatter-0.5.17.tar.gz", hash = "sha256:163f5ef62df5459f1d36dcb54e9c3f8f0c90157a324a3361887532b615bf4fb9"},
 ]
 markupsafe = [
     {file = "MarkupSafe-1.1.1-cp27-cp27m-macosx_10_6_intel.whl", hash = "sha256:09027a7803a62ca78792ad89403b1b7a73a01c8cb65909cd876f7fcebd79b161"},

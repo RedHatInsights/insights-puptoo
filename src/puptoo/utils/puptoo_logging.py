@@ -3,8 +3,6 @@ import sys
 import logging
 from threading import local
 
-from logstash_formatter import LogstashFormatterV1
-
 from . import config
 
 
@@ -16,7 +14,6 @@ def initialize_logging():
     kafkalogger.setLevel("ERROR")
     if any("KUBERNETES" in k for k in os.environ):
         handler = logging.StreamHandler(sys.stdout)
-        handler.setFormatter(LogstashFormatterV1())
         handler.addFilter(ContextualFilter())
         logging.root.setLevel(os.getenv("LOG_LEVEL", "INFO"))
         logging.root.addHandler(handler)

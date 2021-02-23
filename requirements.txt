@@ -12,7 +12,6 @@ insights-core @ git+https://github.com/RedHatInsights/insights-core.git@3.0
 Jinja2==2.11.2
 jsonschema==3.2.0
 lockfile==0.12.2
-logstash-formatter==0.5.17
 MarkupSafe==1.1.1
 mccabe==0.6.1
 more-itertools==8.6.0
