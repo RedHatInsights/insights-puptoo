@@ -37,9 +37,6 @@ if CLOWDER_ENABLED:
     VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", KafkaTopics["platform.upload.validation"].name)
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", KafkaTopics["platform.payload-status"].name)
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", LoadedConfig.metricsPort))
-    AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", LoadedConfig.logging.cloudwatch.accessKeyId)
-    AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", LoadedConfig.logging.cloudwatch.secretAccessKey)
-    AWS_REGION_NAME = os.getenv("CW_AWS_REGION_NAME", LoadedConfig.logging.cloudwatch.region)
     LOG_GROUP = os.getenv("LOG_GROUP", LoadedConfig.logging.cloudwatch.logGroup)
 
 else:
@@ -50,9 +47,6 @@ else:
     VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", "platform.upload.validation")
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8000))
-    AWS_ACCESS_KEY_ID = os.getenv("CW_AWS_ACCESS_KEY_ID", None)
-    AWS_SECRET_ACCESS_KEY = os.getenv("CW_AWS_SECRET_ACCESS_KEY", None)
-    AWS_REGION_NAME = os.getenv("CW_AWS_REGION_NAME", "us-east-1")
     LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()

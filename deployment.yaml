@@ -38,6 +38,12 @@ objects:
           value: ${LOG_LEVEL}
         - name: CLOWDER_ENABLED
           value: ${CLOWDER_ENABLED}
+        - name: HABERDASHER_EMITTER
+          value: ${HABERDASHER_EMITTER}
+        - name: HABERDASHER_KAFKA_BOOTSTRAP
+          value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+        - name: HABERDASHER_KAFKA_TOPIC
+          value: ${HABERDASHER_KAFKA_TOPIC}
       resources:
         limits:
           cpu: ${CPU_LIMIT}
@@ -94,3 +100,6 @@ parameters:
 - description: Is clowder enabled
   name: CLOWDER_ENABLED
   value: "True"
+- description: The haberdasher emitter type for logging
+  name: HABERDASHER_EMITTER
+  value: stderr
