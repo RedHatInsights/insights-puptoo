@@ -103,3 +103,9 @@ parameters:
 - description: The haberdasher emitter type for logging
   name: HABERDASHER_EMITTER
   value: stderr
+- description: The haberdasher kafka bootstrap server
+  name: HABERDASHER_KAFKA_BOOTSTRAP
+  value: kafka:29092
+- description: Topic for haberdasher logs
+  name: HABERDASHER_KAFKA_TOPIC
+  value: platform.logging.logs
