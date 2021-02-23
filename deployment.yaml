@@ -115,7 +115,7 @@ parameters:
   value: platform.logging.logs
 - description: App label for haberdasher logs
   name: HABERDASHER_LABELS
-  value: {"app": "puptoo"}
+  value: '{"app": "puptoo"}'
 - description: Tags for haberdasher logs
   name: HABERDASHER_TAGS
-  value: ["puptoo"]
+  value: '["puptoo"]'
