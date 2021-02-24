@@ -1,0 +1,3 @@
+# this file is just used to trigger builds if no code changes occur
+# Most often we just update it if insights-core changes are required
+insights-core=3.0.202 # fix for installed_packages parser

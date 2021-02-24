@@ -38,7 +38,17 @@ objects:
           - name: LOG_LEVEL
             value: ${LOG_LEVEL}
           - name: CLOWDER_ENABLED
-            value: "true"
+            value: ${CLOWDER_ENABLED}
+          - name: HABERDASHER_EMITTER
+            value: ${HABERDASHER_EMITTER}
+          - name: HABERDASHER_KAFKA_BOOTSTRAP
+            value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+          - name: HABERDASHER_KAFKA_TOPIC
+            value: ${HABERDASHER_KAFKA_TOPIC}
+          - name: HABERDASHER_LABELS
+            value: ${HABERDASHER_LABELS}
+          - name: HABERDASHER_TAGS
+            value: ${HABERDASHER_TAGS}
         resources:
           limits:
             cpu: ${CPU_LIMIT}
@@ -92,3 +102,21 @@ parameters:
   name: INVENTORY_TOPIC
   value: platform.inventory.host-ingress-p1
   required: true
+- description: Is clowder enabled
+  name: CLOWDER_ENABLED
+  value: "True"
+- description: The haberdasher emitter type for logging
+  name: HABERDASHER_EMITTER
+  value: stderr
+- description: The haberdasher kafka bootstrap server
+  name: HABERDASHER_KAFKA_BOOTSTRAP
+  value: kafka:29092
+- description: Topic for haberdasher logs
+  name: HABERDASHER_KAFKA_TOPIC
+  value: platform.logging.logs
+- description: App label for haberdasher logs
+  name: HABERDASHER_LABELS
+  value: '{"app": "puptoo"}'
+- description: Tags for haberdasher logs
+  name: HABERDASHER_TAGS
+  value: '["puptoo"]'

@@ -10,9 +10,6 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.6"
 prometheus-client = "0.7.1"
-logstash-formatter = "0.5.17"
-boto3 = "1.12.38"
-watchtower = "0.7.3"
 requests = "2.23.0"
 confluent-kafka = "1.5.0"
 app-common-python = "0.1.1"
@@ -22,10 +19,11 @@ insights-core = { git = "https://github.com/RedHatInsights/insights-core.git", b
 pytest = "^5.4.1"
 flake8 = "^3.7.9"
 freezegun = "^0.3.15"
+jsonschema = "^3.2.0"
 
 [tool.poetry.scripts]
 puptoo = 'src.puptoo.app:main'
-puptoo-run = 'src.puptoo.process:run_profile'
+puptoo-run = 'src.puptoo.process.profile:run_profile'
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

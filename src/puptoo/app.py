@@ -3,11 +3,12 @@ import signal
 from datetime import datetime, timedelta
 from functools import partial
 from time import time
+from base64 import b64decode
 
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
 
-from . import process
+from .process import extract
 from .mq import consume, msgs, produce
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
@@ -35,6 +36,14 @@ def get_extra(account="unknown", request_id="unknown"):
 def get_staletime():
     the_time = datetime.now() + timedelta(hours=26)
     return the_time.astimezone().isoformat()
+
+
+def get_owner(ident):
+    s = b64decode(ident).decode("utf-8")
+    identity = json.loads(s)
+    if identity["identity"].get("system"):
+        owner_id = identity["identity"]["system"].get("cn")
+        return owner_id
 
 
 producer = None
@@ -95,7 +104,7 @@ def main():
 
 
 def process_archive(msg, extra):
-    facts = process.extraction(msg, extra)
+    facts = extract(msg, extra)
     if facts.get("error"):
         metrics.extract_failure.inc()
         send_message(
@@ -170,6 +179,7 @@ def handle_message(msg):
         extra,
     )
     metrics.msg_count.inc()
+    owner_id = get_owner(msg["b64_identity"])
 
     if msg.get("service") == "advisor":
         facts = process_archive(msg, extra)
@@ -179,6 +189,8 @@ def handle_message(msg):
     if facts:
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
+        if owner_id and facts.get("system_profile"):
+            facts["system_profile"]["owner_id"] = owner_id
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )

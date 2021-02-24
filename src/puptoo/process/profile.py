@@ -1,10 +1,8 @@
 import datetime
 import json
 import logging
-from tempfile import NamedTemporaryFile
 
-import requests
-from insights import extract, make_metadata, rule, run
+from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.virt_what import VirtWhat
@@ -14,6 +12,7 @@ from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
+from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
 from insights.parsers.ip import IpAddr
@@ -28,19 +27,12 @@ from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
 from insights.specs import Specs
-from insights.util.canonical_facts import get_canonical_facts
 
-from .utils import config, metrics, puptoo_logging
+from ..utils import config, metrics, puptoo_logging
 
 logger = logging.getLogger(config.APP_NAME)
 
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
-
-
-@metrics.GET_FILE.time()
-def get_archive(url):
-    archive = requests.get(url)
-    return archive.content
 
 
 def catch_error(parser, error):
@@ -63,6 +55,7 @@ def catch_error(parser, error):
         Sap,
         SEStatus,
         Tuned,
+        HDBVersion,
         InstalledRpms,
         UnitFiles,
         PsAuxcww,
@@ -92,6 +85,7 @@ def system_profile(
     sap,
     sestatus,
     tuned,
+    hdb_version,
     installed_rpms,
     unit_files,
     ps_auxcww,
@@ -143,7 +137,7 @@ def system_profile(
 
     if lscpu:
         try:
-            profile["cores_per_socket"] = lscpu.info.get('Cores per socket')
+            profile["cores_per_socket"] = int(lscpu.info.get('Cores per socket'))
         except Exception as e:
             catch_error("lscpu", e)
             raise
@@ -155,10 +149,16 @@ def system_profile(
             profile["sap_sids"] = sorted(list(sids))
             if sap.local_instances:
                 inst = sap.local_instances[0]
-                if sap[inst].number not in ["98", "99"]:
-                    profile["sap_instance_number"] = sap[inst].number
+                profile["sap_instance_number"] = sap[inst].number
         except Exception as e:
             catch_error("sap", e)
+            raise
+
+    if hdb_version:
+        try:
+            profile["sap_version"] = hdb_version.version
+        except Exception as e:
+            catch_error("hdb_version", e)
             raise
 
     if tuned:
@@ -195,8 +195,18 @@ def system_profile(
 
     if installed_rpms:
         try:
-            profile["installed_packages"] = sorted(
-                [installed_rpms.get_max(p).nevra for p in installed_rpms.packages]
+            installed_packages = {
+                installed_rpms.get_max(p).nevra for p in installed_rpms.packages
+            }
+            profile["installed_packages"] = sorted(list(installed_packages))
+            all_installed_packages = []
+            for p in installed_rpms.packages:
+                package_list = installed_rpms.packages[p]
+                for each_package in package_list:
+                    all_installed_packages.append(each_package.nevra)
+            all_installed_packages_set = set(all_installed_packages)
+            profile["installed_packages_delta"] = sorted(
+                list(all_installed_packages_set - installed_packages)
             )
         except Exception as e:
             catch_error("installed_packages", e)
@@ -204,7 +214,7 @@ def system_profile(
 
     if lsmod:
         try:
-            profile["kernel_modules"] = list(lsmod.data.keys())
+            profile["kernel_modules"] = sorted(list(lsmod.data.keys()))
         except Exception as e:
             catch_error("lsmod", e)
             raise
@@ -242,7 +252,7 @@ def system_profile(
                 }
                 network_interfaces.append(_remove_empties(interface))
 
-            profile["network_interfaces"] = network_interfaces
+            profile["network_interfaces"] = sorted(network_interfaces, key=lambda k: k["name"])
         except Exception as e:
             catch_error("ip_addr", e)
             raise
@@ -269,7 +279,7 @@ def system_profile(
 
     if ps_auxcww:
         try:
-            profile["running_processes"] = list(ps_auxcww.running)
+            profile["running_processes"] = sorted(list(ps_auxcww.running))
         except Exception as e:
             catch_error("ps_auxcww", e)
             raise
@@ -299,7 +309,7 @@ def system_profile(
                         ),
                     }
                     repos.append(_remove_empties(repo))
-            profile["yum_repos"] = repos
+            profile["yum_repos"] = sorted(repos, key=lambda k: k["name"])
         except Exception as e:
             catch_error("yum_repos_d", e)
             raise
@@ -312,7 +322,7 @@ def system_profile(
                     modules.append(
                         {"name": module_name, "stream": module.get(module_name, "stream")}
                     )
-            profile["dnf_modules"] = modules
+            profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
         except Exception as e:
             catch_error("dnf_modules", e)
             raise
@@ -359,10 +369,11 @@ def system_profile(
             raise
 
     if product_ids:
+        installed_products = []
         try:
-            profile["installed_products"] = [
-                {"id": product_id} for product_id in product_ids.ids
-            ]
+            for product_id in list(product_ids.ids):
+                installed_products.append({"id": product_id})
+            profile["installed_products"] = sorted(installed_products, key=lambda k: k["id"])
         except Exception as e:
             catch_error("product_ids", e)
             raise
@@ -517,29 +528,12 @@ def get_system_profile(path=None):
     return result
 
 
-@metrics.EXTRACT.time()
-def extraction(msg, extra, remove=True):
-    metrics.extraction_count.inc()
-    facts = {"system_profile": {}}
-    try:
-        with NamedTemporaryFile(delete=remove) as tf:
-            tf.write(get_archive(msg["url"]))
-            tf.flush()
-            logger.debug("extracting facts from %s", tf.name, extra=extra)
-            with extract(tf.name) as ex:
-                facts = get_canonical_facts(path=ex.tmp_dir)
-                facts["system_profile"] = get_system_profile(path=ex.tmp_dir)
-    except Exception as e:
-        logger.exception("Failed to extract facts: %s", str(e), extra=extra)
-        facts["error"] = str(e)
-    finally:
-        if facts["system_profile"].get("display_name"):
-            facts["display_name"] = facts["system_profile"].get("display_name")
-        if facts["system_profile"].get("satellite_id"):
-            facts["satellite_id"] = facts["system_profile"].get("satellite_id")
-        if facts["system_profile"].get("tags"):
-            facts["tags"] = facts["system_profile"].pop("tags")
-        groomed_facts = _remove_empties(_remove_bad_display_name(facts))
-        metrics.msg_processed.inc()
-        metrics.extract_success.inc()
-        return groomed_facts
+def postprocess(facts):
+    if facts["system_profile"].get("display_name"):
+        facts["display_name"] = facts["system_profile"].get("display_name")
+    if facts["system_profile"].get("satellite_id"):
+        facts["satellite_id"] = facts["system_profile"].get("satellite_id")
+    if facts["system_profile"].get("tags"):
+        facts["tags"] = facts["system_profile"].pop("tags")
+    groomed_facts = _remove_empties(_remove_bad_display_name(facts))
+    return groomed_facts
