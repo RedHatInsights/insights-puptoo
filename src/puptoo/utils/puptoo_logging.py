@@ -13,7 +13,7 @@ def initialize_logging():
     kafkalogger = logging.getLogger("kafka")
     kafkalogger.setLevel("ERROR")
     if any("KUBERNETES" in k for k in os.environ):
-        handler = logging.StreamHandler(sys.stdout)
+        handler = logging.StreamHandler(sys.stderr)
         handler.addFilter(ContextualFilter())
         logging.root.setLevel(os.getenv("LOG_LEVEL", "INFO"))
         logging.root.addHandler(handler)
