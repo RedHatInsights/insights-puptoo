@@ -69,6 +69,7 @@ def catch_error(parser, error):
         InstalledProductIDs,
         Specs.branch_info,
         Specs.tags,
+        Specs.pmlog_summary,
     ]
 )
 def system_profile(
@@ -99,6 +100,7 @@ def system_profile(
     product_ids,
     branch_info,
     tags,
+    pmlog_summary,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -395,6 +397,9 @@ def system_profile(
         except Exception as e:
             catch_error("tags", e)
             raise
+
+    if pmlog_summary:
+        profile["is_ros"] = True
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
