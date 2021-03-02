@@ -8,6 +8,7 @@ from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.core import dr
+from insights.parsers.aws_instance_id import AWSInstanceIdDoc
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
@@ -43,6 +44,7 @@ def catch_error(parser, error):
 @rule(
     optional=[
         Specs.hostname,
+        AWSInstanceIdDoc,
         CpuInfo,
         VirtWhat,
         MemInfo,
@@ -73,6 +75,7 @@ def catch_error(parser, error):
 )
 def system_profile(
     hostname,
+    aws_instance_id,
     cpu_info,
     virt_what,
     meminfo,
@@ -125,6 +128,12 @@ def system_profile(
         except Exception as e:
             catch_error("dmidecode", e)
             raise
+        
+    if aws_instance_id:
+        if aws_instance_id.get("marketplaceProductCodes"):
+            if aws_instance_id["marketplaceProductCodes"] >= 1:
+                profile["is_marketplace"] = "True"
+            
 
     if cpu_info:
         try:
