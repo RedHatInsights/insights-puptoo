@@ -19,6 +19,7 @@ from insights.parsers.ip import IpAddr
 from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
+from insights.parsers.pmlog_summary import PmLogSummary
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.sestatus import SEStatus
 from insights.parsers.systemd.unitfiles import UnitFiles
@@ -58,6 +59,7 @@ def catch_error(parser, error):
         HDBVersion,
         InstalledRpms,
         UnitFiles,
+        PmLogSummary,
         PsAuxcww,
         DateUTC,
         Uptime,
@@ -69,7 +71,6 @@ def catch_error(parser, error):
         InstalledProductIDs,
         Specs.branch_info,
         Specs.tags,
-        Specs.pmlog_summary,
     ]
 )
 def system_profile(
@@ -89,6 +90,7 @@ def system_profile(
     hdb_version,
     installed_rpms,
     unit_files,
+    pmlog_summary,
     ps_auxcww,
     date_utc,
     uptime,
@@ -100,7 +102,6 @@ def system_profile(
     product_ids,
     branch_info,
     tags,
-    pmlog_summary,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
