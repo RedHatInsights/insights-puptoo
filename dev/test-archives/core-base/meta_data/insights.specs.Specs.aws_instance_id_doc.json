@@ -1,0 +1,15 @@
+{
+    "name": "insights.specs.Specs.aws_instance_id_doc",
+    "exec_time": 0.0001595020294189453,
+    "errors": [],
+    "results": {
+        "type": "insights.core.spec_factory.CommandOutputProvider",
+        "object": {
+            "rc": null,
+            "cmd": "/usr/bin/curl -s http://169.254.169.254/latest/dynamic/instance-identity/document --connect-timeout 5",
+            "args": null,
+            "relative_path": "insights_commands/curl_-s_http_..169.254.169.254.latest.dynamic.instance-identity.document_--connect-timeout_5"
+        }
+    },
+    "ser_time": 2.9326388835906982
+}
