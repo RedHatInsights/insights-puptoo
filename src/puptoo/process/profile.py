@@ -132,7 +132,7 @@ def system_profile(
     if aws_instance_id:
         if aws_instance_id.get("marketplaceProductCodes"):
             if len(aws_instance_id["marketplaceProductCodes"]) >= 1:
-                profile["is_marketplace"] = "True"
+                profile["is_marketplace"] = True
 
     if cpu_info:
         try:
