@@ -128,12 +128,11 @@ def system_profile(
         except Exception as e:
             catch_error("dmidecode", e)
             raise
-        
+
     if aws_instance_id:
         if aws_instance_id.get("marketplaceProductCodes"):
-            if aws_instance_id["marketplaceProductCodes"] >= 1:
+            if len(aws_instance_id["marketplaceProductCodes"]) >= 1:
                 profile["is_marketplace"] = "True"
-            
 
     if cpu_info:
         try:
@@ -146,7 +145,7 @@ def system_profile(
 
     if lscpu:
         try:
-            profile["cores_per_socket"] = int(lscpu.info.get('Cores per socket'))
+            profile["cores_per_socket"] = int(lscpu.info.get("Cores per socket"))
         except Exception as e:
             catch_error("lscpu", e)
             raise
@@ -172,16 +171,16 @@ def system_profile(
 
     if tuned:
         try:
-            if 'active' in tuned.data:
-                profile["tuned_profile"] = tuned.data['active']
+            if "active" in tuned.data:
+                profile["tuned_profile"] = tuned.data["active"]
         except Exception as e:
             catch_error("tuned", e)
             raise
 
     if sestatus:
         try:
-            profile["selinux_current_mode"] = sestatus.data['current_mode'].lower()
-            profile["selinux_config_file"] = sestatus.data['mode_from_config_file']
+            profile["selinux_current_mode"] = sestatus.data["current_mode"].lower()
+            profile["selinux_config_file"] = sestatus.data["mode_from_config_file"]
         except Exception as e:
             catch_error("sestatus", e)
             raise
@@ -261,7 +260,9 @@ def system_profile(
                 }
                 network_interfaces.append(_remove_empties(interface))
 
-            profile["network_interfaces"] = sorted(network_interfaces, key=lambda k: k["name"])
+            profile["network_interfaces"] = sorted(
+                network_interfaces, key=lambda k: k["name"]
+            )
         except Exception as e:
             catch_error("ip_addr", e)
             raise
@@ -280,7 +281,7 @@ def system_profile(
             profile["operating_system"] = {
                 "major": redhat_release.major,
                 "minor": redhat_release.minor,
-                "name": "RHEL"
+                "name": "RHEL",
             }
         except Exception as e:
             catch_error("redhat_release", e)
@@ -329,7 +330,10 @@ def system_profile(
             for module in dnf_modules:
                 for module_name in module.sections():
                     modules.append(
-                        {"name": module_name, "stream": module.get(module_name, "stream")}
+                        {
+                            "name": module_name,
+                            "stream": module.get(module_name, "stream"),
+                        }
                     )
             profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
         except Exception as e:
@@ -382,7 +386,9 @@ def system_profile(
         try:
             for product_id in list(product_ids.ids):
                 installed_products.append({"id": product_id})
-            profile["installed_products"] = sorted(installed_products, key=lambda k: k["id"])
+            profile["installed_products"] = sorted(
+                installed_products, key=lambda k: k["id"]
+            )
         except Exception as e:
             catch_error("product_ids", e)
             raise
@@ -466,7 +472,7 @@ def _enabled_services(unit_files):
     This method finds enabled services and strips the '.service' suffix
     """
     return [
-        service[:-8].strip('@')
+        service[:-8].strip("@")
         for service in unit_files.services
         if unit_files.services[service] and ".service" in service
     ]
