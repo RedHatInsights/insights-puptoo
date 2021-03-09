@@ -1,1 +1,1 @@
-{"remote_branch": -1, "remote_leaf": -1}
+{"product": {"major_version": "6", "type": "satellite", "minor_version": "8"}, "labels": [{"namespace": "satellite", "value": "Cloud Corp", "key": "Organization"}, {"namespace": "satellite", "value": "Default Location", "key": "Location"}], "display_name": "Cloud Corp", "hostname": "sat-r220-10.lab.eng.rdu2.redhat.com", "remote_branch": "357ea233-784f-4a3b-980e-c175574c72b1", "organization_id": 7, "satellite_instance_id": "60f7df8c-a5f8-47a0-bdb1-a09811f62253", "remote_leaf": "cb39cf87-f475-402a-996a-122fb8905afe"}
