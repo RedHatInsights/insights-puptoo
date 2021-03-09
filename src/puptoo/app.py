@@ -34,7 +34,7 @@ def get_extra(account="unknown", request_id="unknown"):
 
 
 def get_staletime():
-    the_time = datetime.now() + timedelta(hours=26)
+    the_time = datetime.now() + timedelta(hours=29)
     return the_time.astimezone().isoformat()
 
 
