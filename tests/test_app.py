@@ -5,7 +5,7 @@ from datetime import datetime
 
 @freeze_time("2019-7-23")
 def test_get_staletime():
-    dtz = datetime.fromtimestamp(1563933600).astimezone()
+    dtz = datetime.fromtimestamp(1563944400).astimezone()
     assert app.get_staletime() == dtz.isoformat()
 
 
