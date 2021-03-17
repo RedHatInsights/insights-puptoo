@@ -5,6 +5,7 @@ import logging
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
+from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.core import dr
@@ -52,6 +53,7 @@ def catch_error(parser, error):
         IpAddr,
         DMIDecode,
         RedHatRelease,
+        RhsmReleaseVer,
         Uname,
         LsMod,
         LsCPU,
@@ -84,6 +86,7 @@ def system_profile(
     ip_addr,
     dmidecode,
     redhat_release,
+    rhsm_releasever,
     uname,
     lsmod,
     lscpu,
@@ -289,6 +292,15 @@ def system_profile(
             }
         except Exception as e:
             catch_error("redhat_release", e)
+            raise
+
+    if rhsm_releasever:
+        try:
+            # We can add pre-parsed minor + major values, but the schema specifies just version
+            # {"major": rhsm_releasever.major, "minor": rhsm_releasever.minor}
+            profile["rhsm"] = {"version": rhsm_releasever.set}
+        except Exception as e:
+            catch_error("rhsm_releasever", e)
             raise
 
     if ps_auxcww:
