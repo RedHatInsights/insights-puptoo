@@ -182,9 +182,12 @@ def system_profile(
             raise
 
     if sestatus:
+        valid_modes = ["permissive", "enforcing", "disabled"]
         try:
             profile["selinux_current_mode"] = sestatus.data["current_mode"].lower()
-            profile["selinux_config_file"] = sestatus.data["mode_from_config_file"]
+            current_mode = sestatus.data["mode_from_config_file"]
+            if current_mode in valid_modes:
+                profile["selinux_config_file"] = current_mode
         except Exception as e:
             catch_error("sestatus", e)
             raise
