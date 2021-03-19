@@ -301,7 +301,8 @@ def system_profile(
         try:
             # We can add pre-parsed minor + major values, but the schema specifies just version
             # {"major": rhsm_releasever.major, "minor": rhsm_releasever.minor}
-            profile["rhsm"] = {"version": rhsm_releasever.set}
+            if rhsm_releasever.set:
+                profile["rhsm"] = {"version": rhsm_releasever.set}
         except Exception as e:
             catch_error("rhsm_releasever", e)
             raise
