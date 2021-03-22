@@ -223,7 +223,7 @@ def system_profile(
                 for each_package in package_list:
                     all_installed_packages.append(each_package.nevra)
             all_installed_packages_set = set(all_installed_packages)
-            profile["installed_packages_delta"] = sorted(
+            profile["installed_packages_multiple"] = sorted(
                 list(all_installed_packages_set - installed_packages)
             )
         except Exception as e:
