@@ -297,6 +297,8 @@ def system_profile(
             catch_error("redhat_release", e)
             raise
 
+    # By default, always provide None value
+    profile["rhsm"] = None
     if rhsm_releasever:
         try:
             # We can add pre-parsed minor + major values, but the schema specifies just version
