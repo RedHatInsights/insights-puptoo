@@ -475,12 +475,12 @@ def _to_bool(value):
         return None
 
 
-def _remove_empties(d):
+def _remove_empties(d, preserve_keys=[]):
     """
     small helper method to remove keys with value of None, [] or ''. These are
     not accepted by inventory service.
     """
-    return {x: d[x] for x in d if d[x] not in [None, "", []]}
+    return {x: d[x] for x in d if d[x] not in [None, "", []] or x in preserve_keys}
 
 
 def _get_virt_phys_fact(virt_what):
@@ -575,5 +575,6 @@ def postprocess(facts):
         facts["satellite_id"] = facts["system_profile"].get("satellite_id")
     if facts["system_profile"].get("tags"):
         facts["tags"] = facts["system_profile"].pop("tags")
-    groomed_facts = _remove_empties(_remove_bad_display_name(facts))
+    # Preserve the rhsm system fact (None value means disabled version lock, should not be filtered out)
+    groomed_facts = _remove_empties(_remove_bad_display_name(facts), ["rhsm"])
     return groomed_facts
