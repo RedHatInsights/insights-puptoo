@@ -53,6 +53,7 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 FACT_EXTRACT_LOGLEVEL = os.getenv("FACT_EXTRACT_LOGLEVEL", "ERROR")
 DISABLE_PROMETHEUS = True if os.getenv("DISABLE_PROMETHEUS") == "True" else False
+MAX_EXTRACTED_SIZE = os.getenv("MAX_EXTRACTED_SIZE", 1000000000)  # 1GB Default
 NAMESPACE = get_namespace()
 HOSTNAME = os.environ.get("HOSTNAME")
 BUILD_COMMIT = os.getenv("OPENSHIFT_BUILD_COMMIT", "not_in_openshift")
