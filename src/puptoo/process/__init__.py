@@ -23,9 +23,12 @@ def validate_size(path):
     reject payloads where the extracted size exceeds the configured max
     """
     total_size = sum(p.stat().st_size for p in Path(path).rglob('*'))
-    if total_size >= config.MAX_EXTRACTED_SIZE:
-        err_msg = f"Archive exceeds unextracted file limit of {config.MAX_EXTRACTED_SIZE}"
-        raise Exception(err_msg)
+    metrics.msg_extraction_size.observe(total_size)
+    if total_size >= int(config.MAX_EXTRACTED_SIZE):
+        metrics.msg_size_exceeded.inc()
+        # TODO: actively reject payloads that exceed our configured max size
+        # err_msg = f"Archive exceeds unextracted file limit of {config.MAX_EXTRACTED_SIZE}"
+        # raise Exception(err_msg)
 
 
 @contextmanager
