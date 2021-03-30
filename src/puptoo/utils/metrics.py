@@ -30,9 +30,17 @@ msg_produced = Counter(
     "puptoo_messages_produced_total", "Total messages produced", ["topic"]
 )
 msg_send_failure = Counter(
-    "puptoo_messages_produced_failure_total", "Total messages that failed to send", ["topic"]
+    "puptoo_messages_produced_failure_total",
+    "Total messages that failed to send",
+    ["topic"],
+)
+msg_size_exceeded = Counter(
+    "puptoo_max_extracted_size_exceeded_total",
+    "Total archives with exceeded extracted size",
 )
 
 send_time = Histogram(
     "puptoo_message_send_time_seconds", "Total time spent sending a message"
 )
+
+msg_extraction_size = Histogram("puptoo_extraction_sizes", "Extracted archive sizes")
