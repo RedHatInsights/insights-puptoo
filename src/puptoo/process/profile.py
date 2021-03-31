@@ -446,7 +446,7 @@ def format_tags(tags):
     tags_dict = {}
     for entry in tags:
         if entry.get("namespace"):
-            namespace = entry.pop("namespace")
+            namespace = entry.pop("namespace").lower()
         else:
             namespace = "insights-client"
         if tags_dict.get(namespace) is None:
