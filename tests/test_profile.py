@@ -1,15 +1,15 @@
 from src.puptoo.process import profile
 
 CLIENT_TAGS = [
-    {"key": "name", "value": "foo", "namespace": "insights-client"},
-    {"key": "zone", "value": "bar", "namespace": "insights-client"},
-    {"key": "location", "value": "nc", "namespace": "insights-client"},
+    {"key": "name", "value": "Foo", "namespace": "insights-client"},
+    {"key": "zOne", "value": "bar", "namespace": "insights-client"},
+    {"key": "locAtion", "value": "nc", "namespace": "Insights-client"},
 ]
 
 
 SAT_TAGS = [
-    {"namespace": "Satellite", "key": "foo", "value": "bar"},
-    {"namespace": "Satellite", "key": "boop", "value": "beep"},
+    {"namespace": "satellite", "key": "foo", "value": "bar"},
+    {"namespace": "Satellite", "key": "Boop", "value": "beep"},
 ]
 
 
