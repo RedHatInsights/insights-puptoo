@@ -213,13 +213,16 @@ def system_profile(
 
     if installed_rpms:
         try:
-            # the sorts work on InstalledRpm instances, which will cause RPM
-            # based ordering instead of simple lexicographical ordering.
+            # the sorts work on InstalledRpm instances, which will use the RPM
+            # ordering algorithm.
             latest = _get_latest_packages(installed_rpms)
             profile["installed_packages"] = [p.nevra for p in sorted(latest)]
 
             stale = _get_stale_packages(installed_rpms)
             profile["installed_packages_delta"] = [p.nevra for p in sorted(stale)]
+
+            gpg_pubkeys = _get_gpg_pubkey_packages(installed_rpms)
+            profile["gpg_pubkeys"] = [p.package for p in sorted(gpg_pubkeys)]
         except Exception as e:
             catch_error("installed_packages", e)
             raise
@@ -479,26 +482,26 @@ def _remove_empties(d):
 
 def _get_latest_packages(rpms):
     """
-    Extract latest non gpg-pubkey 'packages' from the InstalledRpms parser.
+    Extract latest non gpg-pubkey packages from the InstalledRpms parser.
     """
     return set(rpms.get_max(p) for p in rpms.packages if p != "gpg-pubkey")
 
 
 def _get_stale_packages(rpms):
     """
-    Get all packages that aren't the latest versions from the InstalledRpms
-    parser.
+    Get all non gpg-pubkey packages that aren't the latest versions from the
+    InstalledRpms parser.
     """
     result = set()
     for name, packages in rpms.packages.items():
-        if name != "gpg-pubkey":
+        if name != "gpg-pubkey" and len(packages) > 1:
             result |= set(packages) - set([max(packages)])
     return result
 
 
 def _get_gpg_pubkey_packages(rpms):
     """
-    Get the gpg_pubkey packages.
+    Get the gpg-pubkey packages from the InstalledRpms parser.
     """
     return rpms.packages.get("gpg-pubkey", [])
 
