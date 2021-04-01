@@ -171,7 +171,10 @@ def system_profile(
 
     if hdb_version:
         try:
-            profile["sap_version"] = hdb_version.version
+            if type(hdb_version) == list:
+                profile["sap_version"] = hdb_version[0].version
+            else:
+                profile["sap_version"] = hdb_version.version
         except Exception as e:
             catch_error("hdb_version", e)
             raise
