@@ -213,19 +213,13 @@ def system_profile(
 
     if installed_rpms:
         try:
-            installed_packages = {
-                installed_rpms.get_max(p).nevra for p in installed_rpms.packages
-            }
-            profile["installed_packages"] = sorted(list(installed_packages))
-            all_installed_packages = []
-            for p in installed_rpms.packages:
-                package_list = installed_rpms.packages[p]
-                for each_package in package_list:
-                    all_installed_packages.append(each_package.nevra)
-            all_installed_packages_set = set(all_installed_packages)
-            profile["installed_packages_delta"] = sorted(
-                list(all_installed_packages_set - installed_packages)
-            )
+            # the sorts work on InstalledRpm instances, which will cause RPM
+            # based ordering instead of simple lexicographical ordering.
+            latest = _get_latest_packages(installed_rpms)
+            profile["installed_packages"] = [p.nevra for p in sorted(latest)]
+
+            stale = _get_stale_packages(installed_rpms)
+            profile["installed_packages_delta"] = [p.nevra for p in sorted(stale)]
         except Exception as e:
             catch_error("installed_packages", e)
             raise
@@ -481,6 +475,32 @@ def _remove_empties(d):
     not accepted by inventory service.
     """
     return {x: d[x] for x in d if d[x] not in [None, "", []]}
+
+
+def _get_latest_packages(rpms):
+    """
+    Extract latest non gpg-pubkey 'packages' from the InstalledRpms parser.
+    """
+    return set(rpms.get_max(p) for p in rpms.packages if p != "gpg-pubkey")
+
+
+def _get_stale_packages(rpms):
+    """
+    Get all packages that aren't the latest versions from the InstalledRpms
+    parser.
+    """
+    result = set()
+    for name, packages in rpms.packages.items():
+        if name != "gpg-pubkey":
+            result |= set(packages) - set([max(packages)])
+    return result
+
+
+def _get_gpg_pubkey_packages(rpms):
+    """
+    Get the gpg_pubkey packages.
+    """
+    return rpms.packages.get("gpg-pubkey", [])
 
 
 def _get_virt_phys_fact(virt_what):
