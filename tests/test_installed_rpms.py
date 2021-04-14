@@ -7,6 +7,7 @@ from src.puptoo.process.profile import (
     _get_gpg_pubkey_packages,
     _get_latest_packages,
     _get_stale_packages,
+    _sort_packages,
 )
 
 RPM_DATA = """
@@ -54,3 +55,13 @@ def test_get_stale_packages(rpms):
     stale = _get_stale_packages(rpms)
     assert InstalledRpm.from_package("libnl-0:1.1.4-2.el6.x86_64") in stale
     assert len(stale) == 1
+
+
+def test_sort_packages(rpms):
+    latest = _get_latest_packages(rpms)
+    res = _sort_packages(latest)
+    assert len(res) == len(latest)
+
+    stale = _get_stale_packages(rpms)
+    res = _sort_packages(stale)
+    assert len(res) == len(stale)

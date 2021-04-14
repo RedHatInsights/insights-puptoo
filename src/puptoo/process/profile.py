@@ -216,10 +216,10 @@ def system_profile(
             # the sorts work on InstalledRpm instances, which will use the RPM
             # ordering algorithm.
             latest = _get_latest_packages(installed_rpms)
-            profile["installed_packages"] = [p.nevra for p in sorted(latest)]
+            profile["installed_packages"] = [p.nevra for p in _sort_packages(latest)]
 
             stale = _get_stale_packages(installed_rpms)
-            profile["installed_packages_delta"] = [p.nevra for p in sorted(stale)]
+            profile["installed_packages_delta"] = [p.nevra for p in _sort_packages(stale)]
 
             gpg_pubkeys = _get_gpg_pubkey_packages(installed_rpms)
             profile["gpg_pubkeys"] = [p.package for p in sorted(gpg_pubkeys)]
@@ -504,6 +504,10 @@ def _get_gpg_pubkey_packages(rpms):
     Get the gpg-pubkey packages from the InstalledRpms parser.
     """
     return rpms.packages.get("gpg-pubkey", [])
+
+
+def _sort_packages(packages):
+    return sorted(packages, key=lambda p: (p.name, p))
 
 
 def _get_virt_phys_fact(virt_what):
