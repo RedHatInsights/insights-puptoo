@@ -377,7 +377,7 @@ def system_profile(
 
     if ansible_host:
         try:
-            profile["ansible_host"] = ansible_host.content[0]
+            profile["ansible_host"] = ansible_host.content[0] 
         except Exception as e:
             catch_error("ansible_host", e)
             raise
