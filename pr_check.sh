@@ -34,6 +34,8 @@ for file in dev/test-archives/*; do
      rm output.json
 done
 
+deactivate
+
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
