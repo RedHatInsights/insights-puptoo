@@ -5,7 +5,7 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install .
 pip install -r requirements.txt
-INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
+INSIGHTS_FILTERS_ENABLED=false INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
 
 git clone https://github.com/RedHatInsights/inventory-schemas.git
 
@@ -32,14 +32,6 @@ for file in dev/test-archives/*; do
      rm -rf inventory-schemas
      rm output.json
 done
-
-# ---------------
-# Run pytest
-#----------------
-export INSIGHTS_FILTERS_ENABELD=false
-pytest --disable-pytest-warnings ./tests
-
-deactivate
 
 # --------------------------------------------
 # Options that must be configured by app owner
