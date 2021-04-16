@@ -144,9 +144,9 @@ def system_profile(
                 profile["is_marketplace"] = True
 
     if azure_instance_plan:
-        if any(azure_instance_plan.name,
+        if any([azure_instance_plan.name,
                azure_instance_plan.product,
-               azure_instance_plan.publisher):
+               azure_instance_plan.publisher]):
             profile["is_marketplace"] = True
 
     if cpu_info:
