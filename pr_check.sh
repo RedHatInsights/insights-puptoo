@@ -5,7 +5,7 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install .
 pip install -r requirements.txt
-INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
+INSIGHTS_FILTERS_ENABLED=false INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
 
 git clone https://github.com/RedHatInsights/inventory-schemas.git
 
