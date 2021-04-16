@@ -33,6 +33,12 @@ for file in dev/test-archives/*; do
      rm output.json
 done
 
+# ---------------
+# Run pytest
+#----------------
+export INSIGHTS_FILTERS_ENABELD=false
+pytest --disable-pytest-warnings ./tests
+
 deactivate
 
 # --------------------------------------------
