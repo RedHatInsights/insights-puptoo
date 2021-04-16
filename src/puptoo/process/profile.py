@@ -10,6 +10,7 @@ from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.core import dr
 from insights.parsers.aws_instance_id import AWSInstanceIdDoc
+from insights.parsers.azure_instance_plan import AzureInstancePlan
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
@@ -47,6 +48,7 @@ def catch_error(parser, error):
     optional=[
         Specs.hostname,
         AWSInstanceIdDoc,
+        AzureInstancePlan,
         CpuInfo,
         VirtWhat,
         MemInfo,
@@ -80,6 +82,7 @@ def catch_error(parser, error):
 def system_profile(
     hostname,
     aws_instance_id,
+    azure_instance_plan,
     cpu_info,
     virt_what,
     meminfo,
@@ -139,6 +142,12 @@ def system_profile(
         if aws_instance_id.get("marketplaceProductCodes"):
             if len(aws_instance_id["marketplaceProductCodes"]) >= 1:
                 profile["is_marketplace"] = True
+
+    if azure_instance_plan:
+        if any([azure_instance_plan.name,
+               azure_instance_plan.product,
+               azure_instance_plan.publisher]):
+            profile["is_marketplace"] = True
 
     if cpu_info:
         try:
