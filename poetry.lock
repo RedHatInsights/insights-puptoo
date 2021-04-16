@@ -145,7 +145,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 
 [[package]]
 name = "insights-core"
-version = "3.0.214"
+version = "3.0.219"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
@@ -163,22 +163,22 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["cachecontrol", "lockfile", "defusedxml", "requests", "cachecontrol", "cachecontrol", "pyyaml", "jinja2", "redis", "six"]
-client-develop = ["cachecontrol", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "lockfile", "defusedxml", "mock (==2.0.0)", "requests", "coverage (==4.3.4)", "wheel", "cachecontrol", "cachecontrol", "pyyaml", "pytest (==3.0.6)", "futures (==3.0.5)", "jinja2", "redis", "six"]
-cluster = ["cachecontrol", "lockfile", "defusedxml", "ansible", "requests", "pandas", "cachecontrol", "cachecontrol", "pyyaml", "colorama", "jinja2", "redis", "six"]
-develop = ["cachecontrol", "flake8 (==2.6.2)", "lockfile", "defusedxml", "nbsphinx", "requests", "ansible", "wheel", "cachecontrol", "cachecontrol", "pyyaml", "sphinx-rtd-theme", "colorama", "pytest (==3.0.6)", "jinja2", "redis", "pygments", "pytest-cov (==2.4.0)", "mock (==2.0.0)", "Sphinx (<=3.0.2)", "coverage (==4.3.4)", "pandas", "ipython", "futures (==3.0.5)", "jedi (<0.18.0)", "six"]
-develop26 = ["cachecontrol", "flake8 (==2.6.2)", "lockfile", "defusedxml", "ansible", "requests", "wheel", "cachecontrol", "cachecontrol", "pyyaml", "pytest (==3.0.6)", "colorama", "jinja2", "redis", "pytest-cov (==2.4.0)", "mock (==2.0.0)", "coverage (==4.3.4)", "pandas", "futures (==3.0.5)", "six"]
-docs = ["pygments", "nbsphinx", "Sphinx (<=3.0.2)", "sphinx-rtd-theme", "colorama", "ipython", "jinja2", "jedi (<0.18.0)"]
-linting = ["flake8 (==2.6.2)", "requests"]
-openshift = ["cachecontrol", "lockfile", "defusedxml", "openshift", "requests", "cachecontrol", "cachecontrol", "pyyaml", "jinja2", "redis", "six"]
-optional = ["python-statsd", "watchdog", "python-logstash", "python-cjson"]
-testing = ["pytest-cov (==2.4.0)", "mock (==2.0.0)", "pytest (==3.0.6)", "requests", "coverage (==4.3.4)"]
+client = ["cachecontrol", "cachecontrol", "six", "oyaml", "pyyaml", "defusedxml", "redis", "python-gnupg (==0.4.6)", "cachecontrol", "requests", "jinja2", "lockfile"]
+client-develop = ["cachecontrol", "cachecontrol", "oyaml", "pyyaml", "mock (==2.0.0)", "redis", "python-gnupg (==0.4.6)", "cachecontrol", "pytest (==3.0.6)", "wheel", "lockfile", "six", "flake8 (==2.6.2)", "futures (==3.0.5)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "defusedxml", "requests", "jinja2"]
+cluster = ["cachecontrol", "cachecontrol", "six", "pandas", "pyyaml", "ansible", "defusedxml", "redis", "cachecontrol", "requests", "jinja2", "colorama", "lockfile"]
+develop = ["cachecontrol", "cachecontrol", "oyaml", "pandas", "pyyaml", "docutils (==0.16)", "Sphinx (<=3.0.2)", "mock (==2.0.0)", "ansible", "redis", "python-gnupg (==0.4.6)", "cachecontrol", "pytest (==3.0.6)", "sphinx-rtd-theme", "wheel", "lockfile", "ipython", "jedi (<0.18.0)", "six", "flake8 (==2.6.2)", "futures (==3.0.5)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "nbsphinx", "pygments", "defusedxml", "requests", "jinja2", "colorama"]
+develop26 = ["cachecontrol", "cachecontrol", "oyaml", "pandas", "pyyaml", "mock (==2.0.0)", "ansible", "redis", "python-gnupg (==0.4.6)", "cachecontrol", "pytest (==3.0.6)", "wheel", "lockfile", "six", "flake8 (==2.6.2)", "futures (==3.0.5)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "defusedxml", "requests", "jinja2", "colorama"]
+docs = ["ipython", "jedi (<0.18.0)", "docutils (==0.16)", "Sphinx (<=3.0.2)", "nbsphinx", "pygments", "colorama", "jinja2", "sphinx-rtd-theme"]
+linting = ["flake8 (==2.6.2)", "requests", "python-gnupg (==0.4.6)", "oyaml"]
+openshift = ["cachecontrol", "cachecontrol", "six", "openshift", "pyyaml", "defusedxml", "redis", "cachecontrol", "requests", "jinja2", "lockfile"]
+optional = ["python-cjson", "python-logstash", "watchdog", "python-statsd"]
+testing = ["coverage (==4.3.4)", "mock (==2.0.0)", "python-gnupg (==0.4.6)", "oyaml", "pytest (==3.0.6)", "requests", "pytest-cov (==2.4.0)"]
 
 [package.source]
 type = "git"
 url = "https://github.com/RedHatInsights/insights-core.git"
 reference = "3.0"
-resolved_reference = "6bf2ceec100db069295881169108ae099ed80461"
+resolved_reference = "8dd924df843d6604e5edbf113aa7b1ab6cc69a44"
 
 [[package]]
 name = "jinja2"
