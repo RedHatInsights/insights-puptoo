@@ -9,7 +9,7 @@ flake8==3.8.4
 freezegun==0.3.15
 idna==2.10
 insights-core @ git+https://github.com/RedHatInsights/insights-core.git@3.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 jsonschema==3.2.0
 lockfile==0.12.2
 MarkupSafe==1.1.1
