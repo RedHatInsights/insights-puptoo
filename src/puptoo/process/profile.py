@@ -45,8 +45,9 @@ def catch_error(parser, error):
     logger.error(log_msg, parser, error)
 
 
-# GCP_CONFIRMED_CODES are the available marketplace license codes available
+# GCP_CONFIRMED_CODES are the marketplace license codes available
 # from the Google Compute Platform. These may need to be updated regularly.
+# TODO: We need some sort of automated system around this
 GCP_CONFIRMED_CODES = ["601259152637613565",
                        "4720191914037931587",
                        "1176308840663243801",
