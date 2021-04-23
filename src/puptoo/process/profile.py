@@ -15,6 +15,7 @@ from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
+from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
@@ -44,6 +45,20 @@ def catch_error(parser, error):
     logger.error(log_msg, parser, error)
 
 
+# GCP_CONFIRMED_CODES are the available marketplace license codes available
+# from the Google Compute Platform. These may need to be updated regularly.
+GCP_CONFIRMED_CODES = ["601259152637613565",
+                       "4720191914037931587",
+                       "1176308840663243801",
+                       "1000002",
+                       "1492188837615955530",
+                       "1000006",
+                       "8475125252192923229",
+                       "601259152637613565",
+                       "8555687517154622919",
+                       "1270685562947480748"]
+
+
 @rule(
     optional=[
         Specs.hostname,
@@ -62,6 +77,7 @@ def catch_error(parser, error):
         Sap,
         SEStatus,
         Tuned,
+        GCPLicenseCodes,
         HDBVersion,
         InstalledRpms,
         UnitFiles,
@@ -96,6 +112,7 @@ def system_profile(
     sap,
     sestatus,
     tuned,
+    gcp_license_codes,
     hdb_version,
     installed_rpms,
     unit_files,
@@ -148,6 +165,11 @@ def system_profile(
                azure_instance_plan.product,
                azure_instance_plan.publisher]):
             profile["is_marketplace"] = True
+
+    if gcp_license_codes:
+        for i in gcp_license_codes.ids:
+            if i in GCP_CONFIRMED_CODES:
+                profile["is_marketplace"] = True
 
     if cpu_info:
         try:
