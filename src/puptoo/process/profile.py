@@ -477,16 +477,16 @@ def format_tags(tags):
     tags_dict = {}
     for entry in tags:
         if entry.get("namespace"):
-            namespace = entry.pop("namespace")
+            namespace = entry.pop("namespace").lower()
         else:
             namespace = "insights-client"
         if tags_dict.get(namespace) is None:
             tags_dict[namespace] = {}
-        if tags_dict[namespace].get(entry["key"]):
-            tags_dict[namespace][entry["key"]].append(entry["value"])
+        if tags_dict[namespace].get(entry["key"].lower()):
+            tags_dict[namespace][entry["key"].lower()].append(entry["value"].lower())
         else:
-            tags_dict[namespace][entry["key"]] = []
-            tags_dict[namespace][entry["key"]].append(entry["value"])
+            tags_dict[namespace][entry["key"].lower()] = []
+            tags_dict[namespace][entry["key"].lower()].append(entry["value"].lower())
 
     return tags_dict
 
