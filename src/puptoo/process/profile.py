@@ -88,6 +88,7 @@ GCP_CONFIRMED_CODES = ["601259152637613565",
         YumReposD,
         DnfModules,
         CloudProvider,
+        Specs.ansible_host,
         Specs.display_name,
         Specs.version_info,
         InstalledProductIDs,
@@ -123,6 +124,7 @@ def system_profile(
     yum_repos_d,
     dnf_modules,
     cloud_provider,
+    ansible_host,
     display_name,
     version_info,
     product_ids,
@@ -402,6 +404,13 @@ def system_profile(
             profile["display_name"] = display_name.content[0]
         except Exception as e:
             catch_error("display_name", e)
+            raise
+
+    if ansible_host:
+        try:
+            profile["ansible_host"] = ansible_host.content[0] 
+        except Exception as e:
+            catch_error("ansible_host", e)
             raise
 
     if version_info:
