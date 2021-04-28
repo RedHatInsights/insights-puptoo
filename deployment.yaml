@@ -9,71 +9,72 @@ objects:
     name: puptoo
   spec:
     envName: ${ENV_NAME}
-    pods:
+    deployments:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
-      image: ${IMAGE}:${IMAGE_TAG}
-      livenessProbe:
-        failureThreshold: 3
-        httpGet:
-          path: /metrics
-          port: 9000
-          scheme: HTTP
-        initialDelaySeconds: 10
-        periodSeconds: 30
-        successThreshold: 1
-        timeoutSeconds: 1
-      readinessProbe:
-        failureThreshold: 3
-        httpGet:
-          path: /metrics
-          port: 9000
-          scheme: HTTP
-        initialDelaySeconds: 10
-        periodSeconds: 30
-        successThreshold: 1
-        timeoutSeconds: 1
-      env:
-        - name: LOG_LEVEL
-          value: ${LOG_LEVEL}
-        - name: CLOWDER_ENABLED
-          value: ${CLOWDER_ENABLED}
-        - name: HABERDASHER_EMITTER
-          value: ${HABERDASHER_EMITTER}
-        - name: HABERDASHER_KAFKA_BOOTSTRAP
-          value: ${HABERDASHER_KAFKA_BOOTSTRAP}
-        - name: HABERDASHER_KAFKA_TOPIC
-          value: ${HABERDASHER_KAFKA_TOPIC}
-        - name: HABERDASHER_LABELS
-          value: ${HABERDASHER_LABELS}
-        - name: HABERDASHER_TAGS
-          value: ${HABERDASHER_TAGS}
-      resources:
-        limits:
-          cpu: ${CPU_LIMIT}
-          memory: ${MEMORY_LIMIT}
-        requests:
-          cpu: 100m
-          memory: 256Mi
-    kafkaTopics:
-      - replicas: 3
-        partitions: 64
-        topicName: platform.upload.advisor
-      - replicas: 3
-        partitions: 3
-        topicName: platform.upload.compliance
-      - replicas: 3
-        partitions: 20
-        topicName: ${INVENTORY_TOPIC}
-        config:
-          retention.ms: "86400000"
-          retention.bytes: "2684354560"
-      - replicas: 3
-        partitions: 24
-        topicName: platform.upload.validation
-      - replicas: 3
-        partitions: 4
-        topicName: platform.payload-status
+      kafkaTopics:
+        - replicas: 3
+          partitions: 64
+          topicName: platform.upload.advisor
+        - replicas: 3
+          partitions: 3
+          topicName: platform.upload.compliance
+        - replicas: 3
+          partitions: 20
+          topicName: ${INVENTORY_TOPIC}
+          config:
+            retention.ms: "86400000"
+            retention.bytes: "2684354560"
+        - replicas: 3
+          partitions: 24
+          topicName: platform.upload.validation
+        - replicas: 3
+          partitions: 4
+          topicName: platform.payload-status
+      podSpec:
+        image: ${IMAGE}:${IMAGE_TAG}
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /metrics
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /metrics
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        env:
+          - name: LOG_LEVEL
+            value: ${LOG_LEVEL}
+          - name: CLOWDER_ENABLED
+            value: ${CLOWDER_ENABLED}
+          - name: HABERDASHER_EMITTER
+            value: ${HABERDASHER_EMITTER}
+          - name: HABERDASHER_KAFKA_BOOTSTRAP
+            value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+          - name: HABERDASHER_KAFKA_TOPIC
+            value: ${HABERDASHER_KAFKA_TOPIC}
+          - name: HABERDASHER_LABELS
+            value: ${HABERDASHER_LABELS}
+          - name: HABERDASHER_TAGS
+            value: ${HABERDASHER_TAGS}
+        resources:
+          limits:
+            cpu: ${CPU_LIMIT}
+            memory: ${MEMORY_LIMIT}
+          requests:
+            cpu: 100m
+            memory: 256Mi
 
 parameters:
 - name: LOG_LEVEL
