@@ -9,28 +9,28 @@ objects:
     name: puptoo
   spec:
     envName: ${ENV_NAME}
+    kafkaTopics:
+    - replicas: 3
+      partitions: 64
+      topicName: platform.upload.advisor
+    - replicas: 3
+      partitions: 3
+      topicName: platform.upload.compliance
+    - replicas: 3
+      partitions: 20
+      topicName: ${INVENTORY_TOPIC}
+      config:
+        retention.ms: "86400000"
+        retention.bytes: "2684354560"
+    - replicas: 3
+      partitions: 24
+      topicName: platform.upload.validation
+    - replicas: 3
+      partitions: 4
+      topicName: platform.payload-status
     deployments:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
-      kafkaTopics:
-        - replicas: 3
-          partitions: 64
-          topicName: platform.upload.advisor
-        - replicas: 3
-          partitions: 3
-          topicName: platform.upload.compliance
-        - replicas: 3
-          partitions: 20
-          topicName: ${INVENTORY_TOPIC}
-          config:
-            retention.ms: "86400000"
-            retention.bytes: "2684354560"
-        - replicas: 3
-          partitions: 24
-          topicName: platform.upload.validation
-        - replicas: 3
-          partitions: 4
-          topicName: platform.payload-status
       podSpec:
         image: ${IMAGE}:${IMAGE_TAG}
         livenessProbe:
