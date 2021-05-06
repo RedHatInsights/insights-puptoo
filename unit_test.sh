@@ -1,5 +1,5 @@
 #!/bin/bash
-python3 -m venv .venv
+python3 -m venv .unit_test_venv
 source .venv/bin/activate
 pip install --upgrade pip
 pip install .
