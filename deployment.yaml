@@ -9,6 +9,9 @@ objects:
     name: puptoo
   spec:
     envName: ${ENV_NAME}
+    optionalDependencies:
+    - ingress
+    - storage-broker
     pods:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
