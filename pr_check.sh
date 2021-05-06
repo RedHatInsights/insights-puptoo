@@ -1,41 +1,5 @@
 #!/bin/bash
 
-python3 -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install .
-pip install -r requirements.txt
-INSIGHTS_FILTERS_ENABLED=false INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest
-
-if [ $? != 0 ]; then
-    exit 1
-fi
-
-git clone https://github.com/RedHatInsights/inventory-schemas.git
-
-# --------------------------------
-# Run the profile and schema check
-# --------------------------------
-for file in dev/test-archives/*; do
-     filename="$(basename "$file").tar.gz"
-     tar -zcf $filename "$file"
-     insights-run -p src/puptoo -f json $filename > output.json
-     insights-run -p src/puptoo $filename # this is to print the results in the test console
-     if [ $? != 0 ]; then
-        exit 1
-     fi
-     python parse_json.py
-     python inventory-schemas/tools/simple-test/tester.py inventory-schemas/schemas/system_profile/v1.yaml output.json
-     if [ $? != 0 ]; then
-        exit 1
-     fi
-     rm $filename
-     rm -rf inventory-schemas
-     rm output.json
-done
-
-deactivate
-
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
@@ -47,15 +11,12 @@ IQE_PLUGINS="ingress"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
 
-# ---------------------------
-# We'll take it from here ...
-# ---------------------------
 
-source build_deploy.sh
-
+# Install bonfire repo/initialize
 CICD_URL=https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd
-curl -s $CICD_URL/bootstrap.sh -o bootstrap.sh
-source bootstrap.sh  # checks out bonfire and changes to "cicd" dir...
+curl -s $CICD_URL/bootstrap.sh > .cicd_bootstrap.sh && source .cicd_bootstrap.sh
 
-source deploy_ephemeral_env.sh
-source smoke_test.sh
+source $CICD_ROOT/build.sh
+source $APP_ROOT/unit_test.sh
+source $CICD_ROOT/deploy_ephemeral_env.sh
+source $CICD_ROOT/smoke_test.sh
