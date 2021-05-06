@@ -38,6 +38,8 @@ if CLOWDER_ENABLED:
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", KafkaTopics["platform.payload-status"].name)
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", LoadedConfig.metricsPort))
     LOG_GROUP = os.getenv("LOG_GROUP", LoadedConfig.logging.cloudwatch.logGroup)
+    KAFKA_SASL_USERNAME = os.getenv("KAFKA_SASL_USERNAME", LoadedConfig.kafka.sasl.username)
+    KAFKA_SASL_PASSWORD = os.getenv("KAFKA_SASL_PASSWORD", LoadedConfig.kafka.sasl.password)
 
 else:
     BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")

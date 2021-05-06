@@ -11,6 +11,8 @@ def init_consumer():
             "queued.max.messages.kbytes": config.KAFKA_QUEUE_MAX_KBYTES,
             "enable.auto.commit": config.KAFKA_AUTO_COMMIT,
             "allow.auto.create.topics": config.KAFKA_ALLOW_CREATE_TOPICS,
+            "sasl.username": config.KAFKA_SASL_USERNAME,
+            "sasl.password": config.KAFKA_SASL_PASSWORD
         }
     )
 
