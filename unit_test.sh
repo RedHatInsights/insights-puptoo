@@ -1,6 +1,6 @@
 #!/bin/bash
 python3 -m venv .unit_test_venv
-source .venv/bin/activate
+source .unit_test_venv/bin/activate
 pip install --upgrade pip
 pip install .
 pip install -r requirements.txt
