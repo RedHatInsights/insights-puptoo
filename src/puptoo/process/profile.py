@@ -16,6 +16,7 @@ from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
+from insights.parsers.greenboot_status import GreenbootStatus
 from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
@@ -78,6 +79,7 @@ GCP_CONFIRMED_CODES = ["601259152637613565",
         SEStatus,
         Tuned,
         GCPLicenseCodes,
+        GreenbootStatus,
         HDBVersion,
         InstalledRpms,
         UnitFiles,
@@ -113,6 +115,7 @@ def system_profile(
     sestatus,
     tuned,
     gcp_license_codes,
+    gb_status,
     hdb_version,
     installed_rpms,
     unit_files,
@@ -170,6 +173,15 @@ def system_profile(
         for i in gcp_license_codes.ids:
             if i in GCP_CONFIRMED_CODES:
                 profile["is_marketplace"] = True
+
+    if gb_status:
+        # use presence of greenboot as proxy for whether the system should be
+        # considered "edge" this should change to use rpm-ostree status once we
+        # have it in place.
+        profile["host_type"] = "edge"
+
+        # Set the greenboot status
+        profile["greenboot_status"] = "red" if gb_status.red else "green" if gb_status.green else "Unknown"
 
     if cpu_info:
         try:
