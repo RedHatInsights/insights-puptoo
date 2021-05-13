@@ -4,5 +4,19 @@ from ..utils import config
 
 
 def init_producer():
-    producer = Producer({"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)})
+    connection_info = {}
+    if config.KAFKA_BROKER:
+        connection_info["bootstrap.servers"] = config.KAFKA_BROKER.broker_url
+        if config.KAFKA_BROKER.kafka_ca:
+            connection_info["ssl.ca.location"] = config.KAFKA_BROKER.kafka_ca
+        if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
+            connection_info.update({
+                "security.protocol": "sasl_ssl",
+                "sasl.mechanism": "SCRAM-SHA-512",
+                "sasl.username": config.KAFKA_BROKER.sasl.username,
+                "sasl.password": config.KAFKA_BROKER.sasl.password,
+            })
+    else:
+        connection_info["bootstrap.servers"] = ",".join(config.BOOTSTRAP_SERVERS)
+    producer = Producer(connection_info)
     return producer

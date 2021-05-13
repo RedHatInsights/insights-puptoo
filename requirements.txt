@@ -1,4 +1,4 @@
-app-common-python==0.1.1
+app-common-python @ git+https://github.com/RedHatInsights/app-common-python.git@psav/add_kafka_brokers
 attrs==20.3.0
 CacheControl==0.12.6
 certifi==2020.12.5
