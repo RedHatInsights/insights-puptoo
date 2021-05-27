@@ -290,7 +290,7 @@ def system_profile(
     if uptime and date_utc:
         try:
             boot_time = date_utc.datetime - uptime.uptime
-            profile["last_boot_time"] = boot_time.isoformat()
+            profile["last_boot_time"] = boot_time.astimezone().isoformat()
         except Exception as e:
             catch_error("uptime", e)
             raise
