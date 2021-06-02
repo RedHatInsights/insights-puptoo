@@ -48,16 +48,18 @@ def catch_error(parser, error):
 
 # GCP_CONFIRMED_CODES are the available marketplace license codes available
 # from the Google Compute Platform. These may need to be updated regularly.
-GCP_CONFIRMED_CODES = ["601259152637613565",
-                       "4720191914037931587",
-                       "1176308840663243801",
-                       "1000002",
-                       "1492188837615955530",
-                       "1000006",
-                       "8475125252192923229",
-                       "601259152637613565",
-                       "8555687517154622919",
-                       "1270685562947480748"]
+GCP_CONFIRMED_CODES = [
+    "601259152637613565",
+    "4720191914037931587",
+    "1176308840663243801",
+    "1000002",
+    "1492188837615955530",
+    "1000006",
+    "8475125252192923229",
+    "601259152637613565",
+    "8555687517154622919",
+    "1270685562947480748",
+]
 
 
 @rule(
@@ -164,9 +166,13 @@ def system_profile(
                 profile["is_marketplace"] = True
 
     if azure_instance_plan:
-        if any([azure_instance_plan.name,
-               azure_instance_plan.product,
-               azure_instance_plan.publisher]):
+        if any(
+            [
+                azure_instance_plan.name,
+                azure_instance_plan.product,
+                azure_instance_plan.publisher,
+            ]
+        ):
             profile["is_marketplace"] = True
 
     if gcp_license_codes:
@@ -181,7 +187,9 @@ def system_profile(
         profile["host_type"] = "edge"
 
         # Set the greenboot status
-        profile["greenboot_status"] = "red" if gb_status.red else "green" if gb_status.green else "Unknown"
+        profile["greenboot_status"] = (
+            "red" if gb_status.red else "green" if gb_status.green else "Unknown"
+        )
 
     if cpu_info:
         try:
@@ -262,7 +270,9 @@ def system_profile(
             profile["installed_packages"] = [p.nevra for p in _sort_packages(latest)]
 
             stale = _get_stale_packages(installed_rpms)
-            profile["installed_packages_delta"] = [p.nevra for p in _sort_packages(stale)]
+            profile["installed_packages_delta"] = [
+                p.nevra for p in _sort_packages(stale)
+            ]
 
             gpg_pubkeys = _get_gpg_pubkey_packages(installed_rpms)
             profile["gpg_pubkeys"] = [p.package for p in sorted(gpg_pubkeys)]
@@ -495,10 +505,12 @@ def format_tags(tags):
         if tags_dict.get(namespace) is None:
             tags_dict[namespace] = {}
         if tags_dict[namespace].get(entry["key"]):
-            tags_dict[namespace][entry["key"]].append(entry["value"])
+            if isinstance(entry["value"], str):
+                tags_dict[namespace][entry["key"]].append(entry["value"])
         else:
-            tags_dict[namespace][entry["key"]] = []
-            tags_dict[namespace][entry["key"]].append(entry["value"])
+            if isinstance(entry["value"], str):
+                tags_dict[namespace][entry["key"]] = []
+                tags_dict[namespace][entry["key"]].append(entry["value"])
 
     return tags_dict
 
