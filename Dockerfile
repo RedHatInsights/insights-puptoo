@@ -1,6 +1,6 @@
 FROM registry.redhat.io/ubi8/ubi-minimal
 WORKDIR /app-root/
-RUN microdnf install -y python36 python3-devel curl python3-pip git && \
+RUN microdnf install -y python36 python3-devel curl python3-pip git tar && \
     git clone -b 3.0 https://github.com/RedHatInsights/insights-core && \
     pip3 install ./insights-core
 COPY src src
