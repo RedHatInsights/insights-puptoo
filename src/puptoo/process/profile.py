@@ -93,6 +93,7 @@ GCP_CONFIRMED_CODES = [
         DnfModules,
         CloudProvider,
         Specs.display_name,
+        Specs.ansible_host,
         Specs.version_info,
         InstalledProductIDs,
         Specs.branch_info,
@@ -129,6 +130,7 @@ def system_profile(
     dnf_modules,
     cloud_provider,
     display_name,
+    ansible_host,
     version_info,
     product_ids,
     branch_info,
@@ -426,6 +428,13 @@ def system_profile(
             catch_error("display_name", e)
             raise
 
+    if ansible_host:
+        try:
+            profile["ansible_host"] = ansible_host.content[0]
+        except Exception as e:
+            catch_error("ansible_host", e)
+            raise
+
     if version_info:
         try:
             version_info_json = json.loads(version_info.content[0])
@@ -608,12 +617,11 @@ def _safe_fetch_interface_field(interface, field_name):
         return None
 
 
-def _remove_bad_display_name(facts):
+def _remove_bad_names(facts, keys):
     defined_facts = facts
-    if "display_name" in defined_facts and len(
-        defined_facts["display_name"]
-    ) not in range(2, 200):
-        defined_facts.pop("display_name")
+    for key in keys:
+        if key in defined_facts and len(defined_facts[key]) not in range(2, 200):
+            defined_facts.pop(key)
     return defined_facts
 
 
@@ -657,5 +665,7 @@ def postprocess(facts):
         facts["satellite_id"] = facts["system_profile"].get("satellite_id")
     if facts["system_profile"].get("tags"):
         facts["tags"] = facts["system_profile"].pop("tags")
-    groomed_facts = _remove_empties(_remove_bad_display_name(facts))
+    groomed_facts = _remove_empties(
+        _remove_bad_names(facts, ["display_name", "ansible_host"])
+    )
     return groomed_facts
