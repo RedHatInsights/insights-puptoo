@@ -56,14 +56,30 @@ Mar 04 15:47:12 example greenboot-status[1010]: SYSTEM is UNHEALTHY, but boot_co
 Mar 04 15:47:12 example systemd[1]: Started greenboot MotD Generator.
 """.strip()
 
+FALLBACK = """
+Feb 22 22:50:26 example systemd[1]: Starting greenboot MotD Generator...
+Feb 22 22:50:26 example greenboot-status[905]: Boot Status is GREEN - Health Check SUCCESS
+Feb 22 22:50:26 example greenboot-status[905]: FALLBACK BOOT DETECTED! Default rpm-ostree deployment has been rolled back.
+Feb 22 22:50:26 example systemd[1]: Started greenboot MotD Generator.
+"""
+
 
 def test_greenboot_status_green():
     input_data = InputData().add(Specs.greenboot_status, GREEN)
     result = run_test(system_profile, input_data)
     assert result["greenboot_status"] == "green"
+    assert result["greenboot_fallback_detected"] is False
 
 
 def test_greenboot_status_red():
     input_data = InputData().add(Specs.greenboot_status, RED)
     result = run_test(system_profile, input_data)
     assert result["greenboot_status"] == "red"
+    assert result["greenboot_fallback_detected"] is False
+
+
+def test_greenboot_status_fallback():
+    input_data = InputData().add(Specs.greenboot_status, FALLBACK)
+    result = run_test(system_profile, input_data)
+    assert result["greenboot_status"] == "green"
+    assert result["greenboot_fallback_detected"] is True

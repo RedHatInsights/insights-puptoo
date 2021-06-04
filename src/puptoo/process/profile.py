@@ -192,6 +192,10 @@ def system_profile(
         profile["greenboot_status"] = (
             "red" if gb_status.red else "green" if gb_status.green else "Unknown"
         )
+        profile["greenboot_status"] = (
+            "red" if gb_status.red else "green" if gb_status.green else "Unknown"
+        )
+        profile["greenboot_fallback_detected"] = True if gb_status.fallback else False
 
     if cpu_info:
         try:
