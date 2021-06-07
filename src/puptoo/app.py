@@ -194,6 +194,9 @@ def handle_message(msg):
                 facts["system_profile"]["owner_id"] = owner_id
             if facts["system_profile"].get("is_ros"):
                 msg["is_ros"] = "true"
+        # Override archive hostname with name provided by client metadata
+        facts["display_name"] = msg["metadata"].get("display_name")
+        facts["ansible_host"] = msg["metadata"].get("ansible_host")
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )

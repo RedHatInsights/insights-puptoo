@@ -665,6 +665,8 @@ def get_system_profile(path=None):
 def postprocess(facts):
     if facts["system_profile"].get("display_name"):
         facts["display_name"] = facts["system_profile"].get("display_name")
+    if facts["system_profile"].get("ansible_host"):
+        facts["ansible_host"] = facts["system_profile"].get("ansible_host")
     if facts["system_profile"].get("satellite_id"):
         facts["satellite_id"] = facts["system_profile"].get("satellite_id")
     if facts["system_profile"].get("tags"):
