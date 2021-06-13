@@ -203,7 +203,7 @@ def system_profile(
     if rpm_ostree_status:
         deployments = _get_deployments(rpm_ostree_status)
         if deployments:
-            profile["rpm_ostree_status"] = deployments
+            profile["rpm_ostree_deployments"] = deployments
 
     if cpu_info:
         try:
@@ -568,7 +568,7 @@ def _get_deployments(rpm_ostree_status):
             "checksum": deployment["checksum"],
             "origin": deployment["origin"],
             "osname": deployment["osname"],
-            "version": deployment.get("version"),
+            "version": deployment.get("version", ""),
             "booted": deployment["booted"],
             "pinned": deployment["pinned"],
         })

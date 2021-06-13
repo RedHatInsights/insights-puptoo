@@ -469,7 +469,7 @@ DATA_1 = """
 def test_rpmostree_status_simple():
     input_data = InputData().add(Specs.rpm_ostree_status, DATA_0)
     result = run_test(system_profile, input_data)
-    deployments = result["rpm_ostree_status"]
+    deployments = result["rpm_ostree_deployments"]
     assert len(deployments) == 1
     dep = deployments[0]
     assert dep == {
@@ -477,7 +477,7 @@ def test_rpmostree_status_simple():
         "checksum": "f0c0294860db563e5906db8c9f257d2bfebe40c93e0320b0e380b879f545e267",
         "origin": "edge:rhel/8/x86_64/edge",
         "osname": "rhel",
-        "version": None,
+        "version": "",
         "booted": True,
         "pinned": False
     }
@@ -486,27 +486,27 @@ def test_rpmostree_status_simple():
 def test_rpmostree_status_full():
     input_data = InputData().add(Specs.rpm_ostree_status, DATA_1)
     result = run_test(system_profile, input_data)
-    deployments = result["rpm_ostree_status"]
+    deployments = result["rpm_ostree_deployments"]
     assert len(deployments) == 2
 
     dep = deployments[0]
     assert dep == {
+        "id": "fedora-silverblue-63335a77f9853618ba1a5f139c5805e82176a2a040ef5e34d7402e12263af5bb.0",
+        "checksum": "63335a77f9853618ba1a5f139c5805e82176a2a040ef5e34d7402e12263af5bb",
         "origin": "fedora/33/x86_64/silverblue",
         "osname": "fedora-silverblue",
-        "pinned": False,
-        "id": "fedora-silverblue-63335a77f9853618ba1a5f139c5805e82176a2a040ef5e34d7402e12263af5bb.0",
         "version": "33.21",
-        "checksum": "63335a77f9853618ba1a5f139c5805e82176a2a040ef5e34d7402e12263af5bb",
         "booted": True,
+        "pinned": False,
     }
 
     dep = deployments[1]
     assert dep == {
+        "id": "fedora-silverblue-775d54e89bc74731ec27db04f12510c0269c8cbab3ad5e39e0a4d693231ef072.0",
+        "checksum": "775d54e89bc74731ec27db04f12510c0269c8cbab3ad5e39e0a4d693231ef072",
         "origin": "fedora/33/x86_64/silverblue",
         "osname": "fedora-silverblue",
-        "pinned": False,
-        "checksum": "775d54e89bc74731ec27db04f12510c0269c8cbab3ad5e39e0a4d693231ef072",
-        "id": "fedora-silverblue-775d54e89bc74731ec27db04f12510c0269c8cbab3ad5e39e0a4d693231ef072.0",
         "version": "33.17",
         "booted": False,
+        "pinned": False,
     }
