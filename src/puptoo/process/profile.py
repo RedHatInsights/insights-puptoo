@@ -26,6 +26,7 @@ from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.pmlog_summary import PmLogSummary
 from insights.parsers.ps import PsAuxcww
+from insights.parsers.rpm_ostree_status import RpmOstreeStatus
 from insights.parsers.sestatus import SEStatus
 from insights.parsers.systemd.unitfiles import UnitFiles
 from insights.parsers.tuned import Tuned
@@ -98,6 +99,7 @@ GCP_CONFIRMED_CODES = [
         InstalledProductIDs,
         Specs.branch_info,
         Specs.tags,
+        RpmOstreeStatus,
     ]
 )
 def system_profile(
@@ -135,6 +137,7 @@ def system_profile(
     product_ids,
     branch_info,
     tags,
+    rpm_ostree_status,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -196,6 +199,11 @@ def system_profile(
             "red" if gb_status.red else "green" if gb_status.green else "Unknown"
         )
         profile["greenboot_fallback_detected"] = True if gb_status.fallback else False
+
+    if rpm_ostree_status:
+        deployments = _get_deployments(rpm_ostree_status)
+        if deployments:
+            profile["rpm_ostree_status"] = deployments
 
     if cpu_info:
         try:
@@ -546,6 +554,25 @@ def _remove_empties(d):
     not accepted by inventory service.
     """
     return {x: d[x] for x in d if d[x] not in [None, "", []]}
+
+
+def _get_deployments(rpm_ostree_status):
+    """
+    Extract limited data from each deployment in the rpm ostree status.
+    """
+    deployments = rpm_ostree_status.data.get("deployments", [])
+    results = []
+    for deployment in deployments:
+        results.append({
+            "id": deployment["id"],
+            "checksum": deployment["checksum"],
+            "origin": deployment["origin"],
+            "osname": deployment["osname"],
+            "version": deployment.get("version"),
+            "booted": deployment["booted"],
+            "pinned": deployment["pinned"],
+        })
+    return results
 
 
 def _get_latest_packages(rpms):
