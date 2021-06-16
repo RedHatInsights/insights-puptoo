@@ -47,8 +47,8 @@ def get_owner(ident):
 
 
 def clean_macs(facts):
-    if facts.get("mac_addresses"):
-        facts["mac_addresses"] = [mac for mac in facts["mac_addresses"] if mac != "0.0.0.0"]
+    if facts["metadata"].get("mac_addresses"):
+        facts["metadata"]["mac_addresses"] = [mac for mac in facts["metadata"]["mac_addresses"] if mac != "0.0.0.0"]
     return facts
 
 
@@ -195,7 +195,8 @@ def handle_message(msg):
     if facts:
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
-        clean_macs(facts)
+        if facts.get("metadata"):
+            clean_macs(facts)
         if facts.get("system_profile"):
             if owner_id:
                 facts["system_profile"]["owner_id"] = owner_id
