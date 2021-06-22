@@ -81,7 +81,8 @@ def main():
             start_prometheus()
 
         if config.KAFKA_BROKER:
-            write_cert(config.KAFKA_BROKER.cacert)
+            if config.KAFKA_BROKER.cacert:
+                write_cert(config.KAFKA_BROKER.cacert)
 
         consumer = consume.init_consumer()
         global producer
