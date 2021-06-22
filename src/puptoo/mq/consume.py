@@ -12,9 +12,9 @@ def init_consumer():
     }
 
     if config.KAFKA_BROKER:
-        connection_info["bootstrap.servers"] = config.KAFKA_BROKER.broker_url
-        if config.KAFKA_BROKER.kafka_ca:
-            connection_info["ssl.ca.location"] = config.KAFKA_BROKER.kafka_ca
+        connection_info["bootstrap.servers"] = f"{config.KAFKA_BROKER.hostname}:{config.KAFKA_BROKER.port}".split()
+        if config.KAFKA_BROKER.cacert:
+            connection_info["ssl.ca.location"] = config.KAFKA_BROKER.cacert
         if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
             connection_info.update({
                 "security.protocol": "sasl_ssl",
