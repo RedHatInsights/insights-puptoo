@@ -23,6 +23,11 @@ CONSUMER_ASSIGNMENTS = Info(
 logger = puptoo_logging.initialize_logging()
 
 
+def write_cert(cert):
+    with open('/tmp/cacert', 'w') as f:
+        f.write(cert)
+
+
 def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
 
@@ -74,6 +79,9 @@ def main():
         if not config.DISABLE_PROMETHEUS:
             logger.info("Starting Puptoo Prometheus Server")
             start_prometheus()
+
+        if config.KAFKA_BROKER:
+            write_cert(config.KAFKA_BROKER.cacert)
 
         consumer = consume.init_consumer()
         global producer
