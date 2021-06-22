@@ -8,7 +8,7 @@ def init_producer():
     if config.KAFKA_BROKER:
         connection_info[
             "bootstrap.servers"
-        ] = f"{config.KAFKA_BROKER.hostname}:{config.KAFKA_BROKER.port}".split()
+        ] = f"{config.KAFKA_BROKER.hostname}:{config.KAFKA_BROKER.port}"
         if config.KAFKA_BROKER.cacert:
             connection_info["ssl.ca.location"] = "/tmp/cacert"
         if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
