@@ -15,7 +15,7 @@ def init_producer():
             connection_info.update(
                 {
                     "security.protocol": "sasl_ssl",
-                    "sasl.mechanism": "SCRAM-SHA-512",
+                    "sasl.mechanisms": "SCRAM-SHA-512",
                     "sasl.username": config.KAFKA_BROKER.sasl.username,
                     "sasl.password": config.KAFKA_BROKER.sasl.password,
                 }
