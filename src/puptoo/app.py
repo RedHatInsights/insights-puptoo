@@ -84,9 +84,9 @@ def main():
             if config.KAFKA_BROKER.cacert:
                 write_cert(config.KAFKA_BROKER.cacert)
 
-        consumer = consume.init_consumer(logger)
+        consumer = consume.init_consumer()
         global producer
-        producer = produce.init_producer(logger)
+        producer = produce.init_producer()
 
         start = time()
         while running:
