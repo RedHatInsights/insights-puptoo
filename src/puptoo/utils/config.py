@@ -15,6 +15,8 @@ def log_config():
                 continue
             logger.info("Using %s: %s", k, v)
 
+    logger.info("Using KAFKA_BROKER: %s:%s", LoadedConfig.kafka.brokers[0].hostname, LoadedConfig.kafka.brokers[0].port)
+
 
 def get_namespace():
     try:
@@ -29,9 +31,9 @@ def get_namespace():
 CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() in ["true", "t", "yes", "y"] else False
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
-    from app_common_python import LoadedConfig, KafkaTopics, KafkaBrokers
+    from app_common_python import LoadedConfig, KafkaTopics
     BOOTSTRAP_SERVERS = None
-    KAFKA_BROKER = KafkaBrokers[0]
+    KAFKA_BROKER = LoadedConfig.kafka.brokers[0]
     ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", KafkaTopics["platform.upload.advisor"].name)
     COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", KafkaTopics["platform.upload.compliance"].name)
     INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC") or KafkaTopics["platform.inventory.host-ingress-p1"].name
@@ -62,3 +64,4 @@ BUILD_COMMIT = os.getenv("OPENSHIFT_BUILD_COMMIT", "not_in_openshift")
 KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
+KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
