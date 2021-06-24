@@ -39,6 +39,8 @@ objects:
       env:
         - name: LOG_LEVEL
           value: ${LOG_LEVEL}
+        - name: KAFKA_LOGGER
+          value: ${KAFKA_LOGGER}
         - name: CLOWDER_ENABLED
           value: ${CLOWDER_ENABLED}
         - name: HABERDASHER_EMITTER
@@ -122,3 +124,6 @@ parameters:
 - description: Tags for haberdasher logs
   name: HABERDASHER_TAGS
   value: '["puptoo"]'
+- description: Kafka Logging level
+  name: KAFKA_LOGGER
+  value: "ERROR"
