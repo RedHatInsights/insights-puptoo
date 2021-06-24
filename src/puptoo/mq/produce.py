@@ -3,7 +3,7 @@ from confluent_kafka import Producer
 from ..utils import config
 
 
-def init_producer(logger):
+def init_producer():
     connection_info = {}
     if config.KAFKA_BROKER:
         connection_info[
@@ -23,7 +23,5 @@ def init_producer(logger):
     else:
         connection_info["bootstrap.servers"] = ",".join(config.BOOTSTRAP_SERVERS)
 
-    logger.info("producer info:")
-    logger.info(connection_info.keys())
     producer = Producer(connection_info)
     return producer
