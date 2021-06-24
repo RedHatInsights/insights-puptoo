@@ -29,6 +29,8 @@ def init_consumer():
     else:
         connection_info["bootstrap.servers"] = ",".join(config.BOOTSTRAP_SERVERS)
 
+    print("consumer info:\n")
+    print(connection_info.keys())
     consumer = Consumer(connection_info)
 
     consumer.subscribe([config.ADVISOR_TOPIC, config.COMPLIANCE_TOPIC])
