@@ -5,6 +5,8 @@ APP_NAME = os.getenv("APP_NAME", "insights-puptoo")
 
 logger = logging.getLogger(APP_NAME)
 
+CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() in ["true", "t", "yes", "y"] else False
+
 
 def log_config():
     import sys
@@ -15,7 +17,10 @@ def log_config():
                 continue
             logger.info("Using %s: %s", k, v)
 
-    logger.info("Using KAFKA_BROKER: %s:%s", LoadedConfig.kafka.brokers[0].hostname, LoadedConfig.kafka.brokers[0].port)
+    if CLOWDER_ENABLED:
+        logger.info("Using CLOWDAPP KAFKA_BROKER: %s:%s",
+                    LoadedConfig.kafka.brokers[0].hostname,
+                    LoadedConfig.kafka.brokers[0].port)
 
 
 def get_namespace():
@@ -28,7 +33,6 @@ def get_namespace():
 
 
 # Shim layer for dual support of using Clowder and Legacy Mode
-CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() in ["true", "t", "yes", "y"] else False
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
     from app_common_python import LoadedConfig, KafkaTopics
