@@ -84,7 +84,7 @@ def main():
             if config.KAFKA_BROKER.cacert:
                 write_cert(config.KAFKA_BROKER.cacert)
 
-        time.sleep(5)
+        sleep(5)
 
         consumer = consume.init_consumer()
         global producer
