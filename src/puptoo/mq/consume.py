@@ -3,7 +3,7 @@ from confluent_kafka import Consumer
 from ..utils import config
 
 
-def init_consumer():
+def init_consumer(logger):
     connection_info = {
         "group.id": config.APP_NAME,
         "queued.max.messages.kbytes": config.KAFKA_QUEUE_MAX_KBYTES,
@@ -29,8 +29,8 @@ def init_consumer():
     else:
         connection_info["bootstrap.servers"] = ",".join(config.BOOTSTRAP_SERVERS)
 
-    print("consumer info:\n")
-    print(connection_info.keys())
+    logger.info("consumer info:")
+    logger.info(connection_info.keys())
     consumer = Consumer(connection_info)
 
     consumer.subscribe([config.ADVISOR_TOPIC, config.COMPLIANCE_TOPIC])
