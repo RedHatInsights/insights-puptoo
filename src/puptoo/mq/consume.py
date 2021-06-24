@@ -3,7 +3,7 @@ from confluent_kafka import Consumer
 from ..utils import config
 
 
-def init_consumer(logger=None):
+def init_consumer():
     connection_info = {
         "group.id": config.APP_NAME,
         "queued.max.messages.kbytes": config.KAFKA_QUEUE_MAX_KBYTES,
@@ -16,9 +16,6 @@ def init_consumer(logger=None):
             "bootstrap.servers"
         ] = f"{config.KAFKA_BROKER.hostname}:{config.KAFKA_BROKER.port}"
         if config.KAFKA_BROKER.cacert:
-            if logger:
-                with open("/tmp/cacert", 'r') as f:
-                    logger.info(f.read())
             connection_info["ssl.ca.location"] = "/tmp/cacert"
         if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
             connection_info.update(

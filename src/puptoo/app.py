@@ -2,7 +2,7 @@ import json
 import signal
 from datetime import datetime, timedelta
 from functools import partial
-from time import time, sleep
+from time import time
 from base64 import b64decode
 
 from confluent_kafka import KafkaError
@@ -83,12 +83,8 @@ def main():
         if config.KAFKA_BROKER:
             if config.KAFKA_BROKER.cacert:
                 write_cert(config.KAFKA_BROKER.cacert)
-                with open("/tmp/cacert", 'r') as cert:
-                    logger.info(cert.read())
 
-        sleep(5)
-
-        consumer = consume.init_consumer(logger=logger)
+        consumer = consume.init_consumer()
         global producer
         producer = produce.init_producer()
 
