@@ -11,7 +11,7 @@ threadctx = local()
 
 def initialize_logging():
     kafkalogger = logging.getLogger("kafka")
-    kafkalogger.setLevel("ERROR")
+    kafkalogger.setLevel("DEBUG")
     if any("KUBERNETES" in k for k in os.environ):
         handler = logging.StreamHandler(sys.stderr)
         handler.addFilter(ContextualFilter())
