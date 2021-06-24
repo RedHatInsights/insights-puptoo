@@ -22,5 +22,8 @@ def init_producer():
             )
     else:
         connection_info["bootstrap.servers"] = ",".join(config.BOOTSTRAP_SERVERS)
+    
+    print("producer info:\n")
+    print(connection_info.keys())
     producer = Producer(connection_info)
     return producer
