@@ -60,7 +60,7 @@ The message sent to the inventory service will include the facts extracted from 
                                "mac_addresses": [],
                                "fqdn": "Z0JTXJ7YSG.test"},
                      "namespace": "insights-client",
-                     "system-profile": {"foo": "bar"}}]}
+                     "system-profile": {"foo": "bar"}}]},
  "platform_metadata": {"key": "value"},
  "operation": "add_host"}
 ```
