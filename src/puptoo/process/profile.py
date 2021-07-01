@@ -564,15 +564,19 @@ def _get_deployments(rpm_ostree_status):
     deployments = rpm_ostree_status.data.get("deployments", [])
     results = []
     for deployment in deployments:
-        results.append({
+        dep = {
             "id": deployment["id"],
             "checksum": deployment["checksum"],
             "origin": deployment["origin"],
             "osname": deployment["osname"],
-            "version": deployment.get("version", ""),
             "booted": deployment["booted"],
             "pinned": deployment["pinned"],
-        })
+        }
+
+        if "version" in deployment:
+            dep["version"] = deployment.get("version", "")
+
+        results.append(dep)
     return results
 
 

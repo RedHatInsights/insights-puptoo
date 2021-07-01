@@ -477,7 +477,6 @@ def test_rpmostree_status_simple():
         "checksum": "f0c0294860db563e5906db8c9f257d2bfebe40c93e0320b0e380b879f545e267",
         "origin": "edge:rhel/8/x86_64/edge",
         "osname": "rhel",
-        "version": "",
         "booted": True,
         "pinned": False
     }
