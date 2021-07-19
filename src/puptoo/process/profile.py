@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import re
 
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
@@ -41,6 +42,8 @@ logger = logging.getLogger(config.APP_NAME)
 
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
+
+MAC_REGEX = '^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$'
 
 def catch_error(parser, error):
     log_msg = "System Profile failed due to %s encountering an error: %s"
@@ -327,7 +330,7 @@ def system_profile(
                 interface = {
                     "ipv4_addresses": iface.addrs(version=4),
                     "ipv6_addresses": iface.addrs(version=6),
-                    "mac_address": _safe_fetch_interface_field(iface, "mac"),
+                    "mac_address": _filter_macs(_safe_fetch_interface_field(iface, "mac")),
                     "mtu": _safe_fetch_interface_field(iface, "mtu"),
                     "name": _safe_fetch_interface_field(iface, "name"),
                     "state": _safe_fetch_interface_field(iface, "state"),
@@ -650,6 +653,15 @@ def _safe_fetch_interface_field(interface, field_name):
     try:
         return interface[field_name]
     except KeyError:
+        return None
+
+
+def _filter_macs(mac):
+
+    m = re.compile(MAC_REGEX)
+    if m.match(mac):
+        return mac
+    else:
         return None
 
 
