@@ -16,3 +16,9 @@
        valid_lft forever preferred_lft forever
 4: virbr0-nic: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel master virbr0 state DOWN group default qlen 1000
     link/ether 52:54:00:ca:cd:7e brd ff:ff:ff:ff:ff:ff
+5: ens3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 0.0.0.0 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.122.253/24 brd 192.168.122.255 scope global dynamic noprefixroute ens3
+       valid_lft 2339sec preferred_lft 2339sec
+    inet6 fe80::603d:bde5:557e:af24/64 scope link noprefixroute 
+       valid_lft forever preferred_lft forever
