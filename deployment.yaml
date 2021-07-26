@@ -12,6 +12,7 @@ objects:
     optionalDependencies:
     - ingress
     - storage-broker
+    - host-inventory
     deployments:
     - name: processor
       minReplicas: ${{MIN_REPLICAS}}
