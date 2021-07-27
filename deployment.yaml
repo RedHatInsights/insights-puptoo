@@ -10,7 +10,7 @@ objects:
   spec:
     envName: ${ENV_NAME}
     testing:
-      iqePlugin: ingress
+      iqePlugin: e2e
     optionalDependencies:
     - ingress
     - storage-broker
