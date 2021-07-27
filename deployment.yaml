@@ -10,7 +10,7 @@ objects:
   spec:
     envName: ${ENV_NAME}
     testing:
-      iqePlugin: puptoo
+      iqePlugin: ingress
     optionalDependencies:
     - ingress
     - storage-broker
