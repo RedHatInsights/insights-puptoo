@@ -657,10 +657,12 @@ def _safe_fetch_interface_field(interface, field_name):
 
 
 def _filter_macs(mac):
-
-    m = re.compile(MAC_REGEX)
-    if m.match(mac):
-        return mac
+    if mac:
+        m = re.compile(MAC_REGEX)
+        if m.match(mac):
+            return mac
+        else:
+            return None
     else:
         return None
 
