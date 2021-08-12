@@ -1,5 +1,6 @@
 import json
 import signal
+import re
 from datetime import datetime, timedelta
 from functools import partial
 from time import time
@@ -9,6 +10,7 @@ from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
 
 from .process import extract
+from .process.profile import MAC_REGEX
 from .mq import consume, msgs, produce
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
@@ -53,7 +55,8 @@ def get_owner(ident):
 
 def clean_macs(facts):
     if facts["metadata"].get("mac_addresses"):
-        facts["metadata"]["mac_addresses"] = [mac for mac in facts["metadata"]["mac_addresses"] if mac != "0.0.0.0"]
+        m = re.compile(MAC_REGEX)
+        facts["metadata"]["mac_addresses"] = [mac for mac in facts["metadata"]["mac_addresses"] if m.match(mac)]
     return facts
 
 
