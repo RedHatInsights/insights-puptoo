@@ -709,6 +709,7 @@ def get_system_profile(path=None):
 
 
 def postprocess(facts):
+    m = re.compile(MAC_REGEX)
     if facts["system_profile"].get("display_name"):
         facts["display_name"] = facts["system_profile"].get("display_name")
     if facts["system_profile"].get("ansible_host"):
@@ -717,6 +718,8 @@ def postprocess(facts):
         facts["satellite_id"] = facts["system_profile"].get("satellite_id")
     if facts["system_profile"].get("tags"):
         facts["tags"] = facts["system_profile"].pop("tags")
+    if facts.get("mac_addresses"):
+        facts["mac_addresses"] = [mac for mac in facts["mac_addresses"] if m.match(mac)]
     groomed_facts = _remove_empties(
         _remove_bad_names(facts, ["display_name", "ansible_host"])
     )
