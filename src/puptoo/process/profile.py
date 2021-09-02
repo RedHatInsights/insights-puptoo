@@ -210,13 +210,16 @@ def system_profile(
 
     if cpu_info:
         try:
-            profile["cpu_flags"] = sorted(cpu_info.flags)
+            profile["cpu_flags"] = cpu_info.flags
             profile["cpu_model"] = cpu_info.model_name
             profile["number_of_cpus"] = cpu_info.cpu_count
             profile["number_of_sockets"] = cpu_info.socket_count
         except Exception as e:
             catch_error("cpuinfo", e)
             raise
+        # sort cpu flags. Do it here in case cpu_flags is a None value
+        if profile["cpu_flags"]:
+            profile["cpu_flags"] = sorted(cpu_info.flags)
 
     if lscpu:
         try:
