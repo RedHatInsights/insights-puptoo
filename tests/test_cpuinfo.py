@@ -45,14 +45,7 @@ bugs            : cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf mds 
 def test_cpuinfo():
     input_data = InputData().add(Specs.cpuinfo, CPU_INFO_1)
     result = run_test(system_profile, input_data)
-    assert result["cpu_flags"] == ["fpu",
-                                  "vme",
-                                  "de",
-                                  "pse",
-                                  "tsc",
-                                  "msr",
-                                  "pae",
-                                  "mce"]
+    assert result["cpu_flags"] ==  ['de', 'fpu', 'mce', 'msr', 'pae', 'pse', 'tsc', 'vme']
     assert result["cpu_model"] == "Intel(R) Xeon(R) CPU E5-2690 0 @ 2.90GHz"
     assert result["number_of_cpus"] == 2
     assert result["number_of_sockets"] == 2

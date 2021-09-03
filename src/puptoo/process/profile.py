@@ -217,6 +217,9 @@ def system_profile(
         except Exception as e:
             catch_error("cpuinfo", e)
             raise
+        # sort cpu flags. Do it here in case cpu_flags is a None value
+        if profile["cpu_flags"]:
+            profile["cpu_flags"] = sorted(cpu_info.flags)
 
     if lscpu:
         try:
