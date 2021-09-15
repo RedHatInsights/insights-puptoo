@@ -27,6 +27,7 @@ from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.pmlog_summary import PmLogSummary
 from insights.parsers.ps import PsAuxcww
+from insights.parsers.ros_config import RosConfig
 from insights.parsers.rpm_ostree_status import RpmOstreeStatus
 from insights.parsers.sestatus import SEStatus
 from insights.parsers.systemd.unitfiles import UnitFiles
@@ -103,6 +104,7 @@ GCP_CONFIRMED_CODES = [
         Specs.branch_info,
         Specs.tags,
         RpmOstreeStatus,
+        RosConfig,
     ]
 )
 def system_profile(
@@ -141,6 +143,7 @@ def system_profile(
     branch_info,
     tags,
     rpm_ostree_status,
+    ros_config,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -511,7 +514,7 @@ def system_profile(
             catch_error("tags", e)
             raise
 
-    if pmlog_summary:
+    if pmlog_summary or ros_config:
         profile["is_ros"] = True
 
     metadata_response = make_metadata()
