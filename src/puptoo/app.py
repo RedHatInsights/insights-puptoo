@@ -124,7 +124,6 @@ def main():
 def process_archive(msg, extra):
     facts = extract(msg, extra)
     if facts.get("error"):
-        metrics.extract_failure.inc()
         send_message(
             config.TRACKER_TOPIC,
             msgs.tracker_message(extra, "error", "Unable to extract facts"),

@@ -38,15 +38,12 @@ def unpacked_archive(msg, remove=True):
     insights archive, and performing cleanup when needed.
     """
     metrics.extraction_count.inc()
-    try:
-        with NamedTemporaryFile(delete=remove) as tf:
-            tf.write(get_archive(msg["url"]))
-            tf.flush()
-            with extract_archive(tf.name) as ex:
-                yield ex
-    finally:
-        metrics.msg_processed.inc()
-        metrics.extract_success.inc()
+
+    with NamedTemporaryFile(delete=remove) as tf:
+        tf.write(get_archive(msg["url"]))
+        tf.flush()
+        with extract_archive(tf.name) as ex:
+            yield ex
 
 
 @metrics.EXTRACT.time()
@@ -63,8 +60,10 @@ def extract(msg, extra, remove=True):
         except Exception as e:
             logger.exception("Failed to extract facts: %s", str(e), extra=extra)
             facts["error"] = str(e)
-        finally:
-            facts = postprocess(facts)
-            metrics.msg_processed.inc()
-            metrics.extract_success.inc()
+            metrics.extract_failure.inc()
             return facts
+
+        facts = postprocess(facts)
+        metrics.msg_processed.inc()
+        metrics.extract_success.inc()
+        return facts
