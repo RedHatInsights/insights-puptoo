@@ -37,8 +37,6 @@ def unpacked_archive(msg, remove=True):
     Simple ContextManager which is used to for automatically downloading + unpacking
     insights archive, and performing cleanup when needed.
     """
-    metrics.extraction_count.inc()
-
     with NamedTemporaryFile(delete=remove) as tf:
         tf.write(get_archive(msg["url"]))
         tf.flush()
@@ -52,6 +50,7 @@ def extract(msg, extra, remove=True):
     Perform the extraction of canonical system facts and system profile.
     """
     facts = {"system_profile": {}}
+    metrics.attempted_extraction_count.inc()
     with unpacked_archive(msg, remove) as unpacked:
         try:
             validate_size(unpacked.tmp_dir)
@@ -64,6 +63,5 @@ def extract(msg, extra, remove=True):
             return facts
 
         facts = postprocess(facts)
-        metrics.msg_processed.inc()
         metrics.extract_success.inc()
         return facts
