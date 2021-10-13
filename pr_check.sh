@@ -23,6 +23,6 @@ source $CICD_ROOT/build.sh
 source $CICD_ROOT/deploy_ephemeral_env.sh
 
 # Deploy HBI required for the e2e smoke tests
-#bonfire deploy host-inventory --ref-env insights-stage --source=appsre --namespace $NAMESPACE
+bonfire deploy host-inventory --ref-env insights-stage --source=appsre --namespace $NAMESPACE
 
 source $CICD_ROOT/cji_smoke_test.sh
