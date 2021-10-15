@@ -9,6 +9,7 @@ from insights.combiners.redhat_release import RedHatRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
+from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
 from insights.parsers.aws_instance_id import AWSInstanceIdDoc
 from insights.parsers.azure_instance_plan import AzureInstancePlan
@@ -70,6 +71,7 @@ GCP_CONFIRMED_CODES = [
 @rule(
     optional=[
         Specs.hostname,
+        AnsibleInfo,
         AWSInstanceIdDoc,
         AzureInstancePlan,
         CpuInfo,
@@ -109,6 +111,7 @@ GCP_CONFIRMED_CODES = [
 )
 def system_profile(
     hostname,
+    ansible_info,
     aws_instance_id,
     azure_instance_plan,
     cpu_info,
@@ -169,6 +172,18 @@ def system_profile(
                 profile["bios_version"] = dmidecode.bios.get("version")
         except Exception as e:
             catch_error("dmidecode", e)
+            raise
+
+    if ansible_info:
+        try:
+            if ansible_info.catalog_worker_version:
+                profile["ansible_catalog_worker_version"] = ansible_info.catalog_worker_version
+            if ansible_info.controller_version:
+                profile["ansible_controller_version"] = ansible_info.controller_version
+            if ansible_info.hub_version:
+                profile["ansible_hub_version"] = ansible_info.hub_version
+        except Exception as e:
+            catch_error("ansible_info", e)
             raise
 
     if aws_instance_id:

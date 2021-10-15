@@ -37,14 +37,14 @@ tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>
 
 [[package]]
 name = "boto3"
-version = "1.18.50"
+version = "1.18.62"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.6"
 
 [package.dependencies]
-botocore = ">=1.21.50,<1.22.0"
+botocore = ">=1.21.62,<1.22.0"
 jmespath = ">=0.7.1,<1.0.0"
 s3transfer = ">=0.5.0,<0.6.0"
 
@@ -53,7 +53,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.21.50"
+version = "1.21.62"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -77,7 +77,6 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [package.dependencies]
 msgpack = ">=0.5.2"
-redis = {version = ">=2.10.5", optional = true, markers = "extra == \"redis\""}
 requests = "*"
 
 [package.extras]
@@ -86,7 +85,7 @@ redis = ["redis (>=2.10.5)"]
 
 [[package]]
 name = "certifi"
-version = "2021.5.30"
+version = "2021.10.8"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -185,14 +184,14 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 
 [[package]]
 name = "insights-core"
-version = "3.0.243"
+version = "3.0.246"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-cachecontrol = {version = "*", extras = ["redis"]}
+cachecontrol = "*"
 defusedxml = "*"
 jinja2 = "<=2.11.3"
 lockfile = "*"
@@ -202,16 +201,16 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["redis", "oyaml", "requests", "python-gnupg (==0.4.6)", "cachecontrol", "six", "defusedxml", "jinja2 (<=2.11.3)", "cachecontrol", "pyyaml", "lockfile", "cachecontrol"]
-client-develop = ["oyaml", "python-gnupg (==0.4.6)", "cachecontrol", "six", "defusedxml", "pyyaml", "redis", "requests", "mock (==2.0.0)", "jinja2 (<=2.11.3)", "cachecontrol", "lockfile", "cachecontrol", "wheel", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "coverage", "flake8", "pytest"]
-cluster = ["redis", "colorama", "requests", "cachecontrol", "six", "defusedxml", "ansible", "pandas", "jinja2 (<=2.11.3)", "cachecontrol", "pyyaml", "lockfile", "cachecontrol"]
-develop = ["oyaml", "python-gnupg (==0.4.6)", "cachecontrol", "six", "defusedxml", "ipython", "docutils", "sphinx", "ansible", "pyyaml", "jedi (<0.18.0)", "pandas", "pygments", "redis", "nbsphinx", "colorama", "requests", "sphinx-rtd-theme", "mock (==2.0.0)", "jinja2 (<=2.11.3)", "cachecontrol", "lockfile", "cachecontrol", "wheel", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "flake8", "coverage", "pytest"]
-develop26 = ["oyaml", "python-gnupg (==0.4.6)", "cachecontrol", "six", "defusedxml", "ansible", "pandas", "pyyaml", "redis", "colorama", "requests", "mock (==2.0.0)", "jinja2 (<=2.11.3)", "cachecontrol", "lockfile", "cachecontrol", "wheel", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "coverage", "flake8", "pytest"]
-docs = ["pygments", "nbsphinx", "colorama", "sphinx-rtd-theme", "ipython", "docutils", "jinja2 (<=2.11.3)", "sphinx", "jedi (<0.18.0)"]
-linting = ["python-gnupg (==0.4.6)", "oyaml", "requests", "flake8 (==2.6.2)", "flake8"]
-openshift = ["redis", "requests", "cachecontrol", "six", "defusedxml", "jinja2 (<=2.11.3)", "cachecontrol", "pyyaml", "lockfile", "openshift", "cachecontrol"]
-optional = ["watchdog", "python-logstash", "python-cjson", "python-statsd"]
-testing = ["oyaml", "requests", "python-gnupg (==0.4.6)", "mock (==2.0.0)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
+client = ["defusedxml", "python-gnupg (==0.4.6)", "six", "cachecontrol", "jinja2 (<=2.11.3)", "oyaml", "lockfile", "requests", "redis", "pyyaml", "cachecontrol", "cachecontrol"]
+client-develop = ["python-gnupg (==0.4.6)", "cachecontrol", "jinja2 (<=2.11.3)", "oyaml", "lockfile", "requests", "pyyaml", "cachecontrol", "six", "redis", "wheel", "cachecontrol", "mock (==2.0.0)", "defusedxml", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "flake8 (==2.6.2)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "flake8", "pytest-cov", "coverage", "pytest"]
+cluster = ["defusedxml", "six", "cachecontrol", "jinja2 (<=2.11.3)", "lockfile", "requests", "redis", "pyyaml", "cachecontrol", "cachecontrol", "ansible", "colorama", "pandas"]
+develop = ["nbsphinx", "python-gnupg (==0.4.6)", "cachecontrol", "jinja2 (<=2.11.3)", "oyaml", "lockfile", "requests", "pyyaml", "ansible", "docutils", "cachecontrol", "colorama", "ipython", "pandas", "six", "sphinx", "sphinx-rtd-theme", "redis", "wheel", "cachecontrol", "pygments", "defusedxml", "mock (==2.0.0)", "jedi (<0.18.0)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "flake8 (==2.6.2)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "flake8", "pytest-cov", "coverage", "pytest"]
+develop26 = ["python-gnupg (==0.4.6)", "cachecontrol", "jinja2 (<=2.11.3)", "oyaml", "lockfile", "requests", "pyyaml", "ansible", "cachecontrol", "colorama", "pandas", "six", "redis", "wheel", "cachecontrol", "mock (==2.0.0)", "defusedxml", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "flake8 (==2.6.2)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "flake8", "pytest-cov", "coverage", "pytest"]
+docs = ["ipython", "nbsphinx", "jinja2 (<=2.11.3)", "sphinx", "sphinx-rtd-theme", "jedi (<0.18.0)", "pygments", "docutils", "colorama"]
+linting = ["python-gnupg (==0.4.6)", "requests", "oyaml", "flake8 (==2.6.2)", "flake8"]
+openshift = ["defusedxml", "six", "cachecontrol", "jinja2 (<=2.11.3)", "lockfile", "requests", "redis", "pyyaml", "cachecontrol", "cachecontrol", "openshift"]
+optional = ["watchdog", "python-cjson", "python-logstash", "python-statsd"]
+testing = ["python-gnupg (==0.4.6)", "oyaml", "requests", "mock (==2.0.0)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "coverage", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -413,11 +412,11 @@ six = ">=1.5"
 
 [[package]]
 name = "pyyaml"
-version = "5.4.1"
+version = "6.0"
 description = "YAML parser and emitter for Python"
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = ">=3.6"
 
 [[package]]
 name = "redis"
@@ -512,7 +511,7 @@ python-versions = "*"
 
 [[package]]
 name = "zipp"
-version = "3.5.1"
+version = "3.6.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
 category = "dev"
 optional = false
@@ -524,8 +523,8 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.6"
-content-hash = "05e9a4c26cd876ada35f7b24e9cd68f61ad5b5dd9fd92a45496b01dcf2210d66"
+python-versions = "3.6"
+content-hash = "ab6174dfdcea5da09c3b7c06ee1a0a95416b368b6900e601062b1a2ec9f4e676"
 
 [metadata.files]
 app-common-python = []
@@ -538,20 +537,20 @@ attrs = [
     {file = "attrs-21.2.0.tar.gz", hash = "sha256:ef6aaac3ca6cd92904cdd0d83f629a15f18053ec84e6432106f7a4d04ae4f5fb"},
 ]
 boto3 = [
-    {file = "boto3-1.18.50-py3-none-any.whl", hash = "sha256:6c9f2b50827ba9233a143b71746b7f1caee0467cf5004d7b43d5a7d5f468827b"},
-    {file = "boto3-1.18.50.tar.gz", hash = "sha256:f7ab057556461678dda5597ceb08b233a82b7bbfb29b47d18b2fa102bd5ad680"},
+    {file = "boto3-1.18.62-py3-none-any.whl", hash = "sha256:2ea8e74678af768343bfc005590d41e162ce8dda9320542dc93f707588df049c"},
+    {file = "boto3-1.18.62.tar.gz", hash = "sha256:364a0fd497147ff0e15327f653223b05e60a1afce002995e5b1106084355352e"},
 ]
 botocore = [
-    {file = "botocore-1.21.50-py3-none-any.whl", hash = "sha256:3c24e20ad2b155c5a031db2ed060191df282369c5e59225ef20126cdfa6f082f"},
-    {file = "botocore-1.21.50.tar.gz", hash = "sha256:06e4d529071accac2ef93de1f9827dce0b41b0b6d9f81bd81d31aa2342d72631"},
+    {file = "botocore-1.21.62-py3-none-any.whl", hash = "sha256:6b854186caa198043e078956d46072600a0cea64b08a29b56a8bb42c3dbf1d7d"},
+    {file = "botocore-1.21.62.tar.gz", hash = "sha256:c92fee381c6f2771f7ec2bffaff2938b8a1c2a957560815a01ad77c975268fdd"},
 ]
 cachecontrol = [
     {file = "CacheControl-0.12.6-py2.py3-none-any.whl", hash = "sha256:10d056fa27f8563a271b345207402a6dcce8efab7e5b377e270329c62471b10d"},
     {file = "CacheControl-0.12.6.tar.gz", hash = "sha256:be9aa45477a134aee56c8fac518627e1154df063e85f67d4f83ce0ccc23688e8"},
 ]
 certifi = [
-    {file = "certifi-2021.5.30-py2.py3-none-any.whl", hash = "sha256:50b1e4f8446b06f41be7dd6338db18e0990601dce795c2b1686458aa7e8fa7d8"},
-    {file = "certifi-2021.5.30.tar.gz", hash = "sha256:2bbf76fd432960138b3ef6dda3dde0544f27cbf8546c458e60baf371917ba9ee"},
+    {file = "certifi-2021.10.8-py2.py3-none-any.whl", hash = "sha256:d62a0163eb4c2344ac042ab2bdf75399a71a2d8c7d47eac2e2ee91b9d6339569"},
+    {file = "certifi-2021.10.8.tar.gz", hash = "sha256:78884e7c1d4b00ce3cea67b44566851c4343c120abd683433ce934a68ea58872"},
 ]
 chardet = [
     {file = "chardet-3.0.4-py2.py3-none-any.whl", hash = "sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"},
@@ -610,8 +609,8 @@ importlib-metadata = [
     {file = "importlib_metadata-4.8.1.tar.gz", hash = "sha256:f284b3e11256ad1e5d03ab86bb2ccd6f5339688ff17a4d797a0fe7df326f23b1"},
 ]
 insights-core = [
-    {file = "insights-core-3.0.243.tar.gz", hash = "sha256:ce1883318cf7d2ebfd360e09f13a7da7fc6561832be49d6ead2bc5362b7bb9fc"},
-    {file = "insights_core-3.0.243-py3.6.egg", hash = "sha256:2fd610b7e6e8b3b7763f99f55499bb5633ddedb496d2bffa99384f843231f9ae"},
+    {file = "insights-core-3.0.246.tar.gz", hash = "sha256:e5e38b6cf9edc681777acb076ac310377f8b2b538b4af3d67de95d16dd6685d1"},
+    {file = "insights_core-3.0.246-py3.6.egg", hash = "sha256:00d978d50deaa9e8f092ece5b9be420a25d436d864807b52398b83a3e4d526e6"},
 ]
 jinja2 = [
     {file = "Jinja2-2.11.3-py2.py3-none-any.whl", hash = "sha256:03e47ad063331dd6a3f04a43eddca8a966a26ba0c5b7207a9a9e4e08f1b29419"},
@@ -765,27 +764,39 @@ python-dateutil = [
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
 ]
 pyyaml = [
-    {file = "PyYAML-5.4.1-cp27-cp27m-macosx_10_9_x86_64.whl", hash = "sha256:3b2b1824fe7112845700f815ff6a489360226a5609b96ec2190a45e62a9fc922"},
-    {file = "PyYAML-5.4.1-cp27-cp27m-win32.whl", hash = "sha256:129def1b7c1bf22faffd67b8f3724645203b79d8f4cc81f674654d9902cb4393"},
-    {file = "PyYAML-5.4.1-cp27-cp27m-win_amd64.whl", hash = "sha256:4465124ef1b18d9ace298060f4eccc64b0850899ac4ac53294547536533800c8"},
-    {file = "PyYAML-5.4.1-cp27-cp27mu-manylinux1_x86_64.whl", hash = "sha256:bb4191dfc9306777bc594117aee052446b3fa88737cd13b7188d0e7aa8162185"},
-    {file = "PyYAML-5.4.1-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:6c78645d400265a062508ae399b60b8c167bf003db364ecb26dcab2bda048253"},
-    {file = "PyYAML-5.4.1-cp36-cp36m-manylinux1_x86_64.whl", hash = "sha256:4e0583d24c881e14342eaf4ec5fbc97f934b999a6828693a99157fde912540cc"},
-    {file = "PyYAML-5.4.1-cp36-cp36m-win32.whl", hash = "sha256:3bd0e463264cf257d1ffd2e40223b197271046d09dadf73a0fe82b9c1fc385a5"},
-    {file = "PyYAML-5.4.1-cp36-cp36m-win_amd64.whl", hash = "sha256:e4fac90784481d221a8e4b1162afa7c47ed953be40d31ab4629ae917510051df"},
-    {file = "PyYAML-5.4.1-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:5accb17103e43963b80e6f837831f38d314a0495500067cb25afab2e8d7a4018"},
-    {file = "PyYAML-5.4.1-cp37-cp37m-manylinux1_x86_64.whl", hash = "sha256:e1d4970ea66be07ae37a3c2e48b5ec63f7ba6804bdddfdbd3cfd954d25a82e63"},
-    {file = "PyYAML-5.4.1-cp37-cp37m-win32.whl", hash = "sha256:dd5de0646207f053eb0d6c74ae45ba98c3395a571a2891858e87df7c9b9bd51b"},
-    {file = "PyYAML-5.4.1-cp37-cp37m-win_amd64.whl", hash = "sha256:08682f6b72c722394747bddaf0aa62277e02557c0fd1c42cb853016a38f8dedf"},
-    {file = "PyYAML-5.4.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:d2d9808ea7b4af864f35ea216be506ecec180628aced0704e34aca0b040ffe46"},
-    {file = "PyYAML-5.4.1-cp38-cp38-manylinux1_x86_64.whl", hash = "sha256:8c1be557ee92a20f184922c7b6424e8ab6691788e6d86137c5d93c1a6ec1b8fb"},
-    {file = "PyYAML-5.4.1-cp38-cp38-win32.whl", hash = "sha256:fa5ae20527d8e831e8230cbffd9f8fe952815b2b7dae6ffec25318803a7528fc"},
-    {file = "PyYAML-5.4.1-cp38-cp38-win_amd64.whl", hash = "sha256:0f5f5786c0e09baddcd8b4b45f20a7b5d61a7e7e99846e3c799b05c7c53fa696"},
-    {file = "PyYAML-5.4.1-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:294db365efa064d00b8d1ef65d8ea2c3426ac366c0c4368d930bf1c5fb497f77"},
-    {file = "PyYAML-5.4.1-cp39-cp39-manylinux1_x86_64.whl", hash = "sha256:74c1485f7707cf707a7aef42ef6322b8f97921bd89be2ab6317fd782c2d53183"},
-    {file = "PyYAML-5.4.1-cp39-cp39-win32.whl", hash = "sha256:49d4cdd9065b9b6e206d0595fee27a96b5dd22618e7520c33204a4a3239d5b10"},
-    {file = "PyYAML-5.4.1-cp39-cp39-win_amd64.whl", hash = "sha256:c20cfa2d49991c8b4147af39859b167664f2ad4561704ee74c1de03318e898db"},
-    {file = "PyYAML-5.4.1.tar.gz", hash = "sha256:607774cbba28732bfa802b54baa7484215f530991055bb562efbed5b2f20a45e"},
+    {file = "PyYAML-6.0-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:d4db7c7aef085872ef65a8fd7d6d09a14ae91f691dec3e87ee5ee0539d516f53"},
+    {file = "PyYAML-6.0-cp310-cp310-macosx_11_0_arm64.whl", hash = "sha256:9df7ed3b3d2e0ecfe09e14741b857df43adb5a3ddadc919a2d94fbdf78fea53c"},
+    {file = "PyYAML-6.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:77f396e6ef4c73fdc33a9157446466f1cff553d979bd00ecb64385760c6babdc"},
+    {file = "PyYAML-6.0-cp310-cp310-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:a80a78046a72361de73f8f395f1f1e49f956c6be882eed58505a15f3e430962b"},
+    {file = "PyYAML-6.0-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:f84fbc98b019fef2ee9a1cb3ce93e3187a6df0b2538a651bfb890254ba9f90b5"},
+    {file = "PyYAML-6.0-cp310-cp310-win32.whl", hash = "sha256:2cd5df3de48857ed0544b34e2d40e9fac445930039f3cfe4bcc592a1f836d513"},
+    {file = "PyYAML-6.0-cp310-cp310-win_amd64.whl", hash = "sha256:daf496c58a8c52083df09b80c860005194014c3698698d1a57cbcfa182142a3a"},
+    {file = "PyYAML-6.0-cp36-cp36m-macosx_10_9_x86_64.whl", hash = "sha256:897b80890765f037df3403d22bab41627ca8811ae55e9a722fd0392850ec4d86"},
+    {file = "PyYAML-6.0-cp36-cp36m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:50602afada6d6cbfad699b0c7bb50d5ccffa7e46a3d738092afddc1f9758427f"},
+    {file = "PyYAML-6.0-cp36-cp36m-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:48c346915c114f5fdb3ead70312bd042a953a8ce5c7106d5bfb1a5254e47da92"},
+    {file = "PyYAML-6.0-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:98c4d36e99714e55cfbaaee6dd5badbc9a1ec339ebfc3b1f52e293aee6bb71a4"},
+    {file = "PyYAML-6.0-cp36-cp36m-win32.whl", hash = "sha256:0283c35a6a9fbf047493e3a0ce8d79ef5030852c51e9d911a27badfde0605293"},
+    {file = "PyYAML-6.0-cp36-cp36m-win_amd64.whl", hash = "sha256:07751360502caac1c067a8132d150cf3d61339af5691fe9e87803040dbc5db57"},
+    {file = "PyYAML-6.0-cp37-cp37m-macosx_10_9_x86_64.whl", hash = "sha256:819b3830a1543db06c4d4b865e70ded25be52a2e0631ccd2f6a47a2822f2fd7c"},
+    {file = "PyYAML-6.0-cp37-cp37m-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:473f9edb243cb1935ab5a084eb238d842fb8f404ed2193a915d1784b5a6b5fc0"},
+    {file = "PyYAML-6.0-cp37-cp37m-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:0ce82d761c532fe4ec3f87fc45688bdd3a4c1dc5e0b4a19814b9009a29baefd4"},
+    {file = "PyYAML-6.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:231710d57adfd809ef5d34183b8ed1eeae3f76459c18fb4a0b373ad56bedcdd9"},
+    {file = "PyYAML-6.0-cp37-cp37m-win32.whl", hash = "sha256:c5687b8d43cf58545ade1fe3e055f70eac7a5a1a0bf42824308d868289a95737"},
+    {file = "PyYAML-6.0-cp37-cp37m-win_amd64.whl", hash = "sha256:d15a181d1ecd0d4270dc32edb46f7cb7733c7c508857278d3d378d14d606db2d"},
+    {file = "PyYAML-6.0-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:0b4624f379dab24d3725ffde76559cff63d9ec94e1736b556dacdfebe5ab6d4b"},
+    {file = "PyYAML-6.0-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:213c60cd50106436cc818accf5baa1aba61c0189ff610f64f4a3e8c6726218ba"},
+    {file = "PyYAML-6.0-cp38-cp38-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:9fa600030013c4de8165339db93d182b9431076eb98eb40ee068700c9c813e34"},
+    {file = "PyYAML-6.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:277a0ef2981ca40581a47093e9e2d13b3f1fbbeffae064c1d21bfceba2030287"},
+    {file = "PyYAML-6.0-cp38-cp38-win32.whl", hash = "sha256:d4eccecf9adf6fbcc6861a38015c2a64f38b9d94838ac1810a9023a0609e1b78"},
+    {file = "PyYAML-6.0-cp38-cp38-win_amd64.whl", hash = "sha256:1e4747bc279b4f613a09eb64bba2ba602d8a6664c6ce6396a4d0cd413a50ce07"},
+    {file = "PyYAML-6.0-cp39-cp39-macosx_10_9_x86_64.whl", hash = "sha256:055d937d65826939cb044fc8c9b08889e8c743fdc6a32b33e2390f66013e449b"},
+    {file = "PyYAML-6.0-cp39-cp39-macosx_11_0_arm64.whl", hash = "sha256:e61ceaab6f49fb8bdfaa0f92c4b57bcfbea54c09277b1b4f7ac376bfb7a7c174"},
+    {file = "PyYAML-6.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:d67d839ede4ed1b28a4e8909735fc992a923cdb84e618544973d7dfc71540803"},
+    {file = "PyYAML-6.0-cp39-cp39-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:cba8c411ef271aa037d7357a2bc8f9ee8b58b9965831d9e51baf703280dc73d3"},
+    {file = "PyYAML-6.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:40527857252b61eacd1d9af500c3337ba8deb8fc298940291486c465c8b46ec0"},
+    {file = "PyYAML-6.0-cp39-cp39-win32.whl", hash = "sha256:b5b9eccad747aabaaffbc6064800670f0c297e52c12754eb1d976c57e4f74dcb"},
+    {file = "PyYAML-6.0-cp39-cp39-win_amd64.whl", hash = "sha256:b3d267842bf12586ba6c734f89d1f5b871df0273157918b0ccefa29deb05c21c"},
+    {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
 redis = [
     {file = "redis-3.5.3-py2.py3-none-any.whl", hash = "sha256:432b788c4530cfe16d8d943a09d40ca6c16149727e4afe8c2c9d5580c59d9f24"},
@@ -822,6 +833,6 @@ wcwidth = [
     {file = "wcwidth-0.2.5.tar.gz", hash = "sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"},
 ]
 zipp = [
-    {file = "zipp-3.5.1-py3-none-any.whl", hash = "sha256:8dc6c4d5a809d659067cc713f76bcf42fae8ae641db12fddfa93694a15abc96b"},
-    {file = "zipp-3.5.1.tar.gz", hash = "sha256:1fc9641b26f3bd81069b7738b039f2819cab6e3fc3399a953e19d92cc81eff4d"},
+    {file = "zipp-3.6.0-py3-none-any.whl", hash = "sha256:9fe5ea21568a0a70e50f273397638d39b03353731e6cbbb3fd8502a33fec40bc"},
+    {file = "zipp-3.6.0.tar.gz", hash = "sha256:71c644c5369f4a6e07636f0aa966270449561fcea2e3d6747b8d23efaa9d7832"},
 ]
