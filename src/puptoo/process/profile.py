@@ -175,13 +175,14 @@ def system_profile(
             raise
 
     if ansible_info:
+        profile["ansible"] = {}
         try:
             if ansible_info.catalog_worker_version:
-                profile["ansible_catalog_worker_version"] = ansible_info.catalog_worker_version
+                profile["ansible"]["catalog_worker_version"] = ansible_info.catalog_worker_version
             if ansible_info.controller_version:
-                profile["ansible_controller_version"] = ansible_info.controller_version
+                profile["ansible"]["controller_version"] = ansible_info.controller_version
             if ansible_info.hub_version:
-                profile["ansible_hub_version"] = ansible_info.hub_version
+                profile["ansible"]["hub_version"] = ansible_info.hub_version
         except Exception as e:
             catch_error("ansible_info", e)
             raise

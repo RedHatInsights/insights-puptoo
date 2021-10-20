@@ -14,6 +14,6 @@ automation-controller-1.0.1-1.x86_64   Wed 09 Nov 2016 14:52:01 AEDT   144619335
 def test_ansible_info():
     input_data = InputData().add(Specs.installed_rpms, RPMS)
     result = run_test(system_profile, input_data)
-    assert result["ansible_hub_version"] == "1.0.3"
-    assert result["ansible_catalog_worker_version"] == "1.0.2"
-    assert result["ansible_controller_version"] == "1.0.0"
+    assert result["ansible"]["hub_version"] == "1.0.3"
+    assert result["ansible"]["catalog_worker_version"] == "1.0.2"
+    assert result["ansible"]["controller_version"] == "1.0.0"
