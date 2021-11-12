@@ -203,6 +203,8 @@ def handle_message(msg):
         facts = process_archive(msg, extra)
     if msg.get("service") == "compliance":
         facts = msg.get("metadata")
+    if msg.get("service") == "malware-detection":
+        facts = msg.get("metadata")
 
     if facts:
         facts["stale_timestamp"] = get_staletime()
