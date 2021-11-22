@@ -40,7 +40,7 @@ if CLOWDER_ENABLED:
     KAFKA_BROKER = LoadedConfig.kafka.brokers[0]
     ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", KafkaTopics["platform.upload.advisor"].name)
     COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", KafkaTopics["platform.upload.compliance"].name)
-    MALWARE_DETECTION_TOPIC = os.getenv("MALWARE_DETECTION_TOPIC", KafkaTopics["platform.upload.malware-detection"].name)
+    ANNOUNCE_TOPIC = os.getenv("ANNOUNCE_TOPIC", KafkaTopics["platform.upload.announce"].name)
     INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC") or KafkaTopics["platform.inventory.host-ingress-p1"].name
     VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", KafkaTopics["platform.upload.validation"].name)
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", KafkaTopics["platform.payload-status"].name)
@@ -52,7 +52,7 @@ else:
     BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")
     ADVISOR_TOPIC = os.getenv("CONSUME_TOPIC", "platform.upload.advisor")
     COMPLIANCE_TOPIC = os.getenv("COMPLIANCE_TOPIC", "platform.upload.compliance")
-    MALWARE_DETECTION_TOPIC = os.getenv("MALWARE_DETECTION_TOPIC", "platform.upload.malware-detection")
+    ANNOUNCE_TOPIC = os.getenv("ANNOUNCE_TOPIC", "platform.upload.announce")
     INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC", "platform.inventory.host-ingress")
     VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", "platform.upload.validation")
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")

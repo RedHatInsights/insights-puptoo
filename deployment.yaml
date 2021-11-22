@@ -83,8 +83,8 @@ objects:
         partitions: 4
         topicName: platform.payload-status
       - replicas: 3
-        partitions: 3
-        topicName: platform.upload.malware-detection
+        partitions: 64
+        topicName: platform.upload.announce
 
 parameters:
 - name: LOG_LEVEL

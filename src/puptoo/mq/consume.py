@@ -33,5 +33,5 @@ def init_consumer():
 
     consumer.subscribe([config.ADVISOR_TOPIC,
                         config.COMPLIANCE_TOPIC,
-                        config.MALWARE_DETECTION_TOPIC])
+                        config.ANNOUNCE_TOPIC])
     return consumer
