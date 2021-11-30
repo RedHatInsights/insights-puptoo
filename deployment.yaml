@@ -65,12 +65,6 @@ objects:
             memory: 256Mi
     kafkaTopics:
       - replicas: 3
-        partitions: 64
-        topicName: platform.upload.advisor
-      - replicas: 3
-        partitions: 3
-        topicName: platform.upload.compliance
-      - replicas: 3
         partitions: 20
         topicName: ${INVENTORY_TOPIC}
         config:

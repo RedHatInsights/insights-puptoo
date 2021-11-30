@@ -201,9 +201,7 @@ def handle_message(msg):
 
     if msg.get("service") == "advisor":
         facts = process_archive(msg, extra)
-    if msg.get("service") == "compliance":
-        facts = msg.get("metadata")
-    if msg.get("service") == "malware-detection":
+    if msg.get("service") == "compliance" or msg.get("service") == "malware-detection":
         facts = msg.get("metadata")
 
     if facts:

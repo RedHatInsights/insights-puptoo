@@ -31,7 +31,5 @@ def init_consumer():
 
     consumer = Consumer(connection_info)
 
-    consumer.subscribe([config.ADVISOR_TOPIC,
-                        config.COMPLIANCE_TOPIC,
-                        config.ANNOUNCE_TOPIC])
+    consumer.subscribe([config.ANNOUNCE_TOPIC])
     return consumer
