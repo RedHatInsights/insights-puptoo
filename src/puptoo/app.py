@@ -105,10 +105,12 @@ def main():
             CONSUMER_WAIT_TIME.observe(now - start)
             start = now
             try:
-                if msg.headers('service') in ['advisor','compliance','malware-detection']:
-                    header = msg.headers('service')
-                    msg = json.loads(msg.value().decode("utf-8"))
-                    handle_message(msg, header)
+                for k, v in dict(msg.headers()).items():
+                    if k == 'service' and v.decode("utf-8") in ['advisor','compliance','malware-detection']:
+                        service = v.decode("utf-8")
+                        msg = json.loads(msg.value().decode("utf-8"))
+                        handle_message(msg, service)
+                        break
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
@@ -189,7 +191,7 @@ def send_message(topic, msg, extra):
         )
 
 
-def handle_message(msg, header):
+def handle_message(msg, service):
     msg["elapsed_time"] = time()
     extra = get_extra(msg.get("account"), msg.get("request_id"))
     logger.info("received request_id: %s", extra["request_id"])
@@ -201,9 +203,9 @@ def handle_message(msg, header):
     metrics.msg_count.inc()
     owner_id = get_owner(msg["b64_identity"])
 
-    if header == "advisor":
+    if service == "advisor":
         facts = process_archive(msg, extra)
-    if header in ["compliance", "malware-detection"]:
+    if service in ["compliance", "malware-detection"]:
         facts = msg.get("metadata")
 
     if facts:
