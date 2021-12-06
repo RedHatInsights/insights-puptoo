@@ -105,12 +105,12 @@ def main():
             CONSUMER_WAIT_TIME.observe(now - start)
             start = now
             try:
-                for k, v in dict(msg.headers()).items():
-                    if k == 'service' and v.decode("utf-8") in ['advisor','compliance','malware-detection']:
-                        service = v.decode("utf-8")
+                service = dict(msg.headers() or []).get('service')
+                if service:
+                    service = service.decode("utf-8")
+                    if service in ['advisor', 'compliance', 'malware-detection']:
                         msg = json.loads(msg.value().decode("utf-8"))
                         handle_message(msg, service)
-                        break
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
