@@ -316,6 +316,10 @@ def system_profile(
 
             gpg_pubkeys = _get_gpg_pubkey_packages(installed_rpms)
             profile["gpg_pubkeys"] = [p.package for p in sorted(gpg_pubkeys)]
+            
+            mssql_server = _get_mssql_server_package(latest)
+            if mssql_server:
+                profile["mssql_version"] = mssql_server.version
         except Exception as e:
             catch_error("installed_packages", e)
             raise
@@ -629,6 +633,19 @@ def _get_gpg_pubkey_packages(rpms):
     Get the gpg-pubkey packages from the InstalledRpms parser.
     """
     return rpms.packages.get("gpg-pubkey", [])
+
+
+def _get_mssql_server_package(packages):
+    """
+    Get the mssql-server package from the latest packages from the
+    InstalledRpms parser.
+    """
+    result = None
+    for package in packages:
+        if package.name == "mssql-server":
+            result = package
+            break
+    return result
 
 
 def _sort_packages(packages):
