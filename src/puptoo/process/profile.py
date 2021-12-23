@@ -319,7 +319,7 @@ def system_profile(
             
             mssql_server = _get_mssql_server_package(latest)
             if mssql_server:
-                profile["mssql_version"] = mssql_server.version
+                profile["mssql"] = {"version": mssql_server.version}
         except Exception as e:
             catch_error("installed_packages", e)
             raise
