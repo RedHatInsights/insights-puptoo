@@ -61,8 +61,8 @@ objects:
             cpu: ${CPU_LIMIT}
             memory: ${MEMORY_LIMIT}
           requests:
-            cpu: 100m
-            memory: 256Mi
+            cpu: ${CPU_REQUEST}
+            memory: ${MEMORY_REQUEST}
     kafkaTopics:
       - replicas: 3
         partitions: 20
@@ -89,6 +89,12 @@ parameters:
 - description: memory limit of service
   name: MEMORY_LIMIT
   value: 512Mi
+- description: Cpu request of service
+  name: CPU_REQUEST
+  value: 100m
+- description: memory request of service
+  name: MEMORY_REQUEST
+  value: 256Mi
 - description: min replicas
   name: MIN_REPLICAS
   value: "8"
