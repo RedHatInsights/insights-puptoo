@@ -89,7 +89,7 @@ parameters:
 - description: memory limit of service
   name: MEMORY_LIMIT
   value: 512Mi
-- description: Cpu request of service
+- description: CPU request of service
   name: CPU_REQUEST
   value: 100m
 - description: memory request of service
