@@ -222,6 +222,11 @@ def handle_message(msg, service):
                 facts["system_profile"]["owner_id"] = owner_id
             if facts["system_profile"].get("is_ros"):
                 msg["is_ros"] = "true"
+            if facts["system_profile"].get("yum_updates"):
+                if msg.get("custom_metadata") is None:
+                    msg["custom_metadata"] = {}
+                msg["custom_metadata"]["yum_updates"] = facts["system_profile"]["yum_updates"]
+
         # Override archive hostname with name provided by client metadata
         if msg["metadata"].get("display_name"):
             facts["display_name"] = msg["metadata"]["display_name"]

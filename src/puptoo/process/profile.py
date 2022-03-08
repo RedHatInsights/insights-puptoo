@@ -37,6 +37,7 @@ from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
 from insights.specs import Specs
+from insights.parsers.yum_updates import YumUpdates
 
 from ..utils import config, metrics, puptoo_logging
 
@@ -107,6 +108,7 @@ GCP_CONFIRMED_CODES = [
         Specs.tags,
         RpmOstreeStatus,
         RosConfig,
+        YumUpdates
     ]
 )
 def system_profile(
@@ -147,6 +149,7 @@ def system_profile(
     tags,
     rpm_ostree_status,
     ros_config,
+    yum_updates
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -532,6 +535,13 @@ def system_profile(
                 profile["tags"].update(tags_json)
         except Exception as e:
             catch_error("tags", e)
+            raise
+
+    if yum_updates:
+        try:
+            profile["yum_updates"] = yum_updates
+        except Exception as e:
+            catch_error("yum_updates", e)
             raise
 
     if pmlog_summary or ros_config:
