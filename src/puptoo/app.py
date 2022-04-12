@@ -110,6 +110,10 @@ def main():
                     service = service.decode("utf-8")
                     if service in ['advisor', 'compliance', 'malware-detection']:
                         msg = json.loads(msg.value().decode("utf-8"))
+                        # TODO: remove this check when inventory is ready for
+                        # anemic (ie account-less) tenants.
+                        if not msg.get("account"):
+                            pass
                         handle_message(msg, service)
             except Exception:
                 consumer.commit()
