@@ -37,7 +37,7 @@ from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
 from insights.specs import Specs
-from insights.parsers.yum_updates import YumUpdates
+
 
 from ..utils import config, metrics, puptoo_logging
 
@@ -108,7 +108,7 @@ GCP_CONFIRMED_CODES = [
         Specs.tags,
         RpmOstreeStatus,
         RosConfig,
-        YumUpdates
+        Specs.yum_updates
     ]
 )
 def system_profile(
@@ -539,7 +539,7 @@ def system_profile(
 
     if yum_updates:
         try:
-            profile["yum_updates"] = yum_updates
+            profile["yum_updates"] = json.loads(yum_updates.content[0])
         except Exception as e:
             catch_error("yum_updates", e)
             raise
