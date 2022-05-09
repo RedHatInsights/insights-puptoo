@@ -3,6 +3,7 @@ from freezegun import freeze_time
 from src.puptoo.mq import msgs
 
 platform_metadata = {"account": "000001",
+                     "org_id": "000001",
                      "request_id": "abcd-1234",
                      "principal": "123456",
                      "service": "advisor",
@@ -21,8 +22,9 @@ def test_get_time():
 @freeze_time("2019-7-23")
 def test_tracker_msg():
 
-    extra = {"account": "123456", "request_id": "abcd-1234"}
+    extra = {"account": "123456", "org_id":"654321", "request_id": "abcd-1234"}
     expected = {"account": "123456",
+                "org_id":"654321",
                 "request_id": "abcd-1234",
                 "payload_id": "abcd-1234",
                 "service": "puptoo",
@@ -43,6 +45,7 @@ def test_inventory_msg():
             "ip_addresses": ["192.168.0.1", "127.0.0.1"],
             "bios_uuid": "12335kjlj"}
     metadata = {"account": "123456",
+                "org_id": "654321",
                 "request_id": "abcd-1234"
                 }
     expected = {"operation": operation,

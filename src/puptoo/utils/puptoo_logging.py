@@ -99,6 +99,6 @@ class ContextualFilter(logging.Filter):
         try:
             log_record.org_id = threadctx.org_id
         except Exception:
-            log_record.account = "000001"
+            log_record.org_id = "000001"
 
         return True
