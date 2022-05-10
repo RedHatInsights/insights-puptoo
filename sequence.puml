@@ -1,19 +1,20 @@
 @startuml
 title PUP Processing Flow
-entity platform.upload.advisor
+entity platform.upload.announce
 entity platform.upload.validation
 participant puptoo
 entity platform.inventory.hostingress
 participant hbi
-platform.upload.advisor->puptoo: msg
-Note right of platform.upload.advisor: {"request_id": "abcd1234",\n"account": "000001",\n"principal": "123456",\n"size": "size_in_bytes",\n"service": "destination service",\n"category": "file category",\n"url": "bucket_url",\n"b64_identity": "base64_identity_string",\n"metadata": {}\n}
-puptoo->puptoo: Downloads archive from\nS3 bucket
+database s3permanent
+platform.upload.announce->puptoo: msg
+Note right of platform.upload.announce: {"account": <account number>,\n"category": "collection",\n"content_type": "application/vnd.redhat.<servicename>.collection+tgz",\n"metadata": {..},\n"request_id": "abcd1234",\n"principal": <currently the org ID>,\n"org_id": <org_id>,\n"service": <servicename>,\n"size": 214015,\n"url": <URL to download the archive from S3>,\n"b64_identity": <base64 encoded identity>,\n"timestamp": "2022-05-10T09:14:40.513569064Z"}
+s3permanent[#blue]->puptoo: Downloads archive from\nS3 bucket
 puptoo->puptoo: Extracts facts from archive\nwith insights-core
 alt success
     puptoo->platform.inventory.hostingress: msg
-    Note right of puptoo: {"data": [{"facts": {},\n"system_profile": {}}],\n"platform_metadata": <original_msg_json>}
+    Note right of puptoo: {"operation": "add_host",\n"data": [{"facts": {},"system_profile": {}}],\n"platform_metadata": <original_msg_json>}
 else failure
-    puptoo[#0000FF]->platform.upload.validation: msg
+    puptoo[#blue]->platform.upload.validation: msg
     Note left of puptoo: {"request_id": "abcd1234",\n"validation": "failure"}
 end
 platform.inventory.hostingress->hbi: msg
