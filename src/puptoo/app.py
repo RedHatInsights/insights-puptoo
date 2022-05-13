@@ -34,10 +34,11 @@ def start_prometheus():
     start_http_server(config.PROMETHEUS_PORT)
 
 
-def get_extra(account="unknown", request_id="unknown"):
+def get_extra(account="unknown", org_id="unknown", request_id="unknown"):
     threadctx.request_id = request_id
     threadctx.account = account
-    return {"account": account, "request_id": request_id}
+    threadctx.org_id = org_id
+    return {"account": account, "org_id": org_id, "request_id": request_id}
 
 
 def get_staletime():
@@ -196,7 +197,7 @@ def send_message(topic, msg, extra):
 
 def handle_message(msg, service):
     msg["elapsed_time"] = time()
-    extra = get_extra(msg.get("account"), msg.get("request_id"))
+    extra = get_extra(msg.get("account"), msg.get("org_id"), msg.get("request_id"))
     logger.info("received request_id: %s", extra["request_id"])
     send_message(
         config.TRACKER_TOPIC,

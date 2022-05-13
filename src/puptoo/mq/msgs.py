@@ -9,6 +9,7 @@ def inv_message(operation, data, metadata):
     message = {"operation": operation, "data": data, "platform_metadata": metadata}
 
     message["data"]["account"] = metadata.get("account")
+    message["data"]["org_id"] = metadata.get("org_id")
 
     return message
 
@@ -17,6 +18,7 @@ def tracker_message(extra, status, status_msg):
 
     message = {
         "account": extra["account"],
+        "org_id": extra["org_id"],
         "request_id": extra["request_id"],
         "payload_id": extra["request_id"],
         "service": "puptoo",
