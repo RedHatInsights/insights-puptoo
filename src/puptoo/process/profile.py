@@ -438,7 +438,7 @@ def system_profile(
                         ),
                     }
                     repos.append(_remove_empties(repo))
-            profile["yum_repos"] = sorted(repos, key=lambda k: k["name"])
+            profile["yum_repos"] = sorted(repos, key=lambda k: k["id"])
         except Exception as e:
             catch_error("yum_repos_d", e)
             raise
