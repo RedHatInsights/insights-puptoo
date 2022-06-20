@@ -88,6 +88,7 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 msgpack = ">=0.5.2"
+redis = {version = ">=2.10.5", optional = true, markers = "extra == \"redis\""}
 requests = "*"
 
 [package.extras]
@@ -96,7 +97,7 @@ redis = ["redis (>=2.10.5)"]
 
 [[package]]
 name = "certifi"
-version = "2022.5.18.1"
+version = "2022.6.15"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -112,7 +113,7 @@ python-versions = "*"
 
 [[package]]
 name = "colorama"
-version = "0.4.4"
+version = "0.4.5"
 description = "Cross-platform colored terminal text."
 category = "dev"
 optional = false
@@ -209,14 +210,14 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 
 [[package]]
 name = "insights-core"
-version = "3.0.272"
+version = "3.0.279"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-cachecontrol = "*"
+cachecontrol = {version = "*", extras = ["redis"]}
 defusedxml = "*"
 jinja2 = {version = "*", markers = "python_version > \"2.7\""}
 lockfile = "*"
@@ -226,16 +227,16 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["oyaml", "cachecontrol", "python-gnupg (==0.4.6)", "cachecontrol", "redis", "cachecontrol", "lockfile", "six", "defusedxml", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-client-develop = ["oyaml", "python-gnupg (==0.4.6)", "redis", "cachecontrol", "cachecontrol", "wheel", "mock (==2.0.0)", "lockfile", "six", "defusedxml", "cachecontrol", "requests", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "flake8", "pyyaml", "coverage", "pytest-cov", "pytest"]
-cluster = ["cachecontrol", "cachecontrol", "redis", "pandas", "cachecontrol", "lockfile", "colorama", "six", "defusedxml", "ansible", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-develop = ["redis", "ipython", "sphinx", "docutils", "cachecontrol", "mock (==2.0.0)", "wheel", "lockfile", "nbsphinx", "sphinx-rtd-theme", "defusedxml", "requests", "oyaml", "python-gnupg (==0.4.6)", "colorama", "cachecontrol", "pandas", "pygments", "six", "ansible", "cachecontrol", "jedi (<0.18.0)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "flake8", "pyyaml", "pytest-cov", "coverage", "pytest"]
-develop26 = ["oyaml", "python-gnupg (==0.4.6)", "redis", "colorama", "cachecontrol", "cachecontrol", "wheel", "mock (==2.0.0)", "lockfile", "pandas", "six", "defusedxml", "ansible", "cachecontrol", "requests", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "flake8", "pyyaml", "coverage", "pytest-cov", "pytest"]
-docs = ["ipython", "colorama", "pygments", "sphinx", "sphinx-rtd-theme", "nbsphinx", "jedi (<0.18.0)", "docutils"]
-linting = ["oyaml", "python-gnupg (==0.4.6)", "requests", "flake8 (==2.6.2)", "flake8"]
-openshift = ["cachecontrol", "cachecontrol", "redis", "cachecontrol", "lockfile", "six", "defusedxml", "openshift", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-optional = ["watchdog", "python-statsd", "python-logstash", "python-cjson"]
-testing = ["oyaml", "python-gnupg (==0.4.6)", "mock (==2.0.0)", "requests", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
+client = ["cachecontrol", "redis", "oyaml", "six", "cachecontrol", "python-gnupg (==0.4.6)", "defusedxml", "lockfile", "cachecontrol", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+client-develop = ["redis", "oyaml", "python-gnupg (==0.4.6)", "cachecontrol", "cachecontrol", "requests", "cachecontrol", "wheel", "mock (==2.0.0)", "six", "defusedxml", "lockfile", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "coverage", "flake8", "pytest"]
+cluster = ["cachecontrol", "redis", "six", "cachecontrol", "pandas", "defusedxml", "lockfile", "colorama", "cachecontrol", "requests", "ansible", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+develop = ["redis", "nbsphinx", "cachecontrol", "requests", "ansible", "cachecontrol", "wheel", "mock (==2.0.0)", "six", "ipython", "sphinx-rtd-theme", "pygments", "lockfile", "oyaml", "docutils", "python-gnupg (==0.4.6)", "jedi (<0.18.0)", "pandas", "cachecontrol", "colorama", "defusedxml", "sphinx", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "coverage", "flake8", "pytest"]
+develop26 = ["redis", "oyaml", "python-gnupg (==0.4.6)", "pandas", "cachecontrol", "cachecontrol", "requests", "ansible", "cachecontrol", "wheel", "mock (==2.0.0)", "six", "colorama", "defusedxml", "lockfile", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "coverage", "flake8", "pytest"]
+docs = ["nbsphinx", "docutils", "ipython", "jedi (<0.18.0)", "sphinx-rtd-theme", "colorama", "pygments", "sphinx"]
+linting = ["oyaml", "requests", "python-gnupg (==0.4.6)", "flake8 (==2.6.2)", "flake8"]
+openshift = ["cachecontrol", "redis", "openshift", "six", "cachecontrol", "defusedxml", "lockfile", "cachecontrol", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+optional = ["watchdog", "python-cjson", "python-statsd", "python-logstash"]
+testing = ["oyaml", "mock (==2.0.0)", "python-gnupg (==0.4.6)", "requests", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -568,7 +569,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "3.6"
-content-hash = "35b13599cdefddabb78ddff3545f4f72ddf38c6f35cf353f3a6cd7c6aaab8e83"
+content-hash = "2ef69da1cb2ee33c204a0a35226867a5215f02917001afba6dc106e0556bcaaf"
 
 [metadata.files]
 app-common-python = []
@@ -597,16 +598,16 @@ cachecontrol = [
     {file = "CacheControl-0.12.11.tar.gz", hash = "sha256:a5b9fcc986b184db101aa280b42ecdcdfc524892596f606858e0b7a8b4d9e144"},
 ]
 certifi = [
-    {file = "certifi-2022.5.18.1-py3-none-any.whl", hash = "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"},
-    {file = "certifi-2022.5.18.1.tar.gz", hash = "sha256:9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7"},
+    {file = "certifi-2022.6.15-py3-none-any.whl", hash = "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"},
+    {file = "certifi-2022.6.15.tar.gz", hash = "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d"},
 ]
 chardet = [
     {file = "chardet-3.0.4-py2.py3-none-any.whl", hash = "sha256:fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"},
     {file = "chardet-3.0.4.tar.gz", hash = "sha256:84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae"},
 ]
 colorama = [
-    {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
-    {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
+    {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
+    {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
 ]
 confluent-kafka = [
     {file = "confluent-kafka-1.5.0.tar.gz", hash = "sha256:9ac812006000887f76c95b8a33a9f0b65845bf072fbc54a42a1acffd34e41120"},
@@ -661,8 +662,8 @@ importlib-metadata = [
     {file = "importlib_metadata-4.8.3.tar.gz", hash = "sha256:766abffff765960fcc18003801f7044eb6755ffae4521c8e8ce8e83b9c9b0668"},
 ]
 insights-core = [
-    {file = "insights-core-3.0.272.tar.gz", hash = "sha256:65f1213ce32a281f8b78d9ed3959d40f62fc5dbcf36c5bc9a1bee1337cd81465"},
-    {file = "insights_core-3.0.272-py3.6.egg", hash = "sha256:2789f5734093f6a91cda91735748344ae55070341434653efb37ecdd288133d0"},
+    {file = "insights-core-3.0.279.tar.gz", hash = "sha256:d896db8893a1c77dbb5f4927acffad1dc48d81388a33c3be1e80bc38d03bc9fe"},
+    {file = "insights_core-3.0.279-py3.6.egg", hash = "sha256:376837e3e6b823746bfdc53e3059291c9f05096c53afd885e1af3bc37409a144"},
 ]
 jinja2 = [
     {file = "Jinja2-3.0.3-py3-none-any.whl", hash = "sha256:077ce6014f7b40d03b47d1f1ca4b0fc8328a692bd284016f806ed0eaca390ad8"},
