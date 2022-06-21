@@ -17,7 +17,7 @@ The service runs in Openshift Dedicated.
 
 ## How it Works
 
-![UML](http://www.plantuml.com/plantuml/png/VLB1Rjim3BtxAmZlkWJhslKG344FMuv3W66dfZ1acOwvoP8dKSco8Fy-KQxHT4MYGmA_zqG-FkeXiF8SUrCmiK5O_rZ3sZkD8P3TmiguVO4sSGSOZEBM-NuU1-DKCrVDZeBpb-YTCjGe9cUB8RKWJOEo34CSsBatbyZk4kJyOTwvmAcrJmvUNUngAYvOc2t7gWlemxRuvXZ1qxPZSEqbrmiubXv_HmnSKLCke5IrRcu-tjwLxpUsL5gxQ5dm3t9kCZfuikB622xQJ_SP3_GN1PB_YcnL7nZ3oA3VaSvaWp9N3WGcM2HQCMxJuA9foI1CG6QZpytgg7yXL_8bQ7r_broF6MPQ1Jo3gi0-HPYbFR9g5AiaEvuszbICKRr4ziNjhIGJG7dTqGwXzQxVsE-tC7PzS-Fh7_PASu0s_ufykhknU-8Eo0R9FyoqyrWemn2Yrh9HI6UgTttvUPbP_tgXaujZ-JpMux7CHlA4EVH3OEohmJl9CyEd9o6cXjLPA9zTganMcIgrgtu6PvUd0ar0Q1MPwF7CykCxUGkhrPDul_JQ__Dji3stVVtPlLGHwjb0cVpOfhYUrcpPrJIsVaZgs9j_ "PUPToo Processing Flow")
+![UML](https://www.plantuml.com/plantuml/png/VLDHRzem47xFhpXbZojPW81KX50VkacJfgbQrvUrLUGu1_7cs9bzfgCL_tss0m8s0G_8khllxllkljnOOePSAnCI917k7kxWpcYErWgrWazIloIeV6u3dMIqrARDN2SrgpEcb7QAuxdycabHCn9Q9PsV8RZec2BeN4TQ_mSIQkr3scooHbloiusdS09iAf7uVgnY5i6EEpGjKnwJd2CsMFIpPj3QLV9L4u8HguP0By-AcS5RoZZtRqfdCDyzGRcsGhEuUb8fPuGhpzEdKwwbH1uafZ6b5Q6YaZOTXZJhEYau2_aFQrLd1kk6KJQtQDQ2es8jBh93Z_UqUerzMYGMbAQUJPPjGyZWRuUMIb77nXMlXwDn4Qix8rHOaGo4kJC65SaDK8EWpGe-tqRQ_jc3v_qh1dT4GlIOKqo9rn0V3OjyE0a1P-A0XszVW3JK-aM5nSKnpF16h16MHhTmFuxuQbhuAVsL0ovSRLe0Agvhh66VYhKaMhJ4sYve6-MZqI2V38Rvz_nwDYncHPvDXkF9z3gV5Z_IRN9q-iTtbNJuV3ZqxOwMFU7qfEx7K3d-2odfAm-8Zt_8C4uMbk4_bk-nJ-f5K0D2sU0QE-3QOC8aWNMS1tU2_-txNJPoj62iFxLXZmwcqrvKT4gyRrsN0HtlktF2uriQAGPJRAzIkx64RTaPlHGIOt3x7ChtHCeZ5ysrdoWKawMdKVwqMYss2KgBNhMGpk2HbCDEptxF_wYHk3mLSycjXouXjHllhuggJYxlSB1eAj6Fll7LhfL_0G00 "PUPToo Processing Flow")
 
 The PUP service workflow is as follows:
 
@@ -35,18 +35,28 @@ is performed on the compliance uploads. We simply forward it to inventory with c
 
 ### JSON
 
+Note: Puptoo now listens to the new ingress platform.upload.announce topic.
+
 The JSON expected by the PUP service from the upload service looks like this:
 
 ```json
-{"account": "123456",
- "principal": "654321",
- "request_id": "23oikjonsdv329",
- "size": 234,
- "service": "advisor",
- "category": "some_category",
- "b64_identity": "<some big base64 string>",
- "metadata": {"some_key": "some_value"},
- "url": "http://some.bucket.somewhere/1234"}
+ {
+	"account": "<account number>",
+	"category": "collection",
+	"content_type": "application/vnd.redhat.<servicename>.collection+tgz",
+	"metadata": {
+		"reporter": "",
+		"stale_timestamp": "0001-01-01T00:00:00Z"
+	},
+	"request_id": "<UUID for the payload>",
+	"principal": "<currently the org ID>",
+	"org_id": "<org_id>",
+	"service": "<servicename>",
+	"size": 214015,
+	"url": "<URL to download the archive from S3>",
+	"b64_identity": "<base64 encoded identity>",
+	"timestamp": "2022-05-10T09:14:40.513569064Z"
+}
 ```
 
 The message sent to the inventory service will include the facts extracted from the archive
