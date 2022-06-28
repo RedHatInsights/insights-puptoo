@@ -88,7 +88,6 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 msgpack = ">=0.5.2"
-redis = {version = ">=2.10.5", optional = true, markers = "extra == \"redis\""}
 requests = "*"
 
 [package.extras]
@@ -210,14 +209,14 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 
 [[package]]
 name = "insights-core"
-version = "3.0.279"
+version = "3.0.280"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-cachecontrol = {version = "*", extras = ["redis"]}
+cachecontrol = "*"
 defusedxml = "*"
 jinja2 = {version = "*", markers = "python_version > \"2.7\""}
 lockfile = "*"
@@ -227,16 +226,16 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["cachecontrol", "redis", "oyaml", "six", "cachecontrol", "python-gnupg (==0.4.6)", "defusedxml", "lockfile", "cachecontrol", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-client-develop = ["redis", "oyaml", "python-gnupg (==0.4.6)", "cachecontrol", "cachecontrol", "requests", "cachecontrol", "wheel", "mock (==2.0.0)", "six", "defusedxml", "lockfile", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "coverage", "flake8", "pytest"]
-cluster = ["cachecontrol", "redis", "six", "cachecontrol", "pandas", "defusedxml", "lockfile", "colorama", "cachecontrol", "requests", "ansible", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-develop = ["redis", "nbsphinx", "cachecontrol", "requests", "ansible", "cachecontrol", "wheel", "mock (==2.0.0)", "six", "ipython", "sphinx-rtd-theme", "pygments", "lockfile", "oyaml", "docutils", "python-gnupg (==0.4.6)", "jedi (<0.18.0)", "pandas", "cachecontrol", "colorama", "defusedxml", "sphinx", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "coverage", "flake8", "pytest"]
-develop26 = ["redis", "oyaml", "python-gnupg (==0.4.6)", "pandas", "cachecontrol", "cachecontrol", "requests", "ansible", "cachecontrol", "wheel", "mock (==2.0.0)", "six", "colorama", "defusedxml", "lockfile", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "coverage", "flake8", "pytest"]
-docs = ["nbsphinx", "docutils", "ipython", "jedi (<0.18.0)", "sphinx-rtd-theme", "colorama", "pygments", "sphinx"]
-linting = ["oyaml", "requests", "python-gnupg (==0.4.6)", "flake8 (==2.6.2)", "flake8"]
-openshift = ["cachecontrol", "redis", "openshift", "six", "cachecontrol", "defusedxml", "lockfile", "cachecontrol", "requests", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-optional = ["watchdog", "python-cjson", "python-statsd", "python-logstash"]
-testing = ["oyaml", "mock (==2.0.0)", "python-gnupg (==0.4.6)", "requests", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
+client = ["oyaml", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "six", "requests", "cachecontrol", "defusedxml", "cachecontrol", "redis", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+client-develop = ["wheel", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "six", "requests", "cachecontrol", "mock (==2.0.0)", "defusedxml", "redis", "oyaml", "cachecontrol", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "flake8", "coverage", "pytest"]
+cluster = ["cachecontrol", "lockfile", "pandas", "six", "requests", "cachecontrol", "colorama", "defusedxml", "ansible", "cachecontrol", "redis", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+develop = ["wheel", "pandas", "requests", "docutils", "ansible", "redis", "sphinx-rtd-theme", "pygments", "nbsphinx", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "six", "cachecontrol", "mock (==2.0.0)", "defusedxml", "sphinx", "jedi (<0.18.0)", "oyaml", "colorama", "ipython", "cachecontrol", "coverage (==4.3.4)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "pyyaml", "pytest-cov", "flake8", "pytest"]
+develop26 = ["wheel", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "pandas", "six", "requests", "cachecontrol", "mock (==2.0.0)", "defusedxml", "ansible", "redis", "oyaml", "colorama", "cachecontrol", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "flake8", "coverage", "pytest"]
+docs = ["jedi (<0.18.0)", "ipython", "colorama", "pygments", "docutils", "sphinx", "sphinx-rtd-theme", "nbsphinx"]
+linting = ["oyaml", "python-gnupg (==0.4.6)", "requests", "flake8 (==2.6.2)", "flake8"]
+openshift = ["cachecontrol", "lockfile", "six", "requests", "cachecontrol", "openshift", "defusedxml", "cachecontrol", "redis", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+optional = ["python-cjson", "watchdog", "python-statsd", "python-logstash"]
+testing = ["oyaml", "python-gnupg (==0.4.6)", "requests", "mock (==2.0.0)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "coverage", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -449,7 +448,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "redis"
-version = "4.3.3"
+version = "4.3.4"
 description = "Python client for Redis database and key-value store"
 category = "main"
 optional = false
@@ -569,7 +568,7 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "3.6"
-content-hash = "2ef69da1cb2ee33c204a0a35226867a5215f02917001afba6dc106e0556bcaaf"
+content-hash = "28f40bd99f07a8f078fc6624e3917221f61f30d9ad3d8f785bfd064d0a799fde"
 
 [metadata.files]
 app-common-python = []
@@ -662,8 +661,8 @@ importlib-metadata = [
     {file = "importlib_metadata-4.8.3.tar.gz", hash = "sha256:766abffff765960fcc18003801f7044eb6755ffae4521c8e8ce8e83b9c9b0668"},
 ]
 insights-core = [
-    {file = "insights-core-3.0.279.tar.gz", hash = "sha256:d896db8893a1c77dbb5f4927acffad1dc48d81388a33c3be1e80bc38d03bc9fe"},
-    {file = "insights_core-3.0.279-py3.6.egg", hash = "sha256:376837e3e6b823746bfdc53e3059291c9f05096c53afd885e1af3bc37409a144"},
+    {file = "insights-core-3.0.280.tar.gz", hash = "sha256:a1a1572abd7aa66ddf66141e973bf086b176f6d6e85b990c30c89458f7724e7a"},
+    {file = "insights_core-3.0.280-py3.6.egg", hash = "sha256:aec6ac4c7fa9c5375cf9d58b321f5da447a6b51b4983072763db21ac37ebceed"},
 ]
 jinja2 = [
     {file = "Jinja2-3.0.3-py3-none-any.whl", hash = "sha256:077ce6014f7b40d03b47d1f1ca4b0fc8328a692bd284016f806ed0eaca390ad8"},
@@ -911,8 +910,8 @@ pyyaml = [
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
 redis = [
-    {file = "redis-4.3.3-py3-none-any.whl", hash = "sha256:f57f8df5d238a8ecf92f499b6b21467bfee6c13d89953c27edf1e2bc673622e7"},
-    {file = "redis-4.3.3.tar.gz", hash = "sha256:2f7a57cf4af15cd543c4394bcbe2b9148db2606a37edba755368836e3a1d053e"},
+    {file = "redis-4.3.4-py3-none-any.whl", hash = "sha256:a52d5694c9eb4292770084fa8c863f79367ca19884b329ab574d5cb2036b3e54"},
+    {file = "redis-4.3.4.tar.gz", hash = "sha256:ddf27071df4adf3821c4f2ca59d67525c3a82e5f268bed97b813cb4fabf87880"},
 ]
 requests = [
     {file = "requests-2.23.0-py2.7.egg", hash = "sha256:5d2d0ffbb515f39417009a46c14256291061ac01ba8f875b90cad137de83beb4"},
