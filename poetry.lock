@@ -1,17 +1,10 @@
 [[package]]
 name = "app-common-python"
-version = "0.1.9.dev2+gcfedd9a"
+version = "0.2.2"
 description = ""
 category = "main"
 optional = false
 python-versions = "*"
-develop = false
-
-[package.source]
-type = "git"
-url = "https://github.com/RedHatInsights/app-common-python.git"
-reference = "psav/add_kafka_brokers"
-resolved_reference = "cfedd9a580cb14698e7e6eaa2ff2976d0b73605c"
 
 [[package]]
 name = "async-timeout"
@@ -568,10 +561,13 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "3.6"
-content-hash = "28f40bd99f07a8f078fc6624e3917221f61f30d9ad3d8f785bfd064d0a799fde"
+content-hash = "14a371aeae89c41a6353d0908ee3ac282a57994aaa5ff351321111ee99c78a6d"
 
 [metadata.files]
-app-common-python = []
+app-common-python = [
+    {file = "app-common-python-0.2.2.tar.gz", hash = "sha256:f38aacad96b26956cd461efab61c395ba20c1f11545512477f5ec0b20b9bb914"},
+    {file = "app_common_python-0.2.2-py3-none-any.whl", hash = "sha256:53b4a293076713d3c77369d5d4fc9ac9dc28f1dc06564ab73f615420d2e9615f"},
+]
 async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
     {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
