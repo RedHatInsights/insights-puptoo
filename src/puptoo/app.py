@@ -226,6 +226,8 @@ def handle_message(msg, service):
                 if msg.get("custom_metadata") is None:
                     msg["custom_metadata"] = {}
                 msg["custom_metadata"]["yum_updates"] = facts["system_profile"]["yum_updates"]
+                # delete yum_updates from system_profile as it is already present under custom_metadata 
+                del facts["system_profile"]["yum_updates"]
 
         # Override archive hostname with name provided by client metadata
         if msg["metadata"].get("display_name"):
