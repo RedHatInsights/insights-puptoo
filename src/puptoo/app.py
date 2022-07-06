@@ -111,10 +111,7 @@ def main():
                     service = service.decode("utf-8")
                     if service in ['advisor', 'compliance', 'malware-detection']:
                         msg = json.loads(msg.value().decode("utf-8"))
-                        # TODO: remove this check when inventory is ready for
-                        # anemic (ie account-less) tenants.
-                        if msg.get("account"):
-                           handle_message(msg, service)
+                        handle_message(msg, service)
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
