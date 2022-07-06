@@ -20,8 +20,8 @@ def init_consumer():
         if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
             connection_info.update(
                 {
-                    "security.protocol": "sasl_ssl",
-                    "sasl.mechanisms": "SCRAM-SHA-512",
+                    "security.protocol":config.KAFKA_BROKER.sasl.securityProtocol,
+                    "sasl.mechanisms": config.KAFKA_BROKER.sasl.saslMechanism,
                     "sasl.username": config.KAFKA_BROKER.sasl.username,
                     "sasl.password": config.KAFKA_BROKER.sasl.password,
                 }
