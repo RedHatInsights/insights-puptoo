@@ -22,16 +22,17 @@ services:
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
   puptoo:
-    image: insights-puptoo:latest
+    image: quay.io/cloudservices/insights-puptoo:latest
     ports:
       - 8000:8000 #for prometheus endpoint
     environment:
       - LOG_LEVEL=DEBUG
     depends_on:
       - kafka
+      - minio
   minio:
       image: minio/minio
-      command: server /data
+      command: ["server", "--console-address", ":9001", "/data"]
       volumes:
         - '$MINIO_DATA_DIR:/data:Z'
         - '$MINIO_CONFIG_DIR:/root/.minio:Z'
