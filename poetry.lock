@@ -1,6 +1,6 @@
 [[package]]
 name = "app-common-python"
-version = "0.2.2"
+version = "0.2.3"
 description = ""
 category = "main"
 optional = false
@@ -19,7 +19,7 @@ typing-extensions = {version = ">=3.6.5", markers = "python_version < \"3.8\""}
 
 [[package]]
 name = "atomicwrites"
-version = "1.4.0"
+version = "1.4.1"
 description = "Atomic file writes."
 category = "dev"
 optional = false
@@ -27,17 +27,17 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "attrs"
-version = "21.4.0"
+version = "22.1.0"
 description = "Classes Without Boilerplate"
 category = "dev"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+python-versions = ">=3.5"
 
 [package.extras]
-dev = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "zope.interface", "furo", "sphinx", "sphinx-notfound-page", "pre-commit", "cloudpickle"]
+dev = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "mypy (>=0.900,!=0.940)", "pytest-mypy-plugins", "zope.interface", "furo", "sphinx", "sphinx-notfound-page", "pre-commit", "cloudpickle"]
 docs = ["furo", "sphinx", "zope.interface", "sphinx-notfound-page"]
-tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "zope.interface", "cloudpickle"]
-tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "six", "mypy", "pytest-mypy-plugins", "cloudpickle"]
+tests = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "mypy (>=0.900,!=0.940)", "pytest-mypy-plugins", "zope.interface", "cloudpickle"]
+tests_no_zope = ["coverage[toml] (>=5.0.2)", "hypothesis", "pympler", "pytest (>=4.3.0)", "mypy (>=0.900,!=0.940)", "pytest-mypy-plugins", "cloudpickle"]
 
 [[package]]
 name = "boto3"
@@ -80,6 +80,7 @@ optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
+lockfile = {version = ">=0.9", optional = true, markers = "extra == \"filecache\""}
 msgpack = ">=0.5.2"
 requests = "*"
 
@@ -202,14 +203,14 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 
 [[package]]
 name = "insights-core"
-version = "3.0.280"
+version = "3.0.291"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-cachecontrol = "*"
+cachecontrol = {version = "*", extras = ["filecache"]}
 defusedxml = "*"
 jinja2 = {version = "*", markers = "python_version > \"2.7\""}
 lockfile = "*"
@@ -219,16 +220,16 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["oyaml", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "six", "requests", "cachecontrol", "defusedxml", "cachecontrol", "redis", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-client-develop = ["wheel", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "six", "requests", "cachecontrol", "mock (==2.0.0)", "defusedxml", "redis", "oyaml", "cachecontrol", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "flake8", "coverage", "pytest"]
-cluster = ["cachecontrol", "lockfile", "pandas", "six", "requests", "cachecontrol", "colorama", "defusedxml", "ansible", "cachecontrol", "redis", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-develop = ["wheel", "pandas", "requests", "docutils", "ansible", "redis", "sphinx-rtd-theme", "pygments", "nbsphinx", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "six", "cachecontrol", "mock (==2.0.0)", "defusedxml", "sphinx", "jedi (<0.18.0)", "oyaml", "colorama", "ipython", "cachecontrol", "coverage (==4.3.4)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "pyyaml", "pytest-cov", "flake8", "pytest"]
-develop26 = ["wheel", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "pandas", "six", "requests", "cachecontrol", "mock (==2.0.0)", "defusedxml", "ansible", "redis", "oyaml", "colorama", "cachecontrol", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "flake8 (==2.6.2)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "pytest-cov", "flake8", "coverage", "pytest"]
-docs = ["jedi (<0.18.0)", "ipython", "colorama", "pygments", "docutils", "sphinx", "sphinx-rtd-theme", "nbsphinx"]
-linting = ["oyaml", "python-gnupg (==0.4.6)", "requests", "flake8 (==2.6.2)", "flake8"]
-openshift = ["cachecontrol", "lockfile", "six", "requests", "cachecontrol", "openshift", "defusedxml", "cachecontrol", "redis", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-optional = ["python-cjson", "watchdog", "python-statsd", "python-logstash"]
-testing = ["oyaml", "python-gnupg (==0.4.6)", "requests", "mock (==2.0.0)", "coverage (==4.3.4)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "coverage", "pytest"]
+client = ["six", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "oyaml", "cachecontrol", "cachecontrol", "redis", "requests", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+client-develop = ["six", "cachecontrol", "wheel", "cachecontrol", "redis", "oyaml", "mock (==2.0.0)", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "requests", "cachecontrol", "pytest (==3.0.6)", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "flake8", "pytest-cov", "pyyaml", "pytest"]
+cluster = ["six", "lockfile", "defusedxml", "ansible", "cachecontrol", "pandas", "colorama", "cachecontrol", "redis", "requests", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+develop = ["six", "cachecontrol", "redis", "sphinx-rtd-theme", "mock (==2.0.0)", "nbsphinx", "ansible", "docutils", "colorama", "cachecontrol", "wheel", "pandas", "ipython", "oyaml", "Sphinx (<=5.0.2)", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "jedi (<0.18.0)", "pygments", "requests", "cachecontrol", "pytest (==3.0.6)", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "coverage", "flake8", "pytest-cov", "pytest"]
+develop26 = ["six", "cachecontrol", "wheel", "pandas", "cachecontrol", "redis", "oyaml", "mock (==2.0.0)", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "ansible", "colorama", "requests", "cachecontrol", "pytest (==3.0.6)", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "flake8", "pytest-cov", "pyyaml", "pytest"]
+docs = ["docutils", "ipython", "jedi (<0.18.0)", "colorama", "pygments", "sphinx-rtd-theme", "nbsphinx", "Sphinx (<=5.0.2)"]
+linting = ["python-gnupg (==0.4.6)", "oyaml", "requests", "flake8 (==2.6.2)", "flake8"]
+openshift = ["six", "lockfile", "defusedxml", "openshift", "cachecontrol", "cachecontrol", "redis", "requests", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+optional = ["watchdog", "python-cjson", "python-logstash", "python-statsd"]
+testing = ["python-gnupg (==0.4.6)", "oyaml", "requests", "mock (==2.0.0)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -303,8 +304,20 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "minio"
+version = "7.1.11"
+description = "MinIO Python SDK for Amazon S3 Compatible Cloud Storage"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+certifi = "*"
+urllib3 = "*"
+
+[[package]]
 name = "more-itertools"
-version = "8.13.0"
+version = "8.14.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "dev"
 optional = false
@@ -561,25 +574,16 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 [metadata]
 lock-version = "1.1"
 python-versions = "3.6"
-content-hash = "14a371aeae89c41a6353d0908ee3ac282a57994aaa5ff351321111ee99c78a6d"
+content-hash = "1cc0665f0304a38c6d3381af02b8d633f53e15ba9b297959ef53229bc1917a2a"
 
 [metadata.files]
-app-common-python = [
-    {file = "app-common-python-0.2.2.tar.gz", hash = "sha256:f38aacad96b26956cd461efab61c395ba20c1f11545512477f5ec0b20b9bb914"},
-    {file = "app_common_python-0.2.2-py3-none-any.whl", hash = "sha256:53b4a293076713d3c77369d5d4fc9ac9dc28f1dc06564ab73f615420d2e9615f"},
-]
+app-common-python = []
 async-timeout = [
     {file = "async-timeout-4.0.2.tar.gz", hash = "sha256:2163e1640ddb52b7a8c80d0a67a08587e5d245cc9c553a74a847056bc2976b15"},
     {file = "async_timeout-4.0.2-py3-none-any.whl", hash = "sha256:8ca1e4fcf50d07413d66d1a5e416e42cfdf5851c981d679a09851a6853383b3c"},
 ]
-atomicwrites = [
-    {file = "atomicwrites-1.4.0-py2.py3-none-any.whl", hash = "sha256:6d1784dea7c0c8d4a5172b6c620f40b6e4cbfdf96d783691f2e1302a7b88e197"},
-    {file = "atomicwrites-1.4.0.tar.gz", hash = "sha256:ae70396ad1a434f9c7046fd2dd196fc04b12f9e91ffb859164193be8b6168a7a"},
-]
-attrs = [
-    {file = "attrs-21.4.0-py2.py3-none-any.whl", hash = "sha256:2d27e3784d7a565d36ab851fe94887c5eccd6a463168875832a1be79c82828b4"},
-    {file = "attrs-21.4.0.tar.gz", hash = "sha256:626ba8234211db98e869df76230a137c4c40a12d72445c45d5f5b716f076e2fd"},
-]
+atomicwrites = []
+attrs = []
 boto3 = [
     {file = "boto3-1.23.10-py3-none-any.whl", hash = "sha256:40d08614f17a69075e175c02c5d5aab69a6153fd50e40fa7057b913ac7bf40e7"},
     {file = "boto3-1.23.10.tar.gz", hash = "sha256:2a4395e3241c20eef441d7443a5e6eaa0ee3f7114653fb9d9cef41587526f7bd"},
@@ -656,10 +660,7 @@ importlib-metadata = [
     {file = "importlib_metadata-4.8.3-py3-none-any.whl", hash = "sha256:65a9576a5b2d58ca44d133c42a241905cc45e34d2c06fd5ba2bafa221e5d7b5e"},
     {file = "importlib_metadata-4.8.3.tar.gz", hash = "sha256:766abffff765960fcc18003801f7044eb6755ffae4521c8e8ce8e83b9c9b0668"},
 ]
-insights-core = [
-    {file = "insights-core-3.0.280.tar.gz", hash = "sha256:a1a1572abd7aa66ddf66141e973bf086b176f6d6e85b990c30c89458f7724e7a"},
-    {file = "insights_core-3.0.280-py3.6.egg", hash = "sha256:aec6ac4c7fa9c5375cf9d58b321f5da447a6b51b4983072763db21ac37ebceed"},
-]
+insights-core = []
 jinja2 = [
     {file = "Jinja2-3.0.3-py3-none-any.whl", hash = "sha256:077ce6014f7b40d03b47d1f1ca4b0fc8328a692bd284016f806ed0eaca390ad8"},
     {file = "Jinja2-3.0.3.tar.gz", hash = "sha256:611bb273cd68f3b993fabdc4064fc858c5b47a973cb5aa7999ec1ba405c87cd7"},
@@ -754,10 +755,8 @@ mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
 ]
-more-itertools = [
-    {file = "more-itertools-8.13.0.tar.gz", hash = "sha256:a42901a0a5b169d925f6f217cd5a190e32ef54360905b9c39ee7db5313bfec0f"},
-    {file = "more_itertools-8.13.0-py3-none-any.whl", hash = "sha256:c5122bffc5f104d37c1626b8615b511f3427aa5389b94d61e5ef8236bfbc3ddb"},
-]
+minio = []
+more-itertools = []
 msgpack = [
     {file = "msgpack-1.0.4-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:4ab251d229d10498e9a2f3b1e68ef64cb393394ec477e3370c457f9430ce9250"},
     {file = "msgpack-1.0.4-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:112b0f93202d7c0fef0b7810d465fde23c746a2d482e1e2de2aafd2ce1492c88"},
