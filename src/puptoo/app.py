@@ -8,14 +8,13 @@ from base64 import b64decode
 
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
+from .upload import upload_object
 
 from .process import extract
 from .process.profile import MAC_REGEX
 from .mq import consume, msgs, produce
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
-from minio import Minio
-import io
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"
@@ -225,6 +224,8 @@ def handle_message(msg, service):
                 if msg.get("custom_metadata") is None:
                     msg["custom_metadata"] = {}
                 msg["custom_metadata"]["yum_updates"] = facts["system_profile"]["yum_updates"]
+                yum_updates = msg["custom_metadata"]["yum_updates"]
+
                 # delete yum_updates from system_profile as it is already present under custom_metadata 
                 del facts["system_profile"]["yum_updates"]
 
@@ -232,30 +233,13 @@ def handle_message(msg, service):
         if msg["metadata"].get("display_name"):
             facts["display_name"] = msg["metadata"]["display_name"]
         if msg["metadata"].get("ansible_host"):
-            facts["ansible_host"] = msg["metadata"]["ansible_host"]
+            facts["ansible_host"] = msg["metadata"]["ansible_host"]   
 
-        # Minio client setup and upload yum_updates object
-        _bytes = json.dumps(msg["custom_metadata"]["yum_updates"]).encode("utf-8")
-        client = Minio(config.S3_ENDPOINT, config.ACCESS_KEY, config.SECRET_KEY, config.USE_SSL)
+        # Upload yum_updates to s3         
         try:
-            client.putObject(config.BUCKET_NAME, extra["request_id"], io.BytesIO(_bytes))
-            logger.info(
-                "Successfully uploaded object (%s) to s3 bucket", extra["request_id"]
-            )
+            upload_object(yum_updates, extra, msg)
         except:
-            logger.exception("An error occurred while uploading object")
-
-        # Get presigned object URL
-        try: 
-            url = client.presigned_get_object(config.BUCKET_NAME, extra["request_id"])
-            msg["custom_metadata"]["yum_updates_s3url"] = url
-            logger.info(
-                "Successfully fetched object (%s) url", extra["request_id"]
-            )
-
-        except Exception:
-            logger.exception("An error occurred while fetching s3 url")
-
+            logger.exception("Error occurred while uploading object.")
 
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra

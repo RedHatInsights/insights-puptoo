@@ -64,7 +64,7 @@ else:
 
     # Minio secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", "insights-upload-puptoo")
-    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "localhost:9001")
+    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "localhost:9000")
     ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", None)
     SECRET_KEY = os.getenv("MINIO_SECRET_KEY", None)
     USE_SSL = os.getenv("USE_SSL", False)
