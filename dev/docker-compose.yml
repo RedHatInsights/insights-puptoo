@@ -19,15 +19,16 @@ services:
       - KAFKA_BROKER_ID=1
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
-  pup:
-    image: insights-puptoo:latest
+  puptoo:
+    image: quay.io/cloudservices/insights-puptoo:latest
     ports:
       - 8000:8000 #for prometheus endpoint
     depends_on:
       - kafka
+      - minio
   minio:
       image: minio/minio
-      command: server /data
+      command: ["server", "--console-address", ":9001", "/data"]
       volumes:
         - '$MINIO_DATA_DIR:/data:Z'
         - '$MINIO_CONFIG_DIR:/root/.minio:Z'
@@ -45,7 +46,9 @@ services:
       /usr/bin/mc config host add myminio http://minio:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY;
       /usr/bin/mc mb myminio/insights-upload-perma;
       /usr/bin/mc mb myminio/insights-upload-rejected;
+      /usr/bin/mc mb myminio/insights-upload-puptoo;
       /usr/bin/mc policy download myminio/insights-upload-perma;
       /usr/bin/mc policy download myminio/insights-upload-rejected;
+      /usr/bin/mc policy download myminio/insights-upload-puptoo;
       exit 0;
       "
