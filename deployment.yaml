@@ -64,6 +64,8 @@ objects:
           requests:
             cpu: ${CPU_REQUEST}
             memory: ${MEMORY_REQUEST}
+    objectStore:
+      - ${PUPTOO_BUCKET}
     kafkaTopics:
       - replicas: 3
         partitions: 20
