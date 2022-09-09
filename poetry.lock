@@ -203,7 +203,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 
 [[package]]
 name = "insights-core"
-version = "3.0.291"
+version = "3.0.293"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
@@ -220,16 +220,16 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["six", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "oyaml", "cachecontrol", "cachecontrol", "redis", "requests", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-client-develop = ["six", "cachecontrol", "wheel", "cachecontrol", "redis", "oyaml", "mock (==2.0.0)", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "requests", "cachecontrol", "pytest (==3.0.6)", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "flake8", "pytest-cov", "pyyaml", "pytest"]
-cluster = ["six", "lockfile", "defusedxml", "ansible", "cachecontrol", "pandas", "colorama", "cachecontrol", "redis", "requests", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-develop = ["six", "cachecontrol", "redis", "sphinx-rtd-theme", "mock (==2.0.0)", "nbsphinx", "ansible", "docutils", "colorama", "cachecontrol", "wheel", "pandas", "ipython", "oyaml", "Sphinx (<=5.0.2)", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "jedi (<0.18.0)", "pygments", "requests", "cachecontrol", "pytest (==3.0.6)", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "coverage", "flake8", "pytest-cov", "pytest"]
-develop26 = ["six", "cachecontrol", "wheel", "pandas", "cachecontrol", "redis", "oyaml", "mock (==2.0.0)", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "ansible", "colorama", "requests", "cachecontrol", "pytest (==3.0.6)", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "pyyaml (>=3.10,<=3.13)", "coverage (==4.3.4)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "flake8", "pytest-cov", "pyyaml", "pytest"]
-docs = ["docutils", "ipython", "jedi (<0.18.0)", "colorama", "pygments", "sphinx-rtd-theme", "nbsphinx", "Sphinx (<=5.0.2)"]
-linting = ["python-gnupg (==0.4.6)", "oyaml", "requests", "flake8 (==2.6.2)", "flake8"]
-openshift = ["six", "lockfile", "defusedxml", "openshift", "cachecontrol", "cachecontrol", "redis", "requests", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-optional = ["watchdog", "python-cjson", "python-logstash", "python-statsd"]
-testing = ["python-gnupg (==0.4.6)", "oyaml", "requests", "mock (==2.0.0)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
+client = ["cachecontrol", "cachecontrol", "redis", "six", "python-gnupg (==0.4.6)", "requests", "oyaml", "lockfile", "cachecontrol", "defusedxml", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+client-develop = ["cachecontrol", "cachecontrol", "redis", "requests", "defusedxml", "wheel", "six", "python-gnupg (==0.4.6)", "mock (==2.0.0)", "oyaml", "lockfile", "cachecontrol", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pytest-cov", "coverage", "pyyaml", "flake8", "pytest"]
+cluster = ["cachecontrol", "cachecontrol", "redis", "six", "colorama", "ansible", "pandas", "requests", "lockfile", "cachecontrol", "defusedxml", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+develop = ["cachecontrol", "redis", "sphinx-rtd-theme", "pandas", "mock (==2.0.0)", "oyaml", "lockfile", "wheel", "cachecontrol", "jedi (<0.18.0)", "cachecontrol", "nbsphinx", "ipython", "requests", "Sphinx (<=5.0.2)", "defusedxml", "six", "colorama", "python-gnupg (==0.4.6)", "ansible", "pygments", "docutils", "flake8 (==2.6.2)", "coverage (==4.3.4)", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "pytest-cov (==2.4.0)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "flake8", "pytest-cov", "pyyaml", "pytest"]
+develop26 = ["cachecontrol", "cachecontrol", "redis", "ansible", "pandas", "requests", "defusedxml", "wheel", "six", "colorama", "python-gnupg (==0.4.6)", "mock (==2.0.0)", "oyaml", "lockfile", "cachecontrol", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pytest (==3.0.6)", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pytest-cov", "coverage", "pyyaml", "flake8", "pytest"]
+docs = ["sphinx-rtd-theme", "colorama", "nbsphinx", "ipython", "Sphinx (<=5.0.2)", "pygments", "docutils", "jedi (<0.18.0)"]
+linting = ["python-gnupg (==0.4.6)", "requests", "oyaml", "flake8 (==2.6.2)", "flake8"]
+openshift = ["cachecontrol", "openshift", "cachecontrol", "redis", "six", "requests", "lockfile", "cachecontrol", "defusedxml", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+optional = ["python-logstash", "watchdog", "python-statsd", "python-cjson"]
+testing = ["python-gnupg (==0.4.6)", "mock (==2.0.0)", "requests", "oyaml", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "pytest-cov", "coverage", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -573,8 +573,8 @@ testing = ["pytest (>=4.6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytes
 
 [metadata]
 lock-version = "1.1"
-python-versions = "3.6"
-content-hash = "1cc0665f0304a38c6d3381af02b8d633f53e15ba9b297959ef53229bc1917a2a"
+python-versions = "~3.6"
+content-hash = "4f440a6046365b10a8350cb9e4e3d1de32c093594a4903f862335a761addbbb6"
 
 [metadata.files]
 app-common-python = []

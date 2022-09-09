@@ -211,6 +211,7 @@ def handle_message(msg, service):
         facts = msg.get("metadata")
 
     if facts:
+        yum_updates=None
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
         if facts.get("metadata"):
@@ -235,11 +236,12 @@ def handle_message(msg, service):
         if msg["metadata"].get("ansible_host"):
             facts["ansible_host"] = msg["metadata"]["ansible_host"]   
 
-        # Upload yum_updates to s3         
-        try:
-            upload_object(yum_updates, extra, msg)
-        except:
-            logger.exception("Error occurred while uploading object.")
+        # Upload yum_updates to s3  
+        if yum_updates:
+            try:
+                upload_object(yum_updates, extra, msg)
+            except:
+                logger.exception("Error occurred while uploading object.")
 
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra

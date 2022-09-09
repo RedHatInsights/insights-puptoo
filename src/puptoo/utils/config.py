@@ -45,11 +45,11 @@ if CLOWDER_ENABLED:
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", LoadedConfig.metricsPort))
     LOG_GROUP = os.getenv("LOG_GROUP", LoadedConfig.logging.cloudwatch.logGroup)
 
-    # Minio secrets
+    # Storage secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", LoadedConfig.objectStore.buckets[0].requestedName)
     S3_ENDPOINT = os.getenv("S3_ENDPOINT", "s3.amazonaws.com")
-    ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
-    SECRET_KEY = os.getenv("MINIO_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
+    ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
+    SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
     USE_SSL = os.getenv("USE_SSL", True)
 
 else:
@@ -62,11 +62,11 @@ else:
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8000))
     LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
 
-    # Minio secrets
+    # Storage secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", "insights-upload-puptoo")
     S3_ENDPOINT = os.getenv("S3_ENDPOINT", "localhost:9000")
-    ACCESS_KEY = os.getenv("MINIO_ACCESS_KEY", None)
-    SECRET_KEY = os.getenv("MINIO_SECRET_KEY", None)
+    ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", None)
+    SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", None)
     USE_SSL = os.getenv("USE_SSL", False)
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
