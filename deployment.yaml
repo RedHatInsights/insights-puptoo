@@ -64,6 +64,8 @@ objects:
           requests:
             cpu: ${CPU_REQUEST}
             memory: ${MEMORY_REQUEST}
+    objectStore:
+      - ${PUPTOO_BUCKET}
     kafkaTopics:
       - replicas: 3
         partitions: 20
@@ -134,3 +136,12 @@ parameters:
 - description: Kafka Logging level
   name: KAFKA_LOGGER
   value: "ERROR"
+- description: Insights puptoo s3 bucket 
+  name: PUPTOO_BUCKET
+  value: insights-upload-puptoo
+- description: Access key for the object storage endpoint
+  name: STORAGE_ACCESS_KEY
+  value: $STORAGE_ACCESS_KEY
+- description: Secret key for the object storage endpoint
+  name: STORAGE_SECRET_KEY
+  value: $STORAGE_SECRET_KEY

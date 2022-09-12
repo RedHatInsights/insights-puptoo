@@ -45,6 +45,13 @@ if CLOWDER_ENABLED:
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", LoadedConfig.metricsPort))
     LOG_GROUP = os.getenv("LOG_GROUP", LoadedConfig.logging.cloudwatch.logGroup)
 
+    # Storage secrets
+    BUCKET_NAME = os.getenv("PUPTOO_BUCKET", LoadedConfig.objectStore.buckets[0].requestedName)
+    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "s3.amazonaws.com")
+    ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
+    SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
+    USE_SSL = os.getenv("USE_SSL", True)
+
 else:
     KAFKA_BROKER = None
     BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")
@@ -54,6 +61,13 @@ else:
     TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", "platform.payload-status")
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", 8000))
     LOG_GROUP = os.getenv("LOG_GROUP", "platform-dev")
+
+    # Storage secrets
+    BUCKET_NAME = os.getenv("PUPTOO_BUCKET", "insights-upload-puptoo")
+    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "localhost:9000")
+    ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", None)
+    SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", None)
+    USE_SSL = os.getenv("USE_SSL", False)
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)

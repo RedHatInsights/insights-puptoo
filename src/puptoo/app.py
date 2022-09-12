@@ -8,6 +8,7 @@ from base64 import b64decode
 
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
+from .upload import upload_object
 
 from .process import extract
 from .process.profile import MAC_REGEX
@@ -210,6 +211,7 @@ def handle_message(msg, service):
         facts = msg.get("metadata")
 
     if facts:
+        yum_updates=None
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
         if facts.get("metadata"):
@@ -223,6 +225,8 @@ def handle_message(msg, service):
                 if msg.get("custom_metadata") is None:
                     msg["custom_metadata"] = {}
                 msg["custom_metadata"]["yum_updates"] = facts["system_profile"]["yum_updates"]
+                yum_updates = msg["custom_metadata"]["yum_updates"]
+
                 # delete yum_updates from system_profile as it is already present under custom_metadata 
                 del facts["system_profile"]["yum_updates"]
 
@@ -230,7 +234,15 @@ def handle_message(msg, service):
         if msg["metadata"].get("display_name"):
             facts["display_name"] = msg["metadata"]["display_name"]
         if msg["metadata"].get("ansible_host"):
-            facts["ansible_host"] = msg["metadata"]["ansible_host"]
+            facts["ansible_host"] = msg["metadata"]["ansible_host"]   
+
+        # Upload yum_updates to s3  
+        if yum_updates:
+            try:
+                upload_object(yum_updates, extra, msg)
+            except:
+                logger.exception("Error occurred while uploading object.")
+
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )
