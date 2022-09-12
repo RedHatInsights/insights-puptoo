@@ -16,12 +16,13 @@ def upload_object(yum_updates, extra, msg):
             logger.info(
                 "Successfully uploaded object (%s) to s3 bucket", extra["request_id"]
             )
+
+            # add object url
+            msg["custom_metadata"]["yum_updates_s3url"] = get_url(client, extra["request_id"])
         except:
             logger.exception("An error occurred while uploading object")
     else:
         logger.error("Bucket (%s) does not exist", config.BUCKET_NAME)
-        
-    msg["custom_metadata"]["yum_updates_s3url"] = get_url(client, extra["request_id"])
             
 
 # Get presigned object URL
