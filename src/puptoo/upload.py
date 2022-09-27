@@ -18,6 +18,8 @@ def upload_object(yum_updates, extra, msg):
             )
 
             # add object url
+            if msg.get("custom_metadata") is None:
+                msg["custom_metadata"] = {}
             msg["custom_metadata"]["yum_updates_s3url"] = get_url(client, extra["request_id"])
         except:
             logger.exception("An error occurred while uploading object")

@@ -222,11 +222,7 @@ def handle_message(msg, service):
             if facts["system_profile"].get("is_ros"):
                 msg["is_ros"] = "true"
             if facts["system_profile"].get("yum_updates"):
-                if msg.get("custom_metadata") is None:
-                    msg["custom_metadata"] = {}
-                msg["custom_metadata"]["yum_updates"] = facts["system_profile"]["yum_updates"]
-                yum_updates = msg["custom_metadata"]["yum_updates"]
-
+                yum_updates = facts["system_profile"].get("yum_updates")
                 # delete yum_updates from system_profile as it is already present under custom_metadata 
                 del facts["system_profile"]["yum_updates"]
 
