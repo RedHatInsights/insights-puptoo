@@ -47,7 +47,7 @@ if CLOWDER_ENABLED:
 
     # Storage secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", LoadedConfig.objectStore.buckets[0].requestedName)
-    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "s3.amazonaws.com")
+    S3_ENDPOINT = os.getenv("S3_ENDPOINT", LoadedConfig.objectStore.hostname)
     ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
     SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
     USE_SSL = os.getenv("USE_SSL", True)
