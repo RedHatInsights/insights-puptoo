@@ -565,12 +565,11 @@ def format_tags(tags):
             namespace = "insights-client"
         if tags_dict.get(namespace) is None:
             tags_dict[namespace] = {}
-        if tags_dict[namespace].get(entry["key"]):
-            if entry["value"] is None:
-                tags_dict[namespace][entry["key"]] = []
-            else:
-                value_str = str(entry["value"])
-                tags_dict[namespace][entry["key"]].append(value_str)
+        if tags_dict[namespace].get(entry["key"]) is None and entry["value"] is not None:
+            tags_dict[namespace][entry["key"]] = []
+        if entry["value"] is not None:
+            value_str = str(entry["value"])
+            tags_dict[namespace][entry["key"]].append(value_str)
 
     return tags_dict
 
