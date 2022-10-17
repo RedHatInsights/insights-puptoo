@@ -567,13 +567,6 @@ def format_tags(tags):
             tags_dict[namespace] = {}
         if tags_dict[namespace].get(entry["key"]):
             if entry["value"] is None:
-                value_str = None
-            else:
-                value_str = str(entry["value"])
-            tags_dict[namespace][entry["key"]].append(value_str)
-        else:
-            tags_dict[namespace][entry["key"]] = []
-            if entry["value"] is None:
                 tags_dict[namespace][entry["key"]] = []
             else:
                 value_str = str(entry["value"])
