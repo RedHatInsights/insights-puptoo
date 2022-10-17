@@ -566,13 +566,17 @@ def format_tags(tags):
         if tags_dict.get(namespace) is None:
             tags_dict[namespace] = {}
         if tags_dict[namespace].get(entry["key"]):
-            value_str = str(entry["value"])
+            if entry["value"] is None:
+                value_str = None
+            else:
+                value_str = str(entry["value"])
             tags_dict[namespace][entry["key"]].append(value_str)
         else:
-            if entry["value"] is None:
-                tags_dict[namespace][entry["key"]] = []
-            value_str = str(entry["value"])
             tags_dict[namespace][entry["key"]] = []
+            if entry["value"] is None:
+                value_str = None
+            else:
+                value_str = str(entry["value"])
             tags_dict[namespace][entry["key"]].append(value_str)
 
     return tags_dict
