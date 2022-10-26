@@ -430,6 +430,7 @@ def system_profile(
                         "id": yum_repo_definition,
                         "name": yum_repo_file[yum_repo_definition].get("name"),
                         "base_url": baseurl[0] if len(baseurl) > 0 else None,
+                        "mirrorlist": yum_repo_definition.get("mirrorlist"),
                         "enabled": _to_bool(
                             yum_repo_file[yum_repo_definition].get("enabled")
                         ),
