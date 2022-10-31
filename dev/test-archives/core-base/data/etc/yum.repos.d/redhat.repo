@@ -47,3 +47,15 @@ sslclientkey = /etc/pki/entitlement/7429598369666465039-key.pem
 sslclientcert = /etc/pki/entitlement/7429598369666465039.pem
 metadata_expire = 86400
 enabled_metadata = 0
+
+
+[rhel-8-baseos-rhui-rpms]
+name=Red Hat Enterprise Linux 8 for $basearch - BaseOS from RHUI (RPMs)
+mirrorlist=https://rhui.redhat.com/pulp/mirror/content/dist/rhel8/rhui/$releasever/$basearch/baseos/os
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+sslverify=1
+sslclientkey=/etc/pki/rhui/content-rhel8.key
+sslclientcert=/etc/pki/rhui/product/content-rhel8.crt
+sslcacert=/etc/pki/rhui/cdn.redhat.com-chain.crt
