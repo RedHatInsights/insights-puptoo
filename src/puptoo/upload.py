@@ -9,7 +9,7 @@ logger = puptoo_logging.initialize_logging()
 # Minio client setup and upload yum_updates object
 def upload_object(yum_updates, extra, msg):
     _bytes = json.dumps(yum_updates).encode("utf-8")
-    client = Minio(endpoint=config.S3_ENDPOINT, access_key=config.ACCESS_KEY, secret_key=config.SECRET_KEY, secure=config.USE_SSL)
+    client = Minio(endpoint=config.S3_ENDPOINT, access_key=config.AWS_ACCESS_KEY, secret_key=config.AWS_SECRET_KEY, secure=config.USE_SSL)
     if client.bucket_exists(config.BUCKET_NAME):
         try:
             client.put_object(bucket_name=config.BUCKET_NAME, object_name=extra["request_id"], data=io.BytesIO(_bytes), length=len(_bytes))
