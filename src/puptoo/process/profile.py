@@ -545,6 +545,11 @@ def system_profile(
             catch_error("yum_updates", e)
             raise
 
+        # Add general facts to global system profile, as yum_updates is large
+        if type(profile["yum_updates"]) == dict:
+            profile["releasever"] = profile["yum_updates"].get("releasever")
+            profile["basearch"] = profile["yum_updates"].get("basearch")
+
     if pmlog_summary or ros_config:
         profile["is_ros"] = True
 
