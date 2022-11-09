@@ -211,11 +211,6 @@ def system_profile(
                 profile["is_marketplace"] = True
 
     if gb_status:
-        # use presence of greenboot as proxy for whether the system should be
-        # considered "edge" this should change to use rpm-ostree status once we
-        # have it in place.
-        profile["host_type"] = "edge"
-
         # Set the greenboot status
         profile["greenboot_status"] = (
             "red" if gb_status.red else "green" if gb_status.green else "Unknown"
@@ -226,6 +221,8 @@ def system_profile(
         profile["greenboot_fallback_detected"] = True if gb_status.fallback else False
 
     if rpm_ostree_status:
+        profile["host_type"] = "edge"
+
         deployments = _get_deployments(rpm_ostree_status)
         if deployments:
             profile["rpm_ostree_deployments"] = deployments
