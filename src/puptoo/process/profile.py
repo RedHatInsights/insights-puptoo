@@ -260,8 +260,8 @@ def system_profile(
                 profile["sap_instance_number"] = sap[inst].number
             sap_object = {
                 "sap_system": profile.get("sap_system"),
-                "sap_sids": profile.get("sap_sids"),
-                "sap_instance_number": profile.get("sap_instance_number")
+                "sids": profile.get("sap_sids"),
+                "instance_number": profile.get("sap_instance_number")
             }
             profile["sap"] = sap_object
         except Exception as e:
@@ -274,6 +274,7 @@ def system_profile(
                 profile["sap_version"] = hdb_version[0].version
             else:
                 profile["sap_version"] = hdb_version.version
+            profile["sap"]["version"] = profile["sap_version"]
         except Exception as e:
             catch_error("hdb_version", e)
             raise
