@@ -249,14 +249,12 @@ def system_profile(
             raise
 
     if sap:
-        profile["sap_system"] = False
         try:
-            instances = list(set(sap.local_instances) & set(sap.business_instances))
-            if(instances):
-                profile["sap_system"] = True
-                sids = {sap.sid(instance) for instance in instances}
-                profile["sap_sids"] = sorted(list(sids))
-                inst = instances[0]
+            profile["sap_system"] = True
+            sids = {sap.sid(instance) for instance in sap.local_instances}
+            profile["sap_sids"] = sorted(list(sids))
+            if sap.local_instances:
+                inst = sap.local_instances[0]
                 profile["sap_instance_number"] = sap[inst].number
             sap_object = {
                 "sap_system": profile.get("sap_system"),
