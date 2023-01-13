@@ -7,7 +7,6 @@ from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.cloud_instance import CloudInstance
 from insights.combiners.redhat_release import RedHatRelease
-from insights.combiners.os_release import OSRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
