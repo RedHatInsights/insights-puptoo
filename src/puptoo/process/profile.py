@@ -480,7 +480,7 @@ def system_profile(
     if cloud_instance:
         try:
             profile["provider_id"] = cloud_instance.id
-            profile["provider_type"] = cloud_instance.type
+            profile["provider_type"] = cloud_instance.provider
         except Exception as e:
             catch_error("cloud_instance", e)
             raise
