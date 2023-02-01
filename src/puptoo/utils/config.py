@@ -13,7 +13,7 @@ def kafka_config():
     if KAFKA_BROKER:
         connection_info[
             "bootstrap.servers"
-        ] = f"{config.KAFKA_BROKER.hostname}:{config.KAFKA_BROKER.port}"
+        ] = f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"
 
         if KAFKA_BROKER.securityProtocol:
             connection_info["security.protocol"] = KAFKA_BROKER.securityProtocol
