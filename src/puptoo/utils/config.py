@@ -9,6 +9,7 @@ CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() 
 
 
 def kafka_config():
+    connection_info = {}
     if KAFKA_BROKER:
         connection_info[
             "bootstrap.servers"
@@ -35,6 +36,7 @@ def kafka_config():
         connection_info["bootstrap.servers"] = ",".join(BOOTSTRAP_SERVERS)
 
     return connection_info
+
 
 def log_config():
     import sys
