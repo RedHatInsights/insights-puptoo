@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Run unit tests first since it activates/deactives its own virtual env
-source unit_test.sh
-
 # --------------------------------------------
 # Options that must be configured by app owner
 # --------------------------------------------
@@ -20,6 +17,10 @@ CICD_URL=https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd
 curl -s $CICD_URL/bootstrap.sh > .cicd_bootstrap.sh && source .cicd_bootstrap.sh
 
 source $CICD_ROOT/build.sh
+
+# Run unit tests
+source $APP_ROOT/run.sh
+
 source $CICD_ROOT/deploy_ephemeral_env.sh
 
 source $CICD_ROOT/cji_smoke_test.sh
