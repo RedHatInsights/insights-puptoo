@@ -275,7 +275,8 @@ def system_profile(
                 profile["sap_version"] = hdb_version[0].version
             else:
                 profile["sap_version"] = hdb_version.version
-            profile["sap"]["version"] = profile["sap_version"]
+            if profile.get("sap"):
+                profile["sap"]["version"] = profile["sap_version"]
         except Exception as e:
             catch_error("hdb_version", e)
             raise
