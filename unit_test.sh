@@ -8,7 +8,7 @@ source .unit_test_venv/bin/activate
 pip install --upgrade pip
 pip install .
 pip install -r requirements.txt
-INSIGHTS_FILTERS_ENABLED=false INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=./cdappconfig.json pytest tests/ --junitxml=$WORKSPACE/artifacts/junit-unit_tests.xml
+INSIGHTS_FILTERS_ENABLED=false INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=dev/cdappconfig.json pytest tests/ --junitxml=$WORKSPACE/artifacts/junit-unit_tests.xml
 
 if [ $? != 0 ]; then
    echo "Failed to run unit test"
@@ -28,7 +28,7 @@ for file in dev/test-archives/*; do
    if [ $? != 0 ]; then
       exit 1
    fi
-   python parse_json.py
+   python dev/parse_json.py
    python inventory-schemas/tools/simple-test/tester.py inventory-schemas/schemas/system_profile/v1.yaml output.json
    if [ $? != 0 ]; then
       exit 1
