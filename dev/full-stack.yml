@@ -110,3 +110,8 @@ services:
       - kafka
     ports:
       - "8082:8080"
+  redis:
+    image: redis
+    container_name: puptoo-redis
+    ports:
+      - 6379:6379

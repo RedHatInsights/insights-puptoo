@@ -66,6 +66,7 @@ objects:
             memory: ${MEMORY_REQUEST}
     objectStore:
       - ${PUPTOO_BUCKET}
+    inMemoryDb: true
     kafkaTopics:
       - replicas: 3
         partitions: 20
