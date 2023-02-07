@@ -8,6 +8,36 @@ logger = logging.getLogger(APP_NAME)
 CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() in ["true", "t", "yes", "y"] else False
 
 
+def kafka_config():
+    connection_info = {}
+    if KAFKA_BROKER:
+        connection_info[
+            "bootstrap.servers"
+        ] = f"{KAFKA_BROKER.hostname}:{KAFKA_BROKER.port}"
+
+        if KAFKA_BROKER.securityProtocol:
+            connection_info["security.protocol"] = KAFKA_BROKER.securityProtocol
+        elif KAFKA_BROKER.sasl and KAFKA_BROKER.sasl.securityProtocol:
+            connection_info["security.protocol"] = KAFKA_BROKER.sasl.securityProtocol
+        else:
+            connection_info["security.protocol"] = "plaintext"
+
+        if KAFKA_BROKER.cacert:
+            connection_info["ssl.ca.location"] = "/tmp/cacert"
+        if KAFKA_BROKER.sasl and KAFKA_BROKER.sasl.username:
+            connection_info.update(
+                {
+                    "sasl.mechanisms": KAFKA_BROKER.sasl.saslMechanism,
+                    "sasl.username": KAFKA_BROKER.sasl.username,
+                    "sasl.password": KAFKA_BROKER.sasl.password,
+                }
+            )
+    else:
+        connection_info["bootstrap.servers"] = ",".join(BOOTSTRAP_SERVERS)
+
+    return connection_info
+
+
 def log_config():
     import sys
 
@@ -81,3 +111,4 @@ KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
+
