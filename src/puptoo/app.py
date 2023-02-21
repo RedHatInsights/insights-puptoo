@@ -110,7 +110,7 @@ def main():
                 service = dict(msg.headers() or []).get('service')
                 if service:
                     service = service.decode("utf-8")
-                    if service in ['advisor', 'compliance', 'malware-detection']:
+                    if service in ['advisor', 'compliance', 'malware-detection', 'failme']:
                         msg = json.loads(msg.value().decode("utf-8"))
                         handle_message(msg, service)
             except Exception:
@@ -209,6 +209,13 @@ def handle_message(msg, service):
         facts = process_archive(msg, extra)
     if service in ["compliance", "malware-detection"]:
         facts = msg.get("metadata")
+    if service == "failme":
+        facts = {"foo": "bar"} 
+        send_message(
+            config.VALIDATION_TOPIC,
+            msgs.validation_message(msg, facts, "failure"),
+            extra,
+        )
 
     if facts:
         yum_updates=None
