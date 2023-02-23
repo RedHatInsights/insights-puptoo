@@ -1,9 +1,10 @@
 import io
 import json
+import logging
 from minio import Minio
 from .utils import config, puptoo_logging
 
-logger = puptoo_logging.initialize_logging()
+logger = logging.getLogger(config.APP_NAME)
 
 
 # Minio client setup and upload yum_updates object

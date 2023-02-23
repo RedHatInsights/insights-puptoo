@@ -34,8 +34,6 @@ def non_clowder_config():
 
 
 def initialize_logging():
-    kafkalogger = logging.getLogger("kafka")
-    kafkalogger.setLevel(config.KAFKA_LOGGER)
     if any("KUBERNETES" in k for k in os.environ):
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(LogstashFormatterV1())
