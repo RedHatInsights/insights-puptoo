@@ -225,6 +225,7 @@ def system_profile(
 
     if rpm_ostree_status:
         profile["host_type"] = "edge"
+        profile["system_update_method"] = "rpm-ostree"
 
         deployments = _get_deployments(rpm_ostree_status)
         if deployments:
@@ -398,6 +399,10 @@ def system_profile(
                 "minor": redhat_release.minor,
                 "name": "RHEL",
             }
+            if redhat_release.major >= 8:
+                profile["system_update_method"] = "dnf"
+            else:
+                profile["system_update_method"] = "yum" 
         except Exception as e:
             catch_error("redhat_release", e)
             raise
