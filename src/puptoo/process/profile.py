@@ -6,7 +6,6 @@ import re
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
-from insights.combiners.os_release import OSRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
@@ -101,7 +100,6 @@ GCP_CONFIRMED_CODES = [
         YumReposD,
         DnfModules,
         CloudProvider,
-        OSRelease,
         Specs.display_name,
         Specs.ansible_host,
         Specs.version_info,
@@ -143,7 +141,6 @@ def system_profile(
     yum_repos_d,
     dnf_modules,
     cloud_provider,
-    os_release,
     display_name,
     ansible_host,
     version_info,
@@ -473,13 +470,6 @@ def system_profile(
             profile["cloud_provider"] = cloud_provider.cloud_provider
         except Exception as e:
             catch_error("cloud_provider", e)
-            raise
-
-    if os_release:
-        try:
-            profile["is_rhel"] = os_release.is_rhel
-        except Exception as e:
-            catch_error("is_rhel", e)
             raise
 
     if display_name:
