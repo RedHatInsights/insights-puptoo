@@ -40,14 +40,14 @@ tests_no_zope = ["hypothesis", "pympler", "pytest (>=4.3.0)", "pytest-xdist", "c
 
 [[package]]
 name = "boto3"
-version = "1.26.68"
+version = "1.26.81"
 description = "The AWS SDK for Python"
 category = "main"
 optional = false
 python-versions = ">= 3.7"
 
 [package.dependencies]
-botocore = ">=1.29.68,<1.30.0"
+botocore = ">=1.29.81,<1.30.0"
 jmespath = ">=0.7.1,<2.0.0"
 s3transfer = ">=0.6.0,<0.7.0"
 
@@ -56,7 +56,7 @@ crt = ["botocore[crt] (>=1.21.0,<2.0a0)"]
 
 [[package]]
 name = "botocore"
-version = "1.29.68"
+version = "1.29.81"
 description = "Low-level, data-driven core of boto 3."
 category = "main"
 optional = false
@@ -79,7 +79,6 @@ optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
-filelock = {version = ">=3.8.0", optional = true, markers = "extra == \"filecache\""}
 msgpack = ">=0.5.2"
 requests = "*"
 
@@ -136,18 +135,6 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
-name = "filelock"
-version = "3.9.0"
-description = "A platform independent file lock."
-category = "main"
-optional = false
-python-versions = ">=3.7"
-
-[package.extras]
-docs = ["furo (>=2022.12.7)", "sphinx-autodoc-typehints (>=1.19.5)", "sphinx (>=5.3)"]
-testing = ["covdefaults (>=2.2.2)", "coverage (>=7.0.1)", "pytest-cov (>=4)", "pytest-timeout (>=2.1)", "pytest (>=7.2)"]
-
-[[package]]
 name = "flake8"
 version = "3.9.2"
 description = "the modular source code checker: pep8 pyflakes and co"
@@ -182,14 +169,14 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "insights-core"
-version = "3.1.6"
+version = "3.1.9"
 description = "Insights Core is a data collection and analysis framework"
 category = "main"
 optional = false
 python-versions = "*"
 
 [package.dependencies]
-cachecontrol = {version = "*", extras = ["filecache"]}
+cachecontrol = "*"
 defusedxml = "*"
 jinja2 = {version = "*", markers = "python_version > \"2.7\""}
 lockfile = "*"
@@ -199,16 +186,16 @@ requests = "*"
 six = "*"
 
 [package.extras]
-client = ["cachecontrol", "cachecontrol", "cachecontrol", "redis", "defusedxml", "requests", "oyaml", "six", "python-gnupg (==0.4.6)", "lockfile", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-client-develop = ["cachecontrol", "cachecontrol", "redis", "defusedxml", "wheel", "six", "lockfile", "cachecontrol", "mock (==2.0.0)", "requests", "oyaml", "python-gnupg (==0.4.6)", "coverage (==4.3.4)", "pyyaml (>=3.10,<=3.13)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "pytest-cov", "pyyaml", "flake8", "pytest"]
-cluster = ["pandas", "cachecontrol", "cachecontrol", "cachecontrol", "redis", "defusedxml", "colorama", "requests", "ansible", "six", "lockfile", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-develop = ["cachecontrol", "sphinx-rtd-theme", "cachecontrol", "defusedxml", "wheel", "docutils", "lockfile", "mock (==2.0.0)", "sphinx", "redis", "six", "pygments", "jedi", "pandas", "cachecontrol", "colorama", "MarkupSafe (==2.0.1)", "requests", "oyaml", "ipython (<8.7.0)", "python-gnupg (==0.4.6)", "ansible", "nbsphinx", "coverage (==4.3.4)", "pyyaml (>=3.10,<=3.13)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "pytest-cov", "pyyaml", "flake8", "pytest"]
-develop26 = ["cachecontrol", "cachecontrol", "redis", "defusedxml", "wheel", "six", "lockfile", "pandas", "cachecontrol", "mock (==2.0.0)", "colorama", "requests", "oyaml", "python-gnupg (==0.4.6)", "ansible", "coverage (==4.3.4)", "pyyaml (>=3.10,<=3.13)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "flake8 (==2.6.2)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "coverage", "pytest-cov", "pyyaml", "flake8", "pytest"]
-docs = ["sphinx-rtd-theme", "colorama", "sphinx", "MarkupSafe (==2.0.1)", "ipython (<8.7.0)", "docutils", "pygments", "jedi", "nbsphinx"]
-linting = ["oyaml", "python-gnupg (==0.4.6)", "requests", "flake8 (==2.6.2)", "flake8"]
-openshift = ["cachecontrol", "cachecontrol", "cachecontrol", "redis", "defusedxml", "openshift", "requests", "six", "lockfile", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
-optional = ["watchdog", "python-logstash", "python-statsd", "python-cjson"]
-testing = ["mock (==2.0.0)", "requests", "oyaml", "python-gnupg (==0.4.6)", "pytest-cov (==2.4.0)", "pytest (==3.0.6)", "coverage (==4.3.4)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
+client = ["oyaml", "defusedxml", "redis", "six", "cachecontrol", "requests", "cachecontrol", "python-gnupg (==0.4.6)", "lockfile", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+client-develop = ["oyaml", "redis", "six", "mock (==2.0.0)", "cachecontrol", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "cachecontrol", "requests", "wheel", "cachecontrol", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "flake8", "coverage", "pytest-cov", "pytest"]
+cluster = ["colorama", "defusedxml", "redis", "six", "cachecontrol", "pandas", "requests", "cachecontrol", "ansible", "lockfile", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+develop = ["oyaml", "nbsphinx", "six", "sphinx-rtd-theme", "ipython (<8.7.0)", "pygments", "jedi", "defusedxml", "docutils", "colorama", "pandas", "redis", "mock (==2.0.0)", "cachecontrol", "ansible", "lockfile", "MarkupSafe (==2.0.1)", "python-gnupg (==0.4.6)", "sphinx", "cachecontrol", "requests", "wheel", "cachecontrol", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "flake8", "coverage", "pytest-cov", "pytest"]
+develop26 = ["oyaml", "colorama", "pandas", "redis", "six", "mock (==2.0.0)", "cachecontrol", "ansible", "lockfile", "python-gnupg (==0.4.6)", "defusedxml", "cachecontrol", "requests", "wheel", "cachecontrol", "flake8 (==2.6.2)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pyyaml (>=3.10,<=3.13)", "pytest (==3.0.6)", "jinja2 (<=2.11.3)", "pytest (>=4.6.0,<4.7.0)", "jinja2", "pyyaml", "flake8", "coverage", "pytest-cov", "pytest"]
+docs = ["sphinx", "nbsphinx", "colorama", "pygments", "docutils", "jedi", "MarkupSafe (==2.0.1)", "sphinx-rtd-theme", "ipython (<8.7.0)"]
+linting = ["requests", "oyaml", "python-gnupg (==0.4.6)", "flake8 (==2.6.2)", "flake8"]
+openshift = ["openshift", "defusedxml", "redis", "six", "cachecontrol", "requests", "cachecontrol", "lockfile", "cachecontrol", "pyyaml (>=3.10,<=3.13)", "jinja2 (<=2.11.3)", "jinja2", "pyyaml"]
+optional = ["watchdog", "python-cjson", "python-logstash", "python-statsd"]
+testing = ["oyaml", "mock (==2.0.0)", "requests", "python-gnupg (==0.4.6)", "pytest-cov (==2.4.0)", "coverage (==4.3.4)", "pytest (==3.0.6)", "pytest (>=4.6.0,<4.7.0)", "coverage", "pytest-cov", "pytest"]
 
 [[package]]
 name = "jinja2"
@@ -295,7 +282,7 @@ urllib3 = "*"
 
 [[package]]
 name = "more-itertools"
-version = "9.0.0"
+version = "9.1.0"
 description = "More routines for operating on iterables, beyond itertools"
 category = "dev"
 optional = false
@@ -502,7 +489,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "~3.8"
-content-hash = "e8b04767dca54dc62e880e634eb50003d2b58b6476ce1f2a5562374e5da53bb5"
+content-hash = "f47d91b1ca76c2605529e9159d0a0b86aafadadd6f74e85420c4bf1d5d7a13fe"
 
 [metadata.files]
 app-common-python = []
@@ -553,7 +540,6 @@ defusedxml = [
     {file = "defusedxml-0.7.1-py2.py3-none-any.whl", hash = "sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61"},
     {file = "defusedxml-0.7.1.tar.gz", hash = "sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69"},
 ]
-filelock = []
 flake8 = [
     {file = "flake8-3.9.2-py2.py3-none-any.whl", hash = "sha256:bf8fd333346d844f616e8d47905ef3a3384edae6b4e9beb0c5101e25e3110907"},
     {file = "flake8-3.9.2.tar.gz", hash = "sha256:07528381786f2a6237b061f6e96610a4167b226cb926e2aa2b6b1d78057c576b"},
