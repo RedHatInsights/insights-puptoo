@@ -224,8 +224,12 @@ def system_profile(
         profile["greenboot_fallback_detected"] = True if gb_status.fallback else False
 
     if rpm_ostree_status:
-        profile["host_type"] = "edge"
-        profile["system_update_method"] = "rpm-ostree"
+        origin = rpm_ostree_status.query.deployments.origin
+        origin_check = [item.value.endswith("edge") for item in origin]
+        if origin_check and all(origin_check):
+            profile["host_type"] = "edge"
+            if redhat_release:
+                profile["system_update_method"] = "rpm-ostree"
 
         deployments = _get_deployments(rpm_ostree_status)
         if deployments:
@@ -399,10 +403,11 @@ def system_profile(
                 "minor": redhat_release.minor,
                 "name": "RHEL",
             }
-            if redhat_release.major >= 8:
-                profile["system_update_method"] = "dnf"
-            else:
-                profile["system_update_method"] = "yum" 
+            if profile.get("host_type") is None:
+                if redhat_release.major >= 8:
+                    profile["system_update_method"] = "dnf"
+                else:
+                    profile["system_update_method"] = "yum" 
         except Exception as e:
             catch_error("redhat_release", e)
             raise
