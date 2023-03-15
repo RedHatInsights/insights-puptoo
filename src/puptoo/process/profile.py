@@ -261,16 +261,16 @@ def system_profile(
             if sap.local_instances:
                 inst = sap.local_instances[0]
                 profile["sap_instance_number"] = sap[inst].number
-            sap_object = {
-                "sap_system": profile.get("sap_system"),
-                "sids": profile.get("sap_sids"),
-                "instance_number": profile.get("sap_instance_number")
-            }
-            profile["sap"] = sap_object
+            profile["sap"] = {}
+            profile["sap"]["sap_system"] = profile.get("sap_system")
+            if profile.get("sap_sids"): 
+                profile["sap"]["sids"] = profile.get("sap_sids")
+            if profile.get("sap_instance_number"):
+                profile["sap"]["instance_number"] = profile.get("sap_instance_number")
         except Exception as e:
             catch_error("sap", e)
             raise
-    
+
     if hdb_version:
         try:
             if type(hdb_version) == list:
