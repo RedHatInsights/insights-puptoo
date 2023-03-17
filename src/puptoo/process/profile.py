@@ -6,6 +6,7 @@ import re
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
+from insights.combiners.os_release import OSRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
@@ -81,6 +82,7 @@ GCP_CONFIRMED_CODES = [
         IpAddr,
         DMIDecode,
         RedHatRelease,
+        OSRelease,
         RhsmReleaseVer,
         Uname,
         LsMod,
@@ -122,6 +124,7 @@ def system_profile(
     ip_addr,
     dmidecode,
     redhat_release,
+    os_release,
     rhsm_releasever,
     uname,
     lsmod,
@@ -225,7 +228,7 @@ def system_profile(
         origin_check = [item.value.endswith("edge") for item in origin]
         if origin_check and all(origin_check):
             profile["host_type"] = "edge"
-            if redhat_release:
+            if os_release and os_release.is_rhel:
                 profile["system_update_method"] = "rpm-ostree"
 
         deployments = _get_deployments(rpm_ostree_status)
@@ -392,19 +395,30 @@ def system_profile(
             catch_error("uname", e)
             raise
 
-    if redhat_release:
+    if redhat_release and os_release:
         try:
+            # The 'redhat_release.rhel' may be "Red Hat Enterprise Linux xxx"
             profile["os_release"] = redhat_release.rhel
-            profile["operating_system"] = {
-                "major": redhat_release.major,
-                "minor": redhat_release.minor,
-                "name": "RHEL",
-            }
-            if profile.get("host_type") is None:
-                if redhat_release.major >= 8:
-                    profile["system_update_method"] = "dnf"
-                else:
-                    profile["system_update_method"] = "yum" 
+            # But it might not be an RHEL, see
+            # - https://github.com/RedHatInsights/insights-core/blob/master/insights/combiners/os_release.py
+            if os_release.is_rhel:
+                profile["operating_system"] = {
+                    "major": redhat_release.major,
+                    "minor": redhat_release.minor,
+                    "name": "RHEL",
+                }
+                if profile.get("host_type") is None:
+                    if redhat_release.major >= 8:
+                        profile["system_update_method"] = "dnf"
+                    else:
+                        profile["system_update_method"] = "yum"
+            else:
+                profile["operating_system"] = {
+                    "major": -1,
+                    "minor": -1,
+                    "name": os_release.release,
+                }
+                profile["system_update_method"] = "yum"
         except Exception as e:
             catch_error("redhat_release", e)
             raise
