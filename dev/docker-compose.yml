@@ -52,3 +52,8 @@ services:
       /usr/bin/mc policy download myminio/insights-upload-puptoo;
       exit 0;
       "
+  redis:
+    image: redis
+    container_name: puptoo-redis
+    ports:
+      - 6379:6379

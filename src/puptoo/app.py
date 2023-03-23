@@ -15,6 +15,7 @@ from .process.profile import MAC_REGEX
 from .mq import consume, msgs, produce
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
+from redis import Redis
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"
@@ -72,6 +73,21 @@ def handle_signal(signal, frame):
     running = False
 
 
+def redis_client() :
+    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT) 
+
+
+def handle_retries(redis, request_id):
+    count = redis.get(request_id)
+    if not count:
+        count = 0
+    if int(count) == 3:
+        raise Exception("Message process attempts exceeded for request_id: %s", request_id)
+    else:
+        count = int(count) + 1
+        redis.set(request_id, count, ex=3600)
+
+
 signal.signal(signal.SIGTERM, handle_signal)
 
 
@@ -92,6 +108,7 @@ def main():
         consumer = consume.init_consumer()
         global producer
         producer = produce.init_producer()
+        redis = redis_client()
 
         start = time()
         while running:
@@ -112,7 +129,9 @@ def main():
                     service = service.decode("utf-8")
                     if service in ['advisor', 'compliance', 'malware-detection']:
                         msg = json.loads(msg.value().decode("utf-8"))
-                        handle_message(msg, service)
+                        extra = get_extra(msg.get("account"), msg.get("org_id"), msg.get("request_id"))
+                        handle_retries(redis, extra["request_id"])
+                        handle_message(msg, service, extra)
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
@@ -193,9 +212,8 @@ def send_message(topic, msg, extra):
         )
 
 
-def handle_message(msg, service):
+def handle_message(msg, service, extra):
     msg["elapsed_time"] = time()
-    extra = get_extra(msg.get("account"), msg.get("org_id"), msg.get("request_id"))
     logger.info("received request_id: %s", extra["request_id"])
     send_message(
         config.TRACKER_TOPIC,

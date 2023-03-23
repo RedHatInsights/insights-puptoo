@@ -51,6 +51,8 @@ if CLOWDER_ENABLED:
     AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
     AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
     USE_SSL = os.getenv("USE_SSL", True)
+    REDIS_HOST = LoadedConfig.inMemoryDb.hostname
+    REDIS_PORT = LoadedConfig.inMemoryDb.port
 
 else:
     KAFKA_BROKER = None
@@ -68,6 +70,8 @@ else:
     AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", None)
     AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", None)
     USE_SSL = os.getenv("USE_SSL", False)
+    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+    REDIS_PORT = os.getenv("REDIS_PORT", 6379)
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
