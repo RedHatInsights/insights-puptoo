@@ -238,7 +238,7 @@ def handle_message(msg, service, extra):
             if owner_id:
                 facts["system_profile"]["owner_id"] = owner_id
             if facts["system_profile"].get("is_ros"):
-                msg["is_ros"] = "true"
+                msg["is_ros"] = True
             if facts["system_profile"].get("yum_updates"):
                 yum_updates = facts["system_profile"].get("yum_updates")
                 # delete yum_updates from system_profile as it is already present under custom_metadata 
