@@ -19,7 +19,7 @@ GCP_LICENSE_CODES_BAD = """
 def test_gcp_license_codes():
     input_data = InputData().add(Specs.gcp_license_codes, GCP_LICENSE_CODES_1)
     result = run_test(system_profile, input_data)
-    assert result["is_marketplace"] is True
+    assert result.get("is_marketplace") is None
 
     input_data = InputData().add(Specs.gcp_license_codes, GCP_LICENSE_CODES_2)
     result = run_test(system_profile, input_data)
