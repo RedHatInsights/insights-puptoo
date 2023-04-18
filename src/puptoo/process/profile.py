@@ -12,7 +12,7 @@ from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
 from insights.parsers.aws_instance_id import AWSInstanceIdDoc
-from insights.parsers.azure_instance_plan import AzureInstancePlan
+from insights.parsers.azure_instance import AzureInstancePlan
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
@@ -57,12 +57,9 @@ def catch_error(parser, error):
 # from the Google Compute Platform. These may need to be updated regularly.
 GCP_CONFIRMED_CODES = [
     "601259152637613565",
-    "4720191914037931587",
     "1176308840663243801",
     "1000002",
-    "1492188837615955530",
     "1000006",
-    "8475125252192923229",
     "601259152637613565",
     "8555687517154622919",
     "1270685562947480748",
@@ -203,7 +200,8 @@ def system_profile(
                 azure_instance_plan.publisher,
             ]
         ):
-            profile["is_marketplace"] = True
+            if azure_instance_plan.product != 'rhel-byos':
+                profile["is_marketplace"] = True
 
     if gcp_license_codes:
         for i in gcp_license_codes.ids:
