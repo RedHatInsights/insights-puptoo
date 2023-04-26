@@ -12,17 +12,17 @@ python = "~3.8"
 prometheus-client = "0.7.1"
 requests = "2.23.0"
 confluent-kafka = "1.5.0"
-insights-core = "^3.1.9"
+insights-core = "3.1.9"
 app-common-python = "0.2.3"
-watchtower = "^1.0.6"
-logstash_formatter = "^0.5.17"
-minio = "^7.1.11"
+watchtower = "1.0.6"
+logstash_formatter = "0.5.17"
+minio = "7.1.13"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.4.1"
-flake8 = "^3.7.9"
-freezegun = "^0.3.15"
-jsonschema = "^3.2.0"
+pytest = "5.4.3"
+flake8 = "3.9.2"
+freezegun = "0.3.15"
+jsonschema = "3.2.0"
 
 [tool.poetry.scripts]
 puptoo = 'src.puptoo.app:main'
