@@ -17,6 +17,7 @@ from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
+from insights.parsers.dnf_module import DnfModuleList
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.greenboot_status import GreenbootStatus
 from insights.parsers.sap_hdb_version import HDBVersion
@@ -98,6 +99,7 @@ GCP_CONFIRMED_CODES = [
         Uptime,
         YumReposD,
         DnfModules,
+        DnfModuleList,
         CloudProvider,
         Specs.display_name,
         Specs.ansible_host,
@@ -139,6 +141,7 @@ def system_profile(
     uptime,
     yum_repos_d,
     dnf_modules,
+    dnf_module_list,
     cloud_provider,
     display_name,
     ansible_host,
@@ -459,7 +462,8 @@ def system_profile(
             catch_error("yum_repos_d", e)
             raise
 
-    if dnf_modules:
+    if not dnf_module_list and dnf_modules:
+        # use dnf_modules if older insights-client (without dnf_module_list) is used
         try:
             modules = []
             for module in dnf_modules:
@@ -470,6 +474,18 @@ def system_profile(
                             "stream": module.get(module_name, "stream"),
                         }
                     )
+            profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
+        except Exception as e:
+            catch_error("dnf_modules", e)
+            raise
+
+    if dnf_module_list:
+        try:
+            modules = []
+            for name, module in dnf_module_list.items():
+                for stream in module.streams:
+                    if stream.active:
+                        modules.append({"name": name, "stream": stream.stream})
             profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
         except Exception as e:
             catch_error("dnf_modules", e)
