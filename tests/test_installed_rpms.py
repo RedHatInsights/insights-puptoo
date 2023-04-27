@@ -29,10 +29,21 @@ RPM_DATA = """
 {"name":"gpg-pubkey","epoch":"(none)","version":"2fa658e0","release":"45700c69","arch":"(none)","installtime":"Thu Apr 25 08:21:00 2019","buildtime":"1556194860","vendor":"(none)","buildhost":"localhost","sigpgp":"(none)"}
 """.strip().splitlines()
 
+RPM_DATA_1 = """
+warning: Signature not supported. Hash algorithm SHA1 not available.
+{"name":"fonts-filesystem","epoch":"1","version":"2.0.5","release":"7.el9.1","arch":"noarch","installtime":"Wed Nov 16 16:48:30 2022","buildtime":"1631794698","vendor":"Red Hat, Inc.","buildhost":"ppc-004.build.eng.bos.redhat.com","sigpgp":"RSA/SHA256, Sat Nov 20 18:06:34 2021, Key ID 199e2f91fd431d51"}
+{"name":"fonts-filesystem","epoch":"1","version":"2.0.5","release":"7.el9.2","arch":"noarch","installtime":"Wed Nov 16 16:48:30 2022","buildtime":"1631794698","vendor":"Red Hat, Inc.","buildhost":"ppc-004.build.eng.bos.redhat.com","sigpgp":"RSA/SHA256, Sat Nov 20 18:06:34 2021, Key ID 199e2f91fd431d52"}
+{"name":"gpg-pubkey","epoch":"(none)","version":"fd431d51","release":"4ae0493b","arch":"(none)","installtime":"Tue Feb 23 08:27:53 2021","buildtime":"1256212795","vendor":"(none)","buildhost":"localhost","sigpgp":"(none)"}
+{"name":"gpg-pubkey","epoch":"(none)","version":"d4082792","release":"5b32db75","arch":"(none)","installtime":"Tue Feb 23 08:27:53 2021","buildtime":"1530059637","vendor":"(none)","buildhost":"localhost","sigpgp":"(none)"}
+""".strip().splitlines()
 
 @pytest.fixture
 def rpms():
     return InstalledRpms(context_wrap(RPM_DATA))
+
+@pytest.fixture
+def rpms_with_warnings():
+    return InstalledRpms(context_wrap(RPM_DATA_1))
 
 
 def test_get_gpg_pubkey_packages(rpms):
@@ -65,3 +76,22 @@ def test_sort_packages(rpms):
     stale = _get_stale_packages(rpms)
     res = _sort_packages(stale)
     assert len(res) == len(stale)
+
+
+def test_with_warnings_get_gpg_pubkey_packages(rpms_with_warnings):
+    pkgs = _get_gpg_pubkey_packages(rpms_with_warnings)
+    gpg_pubkey = InstalledRpm.from_json(RPM_DATA_1[-1])
+    assert gpg_pubkey in pkgs
+    assert len(pkgs) == 2
+
+
+def test_with_warnings_get_latest_packages(rpms_with_warnings):
+    pkgs = _get_latest_packages(rpms_with_warnings)
+    assert len(pkgs) == len(RPM_DATA_1) - 4
+    assert rpms_with_warnings.get_max('fonts-filesystem') in pkgs
+
+
+def test_with_warnings_get_stale_packages(rpms_with_warnings):
+    stale = _get_stale_packages(rpms_with_warnings)
+    assert InstalledRpm.from_package("fonts-filesystem-1:2.0.5-7.el9.1.noarch") in stale
+    assert len(stale) == 1
