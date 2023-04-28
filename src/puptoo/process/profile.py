@@ -505,7 +505,7 @@ def system_profile(
 
     if branch_info:
         try:
-            branch_info_json = json.loads(branch_info.content.decode("utf-8"))
+            branch_info_json = json.loads(branch_info.content)
             if branch_info_json["remote_branch"] != -1:
                 profile["satellite_managed"] = True
                 profile["satellite_id"] = branch_info_json["remote_leaf"]
@@ -535,7 +535,7 @@ def system_profile(
 
     if tags:
         try:
-            tags_json = json.loads(tags.content.decode("utf-8"))
+            tags_json = json.loads(tags.content[0])
             if type(tags_json) == list:
                 new_tags = format_tags(tags_json)
                 profile["tags"].update(new_tags)
