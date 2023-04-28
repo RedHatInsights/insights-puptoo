@@ -36,6 +36,8 @@ from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
+from insights.parsers.branch_info import BranchInfo
+from insights.parsers.tags import Tags
 from insights.specs import Specs
 
 
@@ -101,8 +103,8 @@ GCP_CONFIRMED_CODES = [
         Specs.ansible_host,
         Specs.version_info,
         InstalledProductIDs,
-        Specs.branch_info,
-        Specs.tags,
+        BranchInfo,
+        Tags,
         RpmOstreeStatus,
         RosConfig,
         Specs.yum_updates
@@ -505,7 +507,7 @@ def system_profile(
 
     if branch_info:
         try:
-            branch_info_json = json.loads(branch_info.content.decode("utf-8"))
+            branch_info_json = branch_info.data
             if branch_info_json["remote_branch"] != -1:
                 profile["satellite_managed"] = True
                 profile["satellite_id"] = branch_info_json["remote_leaf"]
@@ -535,7 +537,7 @@ def system_profile(
 
     if tags:
         try:
-            tags_json = json.loads(tags.content.decode("utf-8"))
+            tags_json = tags.data
             if type(tags_json) == list:
                 new_tags = format_tags(tags_json)
                 profile["tags"].update(new_tags)

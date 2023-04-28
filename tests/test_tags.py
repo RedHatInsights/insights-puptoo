@@ -1,10 +1,13 @@
-import logging
-
+import json
 import pytest
-from src.puptoo.process.profile import format_tags
+from insights.specs import Specs
+from insights.tests import InputData, run_test
+from src.puptoo.process.profile import format_tags, system_profile
 
 
-logger = logging.getLogger(__name__)
+TAGS = """
+[{"namespace": "insights-client", "value": "testing123", "key": "group"}, {"namespace": "insights-client", "value": null, "key": "test_group"}]
+""".strip()
 
 
 @pytest.mark.parametrize(
@@ -88,7 +91,10 @@ logger = logging.getLogger(__name__)
 )
 def test_format_tags(input_tags, expected_tags):
     output_tags = format_tags(input_tags)
-    logger.info(f"Input tags: {input_tags}")
-    logger.info(f"Output tags: {output_tags}")
-    logger.info(f"Expected tags: {expected_tags}")
     assert output_tags == expected_tags
+
+
+def test_tags():
+    input_data = InputData().add(Specs.tags, TAGS)
+    result = run_test(system_profile, input_data)
+    assert result['tags'] == format_tags(json.loads(TAGS))
