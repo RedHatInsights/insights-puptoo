@@ -157,7 +157,7 @@ def system_profile(
     Note that we strip all keys with the value of "None". Inventory service
     ignores any key with None as the value.
     """
-    profile = {"tags": {"insights-client": {}}}
+    profile = {"tags": {"insights-client": {}}, "is_marketplace": False}
 
     if uname:
         try:
