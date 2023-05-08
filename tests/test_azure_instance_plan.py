@@ -30,12 +30,12 @@ def test_azure_instance_plan():
 
     input_data = InputData().add(Specs.azure_instance_plan, AZURE_PLAN_3)
     result = run_test(system_profile, input_data)
-    assert result.get("is_marketplace") is None
+    assert result.get("is_marketplace") is False
 
     input_data = InputData().add(Specs.azure_instance_plan, None)
     result = run_test(system_profile, input_data)
-    assert result.get("is_marketplace") is None
+    assert result.get("is_marketplace") is False
 
     input_data = InputData().add(Specs.azure_instance_plan, AZURE_PLAN_4)
     result = run_test(system_profile, input_data)
-    assert result.get("is_marketplace") is None
+    assert result.get("is_marketplace") is False
