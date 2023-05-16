@@ -63,6 +63,9 @@ Feb 22 22:50:26 example greenboot-status[905]: FALLBACK BOOT DETECTED! Default r
 Feb 22 22:50:26 example systemd[1]: Started greenboot MotD Generator.
 """
 
+NO_LOGS = """
+WARNING: No greenboot logs were found!
+""".strip()
 
 def test_greenboot_status_green():
     input_data = InputData().add(Specs.greenboot_status, GREEN)
@@ -83,3 +86,9 @@ def test_greenboot_status_fallback():
     result = run_test(system_profile, input_data)
     assert result["greenboot_status"] == "green"
     assert result["greenboot_fallback_detected"] is True
+
+def test_greenboot_no_logs():
+    input_data = InputData().add(Specs.greenboot_status, NO_LOGS)
+    result = run_test(system_profile, input_data)
+    assert result.get("greenboot_status") == None
+    assert result["greenboot_fallback_detected"] is False

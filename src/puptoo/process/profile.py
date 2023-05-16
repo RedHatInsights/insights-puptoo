@@ -215,12 +215,10 @@ def system_profile(
 
     if gb_status:
         # Set the greenboot status
-        profile["greenboot_status"] = (
-            "red" if gb_status.red else "green" if gb_status.green else "Unknown"
-        )
-        profile["greenboot_status"] = (
-            "red" if gb_status.red else "green" if gb_status.green else "Unknown"
-        )
+        if gb_status.red:
+            profile["greenboot_status"] = "red"
+        elif gb_status.green:
+            profile["greenboot_status"] = "green"
         profile["greenboot_fallback_detected"] = True if gb_status.fallback else False
 
     if rpm_ostree_status:
