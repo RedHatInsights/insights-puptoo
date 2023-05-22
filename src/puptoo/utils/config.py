@@ -47,10 +47,10 @@ if CLOWDER_ENABLED:
 
     # Storage secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", LoadedConfig.objectStore.buckets[0].requestedName)
-    S3_ENDPOINT = os.getenv("S3_ENDPOINT", LoadedConfig.objectStore.hostname)
+    S3_ENDPOINT = os.getenv("S3_ENDPOINT", f'{LoadedConfig.objectStore.hostname}:{LoadedConfig.objectStore.port}')
     AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
     AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
-    USE_SSL = os.getenv("USE_SSL", True)
+    USE_SSL = os.getenv("USE_SSL", LoadedConfig.objectStore.tls)
     REDIS_HOST = LoadedConfig.inMemoryDb.hostname
     REDIS_PORT = LoadedConfig.inMemoryDb.port
 
@@ -66,7 +66,7 @@ else:
 
     # Storage secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", "insights-upload-puptoo")
-    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "localhost:9000")
+    S3_ENDPOINT = os.getenv("S3_ENDPOINT", "minio:9000")
     AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", None)
     AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", None)
     USE_SSL = os.getenv("USE_SSL", False)
