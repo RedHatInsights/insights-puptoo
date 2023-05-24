@@ -9,30 +9,44 @@
                 "port": 29092
             }
         ],
-        "topics": [
-            {
-                "requestedName": "platform.upload.advisor",
-                "name": "platform.upload.advisor"
-            },
-            {
-                "requestedName": "platform.upload.compliance",
-                "name": "platform.upload.compliance"
-            },
-            {
-                "requestedName": "platform.inventory.host-ingress",
-                "name": "platform.inventory.host-ingress"
-            },
-            {
-                "requestedName": "platform.upload.validation",
-                "name": "platform.upload.validation"
-            },
-            {
-                "requestedName": "platform.payload-status",
-                "name": "platform.payload-status"
-            },
-            {   "requestedName": "platform.logging.logs",
-                "name": "platform.logging.logs"
-            }
-        ]
-    }
+        "topics": [{
+			"name": "platform.inventory.host-ingress-p1",
+			"requestedName": "platform.inventory.host-ingress-p1"
+		}, {
+			"name": "platform.upload.validation",
+			"requestedName": "platform.upload.validation"
+		}, {
+			"name": "platform.payload-status",
+			"requestedName": "platform.payload-status"
+		}, {
+			"name": "platform.upload.announce",
+			"requestedName": "platform.upload.announce"
+		}]
+    },
+    "objectStore": {
+		"accessKey": "key",
+		"buckets": [{
+			"accessKey": "key",
+			"name": "insights-upload-puptoo",
+			"requestedName": "insights-upload-puptoo",
+			"secretKey": "value"
+		}],
+		"hostname": "minio",
+		"port": 9000,
+		"secretKey": "value",
+		"tls": false
+	},
+    "logging": {
+		"cloudwatch": {
+			"accessKeyId": "",
+			"logGroup": "",
+			"region": "",
+			"secretAccessKey": ""
+		},
+		"type": "null"
+	},
+    "inMemoryDb": {
+		"hostname": "redis",
+		"port": 6379
+	}
 }

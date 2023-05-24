@@ -488,7 +488,7 @@ data:
   "timezone": "",
   "title": "Puptoo",
   "uid": "EDPmNcdGk",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
 kind: ConfigMap
