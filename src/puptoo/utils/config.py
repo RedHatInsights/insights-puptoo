@@ -70,7 +70,7 @@ else:
     AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", os.getenv("MINIO_ACCESS_KEY", None))
     AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", os.getenv("MINIO_SECRET_KEY", None))
     USE_SSL = os.getenv("USE_SSL", False)
-    REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
+    REDIS_HOST = os.getenv("REDIS_HOST", "redis")
     REDIS_PORT = os.getenv("REDIS_PORT", 6379)
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
