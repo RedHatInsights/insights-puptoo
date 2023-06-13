@@ -39,6 +39,7 @@ from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
 from insights.parsers.branch_info import BranchInfo
 from insights.parsers.tags import Tags
+from insights.parsers.systemctl_status_all import SystemctlStatusAll
 from insights.specs import Specs
 
 
@@ -107,6 +108,7 @@ GCP_CONFIRMED_CODES = [
         InstalledProductIDs,
         BranchInfo,
         Tags,
+        SystemctlStatusAll,
         RpmOstreeStatus,
         RosConfig,
         Specs.yum_updates
@@ -149,6 +151,7 @@ def system_profile(
     product_ids,
     branch_info,
     tags,
+    systemctl_status_all,
     rpm_ostree_status,
     ros_config,
     yum_updates
@@ -581,6 +584,13 @@ def system_profile(
 
     if pmlog_summary or ros_config:
         profile["is_ros"] = True
+
+    if systemctl_status_all:
+        profile["systemd"] = {
+            "state": systemctl_status_all.state,
+            "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0]),
+            "failed": int(systemctl_status_all.failed.split(" ")[0])
+        }
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
