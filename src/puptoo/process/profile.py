@@ -11,14 +11,15 @@ from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
-from insights.parsers.aws_instance_id import AWSInstanceIdDoc
-from insights.parsers.azure_instance import AzureInstancePlan
+from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses
+from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.dnf_module import DnfModuleList
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
+from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
 from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
@@ -75,7 +76,9 @@ GCP_CONFIRMED_CODES = [
         Specs.hostname,
         AnsibleInfo,
         AWSInstanceIdDoc,
+        AWSPublicIpv4Addresses,
         AzureInstancePlan,
+        AzurePublicIpv4Addresses,
         CpuInfo,
         VirtWhat,
         MemInfo,
@@ -90,6 +93,7 @@ GCP_CONFIRMED_CODES = [
         SEStatus,
         Tuned,
         GCPLicenseCodes,
+        GCPNetworkInterfaces,
         GreenbootStatus,
         HDBVersion,
         InstalledRpms,
@@ -118,7 +122,9 @@ def system_profile(
     hostname,
     ansible_info,
     aws_instance_id,
+    aws_public_ipv4_addresses,
     azure_instance_plan,
+    azure_public_ipv4_addresses,
     cpu_info,
     virt_what,
     meminfo,
@@ -133,6 +139,7 @@ def system_profile(
     sestatus,
     tuned,
     gcp_license_codes,
+    gcp_network_interfaces,
     gb_status,
     hdb_version,
     installed_rpms,
@@ -591,6 +598,15 @@ def system_profile(
             "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0]),
             "failed": int(systemctl_status_all.failed.split(" ")[0])
         }
+
+    if aws_public_ipv4_addresses:
+        profile["public_ipv4_addresses"] = aws_public_ipv4_addresses
+
+    if azure_public_ipv4_addresses:
+        profile["public_ipv4_addresses"] = azure_public_ipv4_addresses
+
+    if gcp_network_interfaces:
+        profile["public_ipv4_addresses"] = gcp_network_interfaces.public_ips
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
