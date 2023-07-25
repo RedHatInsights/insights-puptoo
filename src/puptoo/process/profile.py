@@ -41,6 +41,7 @@ from insights.parsers.yum_repos_d import YumReposD
 from insights.parsers.branch_info import BranchInfo
 from insights.parsers.tags import Tags
 from insights.parsers.systemctl_status_all import SystemctlStatusAll
+from insights.parsers.eap_json_reports import EAPJSONReports
 from insights.specs import Specs
 
 
@@ -115,7 +116,8 @@ GCP_CONFIRMED_CODES = [
         SystemctlStatusAll,
         RpmOstreeStatus,
         RosConfig,
-        Specs.yum_updates
+        Specs.yum_updates,
+        EAPJSONReports
     ]
 )
 def system_profile(
@@ -161,7 +163,8 @@ def system_profile(
     systemctl_status_all,
     rpm_ostree_status,
     ros_config,
-    yum_updates
+    yum_updates,
+    eap_json_reports
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -591,6 +594,9 @@ def system_profile(
 
     if pmlog_summary or ros_config:
         profile["is_ros"] = True
+    
+    if eap_json_reports:
+        profile["is_runtimes"] = True
 
     if systemctl_status_all:
         profile["systemd"] = {
