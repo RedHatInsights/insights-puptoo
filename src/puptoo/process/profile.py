@@ -11,6 +11,7 @@ from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
+from insights.core.filters import add_filter
 from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses
 from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
 from insights.parsers.cpuinfo import CpuInfo
@@ -38,8 +39,8 @@ from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
-from insights.parsers.branch_info import BranchInfo
-from insights.parsers.tags import Tags
+from insights.parsers.client_metadata import BranchInfo
+from insights.parsers.client_metadata import Tags
 from insights.parsers.systemctl_status_all import SystemctlStatusAll
 from insights.specs import Specs
 
@@ -50,6 +51,10 @@ logger = logging.getLogger(config.APP_NAME)
 
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
+add_filter(GreenbootStatus, ['GREEN', 'RED', 'FALLBACK'])
+add_filter(Sap, ['SID'])
+add_filter(SystemctlStatusAll, ['State', 'Jobs', 'Failed'])
+add_filter(InstalledProductIDs, 'ID')
 
 MAC_REGEX = '^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$'
 
@@ -274,7 +279,7 @@ def system_profile(
                 profile["sap_instance_number"] = sap[inst].number
             profile["sap"] = {}
             profile["sap"]["sap_system"] = profile.get("sap_system")
-            if profile.get("sap_sids"): 
+            if profile.get("sap_sids"):
                 profile["sap"]["sids"] = profile.get("sap_sids")
             if profile.get("sap_instance_number"):
                 profile["sap"]["instance_number"] = profile.get("sap_instance_number")
@@ -340,7 +345,7 @@ def system_profile(
 
             gpg_pubkeys = _get_gpg_pubkey_packages(installed_rpms)
             profile["gpg_pubkeys"] = [p.package for p in sorted(gpg_pubkeys)]
-            
+
             mssql_server = _get_mssql_server_package(latest)
             if mssql_server:
                 profile["mssql"] = {"version": mssql_server.version}
@@ -415,7 +420,7 @@ def system_profile(
                 if redhat_release.major >= 8:
                     profile["system_update_method"] = "dnf"
                 else:
-                    profile["system_update_method"] = "yum" 
+                    profile["system_update_method"] = "yum"
         except Exception as e:
             catch_error("redhat_release", e)
             raise
