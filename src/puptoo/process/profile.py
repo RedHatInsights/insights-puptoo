@@ -6,6 +6,7 @@ import re
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
+from insights.combiners.os_release import OSRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
@@ -54,6 +55,7 @@ dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
 MAC_REGEX = '^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$'
 
+
 def catch_error(parser, error):
     log_msg = "System Profile failed due to %s encountering an error: %s"
     logger.error(log_msg, parser, error)
@@ -86,6 +88,7 @@ GCP_CONFIRMED_CODES = [
         IpAddr,
         DMIDecode,
         RedHatRelease,
+        OSRelease,
         RhsmReleaseVer,
         Uname,
         LsMod,
@@ -133,6 +136,7 @@ def system_profile(
     ip_addr,
     dmidecode,
     redhat_release,
+    os_release,
     rhsm_releasever,
     uname,
     lsmod,
@@ -239,7 +243,7 @@ def system_profile(
         origin_check = [item.value.endswith("edge") for item in origin]
         if origin_check and all(origin_check):
             profile["host_type"] = "edge"
-            if redhat_release:
+            if os_release and os_release.is_rhel:
                 profile["system_update_method"] = "rpm-ostree"
 
         deployments = _get_deployments(rpm_ostree_status)
@@ -343,7 +347,7 @@ def system_profile(
 
             gpg_pubkeys = _get_gpg_pubkey_packages(installed_rpms)
             profile["gpg_pubkeys"] = [p.package for p in sorted(gpg_pubkeys)]
-            
+
             mssql_server = _get_mssql_server_package(latest)
             if mssql_server:
                 profile["mssql"] = {"version": mssql_server.version}
@@ -407,18 +411,32 @@ def system_profile(
             raise
 
     if redhat_release:
+        # Centos7 and RHEL have redhat-release, so either will land here
         try:
-            profile["os_release"] = redhat_release.rhel
-            profile["operating_system"] = {
-                "major": redhat_release.major,
-                "minor": redhat_release.minor,
-                "name": "RHEL",
-            }
-            if profile.get("host_type") is None:
-                if redhat_release.major >= 8:
-                    profile["system_update_method"] = "dnf"
-                else:
-                    profile["system_update_method"] = "yum" 
+            if os_release.is_rhel:
+                # if its rhel, we do the rhel actions
+                profile["os_release"] = redhat_release.rhel
+                profile["operating_system"] = {
+                    "major": redhat_release.major,
+                    "minor": redhat_release.minor,
+                    "name": "RHEL",
+                }
+                if profile.get("host_type") is None:
+                    if redhat_release.major >= 8:
+                        profile["system_update_method"] = "dnf"
+                    else:
+                        profile["system_update_method"] = "yum"
+            else:
+                # if its not rhel, we get the data from os-release
+                # this does not work for centos8/9 but does for centos7
+                profile["os_release"] = os_release.release
+                profile["operating_system"] = {
+                    "major": redhat_release.major,
+                    "minor": redhat_release.minor,
+                    "name": os_release.name,
+                }
+                profile["system_update_method"] = "yum"
+
         except Exception as e:
             catch_error("redhat_release", e)
             raise
@@ -594,7 +612,7 @@ def system_profile(
 
     if pmlog_summary or ros_config:
         profile["is_ros"] = True
-    
+
     if eap_json_reports:
         profile["is_runtimes"] = True
 
