@@ -14,6 +14,7 @@ REDHAT_RELEASE_6_10 = "Red Hat Enterprise Linux Server release 6.10(Santiago)"
 REDHAT_RELEASE_BETA = "Red Hat Enterprise Linux Server release 8.5 Beta (Ootpa)"
 REDHAT_RELEASE_CENTOS_STREAM = "CentOS Stream release 8"
 REDHAT_RELEASE_CENTOS_7 = "CentOS Linux release 7.6.1810 (Core)"
+REDHAT_RELEASE_CENTOS_8_5 = "CentOS Linux release 8.5.2111"
 REDHAT_RELEASE_9_ALPHA = "Red Hat Enterprise Linux release 9.0 Alpha (Plow)"
 REDHAT_RELEASE_8_CONTAINER = "Red Hat Enterprise Linux Server release 8.6 (Ootpa)"
 
@@ -150,6 +151,8 @@ def test_rhel_7_2():
     input_data.add(Specs.uname, UNAME_EL7_2)
     input_data.add(Specs.os_release, OS_RELEASE_RHEL_7_2)
     result = run_test(system_profile, input_data)
+    assert result
+    assert isinstance(result, dict)
     assert result["os_release"] == "7.2"
     assert result["operating_system"] == {
         "major": 7,
@@ -163,9 +166,26 @@ def test_centos_7_9():
     input_data.add(Specs.uname, UNAME_CENTOS_7_9)
     input_data.add(Specs.os_release, OS_RELEASE_CENTOS_7_9)
     result = run_test(system_profile, input_data)
+    assert result
+    assert isinstance(result, dict)
     assert result["os_release"] == "7.9"
     assert result["operating_system"] == {
         "major": 7,
         "minor": 9,
+        "name": "CentOS",
+    }
+
+def test_centos_8_5():
+    input_data = InputData()
+    input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_8_5)
+    input_data.add(Specs.uname, UNAME_CENTOS_8_5)
+    input_data.add(Specs.os_release, OS_RELEASE_CENTOS_8_5)
+    result = run_test(system_profile, input_data)
+    assert result
+    assert isinstance(result, dict)
+    assert result["os_release"] == "8.5"
+    assert result["operating_system"] == {
+        "major": 8,
+        "minor": 5,
         "name": "CentOS",
     }
