@@ -6,6 +6,7 @@ import re
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.redhat_release import RedHatRelease
+from insights.combiners.os_release import OSRelease, OsRelease  # OSRelease combiner, OsRelease imported parser
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
@@ -17,6 +18,7 @@ from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Ad
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
+from insights.parsers.dmesg import DmesgLineList
 from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.dnf_module import DnfModuleList
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
@@ -31,6 +33,7 @@ from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.pmlog_summary import PmLogSummary
 from insights.parsers.ps import PsAuxcww
+from insights.parsers.redhat_release import RedhatRelease
 from insights.parsers.ros_config import RosConfig
 from insights.parsers.rpm_ostree_status import RpmOstreeStatus
 from insights.parsers.sestatus import SEStatus
@@ -55,6 +58,7 @@ add_filter(GreenbootStatus, ['GREEN', 'RED', 'FALLBACK'])
 add_filter(Sap, ['SID'])
 add_filter(SystemctlStatusAll, ['State', 'Jobs', 'Failed'])
 add_filter(InstalledProductIDs, 'ID')
+add_filter(Specs.dmesg, 'Linux')
 
 MAC_REGEX = '^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$'
 
@@ -89,7 +93,8 @@ GCP_CONFIRMED_CODES = [
         MemInfo,
         IpAddr,
         DMIDecode,
-        RedHatRelease,
+        RedHatRelease, RedhatRelease, # combiner and parser
+        OSRelease, OsRelease, # combiner and parser
         RhsmReleaseVer,
         Uname,
         LsMod,
@@ -135,7 +140,8 @@ def system_profile(
     meminfo,
     ip_addr,
     dmidecode,
-    redhat_release,
+    redhat_release, redhat_release_parser,
+    os_release, os_release_parser,
     rhsm_releasever,
     uname,
     lsmod,
@@ -410,11 +416,25 @@ def system_profile(
 
     if redhat_release:
         try:
+            # RHEL should always land in this condition/statement
+            # this is mostly exactly what the older code does for RHEL
+            print("redhat_release; os_release parser data:", os_release_parser.data)
+            print("redhat_release; redhat_release parser:", dir(redhat_release_parser))
+            # Make a best guess at the actual operating system.
+            # The OSRelease and RedHatRelease combiners are unreliable, because
+            # the base their judgements mainly on uname, and uname can't
+            # distinguish between RHEL and CentOS for at least version 7.
+            release_name = os_release_parser['NAME']
+            # apply some shortenings:
+            if release_name.startswith('Red Hat Enterprise Linux'):
+                release_name = 'RHEL'
+            elif release_name == 'CentOS Linux':
+                release_name = 'CentOS'
             profile["os_release"] = redhat_release.rhel
             profile["operating_system"] = {
                 "major": redhat_release.major,
                 "minor": redhat_release.minor,
-                "name": "RHEL",
+                "name": release_name,
             }
             if profile.get("host_type") is None:
                 if redhat_release.major >= 8:
@@ -424,6 +444,22 @@ def system_profile(
         except Exception as e:
             catch_error("redhat_release", e)
             raise
+
+    elif os_release:
+        print("not redhat_release but os_release")
+        # centos8/9 currently fall here.  Its likely that alma, rocky, oracle, etc also land here.
+        # major/minor integers are hardcoded because os_release cannot provide data that works here.
+        # big sad times.
+        profile["os_release"] = os_release.release
+        profile["operating_system"] = {
+            "major": "0",
+            "minor": "0",
+            "name": os_release.release,
+        }
+        profile["system_update_method"] = "yum"
+    else:
+        # this is a catch all for diagnostic purposes.
+        profile["os_release"] = "OS Not Recognized"
 
     # When inventory allows us to delete system facts, do that instead using empty string here
     profile["rhsm"] = {"version": ""}
