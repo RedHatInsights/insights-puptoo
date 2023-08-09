@@ -11,5 +11,4 @@ foo-bar
 def test_display_name():
     input_data = InputData().add(Specs.display_name, DISPLAY_NAME_1)
     result = run_test(system_profile, input_data)
-    print(result)
     assert result["display_name"] == "foo-bar"
