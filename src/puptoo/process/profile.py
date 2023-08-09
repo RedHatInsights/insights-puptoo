@@ -5,7 +5,7 @@ import re
 
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
-from insights.combiners.redhat_release import RedHatRelease
+from insights.parsers.redhat_release import RedhatRelease
 from insights.combiners.os_release import OSRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.combiners.virt_what import VirtWhat
@@ -87,7 +87,7 @@ GCP_CONFIRMED_CODES = [
         MemInfo,
         IpAddr,
         DMIDecode,
-        RedHatRelease,
+        RedhatRelease,
         OSRelease,
         RhsmReleaseVer,
         Uname,
@@ -410,32 +410,23 @@ def system_profile(
             catch_error("uname", e)
             raise
 
-    if redhat_release:
-        # Centos7 and RHEL have redhat-release, so either will land here
+    if redhat_release and os_release:
         try:
+            if redhat_release.minor is None:
+                redhat_release.minor = 0
+
+            profile["os_release"] = '{0}.{1}'.format(redhat_release.major, redhat_release.minor)
+            profile["operating_system"] = {
+                "major": redhat_release.major,
+                "minor": redhat_release.minor,
+                "name": os_release.release
+            }
+            profile["system_update_method"] = "yum"
+
             if os_release.is_rhel:
-                # if its rhel, we do the rhel actions
-                profile["os_release"] = redhat_release.rhel
-                profile["operating_system"] = {
-                    "major": redhat_release.major,
-                    "minor": redhat_release.minor,
-                    "name": "RHEL",
-                }
                 if profile.get("host_type") is None:
                     if redhat_release.major >= 8:
                         profile["system_update_method"] = "dnf"
-                    else:
-                        profile["system_update_method"] = "yum"
-            else:
-                # if its not rhel, we get the data from os-release
-                # this does not work for centos8/9 but does for centos7
-                profile["os_release"] = os_release.release
-                profile["operating_system"] = {
-                    "major": redhat_release.major,
-                    "minor": redhat_release.minor,
-                    "name": os_release.name,
-                }
-                profile["system_update_method"] = "yum"
 
         except Exception as e:
             catch_error("redhat_release", e)
