@@ -412,21 +412,23 @@ def system_profile(
 
     if redhat_release and os_release:
         try:
-            if redhat_release.minor is None:
-                redhat_release.minor = 0
 
-            profile["os_release"] = '{0}.{1}'.format(redhat_release.major, redhat_release.minor)
-            profile["operating_system"] = {
-                "major": redhat_release.major,
-                "minor": redhat_release.minor,
-                "name": os_release.release
-            }
-            profile["system_update_method"] = "yum"
+            if os_release.release in ["CentOS Linux", "RHEL"]:
+                if redhat_release.minor is None:
+                    redhat_release.minor = 0
 
-            if os_release.is_rhel:
-                if profile.get("host_type") is None:
-                    if redhat_release.major >= 8:
-                        profile["system_update_method"] = "dnf"
+                profile["os_release"] = '{0}.{1}'.format(redhat_release.major, redhat_release.minor)
+                profile["operating_system"] = {
+                    "major": redhat_release.major,
+                    "minor": redhat_release.minor,
+                    "name": os_release.release
+                }
+                profile["system_update_method"] = "yum"
+
+                if os_release.is_rhel:
+                    if profile.get("host_type") is None:
+                        if redhat_release.major >= 8:
+                            profile["system_update_method"] = "dnf"
 
         except Exception as e:
             catch_error("redhat_release", e)

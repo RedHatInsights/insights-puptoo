@@ -117,14 +117,7 @@ def test_os_release():
     input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_9)
     input_data.add(Specs.os_release, OS_RELEASE_CENTOS_9)
     result = run_test(system_profile, input_data)
-    expected_result = {
-        "major": 9,
-        "minor": 0,
-        "name": "CentOS Stream"
-    }
-    assert result["os_release"] == "9.0"
-    assert result["system_update_method"] == "yum"
-    assert result["operating_system"] == expected_result
+    assert result.get("operating_system") == None
 
     input_data = InputData()
     input_data.add(Specs.redhat_release, REDHAT_RELEASE_SERVER_7_9)
