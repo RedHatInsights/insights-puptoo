@@ -327,6 +327,22 @@ def test_centos_7_9():
         "minor": 9,
         "name": "CentOS",
     }
+    input_data.add(Specs.dmesg, DMESG_CENTOS_7_9)
+    result = run_test(system_profile, input_data)
+    assert result["os_release"] == "7.9"
+    assert result["operating_system"] == {
+        "major": 7,
+        "minor": 9,
+        "name": "CentOS",
+    }
+    input_data.add(Specs.installed_rpms, RPMS_CENTOS_7_9_RAW)
+    result = run_test(system_profile, input_data)
+    assert result["os_release"] == "7.9"
+    assert result["operating_system"] == {
+        "major": 7,
+        "minor": 9,
+        "name": "CentOS",
+    }
 
 def test_centos_8_5():
     input_data = InputData()

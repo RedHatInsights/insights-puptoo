@@ -441,6 +441,8 @@ def system_profile(
             catch_error("redhat_release", e)
             raise
     elif redhat_release:
+        # If we don't have the os_release parser, then we have to go off what
+        # the redhat_release combiner has managed to find.
         profile["os_release"] = redhat_release.rhel
         profile["operating_system"] = {
             "major": redhat_release.major,
