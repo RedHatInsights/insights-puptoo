@@ -414,12 +414,8 @@ def system_profile(
             catch_error("uname", e)
             raise
 
-    if redhat_release:
+    if redhat_release and os_release_parser:
         try:
-            # RHEL should always land in this condition/statement
-            # this is mostly exactly what the older code does for RHEL
-            print("redhat_release; os_release parser data:", os_release_parser.data)
-            print("redhat_release; redhat_release parser:", dir(redhat_release_parser))
             # Make a best guess at the actual operating system.
             # The OSRelease and RedHatRelease combiners are unreliable, because
             # the base their judgements mainly on uname, and uname can't
@@ -444,7 +440,18 @@ def system_profile(
         except Exception as e:
             catch_error("redhat_release", e)
             raise
-
+    elif redhat_release:
+        profile["os_release"] = redhat_release.rhel
+        profile["operating_system"] = {
+            "major": redhat_release.major,
+            "minor": redhat_release.minor,
+            "name": redhat_release.rhel,
+        }
+        if profile.get("host_type") is None:
+            if redhat_release.major >= 8:
+                profile["system_update_method"] = "dnf"
+            else:
+                profile["system_update_method"] = "yum"
     elif os_release:
         print("not redhat_release but os_release")
         # centos8/9 currently fall here.  Its likely that alma, rocky, oracle, etc also land here.
