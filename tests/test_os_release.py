@@ -20,8 +20,6 @@ ID="rhel"
 PRETTY_NAME="Red Hat Enterprise Linux 7.2 (Ootpa)"
 """.strip()
 
-# REDHAT_RELEASE_CENTOS_7_6 = """CentOS Linux release 7.6.1810 (Core)"""
-
 REDHAT_RELEASE_CENTOS_7_9 = "CentOS Linux release 7.9.2009 (Core)"
 OS_RELEASE_CENTOS_7_9 = """
 NAME="CentOS Linux"
@@ -42,33 +40,6 @@ NAME="Oracle Linux Server"
 VERSION="7.9"
 ID="ol"
 PRETTY_NAME="Red Hat Enterprise Linux"
-""".strip()
-
-REDHAT_RELEASE = """
-Red Hat Enterprise Linux Server release 7.9 (Maipo)
-# This is a "SLES Expanded Support platform release 7.9"
-# The above "Red Hat Enterprise Linux Server" string is only used to 
-# keep software compatibility.
-""".strip()
-OS_RELEASE_SUSE_7_9 = """
-NAME="Red Hat Enterprise Linux Server"
-VERSION="7.9 (Maipo)"
-ID="rhel"
-ID_LIKE="fedora"
-VERSION_ID="7.9"
-PRETTY_NAME="Red Hat Enterprise Linux Server 7.9"
-ANSI_COLOR="0;31"
-CPE_NAME="cpe:/o:redhat:enterprise_linux:7.9:GA:server"
-HOME_URL="https://www.redhat.com/"
-BUG_REPORT_URL="https://bugzilla.redhat.com/"
-
-REDHAT_BUGZILLA_PRODUCT="Red Hat Enterprise Linux 7"
-REDHAT_BUGZILLA_PRODUCT_VERSION=7.9
-REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
-REDHAT_SUPPORT_PRODUCT_VERSION=7.9
-# This is a "SLES Expanded Support platform release 7.9"
-# The above "Red Hat Enterprise Linux Server" string is only used to
-# keep software compatibility.
 """.strip()
 
 
@@ -123,10 +94,4 @@ def test_os_release():
     input_data.add(Specs.redhat_release, REDHAT_RELEASE_SERVER_7_9)
     input_data.add(Specs.os_release, OS_RELEASE_ORACLE_7_9)
     result = run_test(system_profile, input_data)
-    # TODO: add assertions after updating insights-core to 3.2.9
-
-    input_data = InputData()
-    input_data.add(Specs.redhat_release, REDHAT_RELEASE)
-    input_data.add(Specs.os_release, OS_RELEASE_SUSE_7_9)
-    result = run_test(system_profile, input_data)
-    # TODO: add assertions
+    assert result.get("operating_system") == None

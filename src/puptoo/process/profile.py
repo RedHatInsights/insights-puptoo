@@ -412,16 +412,14 @@ def system_profile(
 
     if redhat_release and os_release:
         try:
+            if os_release.release == "RHEL" or os_release.name == "CentOS Linux":                
+                minor = 0 if redhat_release.minor is None else redhat_release.minor
 
-            if os_release.release in ["CentOS Linux", "RHEL"]:
-                if redhat_release.minor is None:
-                    redhat_release.minor = 0
-
-                profile["os_release"] = '{0}.{1}'.format(redhat_release.major, redhat_release.minor)
+                profile["os_release"] = '{0}.{1}'.format(redhat_release.major, minor)
                 profile["operating_system"] = {
                     "major": redhat_release.major,
-                    "minor": redhat_release.minor,
-                    "name": os_release.release
+                    "minor": minor,
+                    "name": os_release.release if os_release.release == "RHEL" else os_release.name
                 }
                 profile["system_update_method"] = "yum"
 
