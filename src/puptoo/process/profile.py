@@ -5,6 +5,7 @@ import re
 
 from insights import make_metadata, rule, run
 from insights.combiners.cloud_provider import CloudProvider
+from insights.combiners.redhat_release import RedHatRelease
 from insights.parsers.redhat_release import RedhatRelease
 from insights.combiners.os_release import OSRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
@@ -88,6 +89,7 @@ GCP_CONFIRMED_CODES = [
         IpAddr,
         DMIDecode,
         RedhatRelease,
+        RedHatRelease,
         OSRelease,
         RhsmReleaseVer,
         Uname,
@@ -135,7 +137,8 @@ def system_profile(
     meminfo,
     ip_addr,
     dmidecode,
-    redhat_release,
+    redhat_release_parser,
+    redhat_release_combiner,
     os_release,
     rhsm_releasever,
     uname,
@@ -410,24 +413,29 @@ def system_profile(
             catch_error("uname", e)
             raise
 
-    if redhat_release and os_release:
+    if (redhat_release_parser or redhat_release_combiner) and os_release:
         try:
-            if os_release.release == "RHEL" or os_release.name == "CentOS Linux":                
-                minor = 0 if redhat_release.minor is None else redhat_release.minor
-
-                profile["os_release"] = '{0}.{1}'.format(redhat_release.major, minor)
-                profile["operating_system"] = {
-                    "major": redhat_release.major,
-                    "minor": minor,
-                    "name": os_release.release if os_release.release == "RHEL" else os_release.name
-                }
+            if profile.get("system_update_method") is None:
                 profile["system_update_method"] = "yum"
-
-                if os_release.is_rhel:
-                    if profile.get("host_type") is None:
-                        if redhat_release.major >= 8:
-                            profile["system_update_method"] = "dnf"
-
+            if os_release.is_rhel and redhat_release_combiner:
+                profile["os_release"] = redhat_release_combiner.rhel
+                profile["operating_system"] = {
+                    "major": redhat_release_combiner.major,
+                    "minor": redhat_release_combiner.minor,
+                    "name": "RHEL"
+                }
+                if profile.get("host_type") is None:
+                    if redhat_release_combiner.major >= 8:
+                        profile["system_update_method"] = "dnf"
+            elif "CentOS Linux" in os_release.name and redhat_release_parser:
+                minor = 0 if redhat_release_parser.minor is None else redhat_release_parser.minor
+                profile["os_release"] = '{0}.{1}'.format(redhat_release_parser.major, minor)
+                profile["operating_system"] = {
+                    "major": redhat_release_parser.major,
+                    "minor": minor,
+                    "name": os_release.name
+                }
+ 
         except Exception as e:
             catch_error("redhat_release", e)
             raise
