@@ -6,6 +6,7 @@
 APP_NAME="ingress"  # name of app-sre "application" folder this component lives in
 COMPONENT_NAME="puptoo"  # name of app-sre "resourceTemplate" in deploy.yaml for this component
 IMAGE="quay.io/cloudservices/insights-puptoo"
+REF_ENV="insights-stage"
 
 IQE_PLUGINS="puptoo"
 IQE_MARKER_EXPRESSION="smoke"
