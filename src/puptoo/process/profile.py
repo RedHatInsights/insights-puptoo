@@ -427,14 +427,14 @@ def system_profile(
                 if profile.get("host_type") is None:
                     if redhat_release_combiner.major >= 8:
                         profile["system_update_method"] = "dnf"
-            elif "CentOS Linux" in os_release.name and redhat_release_parser:
-                minor = 0 if redhat_release_parser.minor is None else redhat_release_parser.minor
-                profile["os_release"] = '{0}.{1}'.format(redhat_release_parser.major, minor)
-                profile["operating_system"] = {
-                    "major": redhat_release_parser.major,
-                    "minor": minor,
-                    "name": os_release.name
-                }
+            # elif "CentOS Linux" in os_release.name and redhat_release_parser:
+            #     minor = 0 if redhat_release_parser.minor is None else redhat_release_parser.minor
+            #     profile["os_release"] = '{0}.{1}'.format(redhat_release_parser.major, minor)
+            #     profile["operating_system"] = {
+            #         "major": redhat_release_parser.major,
+            #         "minor": minor,
+            #         "name": os_release.name
+            #     }
  
         except Exception as e:
             catch_error("redhat_release", e)

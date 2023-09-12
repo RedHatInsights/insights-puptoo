@@ -71,24 +71,24 @@ def test_os_release():
     assert result["system_update_method"] == "yum"
     assert result["operating_system"] == expected_result
 
-    input_data = InputData()
-    input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_7_9)
-    input_data.add(Specs.os_release, OS_RELEASE_CENTOS_7_9)
-    result = run_test(system_profile, input_data)
-    expected_result = {
-        "major": 7,
-        "minor": 9,
-        "name": "CentOS Linux"
-    }
-    assert result["os_release"] == "7.9"
-    assert result["system_update_method"] == "yum"
-    assert result["operating_system"] == expected_result
+    # input_data = InputData()
+    # input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_7_9)
+    # input_data.add(Specs.os_release, OS_RELEASE_CENTOS_7_9)
+    # result = run_test(system_profile, input_data)
+    # expected_result = {
+    #     "major": 7,
+    #     "minor": 9,
+    #     "name": "CentOS Linux"
+    # }
+    # assert result["os_release"] == "7.9"
+    # assert result["system_update_method"] == "yum"
+    # assert result["operating_system"] == expected_result
 
-    input_data = InputData()
-    input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_9)
-    input_data.add(Specs.os_release, OS_RELEASE_CENTOS_9)
-    result = run_test(system_profile, input_data)
-    assert result.get("operating_system") == None
+    # input_data = InputData()
+    # input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_9)
+    # input_data.add(Specs.os_release, OS_RELEASE_CENTOS_9)
+    # result = run_test(system_profile, input_data)
+    # assert result.get("operating_system") == None
 
     input_data = InputData()
     input_data.add(Specs.redhat_release, REDHAT_RELEASE_SERVER_7_9)
