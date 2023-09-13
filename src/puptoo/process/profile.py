@@ -675,7 +675,7 @@ def _remove_empties(d):
     small helper method to remove keys with value of None, [] or ''. These are
     not accepted by inventory service.
     """
-    return {x: d[x] for x in d if d[x] not in [None, "", []]}
+    return {x: d[x] for x in d if d[x] not in [None, "", [], ['']]}
 
 
 def _get_deployments(rpm_ostree_status):
