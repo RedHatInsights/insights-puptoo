@@ -623,13 +623,13 @@ def system_profile(
         }
 
     if aws_public_ipv4_addresses:
-        profile["public_ipv4_addresses"] = aws_public_ipv4_addresses
+        profile["public_ipv4_addresses"] = _remove_empty_string(aws_public_ipv4_addresses)
 
     if azure_public_ipv4_addresses:
-        profile["public_ipv4_addresses"] = azure_public_ipv4_addresses
+        profile["public_ipv4_addresses"] = _remove_empty_string(azure_public_ipv4_addresses)
 
     if gcp_network_interfaces:
-        profile["public_ipv4_addresses"] = gcp_network_interfaces.public_ips
+        profile["public_ipv4_addresses"] = _remove_empty_string(gcp_network_interfaces.public_ips)
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
@@ -675,8 +675,14 @@ def _remove_empties(d):
     small helper method to remove keys with value of None, [] or ''. These are
     not accepted by inventory service.
     """
-    return {x: d[x] for x in d if d[x] not in [None, "", [], ['']]}
+    return {x: d[x] for x in d if d[x] not in [None, "", []]}
 
+
+def _remove_empty_string(arr):
+    """
+    small helper method to remove empty string from an array.
+    """
+    return [i for i in arr if i != '']
 
 def _get_deployments(rpm_ostree_status):
     """
