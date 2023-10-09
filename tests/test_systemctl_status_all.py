@@ -24,6 +24,17 @@ Sep 23 15:11:07 redhat.test.com systemd[1]: proc-sys-fs-binfmt_misc.automount: A
 Sep 23 15:11:07 redhat.test.com systemd[1]: proc-sys-fs-binfmt_misc.automount: Got automount request for /proc/sys/fs/binfmt_mis
 """.strip()
 
+
+LISTUNITS = """
+sockets.target                                                              loaded active active    Sockets
+swap.target                                                                 loaded active active    Swap
+systemd-shutdownd.socket                                                    loaded active listening Delayed Shutdown Socket
+neutron-dhcp-agent.service                                                  loaded active running   OpenStack Neutron DHCP     Agent
+neutron-openvswitch-agent.service                                           loaded active running   OpenStack Neutron Open     vSwitch Agent
+chronyd.service                                                             loaded failed failed    NTP client/server
+""".strip()
+
+
 def test_systemctl_status():
     input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL)
     result = run_test(system_profile, input_data)
@@ -32,3 +43,12 @@ def test_systemctl_status():
     assert result['systemd']['jobs_queued'] == 0
     assert result['systemd']['state'] == 'degraded'
 
+    input_data = InputData()
+    input_data.add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL)
+    input_data.add(Specs.systemctl_list_units, LISTUNITS)
+    result = run_test(system_profile, input_data)
+
+    assert result['systemd']['failed'] == 2
+    assert result['systemd']['jobs_queued'] == 0
+    assert result['systemd']['state'] == 'degraded'
+    assert result['systemd']['failed_services'] == ['chronyd.service']

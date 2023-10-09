@@ -35,7 +35,7 @@ from insights.parsers.ps import PsAuxcww
 from insights.parsers.ros_config import RosConfig
 from insights.parsers.rpm_ostree_status import RpmOstreeStatus
 from insights.parsers.sestatus import SEStatus
-from insights.parsers.systemd.unitfiles import UnitFiles
+from insights.parsers.systemd.unitfiles import UnitFiles, ListUnits
 from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
@@ -104,6 +104,7 @@ GCP_CONFIRMED_CODES = [
         HDBVersion,
         InstalledRpms,
         UnitFiles,
+        ListUnits,
         PmLogSummary,
         PsAuxcww,
         DateUTC,
@@ -153,6 +154,7 @@ def system_profile(
     hdb_version,
     installed_rpms,
     unit_files,
+    list_units,
     pmlog_summary,
     ps_auxcww,
     date_utc,
@@ -621,6 +623,10 @@ def system_profile(
             "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0]),
             "failed": int(systemctl_status_all.failed.split(" ")[0])
         }
+        if list_units:
+            if int(systemctl_status_all.failed.split(" ")[0]) > 0:
+                profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names 
+                    if list_units.is_failed(svc)]
 
     if aws_public_ipv4_addresses:
         profile["public_ipv4_addresses"] = _remove_empty_string(aws_public_ipv4_addresses)
