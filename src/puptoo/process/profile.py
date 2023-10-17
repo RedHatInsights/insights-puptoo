@@ -279,7 +279,7 @@ def system_profile(
     if sap:
         profile["sap_system"] = False
         try:
-            instances = list(set(sap.local_instances) & set(sap.business_instances))
+            instances = sap.instances
             if instances:
                 profile["sap_system"] = True
                 sids = {sap.sid(instance) for instance in instances}
