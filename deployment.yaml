@@ -125,4 +125,4 @@ parameters:
   value: $STORAGE_SECRET_KEY
 - name: DISABLE_REDIS
   description: Turn off Redis if necessary
-  value: False
+  value: "False"
