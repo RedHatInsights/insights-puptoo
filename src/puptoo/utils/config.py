@@ -53,7 +53,6 @@ if CLOWDER_ENABLED:
     USE_SSL = os.getenv("USE_SSL", LoadedConfig.objectStore.tls)
     REDIS_HOST = LoadedConfig.inMemoryDb.hostname
     REDIS_PORT = LoadedConfig.inMemoryDb.port
-
 else:
     KAFKA_BROKER = None
     BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")
@@ -85,3 +84,4 @@ KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
+DISABLE_REDIS = os.getenv("DISABLE_REDIS", False)

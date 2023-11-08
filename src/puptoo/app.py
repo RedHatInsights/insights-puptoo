@@ -78,6 +78,8 @@ def redis_client() :
 
 
 def handle_retries(redis, request_id):
+    if redis == None:
+        return
     count = redis.get(request_id)
     if not count:
         count = 0
@@ -108,7 +110,10 @@ def main():
         consumer = consume.init_consumer()
         global producer
         producer = produce.init_producer()
-        redis = redis_client()
+        if DISABLE_REDIS:
+            redis = None
+        else:
+            redis = redis_client()
 
         start = time()
         while running:
