@@ -110,7 +110,7 @@ def main():
         consumer = consume.init_consumer()
         global producer
         producer = produce.init_producer()
-        if DISABLE_REDIS:
+        if config.DISABLE_REDIS:
             redis = None
         else:
             redis = redis_client()
