@@ -89,6 +89,6 @@ KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
-DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "fasle").lower() == "true" else False
-if REDIS_PASSWORD:
-    REDIS_SSL = True
+DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "false").lower() == "true" else False
+REDIS_SSL = True if REDIS_PASSWORD else False
+
