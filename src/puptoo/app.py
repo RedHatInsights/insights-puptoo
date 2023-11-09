@@ -73,8 +73,9 @@ def handle_signal(signal, frame):
     running = False
 
 
-def redis_client() :
-    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT) 
+def redis_client():
+    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT,
+                 password=config.REDIS_PASSWORD, ssl=config.REDIS_SSL) 
 
 
 def handle_retries(redis, request_id):
