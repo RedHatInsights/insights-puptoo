@@ -13,7 +13,7 @@ from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
-from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses
+from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses, AWSPublicHostnames
 from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
@@ -80,6 +80,7 @@ GCP_CONFIRMED_CODES = [
         Specs.hostname,
         AnsibleInfo,
         AWSInstanceIdDoc,
+        AWSPublicHostnames,
         AWSPublicIpv4Addresses,
         AzureInstancePlan,
         AzurePublicIpv4Addresses,
@@ -130,6 +131,7 @@ def system_profile(
     hostname,
     ansible_info,
     aws_instance_id,
+    aws_public_hostnames,
     aws_public_ipv4_addresses,
     azure_instance_plan,
     azure_public_ipv4_addresses,
@@ -627,8 +629,11 @@ def system_profile(
         }
         if list_units:
             if int(systemctl_status_all.failed.split(" ")[0]) > 0:
-                profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names 
+                profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names
                     if list_units.is_failed(svc)]
+
+    if aws_public_hostnames:
+        profile["public_dns"] = _remove_empty_string(aws_public_hostnames)
 
     if aws_public_ipv4_addresses:
         profile["public_ipv4_addresses"] = _remove_empty_string(aws_public_ipv4_addresses)
