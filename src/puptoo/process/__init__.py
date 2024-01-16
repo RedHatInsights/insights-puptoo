@@ -79,6 +79,7 @@ FACTS_EXCEPT_PROVIDER = [
 ]
 
 def validateCanonicalFacts(facts):
-    if all(key in facts for key in PROVIDER) and any(key in facts for key in FACTS_EXCEPT_PROVIDER):
+    if (all(key in facts for key in PROVIDER)
+        or not any(key in facts for key in PROVIDER)) and any(key in facts for key in FACTS_EXCEPT_PROVIDER):
         return True
     return False
