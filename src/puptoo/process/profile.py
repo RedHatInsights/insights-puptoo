@@ -15,6 +15,7 @@ from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
 from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses, AWSPublicHostnames
 from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
+from insights.parsers.bootc import BootcStatus
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
@@ -84,6 +85,7 @@ GCP_CONFIRMED_CODES = [
         AWSPublicIpv4Addresses,
         AzureInstancePlan,
         AzurePublicIpv4Addresses,
+        BootcStatus,
         CpuInfo,
         VirtWhat,
         MemInfo,
@@ -135,6 +137,7 @@ def system_profile(
     aws_public_ipv4_addresses,
     azure_instance_plan,
     azure_public_ipv4_addresses,
+    bootc_status,
     cpu_info,
     virt_what,
     meminfo,
@@ -290,7 +293,7 @@ def system_profile(
                 profile["sap_instance_number"] = sap[inst].number
             profile["sap"] = {}
             profile["sap"]["sap_system"] = profile.get("sap_system")
-            if profile.get("sap_sids"): 
+            if profile.get("sap_sids"):
                 profile["sap"]["sids"] = profile.get("sap_sids")
             if profile.get("sap_instance_number"):
                 profile["sap"]["instance_number"] = profile.get("sap_instance_number")
@@ -441,7 +444,7 @@ def system_profile(
                     "minor": minor,
                     "name": os_release.name
                 }
- 
+
         except Exception as e:
             catch_error("redhat_release", e)
             raise
@@ -643,6 +646,22 @@ def system_profile(
 
     if gcp_network_interfaces:
         profile["public_ipv4_addresses"] = _remove_empty_string(gcp_network_interfaces.public_ips)
+
+    if bootc_status:
+        try:
+            profile["bootc_status"] = {}
+            # Another filed "cachedUpdate" could be added if required later
+            status = bootc_status.get('status', {})
+            for bootc_key in ["booted", "staged", "rollback"]:
+                bootc_value = status.get(bootc_key, {})
+                if bootc_value:
+                    profile["bootc_status"][bootc_key] = {
+                        "image": bootc_value.get('image', {}).get('image', {}).get('image', ''),
+                        "image_digest": bootc_value.get('image', {}).get('imageDigest', ''),
+                    }
+        except Exception as e:
+            catch_error("bootc_status", e)
+            raise
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
