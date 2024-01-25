@@ -1,0 +1,6 @@
+[ConfigFile]
+Product=IRIS
+Version=2023.1
+
+[Databases]
+IRISSYS=/intersystems/mgr/

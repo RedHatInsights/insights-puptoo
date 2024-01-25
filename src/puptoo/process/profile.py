@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import os
 import re
 
 from insights import make_metadata, rule, run
@@ -28,6 +29,7 @@ from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
 from insights.parsers.ip import IpAddr
+from insights.parsers.iris import IrisCpf, IrisList
 from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
@@ -126,6 +128,8 @@ GCP_CONFIRMED_CODES = [
         RpmOstreeStatus,
         RosConfig,
         Specs.yum_updates,
+        IrisCpf,
+        IrisList,
         EAPJSONReports
     ]
 )
@@ -178,6 +182,8 @@ def system_profile(
     rpm_ostree_status,
     ros_config,
     yum_updates,
+    iris_cpfs,
+    iris_list,
     eap_json_reports
 ):
     """
@@ -661,6 +667,42 @@ def system_profile(
                     }
         except Exception as e:
             catch_error("bootc_status", e)
+            raise
+
+    if iris_cpfs and iris_list:
+        try:
+            intersystems_profile = {}
+            intersystems_profile["is_intersystems"] = True
+            intersystems_profile["running_instances"] = []
+
+            # Get all CPF info in format <cpf-file-path: cpf-info>
+            cpf_info = {}
+            for cpf in iris_cpfs:
+                if (cpf.file_path and cpf.has_option('ConfigFile', 'Product') and
+                        cpf.has_option('ConfigFile', 'Version')):
+                    cpf_info[cpf.file_path] = {
+                        "product": cpf.get('ConfigFile', 'Product'),
+                        "version": cpf.get('ConfigFile', 'Version'),
+                    }
+            if cpf_info:
+                # Filter for running instance and grab the instance_name
+                for instance in iris_list:
+                    if instance['status'].startswith('running'):
+                        instance_name = instance['instance_name']
+                        conf_directory = instance['directory']
+                        conf_file = instance['conf file'].split()[0].strip()
+                        cpf_file_path = os.path.join(conf_directory, conf_file)
+                        if instance_name and cpf_file_path and cpf_file_path in cpf_info:
+                            instance_info = _remove_empties({
+                                "instance_name": instance['instance_name'],
+                                "product": cpf_info[cpf_file_path]["product"],
+                                "version": cpf_info[cpf_file_path]["version"],
+                            })
+                            if instance_info:
+                                intersystems_profile["running_instances"].append(instance_info)
+            profile["intersystems"] = _remove_empties(intersystems_profile)
+        except Exception as e:
+            catch_error("intersystems", e)
             raise
 
     metadata_response = make_metadata()
