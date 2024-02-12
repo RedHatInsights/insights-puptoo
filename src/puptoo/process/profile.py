@@ -1,6 +1,7 @@
 import datetime
 import json
 import logging
+import os
 import re
 
 from insights import make_metadata, rule, run
@@ -13,8 +14,9 @@ from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
-from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses
+from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses, AWSPublicHostnames
 from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
+from insights.parsers.bootc import BootcStatus
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
@@ -27,6 +29,7 @@ from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
 from insights.parsers.ip import IpAddr
+from insights.parsers.iris import IrisCpf, IrisList
 from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
@@ -80,9 +83,11 @@ GCP_CONFIRMED_CODES = [
         Specs.hostname,
         AnsibleInfo,
         AWSInstanceIdDoc,
+        AWSPublicHostnames,
         AWSPublicIpv4Addresses,
         AzureInstancePlan,
         AzurePublicIpv4Addresses,
+        BootcStatus,
         CpuInfo,
         VirtWhat,
         MemInfo,
@@ -123,6 +128,8 @@ GCP_CONFIRMED_CODES = [
         RpmOstreeStatus,
         RosConfig,
         Specs.yum_updates,
+        IrisCpf,
+        IrisList,
         EAPJSONReports
     ]
 )
@@ -130,9 +137,11 @@ def system_profile(
     hostname,
     ansible_info,
     aws_instance_id,
+    aws_public_hostnames,
     aws_public_ipv4_addresses,
     azure_instance_plan,
     azure_public_ipv4_addresses,
+    bootc_status,
     cpu_info,
     virt_what,
     meminfo,
@@ -173,6 +182,8 @@ def system_profile(
     rpm_ostree_status,
     ros_config,
     yum_updates,
+    iris_cpfs,
+    iris_list,
     eap_json_reports
 ):
     """
@@ -277,16 +288,18 @@ def system_profile(
             raise
 
     if sap:
+        profile["sap_system"] = False
         try:
-            profile["sap_system"] = True
-            sids = {sap.sid(instance) for instance in sap.local_instances}
-            profile["sap_sids"] = sorted(list(sids))
-            if sap.local_instances:
-                inst = sap.local_instances[0]
+            instances = sap.instances
+            if instances:
+                profile["sap_system"] = True
+                sids = {sap.sid(instance) for instance in instances}
+                profile["sap_sids"] = sorted(list(sids))
+                inst = instances[0]
                 profile["sap_instance_number"] = sap[inst].number
             profile["sap"] = {}
             profile["sap"]["sap_system"] = profile.get("sap_system")
-            if profile.get("sap_sids"): 
+            if profile.get("sap_sids"):
                 profile["sap"]["sids"] = profile.get("sap_sids")
             if profile.get("sap_instance_number"):
                 profile["sap"]["instance_number"] = profile.get("sap_instance_number")
@@ -437,7 +450,7 @@ def system_profile(
                     "minor": minor,
                     "name": os_release.name
                 }
- 
+
         except Exception as e:
             catch_error("redhat_release", e)
             raise
@@ -625,8 +638,11 @@ def system_profile(
         }
         if list_units:
             if int(systemctl_status_all.failed.split(" ")[0]) > 0:
-                profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names 
+                profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names
                     if list_units.is_failed(svc)]
+
+    if aws_public_hostnames:
+        profile["public_dns"] = _remove_empty_string(aws_public_hostnames)
 
     if aws_public_ipv4_addresses:
         profile["public_ipv4_addresses"] = _remove_empty_string(aws_public_ipv4_addresses)
@@ -636,6 +652,58 @@ def system_profile(
 
     if gcp_network_interfaces:
         profile["public_ipv4_addresses"] = _remove_empty_string(gcp_network_interfaces.public_ips)
+
+    if bootc_status:
+        try:
+            profile["bootc_status"] = {}
+            # Another filed "cachedUpdate" could be added if required later
+            status = bootc_status.get('status', {})
+            for bootc_key in ["booted", "staged", "rollback"]:
+                bootc_value = status.get(bootc_key, {})
+                if bootc_value:
+                    profile["bootc_status"][bootc_key] = {
+                        "image": bootc_value.get('image', {}).get('image', {}).get('image', ''),
+                        "image_digest": bootc_value.get('image', {}).get('imageDigest', ''),
+                    }
+        except Exception as e:
+            catch_error("bootc_status", e)
+            raise
+
+    if iris_cpfs and iris_list:
+        try:
+            intersystems_profile = {}
+            intersystems_profile["is_intersystems"] = True
+            intersystems_profile["running_instances"] = []
+
+            # Get all CPF info in format <cpf-file-path: cpf-info>
+            cpf_info = {}
+            for cpf in iris_cpfs:
+                if (cpf.file_path and cpf.has_option('ConfigFile', 'Product') and
+                        cpf.has_option('ConfigFile', 'Version')):
+                    cpf_info[cpf.file_path] = {
+                        "product": cpf.get('ConfigFile', 'Product'),
+                        "version": cpf.get('ConfigFile', 'Version'),
+                    }
+            if cpf_info:
+                # Filter for running instance and grab the instance_name
+                for instance in iris_list:
+                    if instance['status'].startswith('running'):
+                        instance_name = instance['instance_name']
+                        conf_directory = instance['directory']
+                        conf_file = instance['conf file'].split()[0].strip()
+                        cpf_file_path = os.path.join(conf_directory, conf_file)
+                        if instance_name and cpf_file_path and cpf_file_path in cpf_info:
+                            instance_info = _remove_empties({
+                                "instance_name": instance['instance_name'],
+                                "product": cpf_info[cpf_file_path]["product"],
+                                "version": cpf_info[cpf_file_path]["version"],
+                            })
+                            if instance_info:
+                                intersystems_profile["running_instances"].append(instance_info)
+            profile["intersystems"] = _remove_empties(intersystems_profile)
+        except Exception as e:
+            catch_error("intersystems", e)
+            raise
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)

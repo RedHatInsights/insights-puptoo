@@ -35,8 +35,8 @@ def get_namespace():
 # Shim layer for dual support of using Clowder and Legacy Mode
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
-    from app_common_python import LoadedConfig, KafkaTopics
-    BOOTSTRAP_SERVERS = None
+    from app_common_python import LoadedConfig, KafkaTopics, KafkaServers
+    BOOTSTRAP_SERVERS = KafkaServers
     KAFKA_BROKER = LoadedConfig.kafka.brokers[0]
     ANNOUNCE_TOPIC = os.getenv("ANNOUNCE_TOPIC", KafkaTopics["platform.upload.announce"].name)
     INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC") or KafkaTopics["platform.inventory.host-ingress-p1"].name

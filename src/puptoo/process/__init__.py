@@ -59,12 +59,27 @@ def extract(msg, extra, remove=True):
         try:
             validate_size(unpacked.tmp_dir)
             facts = get_canonical_facts(unpacked.tmp_dir)
+            isValid = validateCanonicalFacts(facts)
+            if not isValid:
+                raise Exception("Missing canonical fact(s).")
             facts['system_profile'] = get_system_profile(unpacked.tmp_dir)
+            metrics.msg_processed.inc()
+            metrics.extract_success.inc()
+            facts = postprocess(facts)
         except Exception as e:
             logger.exception("Failed to extract facts: %s", str(e), extra=extra)
             facts["error"] = str(e)
-        finally:
-            facts = postprocess(facts)
-            metrics.msg_processed.inc()
-            metrics.extract_success.inc()
-            return facts
+        return facts
+
+
+PROVIDER = ['provider_id', 'provider_type']
+FACTS_EXCEPT_PROVIDER = [ 
+    'insights_id', 'subscription_manager_id', 'satellite_id',
+    'bios_uuid', 'ip_addresses', 'mac_addresses', 'fqdn' 
+]
+
+def validateCanonicalFacts(facts):
+    if (all(key in facts for key in PROVIDER)
+        or not any(key in facts for key in PROVIDER)) and any(key in facts for key in FACTS_EXCEPT_PROVIDER):
+        return True
+    return False
