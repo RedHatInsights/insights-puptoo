@@ -53,6 +53,10 @@ if CLOWDER_ENABLED:
     USE_SSL = os.getenv("USE_SSL", LoadedConfig.objectStore.tls)
     REDIS_HOST = LoadedConfig.inMemoryDb.hostname
     REDIS_PORT = LoadedConfig.inMemoryDb.port
+    try:
+        REDIS_PASSWORD = LoadedConfig.inMemoryDb.password
+    except:
+        REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 else:
     KAFKA_BROKER = None
@@ -72,6 +76,7 @@ else:
     USE_SSL = os.getenv("USE_SSL", False)
     REDIS_HOST = os.getenv("REDIS_HOST", "redis")
     REDIS_PORT = os.getenv("REDIS_PORT", 6379)
+    REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
@@ -85,3 +90,5 @@ KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
+DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "false").lower() == "true" else False
+REDIS_SSL = True if REDIS_PASSWORD else False
