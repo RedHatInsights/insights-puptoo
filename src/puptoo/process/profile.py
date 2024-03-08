@@ -766,12 +766,12 @@ def _get_deployments(rpm_ostree_status):
     results = []
     for deployment in deployments:
         dep = {
-            "id": deployment["id"],
-            "checksum": deployment["checksum"],
-            "origin": deployment["origin"],
-            "osname": deployment["osname"],
-            "booted": deployment["booted"],
-            "pinned": deployment["pinned"],
+            "id": deployment.get("id"),
+            "checksum": deployment.get("checksum"),
+            "origin": deployment.get("origin"),
+            "osname": deployment.get("osname"),
+            "booted": deployment.get("booted"),
+            "pinned": deployment.get("pinned"),
         }
 
         if "version" in deployment:
