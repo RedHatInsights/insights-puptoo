@@ -466,6 +466,40 @@ DATA_1 = """
 """.strip()
 
 
+# Missing "origin" iside deployments item
+DATA_2 = """
+{
+    "deployments" : [{
+      "base-removals" : [],
+      "requested-modules" : [],
+      "requested-modules-enabled" : [],
+      "pinned" : false,
+      "osname" : "default",
+      "base-remote-replacements" : {      },
+      "regenerate-initramfs" : false,
+      "checksum" : "a7b1b7f5cc436ccb0a2a70da7c04db9e15be58efe2a4dcb9a1bddf2c703e2a46",
+      "container-image-reference-digest" : "sha256:758216cb799c79a25bdcb21046b3283dd267fe4f29392bd125a20981e092006b",
+      "requested-base-local-replacements" : [],
+      "id" : "default-a7b1b7f5cc436ccb0a2a70da7c04db9e15be58efe2a4dcb9a1bddf2c703e2a46.0",
+      "version" : "9.20240207.0",
+      "requested-local-fileoverride-packages" : [],
+      "requested-base-removals" : [],
+      "modules" : [],
+      "requested-packages" : [],
+      "serial" : 0,
+      "timestamp" : 1709068966,
+      "staged" : true,
+      "booted" : false,
+      "container-image-reference" : "ostree-unverified-registry:192.168.122.1:5000/bootc-insights:latest",
+      "packages" : [],
+      "base-local-replacements" : []
+    }],
+    "transaction" : null,
+    "cached-update" : null
+}
+""".strip()
+
+
 def test_rpmostree_status_simple():
     input_data = InputData().add(Specs.rpm_ostree_status, DATA_0)
     result = run_test(system_profile, input_data)
@@ -508,4 +542,21 @@ def test_rpmostree_status_full():
         "version": "33.17",
         "booted": False,
         "pinned": False,
+    }
+
+
+def test_rpmostree_status_missing_origin():
+    input_data = InputData().add(Specs.rpm_ostree_status, DATA_2)
+    result = run_test(system_profile, input_data)
+    deployments = result["rpm_ostree_deployments"]
+    assert len(deployments) == 1
+    dep = deployments[0]
+    assert dep == {
+        "id": "default-a7b1b7f5cc436ccb0a2a70da7c04db9e15be58efe2a4dcb9a1bddf2c703e2a46.0",
+        "checksum": "a7b1b7f5cc436ccb0a2a70da7c04db9e15be58efe2a4dcb9a1bddf2c703e2a46",
+        "origin": "",
+        "osname": "default",
+        "booted": False,
+        "pinned": False,
+        "version": "9.20240207.0",
     }
