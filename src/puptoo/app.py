@@ -74,7 +74,7 @@ def handle_signal(signal, frame):
 
 
 def redis_client() :
-    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT) 
+    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT)
 
 
 def handle_retries(redis, request_id):
@@ -97,10 +97,6 @@ def main():
 
         config.log_config()
 
-        if not config.DISABLE_PROMETHEUS:
-            logger.info("Starting Puptoo Prometheus Server")
-            start_prometheus()
-
         if config.KAFKA_BROKER:
             if config.KAFKA_BROKER.cacert:
                 write_cert(config.KAFKA_BROKER.cacert)
@@ -109,6 +105,10 @@ def main():
         global producer
         producer = produce.init_producer()
         redis = redis_client()
+
+        if not config.DISABLE_PROMETHEUS:
+            logger.info("Starting Puptoo Prometheus Server")
+            start_prometheus()
 
         start = time()
         while running:
@@ -243,16 +243,16 @@ def handle_message(msg, service, extra):
                 msg["is_runtimes"] = True
             if facts["system_profile"].get("yum_updates"):
                 yum_updates = facts["system_profile"].get("yum_updates")
-                # delete yum_updates from system_profile as it is already present under custom_metadata 
+                # delete yum_updates from system_profile as it is already present under custom_metadata
                 del facts["system_profile"]["yum_updates"]
 
         # Override archive hostname with name provided by client metadata
         if msg["metadata"].get("display_name"):
             facts["display_name"] = msg["metadata"]["display_name"]
         if msg["metadata"].get("ansible_host"):
-            facts["ansible_host"] = msg["metadata"]["ansible_host"]   
+            facts["ansible_host"] = msg["metadata"]["ansible_host"]
 
-        # Upload yum_updates to s3  
+        # Upload yum_updates to s3
         if yum_updates:
             try:
                 upload_object(yum_updates, extra, msg)
