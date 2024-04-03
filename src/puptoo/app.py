@@ -74,10 +74,13 @@ def handle_signal(signal, frame):
 
 
 def redis_client() :
-    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT)
+    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT,
+                 password=config.REDIS_PASSWORD, ssl=config.REDIS_SSL) 
 
 
 def handle_retries(redis, request_id):
+    if redis == None:
+        return
     count = redis.get(request_id)
     if not count:
         count = 0
@@ -104,7 +107,10 @@ def main():
         consumer = consume.init_consumer()
         global producer
         producer = produce.init_producer()
-        redis = redis_client()
+        if config.DISABLE_REDIS:
+            redis = None
+        else:
+            redis = redis_client()
 
         if not config.DISABLE_PROMETHEUS:
             logger.info("Starting Puptoo Prometheus Server")
