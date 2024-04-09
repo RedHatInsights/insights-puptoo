@@ -33,7 +33,7 @@ from insights.parsers.iris import IrisCpf, IrisList
 from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.meminfo import MemInfo
-from insights.parsers.pmlog_summary import PmLogSummary
+from insights.parsers.pmlog_summary import PmLogSummary, PmLogSummaryPcpZeroConf
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.ros_config import RosConfig
 from insights.parsers.rpm_ostree_status import RpmOstreeStatus
@@ -48,7 +48,7 @@ from insights.parsers.tags import Tags
 from insights.parsers.systemctl_status_all import SystemctlStatusAll
 from insights.parsers.eap_json_reports import EAPJSONReports
 from insights.specs import Specs
-
+from insights.specs.datasources.pcp import ros_collect as ds_ros_collect
 
 from ..utils import config, metrics, puptoo_logging
 
@@ -111,6 +111,7 @@ GCP_CONFIRMED_CODES = [
         UnitFiles,
         ListUnits,
         PmLogSummary,
+        PmLogSummaryPcpZeroConf,
         PsAuxcww,
         DateUTC,
         Uptime,
@@ -127,6 +128,8 @@ GCP_CONFIRMED_CODES = [
         SystemctlStatusAll,
         RpmOstreeStatus,
         RosConfig,
+        ds_ros_collect,
+        Specs.pcp_raw_data,
         Specs.yum_updates,
         IrisCpf,
         IrisList,
@@ -165,6 +168,7 @@ def system_profile(
     unit_files,
     list_units,
     pmlog_summary,
+    pmlog_summary_pcp_zeroconf,
     ps_auxcww,
     date_utc,
     uptime,
@@ -181,6 +185,8 @@ def system_profile(
     systemctl_status_all,
     rpm_ostree_status,
     ros_config,
+    ros_collect,
+    pcp_raw_data,
     yum_updates,
     iris_cpfs,
     iris_list,
@@ -624,8 +630,10 @@ def system_profile(
             profile["releasever"] = profile["yum_updates"].get("releasever")
             profile["basearch"] = profile["yum_updates"].get("basearch")
 
-    if pmlog_summary or ros_config:
+    if (pmlog_summary_pcp_zeroconf or ros_collect or    # ros new collection
+            pmlog_summary or ros_config):               # ros old collection
         profile["is_ros"] = True
+        profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
 
     if eap_json_reports:
         profile["is_runtimes"] = True

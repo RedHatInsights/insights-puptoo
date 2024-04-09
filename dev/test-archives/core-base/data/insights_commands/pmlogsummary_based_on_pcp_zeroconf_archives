@@ -1,0 +1,5 @@
+disk.dev.total ["vda"] 1.245 count / sec
+hinv.ncpu  2.000 none
+kernel.all.cpu.idle  1.984 none
+mem.physmem  4638616.000 Kbyte
+mem.util.available  3493705.629 Kbyte
