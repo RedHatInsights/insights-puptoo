@@ -658,18 +658,18 @@ def system_profile(
             profile["bootc_status"] = {}
             status = bootc_status.get('status', {})
             for bootc_key in ["booted", "staged", "rollback"]:
-                bootc_value = status.get(bootc_key, {})
+                bootc_value = status.get(bootc_key)
                 if bootc_value:
                     profile["bootc_status"][bootc_key] = {
                         "image": bootc_value.get('image', {}).get('image', {}).get('image', ''),
                         "image_digest": bootc_value.get('image', {}).get('imageDigest', ''),
                     }
-            cached_value = (status.get("staged", {}).get("cachedUpdate", {}) or
-                            status.get("booted", {}).get("cachedUpdate", {}))
+            cached_value = ((status.get("staged") or {}).get("cachedUpdate") or
+                            (status.get("booted") or {}).get("cachedUpdate"))
             if cached_value:
                 profile["bootc_status"]["cachedUpdate"] = {
-                        "image": cached_value.get("image", {}).get("image", ""),
-                        "image_digest": cached_value.get("imageDigest", ""),
+                        "image": cached_value.get('image', {}).get('image', ''),
+                        "image_digest": cached_value.get('imageDigest', ''),
                 }
         except Exception as e:
             catch_error("bootc_status", e)
