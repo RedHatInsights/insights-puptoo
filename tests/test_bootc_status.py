@@ -247,14 +247,14 @@ def test_bootc_status():
         "booted": {
             "image": "192.168.122.1:5000/bootc-insights:latest",
             "image_digest": "sha256:5398062d64b501e18b986b43a4f4108cb879fd29d436d793c0bf6947a83ed09e",
+            "cached_image": "192.168.122.1:5000/bootc-insights:latest",
+            "cached_image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
         },
         "staged": {
             "image": "192.168.122.1:5000/bootc-insights:latest",
             "image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
-        },
-        "cachedUpdate": {
-            "image": "192.168.122.1:5000/bootc-insights:latest",
-            "image_digest": "sha256:3c1cea8218e4331641020c59e0877ae20ec058e34a346fa424bbe726daab294e",
+            "cached_image": "192.168.122.1:5000/bootc-insights:latest",
+            "cached_image_digest": "sha256:3c1cea8218e4331641020c59e0877ae20ec058e34a346fa424bbe726daab294e",
         }}
 
     input_data = InputData().add(Specs.bootc_status, BOOTC_STATUS_WITH_CACHEDUPDATE_2)
@@ -263,12 +263,10 @@ def test_bootc_status():
         "booted": {
             "image": "192.168.122.1:5000/bootc-insights:latest",
             "image_digest": "sha256:5398062d64b501e18b986b43a4f4108cb879fd29d436d793c0bf6947a83ed09e",
+            "cached_image": "192.168.122.1:5000/bootc-insights:latest",
+            "cached_image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
         },
         "staged": {
-            "image": "192.168.122.1:5000/bootc-insights:latest",
-            "image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
-        },
-        "cachedUpdate": {
             "image": "192.168.122.1:5000/bootc-insights:latest",
             "image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
         }}
