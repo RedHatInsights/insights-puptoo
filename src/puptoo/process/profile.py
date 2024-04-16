@@ -656,15 +656,20 @@ def system_profile(
     if bootc_status:
         try:
             profile["bootc_status"] = {}
-            # Another filed "cachedUpdate" could be added if required later
             status = bootc_status.get('status', {})
             for bootc_key in ["booted", "staged", "rollback"]:
-                bootc_value = status.get(bootc_key, {})
+                bootc_value = status.get(bootc_key)
                 if bootc_value:
                     profile["bootc_status"][bootc_key] = {
                         "image": bootc_value.get('image', {}).get('image', {}).get('image', ''),
                         "image_digest": bootc_value.get('image', {}).get('imageDigest', ''),
                     }
+                    cached_value = bootc_value.get('cachedUpdate')
+                    if cached_value:
+                        profile["bootc_status"][bootc_key].update({
+                            "cached_image": cached_value.get('image', {}).get('image', ''),
+                            "cached_image_digest": cached_value.get('imageDigest', ''),
+                        })
         except Exception as e:
             catch_error("bootc_status", e)
             raise
@@ -757,6 +762,7 @@ def _remove_empty_string(arr):
     small helper method to remove empty string from an array.
     """
     return [i for i in arr if i != '']
+
 
 def _get_deployments(rpm_ostree_status):
     """
