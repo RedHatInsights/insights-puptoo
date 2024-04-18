@@ -73,13 +73,13 @@ def handle_signal(signal, frame):
     running = False
 
 
-def redis_client() :
+def redis_client():
     return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT,
-                 password=config.REDIS_PASSWORD, ssl=config.REDIS_SSL) 
+                 password=config.REDIS_PASSWORD, ssl=config.REDIS_SSL)
 
 
 def handle_retries(redis, request_id):
-    if redis == None:
+    if redis is None:
         return
     count = redis.get(request_id)
     if not count:
@@ -235,7 +235,7 @@ def handle_message(msg, service, extra):
         facts = msg.get("metadata")
 
     if facts:
-        yum_updates=None
+        yum_updates = None
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
         if facts.get("metadata"):
@@ -245,6 +245,8 @@ def handle_message(msg, service, extra):
                 facts["system_profile"]["owner_id"] = owner_id
             if facts["system_profile"].get("is_ros"):
                 msg["is_ros"] = True
+            if facts["system_profile"].get("is_pcp_raw_data_collected"):
+                msg["is_pcp_raw_data_collected"] = True
             if facts["system_profile"].get("is_runtimes"):
                 msg["is_runtimes"] = True
             if facts["system_profile"].get("yum_updates"):
