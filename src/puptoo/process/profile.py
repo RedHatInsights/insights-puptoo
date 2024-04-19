@@ -47,8 +47,8 @@ from insights.parsers.branch_info import BranchInfo
 from insights.parsers.tags import Tags
 from insights.parsers.systemctl_status_all import SystemctlStatusAll
 from insights.parsers.eap_json_reports import EAPJSONReports
+from insights.parsers.insights_client_conf import InsightsClientConf
 from insights.specs import Specs
-from insights.specs.datasources.pcp import ros_collect as ds_ros_collect
 
 from ..utils import config, metrics, puptoo_logging
 
@@ -128,7 +128,7 @@ GCP_CONFIRMED_CODES = [
         SystemctlStatusAll,
         RpmOstreeStatus,
         RosConfig,
-        ds_ros_collect,
+        InsightsClientConf,
         Specs.pcp_raw_data,
         Specs.yum_updates,
         IrisCpf,
@@ -185,7 +185,7 @@ def system_profile(
     systemctl_status_all,
     rpm_ostree_status,
     ros_config,
-    ros_collect,
+    insights_client_conf,
     pcp_raw_data,
     yum_updates,
     iris_cpfs,
@@ -630,10 +630,19 @@ def system_profile(
             profile["releasever"] = profile["yum_updates"].get("releasever")
             profile["basearch"] = profile["yum_updates"].get("basearch")
 
-    if (pmlog_summary_pcp_zeroconf or ros_collect or    # ros new collection
+    if (pmlog_summary_pcp_zeroconf or                   # ros new collection
             pmlog_summary or ros_config):               # ros old collection
         profile["is_ros"] = True
         profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
+    elif insights_client_conf:                          # ros new collection
+        try:
+            if insights_client_conf.has_option("insights-client", "ros_collect"):
+                if insights_client_conf.getboolean("insights-client", "ros_collect"):
+                    profile["is_ros"] = True
+                    profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
+        except Exception as e:
+            catch_error("is_ros", e)
+            raise
 
     if eap_json_reports:
         profile["is_runtimes"] = True
