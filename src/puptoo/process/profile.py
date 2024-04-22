@@ -38,6 +38,7 @@ from insights.parsers.ps import PsAuxcww
 from insights.parsers.ros_config import RosConfig
 from insights.parsers.rpm_ostree_status import RpmOstreeStatus
 from insights.parsers.sestatus import SEStatus
+from insights.parsers.subscription_manager import SubscriptionManagerFacts
 from insights.parsers.systemd.unitfiles import UnitFiles, ListUnits
 from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
@@ -133,6 +134,7 @@ GCP_CONFIRMED_CODES = [
         Specs.yum_updates,
         IrisCpf,
         IrisList,
+        SubscriptionManagerFacts,
         EAPJSONReports
     ]
 )
@@ -190,6 +192,7 @@ def system_profile(
     yum_updates,
     iris_cpfs,
     iris_list,
+    subscription_manager_facts,
     eap_json_reports
 ):
     """
@@ -726,6 +729,11 @@ def system_profile(
         except Exception as e:
             catch_error("intersystems", e)
             raise
+
+    if subscription_manager_facts:
+        profile["conversions"] = {"activity": False}
+        if subscription_manager_facts.get('conversions.activity') == 'conversion':
+            profile["conversions"]["activity"] = True
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
