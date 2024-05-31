@@ -16,7 +16,7 @@ insights-core = "3.3.19"
 app-common-python = "0.2.3"
 watchtower = "^1.0.6"
 logstash_formatter = "^0.5.17"
-minio = "^7.1.11"
+minio = "<7.2"
 urllib3 = "<2"
 setuptools = "~65.5.1"
 
