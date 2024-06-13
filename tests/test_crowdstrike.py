@@ -16,7 +16,7 @@ def test_crowdstrike():
     input_data.add(Specs.falconctl_aid, FALCONCTL_AID)
     input_data.add(Specs.falconctl_backend, FALCONCTL_BACKEND)
     result = run_test(system_profile, input_data)
-    assert result["crowdstrike"] == {
+    assert result["third_party_services"]["crowdstrike"] == {
         "falcon_aid": "44e3b7d20b434a2bb2815d9808fa3a8b",
         "falcon_backend": "kernel",
     }
@@ -25,7 +25,7 @@ def test_crowdstrike():
     input_data.add(Specs.falconctl_aid, FALCONCTL_AID)
     input_data.add(Specs.falconctl_backend, "")
     result = run_test(system_profile, input_data)
-    assert result["crowdstrike"] == {
+    assert result["third_party_services"]["crowdstrike"] == {
         "falcon_aid": "44e3b7d20b434a2bb2815d9808fa3a8b",
     }
 
@@ -33,7 +33,7 @@ def test_crowdstrike():
     input_data.add(Specs.falconctl_aid, "")
     input_data.add(Specs.falconctl_backend, FALCONCTL_BACKEND)
     result = run_test(system_profile, input_data)
-    assert result["crowdstrike"] == {
+    assert result["third_party_services"]["crowdstrike"] == {
         "falcon_backend": "kernel",
     }
 
@@ -41,4 +41,4 @@ def test_crowdstrike():
     input_data.add(Specs.falconctl_aid, "")
     input_data.add(Specs.falconctl_backend, "")
     result = run_test(system_profile, input_data)
-    assert "crowdstrike" not in result
+    assert "third_party_services" not in result
