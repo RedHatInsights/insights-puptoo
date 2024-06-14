@@ -22,6 +22,7 @@ from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.dnf_module import DnfModuleList
+from insights.parsers.falconctl import FalconctlAid, FalconctlBackend
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
@@ -135,6 +136,8 @@ GCP_CONFIRMED_CODES = [
         IrisCpf,
         IrisList,
         SubscriptionManagerFacts,
+        FalconctlAid,
+        FalconctlBackend,
         EAPJSONReports
     ]
 )
@@ -193,6 +196,8 @@ def system_profile(
     iris_cpfs,
     iris_list,
     subscription_manager_facts,
+    falconctl_aid,
+    falconctl_backend,
     eap_json_reports
 ):
     """
@@ -734,6 +739,21 @@ def system_profile(
         profile["conversions"] = {"activity": False}
         if subscription_manager_facts.get('conversions.activity') == 'conversion':
             profile["conversions"]["activity"] = True
+
+    # profile["third_party_services"]:
+    #   containing information about system facts of third party services
+    third_party_services = {}
+
+    crowdstrike_facts = {}
+    if falconctl_aid:
+        crowdstrike_facts["falcon_aid"] = falconctl_aid.aid
+    if falconctl_backend:
+        crowdstrike_facts["falcon_backend"] = falconctl_backend.backend
+    if crowdstrike_facts:
+        third_party_services["crowdstrike"] = crowdstrike_facts
+
+    if third_party_services:
+        profile["third_party_services"] = third_party_services
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
