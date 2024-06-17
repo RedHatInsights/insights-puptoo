@@ -87,7 +87,7 @@ Fields:
 - service: The service name as provided by the MIME type.
 - url: The url from which the archive will be downloaded
 - facts: An array containing facts for each host
-  
+
 If the fact extraction fails, the archive will be considered "bad." A message will be sent back to the upload service so the file can be moved to the rejected bucket.
 
 Failure example:
@@ -98,7 +98,7 @@ Failure example:
 
 ### Running
 
-The default environment variables should be acceptable for testing.  
+The default environment variables should be acceptable for testing.
 PUPTOO does expect a kafka message queue to be available for connection.
 
 #### Prerequisites
@@ -140,7 +140,7 @@ cd dev && sudo docker-compose up
 Stand Up Full stack
 
 ```sh
-cd dev && sudo docker-compose -f full-stack.yml up 
+cd dev && sudo docker-compose -f full-stack.yml up
 ```
 
 **NOTE**: The full stack expects you to have an ingress and inventory image available. See those projects for steps for building the images needed. It's also typical for puptoo to fail to start if it can't initially connect to kafka. If this happens, simply run `sudo docker-compose -f full-stack.yml up -d pup` to have it attempt another startup.
@@ -165,6 +165,17 @@ Occassionaly, an archive may be rejected by puptoo for a reason that is unclear.
 ```
 
 This will print the system_profile so you can analyze it for issues.
+
+### Testing with provided test-archive sample
+
+Puptoo has a `dev/test-archives/core-base` folder that contains a test sample of insights-archive. It emulates a minimized set of files inside a real archive that required by the puptoo system-profile usage.
+
+From this nature, this test-archive example can be used for system-profile QA Verification, and related tests.
+
+Tar the provided test-archive example with:
+```sh
+$ tar -zcvf insights-puptoo-test-archive.tar.gz ./dev/test-archives/core-base
+```
 
 ## Deployment
 
