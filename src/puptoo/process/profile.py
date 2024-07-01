@@ -22,7 +22,7 @@ from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.dnf_module import DnfModuleList
-from insights.parsers.falconctl import FalconctlAid, FalconctlBackend
+from insights.parsers.falconctl import FalconctlAid, FalconctlBackend, FalconctlVersion
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
@@ -138,6 +138,7 @@ GCP_CONFIRMED_CODES = [
         SubscriptionManagerFacts,
         FalconctlAid,
         FalconctlBackend,
+        FalconctlVersion,
         EAPJSONReports
     ]
 )
@@ -198,6 +199,7 @@ def system_profile(
     subscription_manager_facts,
     falconctl_aid,
     falconctl_backend,
+    falconctl_version,
     eap_json_reports
 ):
     """
@@ -749,6 +751,8 @@ def system_profile(
         crowdstrike_facts["falcon_aid"] = falconctl_aid.aid
     if falconctl_backend:
         crowdstrike_facts["falcon_backend"] = falconctl_backend.backend
+    if falconctl_version:
+        crowdstrike_facts["falcon_version"] = falconctl_version.version
     if crowdstrike_facts:
         third_party_services["crowdstrike"] = crowdstrike_facts
 
