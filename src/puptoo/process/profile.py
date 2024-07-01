@@ -1,5 +1,4 @@
 import datetime
-import json
 import logging
 import os
 import re
@@ -14,9 +13,12 @@ from insights.combiners.virt_what import VirtWhat
 from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.core import dr
-from insights.parsers.aws_instance_id import AWSInstanceIdDoc, AWSPublicIpv4Addresses, AWSPublicHostnames
+from insights.parsers.aws_instance_id import (
+    AWSInstanceIdDoc, AWSPublicIpv4Addresses, AWSPublicHostnames)
 from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
 from insights.parsers.bootc import BootcStatus
+from insights.parsers.client_metadata import (
+    AnsibleHost, BranchInfo, DisplayName, Tags, VersionInfo)
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
@@ -45,13 +47,11 @@ from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
-from insights.parsers.branch_info import BranchInfo
-from insights.parsers.tags import Tags
 from insights.parsers.systemctl_status_all import SystemctlStatusAll
 from insights.parsers.eap_json_reports import EAPJSONReports
 from insights.parsers.insights_client_conf import InsightsClientConf
+from insights.parsers.yum_updates import YumUpdates
 from insights.specs import Specs
-
 from ..utils import config, metrics, puptoo_logging
 
 logger = logging.getLogger(config.APP_NAME)
@@ -82,7 +82,6 @@ GCP_CONFIRMED_CODES = [
 
 @rule(
     optional=[
-        Specs.hostname,
         AnsibleInfo,
         AWSInstanceIdDoc,
         AWSPublicHostnames,
@@ -121,9 +120,9 @@ GCP_CONFIRMED_CODES = [
         DnfModules,
         DnfModuleList,
         CloudProvider,
-        Specs.display_name,
-        Specs.ansible_host,
-        Specs.version_info,
+        DisplayName,
+        AnsibleHost,
+        VersionInfo,
         InstalledProductIDs,
         BranchInfo,
         Tags,
@@ -132,7 +131,7 @@ GCP_CONFIRMED_CODES = [
         RosConfig,
         InsightsClientConf,
         Specs.pcp_raw_data,
-        Specs.yum_updates,
+        YumUpdates,
         IrisCpf,
         IrisList,
         SubscriptionManagerFacts,
@@ -143,7 +142,6 @@ GCP_CONFIRMED_CODES = [
     ]
 )
 def system_profile(
-    hostname,
     ansible_info,
     aws_instance_id,
     aws_public_hostnames,
@@ -559,23 +557,22 @@ def system_profile(
 
     if display_name:
         try:
-            profile["display_name"] = display_name.content[0]
+            profile["display_name"] = display_name.raw
         except Exception as e:
             catch_error("display_name", e)
             raise
 
     if ansible_host:
         try:
-            profile["ansible_host"] = ansible_host.content[0]
+            profile["ansible_host"] = ansible_host.raw
         except Exception as e:
             catch_error("ansible_host", e)
             raise
 
     if version_info:
         try:
-            version_info_json = json.loads(version_info.content[0])
-            profile["insights_client_version"] = version_info_json["client_version"]
-            profile["insights_egg_version"] = version_info_json["core_version"]
+            profile["insights_client_version"] = version_info["client_version"]
+            profile["insights_egg_version"] = version_info["core_version"]
         except Exception as e:
             catch_error("version_info", e)
             raise
@@ -630,7 +627,7 @@ def system_profile(
 
     if yum_updates:
         try:
-            profile["yum_updates"] = json.loads(yum_updates.content[0])
+            profile["yum_updates"] = yum_updates.updates
         except Exception as e:
             catch_error("yum_updates", e)
             raise
@@ -904,15 +901,6 @@ def _installed_services(unit_files):
     This method finds installed services and strips the '.service' suffix
     """
     return [service[:-8] for service in unit_files.services if ".service" in service]
-
-
-# from insights-core get_canonical_facts util
-def _safe_parse(ds):
-    try:
-        return ds.content[0]
-
-    except Exception:
-        return None
 
 
 def _safe_fetch_interface_field(interface, field_name):
