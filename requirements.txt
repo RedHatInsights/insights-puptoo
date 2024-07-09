@@ -9,10 +9,10 @@ flake8==3.8.4
 freezegun==0.3.15
 idna==3.7
 insights-core==3.3.28
-Jinja2==2.11.3
+Jinja2==3.1.4
 jsonschema==3.2.0
 lockfile==0.12.2
-MarkupSafe==1.1.1
+MarkupSafe==2.1.5
 mccabe==0.6.1
 more-itertools==8.6.0
 msgpack==1.0.2
