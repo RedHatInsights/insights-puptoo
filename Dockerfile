@@ -16,6 +16,6 @@ COPY dev dev
 COPY tests tests
 COPY src src
 
-RUN pip3 install --upgrade pip && pip3 install .
+RUN pip3 install --upgrade pip setuptools&& pip3 install .
 
 CMD ["puptoo"]
