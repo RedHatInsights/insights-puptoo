@@ -4,55 +4,60 @@ import os
 import re
 
 from insights import make_metadata, rule, run
-from insights.combiners.cloud_provider import CloudProvider
-from insights.combiners.redhat_release import RedHatRelease
-from insights.parsers.redhat_release import RedhatRelease
-from insights.combiners.os_release import OSRelease
-from insights.parsers.rhsm_releasever import RhsmReleaseVer
-from insights.combiners.virt_what import VirtWhat
-from insights.combiners.sap import Sap
 from insights.combiners.ansible_info import AnsibleInfo
+from insights.combiners.cloud_provider import CloudProvider
+from insights.combiners.os_release import OSRelease
+from insights.combiners.redhat_release import RedHatRelease
+from insights.combiners.sap import Sap
+from insights.combiners.virt_what import VirtWhat
 from insights.core import dr
-from insights.parsers.aws_instance_id import (
-    AWSInstanceIdDoc, AWSPublicIpv4Addresses, AWSPublicHostnames)
-from insights.parsers.azure_instance import AzureInstancePlan, AzurePublicIpv4Addresses
+from insights.parsers.aws_instance_id import (AWSInstanceIdDoc,
+                                              AWSPublicHostnames,
+                                              AWSPublicIpv4Addresses)
+from insights.parsers.azure_instance import (AzureInstancePlan,
+                                             AzurePublicIpv4Addresses)
 from insights.parsers.bootc import BootcStatus
-from insights.parsers.client_metadata import (
-    AnsibleHost, BranchInfo, DisplayName, Tags, VersionInfo)
+from insights.parsers.client_metadata import (AnsibleHost, BranchInfo,
+                                              DisplayName, Tags, VersionInfo)
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
-from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.dnf_module import DnfModuleList
-from insights.parsers.falconctl import FalconctlAid, FalconctlBackend, FalconctlVersion
+from insights.parsers.dnf_modules import DnfModules
+from insights.parsers.eap_json_reports import EAPJSONReports
+from insights.parsers.falconctl import (FalconctlAid, FalconctlBackend,
+                                        FalconctlVersion)
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
-from insights.parsers.sap_hdb_version import HDBVersion
+from insights.parsers.insights_client_conf import InsightsClientConf
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
 from insights.parsers.ip import IpAddr
 from insights.parsers.iris import IrisCpf, IrisList
-from insights.parsers.lsmod import LsMod
 from insights.parsers.lscpu import LsCPU
+from insights.parsers.lsmod import LsMod
 from insights.parsers.meminfo import MemInfo
-from insights.parsers.pmlog_summary import PmLogSummary, PmLogSummaryPcpZeroConf
+from insights.parsers.pmlog_summary import (PmLogSummary,
+                                            PmLogSummaryPcpZeroConf)
 from insights.parsers.ps import PsAuxcww
+from insights.parsers.redhat_release import RedhatRelease
+from insights.parsers.rhsm_releasever import RhsmReleaseVer
 from insights.parsers.ros_config import RosConfig
 from insights.parsers.rpm_ostree_status import RpmOstreeStatus
+from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.sestatus import SEStatus
 from insights.parsers.subscription_manager import SubscriptionManagerFacts
-from insights.parsers.systemd.unitfiles import UnitFiles, ListUnits
+from insights.parsers.systemctl_status_all import SystemctlStatusAll
+from insights.parsers.systemd.unitfiles import ListUnits, UnitFiles
 from insights.parsers.tuned import Tuned
 from insights.parsers.uname import Uname
 from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
-from insights.parsers.systemctl_status_all import SystemctlStatusAll
-from insights.parsers.eap_json_reports import EAPJSONReports
-from insights.parsers.insights_client_conf import InsightsClientConf
 from insights.parsers.yum_updates import YumUpdates
 from insights.specs import Specs
-from ..utils import config, metrics, puptoo_logging
+
+from src.puptoo.utils import config, metrics, puptoo_logging
 
 logger = logging.getLogger(config.APP_NAME)
 
