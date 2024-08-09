@@ -8,7 +8,7 @@ defusedxml==0.6.0
 flake8==3.8.4
 freezegun==0.3.15
 idna==3.7
-insights-core==3.3.28
+insights-core==3.4.8
 Jinja2==3.1.4
 jsonschema==3.2.0
 lockfile==0.12.2
