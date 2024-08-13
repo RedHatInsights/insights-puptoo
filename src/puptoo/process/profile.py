@@ -38,6 +38,8 @@ from insights.parsers.iris import IrisCpf, IrisList
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.lsmod import LsMod
 from insights.parsers.meminfo import MemInfo
+from insights.parsers.nvidia import NvidiaSmiL
+from insights.parsers.os_release import OsRelease
 from insights.parsers.pmlog_summary import (PmLogSummary,
                                             PmLogSummaryPcpZeroConf)
 from insights.parsers.ps import PsAuxcww
@@ -101,6 +103,7 @@ GCP_CONFIRMED_CODES = [
         DMIDecode,
         RedhatRelease,
         RedHatRelease,
+        OsRelease,
         OSRelease,
         RhsmReleaseVer,
         Uname,
@@ -143,6 +146,7 @@ GCP_CONFIRMED_CODES = [
         FalconctlAid,
         FalconctlBackend,
         FalconctlVersion,
+        NvidiaSmiL,
         EAPJSONReports
     ]
 )
@@ -161,7 +165,8 @@ def system_profile(
     dmidecode,
     redhat_release_parser,
     redhat_release_combiner,
-    os_release,
+    os_release_parser,
+    os_release_combiner,
     rhsm_releasever,
     uname,
     lsmod,
@@ -203,6 +208,7 @@ def system_profile(
     falconctl_aid,
     falconctl_backend,
     falconctl_version,
+    nvidia_smi_l,
     eap_json_reports
 ):
     """
@@ -278,7 +284,7 @@ def system_profile(
         origin_check = [item.value.endswith("edge") for item in origin]
         if origin_check and all(origin_check):
             profile["host_type"] = "edge"
-            if os_release and os_release.is_rhel:
+            if os_release_combiner and os_release_combiner.is_rhel:
                 profile["system_update_method"] = "rpm-ostree"
 
         deployments = _get_deployments(rpm_ostree_status)
@@ -447,11 +453,11 @@ def system_profile(
             catch_error("uname", e)
             raise
 
-    if (redhat_release_parser or redhat_release_combiner) and os_release:
+    if (redhat_release_parser or redhat_release_combiner) and os_release_combiner:
         try:
             if profile.get("system_update_method") is None:
                 profile["system_update_method"] = "yum"
-            if os_release.is_rhel and redhat_release_combiner:
+            if os_release_combiner.is_rhel and redhat_release_combiner:
                 profile["os_release"] = redhat_release_combiner.rhel
                 profile["operating_system"] = {
                     "major": redhat_release_combiner.major,
@@ -461,13 +467,13 @@ def system_profile(
                 if profile.get("host_type") is None:
                     if redhat_release_combiner.major >= 8:
                         profile["system_update_method"] = "dnf"
-            elif "CentOS Linux" in os_release.name and redhat_release_parser:
+            elif "CentOS Linux" in os_release_combiner.name and redhat_release_parser:
                 minor = 0 if redhat_release_parser.minor is None else redhat_release_parser.minor
                 profile["os_release"] = '{0}.{1}'.format(redhat_release_parser.major, minor)
                 profile["operating_system"] = {
                     "major": redhat_release_parser.major,
                     "minor": minor,
-                    "name": os_release.name
+                    "name": os_release_combiner.name
                 }
 
         except Exception as e:
@@ -743,6 +749,17 @@ def system_profile(
         profile["conversions"] = {"activity": False}
         if subscription_manager_facts.get('conversions.activity') == 'conversion':
             profile["conversions"]["activity"] = True
+
+    if os_release_parser:
+        variant_id = os_release_parser.get("VARIANT_ID")
+        if variant_id == 'rhel_ai':
+            rhel_ai_profile = {
+                "variant": os_release_parser.get("VARIANT"),
+                "rhel_ai_version_id": os_release_parser.get("BUILD_ID"),
+            }
+            if nvidia_smi_l:
+                rhel_ai_profile["nvidia_gpu_models"] = [gpu["model"] for gpu in nvidia_smi_l]
+            profile["rhel_ai"] = _remove_empties(rhel_ai_profile)
 
     # profile["third_party_services"]:
     #   containing information about system facts of third party services
