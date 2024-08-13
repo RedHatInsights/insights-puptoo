@@ -18,7 +18,7 @@ watchtower = "^1.0.6"
 logstash_formatter = "^0.5.17"
 minio = "<7.2"
 urllib3 = "<2"
-setuptools = "~65.5.1"
+setuptools = "~70.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.4.1"
