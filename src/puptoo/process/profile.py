@@ -755,7 +755,7 @@ def system_profile(
         if variant_id == 'rhel_ai':
             rhel_ai_profile = {
                 "variant": os_release_parser.get("VARIANT"),
-                "rhel_ai_version_id": os_release_parser.get("BUILD_ID"),
+                "rhel_ai_version_id": os_release_parser.get("RHEL_AI_VERSION_ID"),
             }
             if nvidia_smi_l:
                 rhel_ai_profile["nvidia_gpu_models"] = [gpu["model"] for gpu in nvidia_smi_l]
