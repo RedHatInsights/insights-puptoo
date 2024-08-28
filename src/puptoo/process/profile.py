@@ -638,7 +638,7 @@ def system_profile(
 
     if yum_updates:
         try:
-            profile["yum_updates"] = yum_updates.updates
+            profile["yum_updates"] = yum_updates.data
         except Exception as e:
             catch_error("yum_updates", e)
             raise
