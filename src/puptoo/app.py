@@ -245,6 +245,8 @@ def handle_message(msg, service, extra):
                 facts["system_profile"]["owner_id"] = owner_id
             if facts["system_profile"].get("is_ros"):
                 msg["is_ros"] = True
+            if facts["system_profile"].get("is_ros_v2"):
+                msg["is_ros_v2"] = True
             if facts["system_profile"].get("is_pcp_raw_data_collected"):
                 msg["is_pcp_raw_data_collected"] = True
             if facts["system_profile"].get("is_runtimes"):
