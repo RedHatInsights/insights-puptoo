@@ -648,19 +648,19 @@ def system_profile(
             profile["releasever"] = profile["yum_updates"].get("releasever")
             profile["basearch"] = profile["yum_updates"].get("basearch")
 
-    if (pmlog_summary_pcp_zeroconf or                   # ros new collection
-            pmlog_summary or ros_config):               # ros old collection
+    # ros new collection
+    if (pmlog_summary_pcp_zeroconf or
+            (insights_client_conf and
+                insights_client_conf.has_option("insights-client", "ros_collect") and
+                insights_client_conf.getboolean("insights-client", "ros_collect"))):
         profile["is_ros"] = True
+        profile["is_ros_v2"] = True
         profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
-    elif insights_client_conf:                          # ros new collection
-        try:
-            if insights_client_conf.has_option("insights-client", "ros_collect"):
-                if insights_client_conf.getboolean("insights-client", "ros_collect"):
-                    profile["is_ros"] = True
-                    profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
-        except Exception as e:
-            catch_error("is_ros", e)
-            raise
+    # ros old collection
+    elif pmlog_summary or ros_config:
+        profile["is_ros"] = True
+        profile["is_ros_v2"] = False
+        profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
 
     if eap_json_reports:
         profile["is_runtimes"] = True
