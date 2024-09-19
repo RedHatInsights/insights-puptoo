@@ -649,22 +649,15 @@ def system_profile(
             profile["basearch"] = profile["yum_updates"].get("basearch")
 
     # ros new collection
-    if pmlog_summary_pcp_zeroconf:
+    if (pmlog_summary_pcp_zeroconf or
+            (insights_client_conf and
+                insights_client_conf.has_option("insights-client", "ros_collect") and
+                insights_client_conf.getboolean("insights-client", "ros_collect"))):
         profile["is_ros"] = True
         profile["is_ros_v2"] = True
         profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
-    elif insights_client_conf:
-        try:
-            if (insights_client_conf.has_option("insights-client", "ros_collect") and
-                    insights_client_conf.getboolean("insights-client", "ros_collect")):
-                profile["is_ros"] = True
-                profile["is_ros_v2"] = True
-                profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
-        except Exception as e:
-            catch_error("is_ros", e)
-            raise
     # ros old collection
-    if "is_ros" not in profile and (pmlog_summary or ros_config):
+    elif pmlog_summary or ros_config:
         profile["is_ros"] = True
         profile["is_ros_v2"] = False
         profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
