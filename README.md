@@ -201,3 +201,5 @@ New functionality that may effect other services should increment by `1`. Minor 
 ## Authors
 
 - **Stephen Adams** - **Initial Work** - [SteveHNH](https://github.com/SteveHNH)
+- **Xiaoxue Wang**  - **Maintainer** - [JoySnow](https://github.com/JoySnow)
+
