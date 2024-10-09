@@ -1,4 +1,6 @@
-FROM registry.access.redhat.com/ubi9/python-311:latest
+
+FROM python:3.13
+
 
 WORKDIR /usr/src/app
 
