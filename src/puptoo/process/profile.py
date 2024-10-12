@@ -86,6 +86,11 @@ GCP_CONFIRMED_CODES = [
     "1270685562947480748",
 ]
 
+# AWS Product Codes that have been identified as BYOS, see RHINENG-13408
+MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES = set([
+    "bp-63a5400a",
+])
+
 
 @rule(
     optional=[
@@ -254,6 +259,10 @@ def system_profile(
         if aws_instance_id.get("marketplaceProductCodes"):
             if len(aws_instance_id["marketplaceProductCodes"]) >= 1:
                 profile["is_marketplace"] = True
+        aws_billing_products = aws_instance_id.get("billingProducts")
+        if aws_billing_products and len(aws_billing_products) >= 1:
+            profile["is_marketplace"] = any(bp not in MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES
+                                                for bp in aws_billing_products)
 
     if azure_instance_plan:
         if any(
