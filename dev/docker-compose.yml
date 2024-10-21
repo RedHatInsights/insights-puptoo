@@ -1,5 +1,5 @@
 # This docker compose file will stand up the minimal components necessary for
-# Puptoo to work. Nothing is stood up for uploads or to consume the inventory 
+# Puptoo to work. Nothing is stood up for uploads or to consume the inventory
 # messages.
 version: "3"
 services:
@@ -19,6 +19,7 @@ services:
       - KAFKA_BROKER_ID=1
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
   puptoo:
     image: quay.io/cloudservices/insights-puptoo:latest
     ports:
@@ -35,8 +36,8 @@ services:
       ports:
         - 9000:9000
       environment:
-        - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY
-        - MINIO_SECRET_KEY=$MINIO_SECRET_KEY
+        - MINIO_ROOT_USER=$MINIO_ACCESS_KEY
+        - MINIO_ROOT_PASSWORD=$MINIO_SECRET_KEY
   createbuckets:
     image: minio/mc
     depends_on:
@@ -44,12 +45,12 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc config host add myminio http://minio:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY;
-      /usr/bin/mc mb myminio/insights-upload-perma;
-      /usr/bin/mc mb myminio/insights-upload-rejected;
-      /usr/bin/mc mb myminio/insights-upload-puptoo;
-      /usr/bin/mc policy download myminio/insights-upload-perma;
-      /usr/bin/mc policy download myminio/insights-upload-rejected;
-      /usr/bin/mc policy download myminio/insights-upload-puptoo;
+      /usr/bin/mc mb --ignore-existing myminio/insights-upload-perma;
+      /usr/bin/mc mb --ignore-existing myminio/insights-upload-rejected;
+      /usr/bin/mc mb --ignore-existing myminio/insights-upload-puptoo;
+      /usr/bin/mc anonymous set public myminio/insights-upload-perma;
+      /usr/bin/mc anonymous set public myminio/insights-upload-rejected;
+      /usr/bin/mc anonymous set public myminio/insights-upload-puptoo;
       exit 0;
       "
   redis:
