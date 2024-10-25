@@ -2,7 +2,6 @@ import datetime
 import logging
 import os
 import re
-
 from insights import make_metadata, rule, run
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.combiners.cloud_provider import CloudProvider
@@ -30,6 +29,7 @@ from insights.parsers.falconctl import (FalconctlAid, FalconctlBackend,
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
+from insights.parsers.image_builder_facts import ImageBuilderFacts
 from insights.parsers.insights_client_conf import InsightsClientConf
 from insights.parsers.installed_product_ids import InstalledProductIDs
 from insights.parsers.installed_rpms import InstalledRpms
@@ -152,7 +152,8 @@ MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES = set([
         FalconctlBackend,
         FalconctlVersion,
         NvidiaSmiL,
-        EAPJSONReports
+        EAPJSONReports,
+        ImageBuilderFacts,
     ]
 )
 def system_profile(
@@ -214,7 +215,8 @@ def system_profile(
     falconctl_backend,
     falconctl_version,
     nvidia_smi_l,
-    eap_json_reports
+    eap_json_reports,
+    image_builder_facts,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -769,6 +771,19 @@ def system_profile(
             if nvidia_smi_l:
                 rhel_ai_profile["nvidia_gpu_models"] = [gpu["model"] for gpu in nvidia_smi_l]
             profile["rhel_ai"] = _remove_empties(rhel_ai_profile)
+
+    if image_builder_facts:
+        ib_facts = {}
+        prof_id = image_builder_facts.get("image-builder.insights.compliance-profile-id")
+        if prof_id:
+            ib_facts["compliance_profile_id"] = prof_id
+        pol_id = image_builder_facts.get("image-builder.insights.compliance-policy-id")
+        if pol_id:
+            ib_facts["compliance_policy_id"] = pol_id
+
+        if len(ib_facts):
+            profile["image_builder"] = ib_facts
+
 
     # profile["third_party_services"]:
     #   containing information about system facts of third party services
