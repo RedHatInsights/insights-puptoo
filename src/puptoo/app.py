@@ -207,10 +207,14 @@ def send_message(topic, msg, extra):
     try:
         producer.poll(0)
         _bytes = json.dumps(msg, ensure_ascii=False).encode("utf-8")
-        producer.produce(topic, _bytes, callback=partial(delivery_report, extra=extra))
+        org_id = msg.get('platform_metadata', {}).get('org_id')
+        key = org_id.encode("utf-8") if topic == config.INVENTORY_TOPIC and org_id else None
+        producer.produce(topic, _bytes, key, callback=partial(delivery_report, extra=extra))
+
         if topic == config.INVENTORY_TOPIC and msg.get("system_profile"):
             msg["data"].pop("system_profile")
             logger.info("Message sent to inventory: %s", msg)
+
     except KafkaError:
         metrics.msg_send_failure.labels(topic).inc()
         logger.exception(
