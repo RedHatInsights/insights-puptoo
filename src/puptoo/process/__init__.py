@@ -18,7 +18,7 @@ def get_archive(url):
     return archive.content
 
 
-def validate_size(path):
+def validate_size(path, extra):
     """
     reject payloads where the extracted size exceeds the configured max
     """
@@ -26,6 +26,11 @@ def validate_size(path):
     metrics.msg_extraction_size.observe(total_size)
     if total_size >= int(config.MAX_EXTRACTED_SIZE):
         metrics.msg_size_exceeded.inc()
+        logger.info(
+            "Unpacked archive exceeds extracted file size limit of %s, request_id: %s",
+            config.MAX_EXTRACTED_SIZE,
+            extra["request_id"]
+        )
         # TODO: actively reject payloads that exceed our configured max size
         # err_msg = f"Archive exceeds unextracted file limit of {config.MAX_EXTRACTED_SIZE}"
         # raise Exception(err_msg)
@@ -57,7 +62,7 @@ def extract(msg, extra, remove=True):
     facts = {"system_profile": {}}
     with unpacked_archive(msg, remove) as unpacked:
         try:
-            validate_size(unpacked.tmp_dir)
+            validate_size(unpacked.tmp_dir, extra)
             facts = get_canonical_facts(unpacked.tmp_dir)
             isValid = validateCanonicalFacts(facts)
             if not isValid:
@@ -73,9 +78,9 @@ def extract(msg, extra, remove=True):
 
 
 PROVIDER = ['provider_id', 'provider_type']
-FACTS_EXCEPT_PROVIDER = [ 
+FACTS_EXCEPT_PROVIDER = [
     'insights_id', 'subscription_manager_id', 'satellite_id',
-    'bios_uuid', 'ip_addresses', 'mac_addresses', 'fqdn' 
+    'bios_uuid', 'ip_addresses', 'mac_addresses', 'fqdn'
 ]
 
 def validateCanonicalFacts(facts):
