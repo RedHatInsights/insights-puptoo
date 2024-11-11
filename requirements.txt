@@ -1,4 +1,4 @@
-app-common-python==0.2.3
+app-common-python==0.2.7
 attrs==20.3.0
 CacheControl==0.12.6
 certifi==2024.7.4
