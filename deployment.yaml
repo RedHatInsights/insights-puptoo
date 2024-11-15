@@ -108,7 +108,8 @@ parameters:
 - description: Image NAME
   name: IMAGE
   required: true
-  value: quay.io/redhat-services-prod/insights-management-tenant/insights-puptoo/insights-puptoo
+  value: quay.io/cloudservices/insights-puptoo
+#  value: quay.io/redhat-services-prod/insights-management-tenant/insights-puptoo/insights-puptoo
 - description : ClowdEnvironment name
   name: ENV_NAME
   required: true
