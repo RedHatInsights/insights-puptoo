@@ -324,33 +324,26 @@ def system_profile(
             raise
 
     if sap:
-        profile["sap_system"] = False
+        profile["sap"] = {}
+        profile["sap"]["sap_system"] = False
         try:
             instances = sap.instances
             if instances:
-                profile["sap_system"] = True
+                profile["sap"]["sap_system"] = True
                 sids = {sap.sid(instance) for instance in instances}
-                profile["sap_sids"] = sorted(list(sids))
+                profile["sap"]["sids"] = sorted(list(sids))
                 inst = instances[0]
-                profile["sap_instance_number"] = sap[inst].number
-            profile["sap"] = {}
-            profile["sap"]["sap_system"] = profile.get("sap_system")
-            if profile.get("sap_sids"):
-                profile["sap"]["sids"] = profile.get("sap_sids")
-            if profile.get("sap_instance_number"):
-                profile["sap"]["instance_number"] = profile.get("sap_instance_number")
+                profile["sap"]["instance_number"] = sap[inst].number
         except Exception as e:
             catch_error("sap", e)
             raise
 
     if hdb_version:
         try:
-            if type(hdb_version) == list:
-                profile["sap_version"] = hdb_version[0].version
+            if isinstance(hdb_version, list):
+                profile["sap"]["version"] = hdb_version[0].version
             else:
-                profile["sap_version"] = hdb_version.version
-            if profile.get("sap"):
-                profile["sap"]["version"] = profile["sap_version"]
+                profile["sap"]["version"] = hdb_version.version
         except Exception as e:
             catch_error("hdb_version", e)
             raise
