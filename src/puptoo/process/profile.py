@@ -76,14 +76,19 @@ def catch_error(parser, error):
 
 # GCP_CONFIRMED_CODES are the available marketplace license codes available
 # from the Google Compute Platform. These may need to be updated regularly.
+# Share the same list with swatch-system-conduit, see RHINENG-642
 GCP_CONFIRMED_CODES = [
-    "601259152637613565",
-    "1176308840663243801",
-    "1000002",
-    "1000006",
-    "601259152637613565",
-    "8555687517154622919",
-    "1270685562947480748",
+    "1000002",              # rhel-6
+    "1000006",              # rhel-7
+    "601259152637613565",   # rhel-8
+    "7883559014960410759",  # rhel-9, rhel-9-arm64
+    "5882583258875011738",  # rhel-7-4-sap
+    "8555687517154622919",  # rhel-7-6-sap-ha, rhel-7-7-sap-ha, rhel-7-9-sap-ha
+    "5955710252559838163",  # rhel-7-sap-apps
+    "996690525257673675",   # rhel-7-sap-hana
+    "1270685562947480748",  # rhel-8-1-sap-ha, rhel-8-10-sap-ha, rhel-8-2-sap-ha,
+                            # # rhel-8-4-sap-ha, rhel-8-6-sap-ha, rhel-8-8-sap-ha
+    "8291906032809750558",  # rhel-9-0-sap-ha, rhel-9-2-sap-ha, rhel-9-4-sap-ha
 ]
 
 # AWS Product Codes that have been identified as BYOS, see RHINENG-13408
