@@ -5,6 +5,7 @@ import re
 from insights import make_metadata, rule, run
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.combiners.cloud_provider import CloudProvider
+from insights.combiners.lspci import LsPci
 from insights.combiners.os_release import OSRelease
 from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.sap import Sap
@@ -91,6 +92,18 @@ MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES = set([
     "bp-63a5400a",
 ])
 
+RHEL_AI_GPU_MODEL_IDENTIFIERS = {
+    "AMD_GPU": {
+        "VENDOR_ID": "1002",
+        "DEVICE_ID": set(['740f', '740c', '7408', '738e', '738c',
+                          '686c', '6864', '6860', '66a1', '66a0'])
+    },
+    "INTEL_GAUDI_HPU": {
+        "VENDOR_ID": "1da3",
+        "DEVICE_ID": set(['1020', '1010', '1000', '0030', '0001'])
+    }
+}
+
 
 @rule(
     optional=[
@@ -152,6 +165,7 @@ MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES = set([
         FalconctlBackend,
         FalconctlVersion,
         NvidiaSmiL,
+        LsPci,
         EAPJSONReports,
         ImageBuilderFacts,
     ]
@@ -215,6 +229,7 @@ def system_profile(
     falconctl_backend,
     falconctl_version,
     nvidia_smi_l,
+    lspci,
     eap_json_reports,
     image_builder_facts,
 ):
@@ -770,6 +785,17 @@ def system_profile(
             }
             if nvidia_smi_l:
                 rhel_ai_profile["nvidia_gpu_models"] = [gpu["model"] for gpu in nvidia_smi_l]
+            if lspci:
+                for pci in lspci:
+                    subsystem = pci.get("Subsystem")
+                    if (subsystem and
+                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["VENDOR_ID"] and
+                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["DEVICE_ID"]):
+                        rhel_ai_profile["amd_gpu_models"].append(subsystem)
+                    elif (subsystem and
+                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["VENDOR_ID"] and
+                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]):
+                        rhel_ai_profile["intel_gaudi_hpu_models"].append(subsystem)
             profile["rhel_ai"] = _remove_empties(rhel_ai_profile)
 
     if image_builder_facts:
