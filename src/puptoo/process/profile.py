@@ -786,6 +786,8 @@ def system_profile(
             if nvidia_smi_l:
                 rhel_ai_profile["nvidia_gpu_models"] = [gpu["model"] for gpu in nvidia_smi_l]
             if lspci:
+                rhel_ai_profile["amd_gpu_models"] = []
+                rhel_ai_profile["intel_gaudi_hpu_models"] = []
                 for pci in lspci:
                     subsystem = pci.get("Subsystem")
                     if (subsystem and

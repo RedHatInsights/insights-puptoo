@@ -74,11 +74,11 @@ GPU 1: Tesla V100-PCIE-16GB (UUID: GPU-b08ecee0-0ea5-7b07-d459-baa5b95f5e89)
 LSPCI_K_AMD = """
 00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Starship/Matisse Root Complex
     Subsystem: Dell Device 08ff
-7:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Arcturus GL-XL [Instinct MI100] (rev 01)
+07:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Arcturus GL-XL [Instinct MI100] (rev 01)
     Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34
     Kernel driver in use: amdgpu
     Kernel modules: amdgpu
-8:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Arcturus GL-XL [Instinct MI100] (rev 01)
+08:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Arcturus GL-XL [Instinct MI100] (rev 01)
     Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34
     Kernel driver in use: amdgpu
     Kernel modules: amdgpu
