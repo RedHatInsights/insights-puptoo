@@ -1,0 +1,41 @@
+Slot:   00:00.0
+Class:  0600
+Vendor: 1022
+Device: 1480
+SVendor:    1028
+SDevice:    08ff
+NUMANode:   0
+
+Slot:   07:00.0
+Class:  0380
+Vendor: 1002
+Device: 738c
+SVendor:    1002
+SDevice:    0c34
+Rev:    01
+Driver: amdgpu
+Module: amdgpu
+NUMANode:   0
+
+Slot:   08:00.0
+Class:  0380
+Vendor: 1002
+Device: 738c
+SVendor:    1002
+SDevice:    0c34
+Rev:    01
+Driver: amdgpu
+Module: amdgpu
+NUMANode:   1
+
+Slot:   0a:00.0
+Class:  1200
+Vendor: 1da3
+Device: 1020
+SVendor:    1da3
+SDevice:    1020
+PhySlot:    100
+Rev:    01
+Driver: habanalabs
+Module: habanalabs
+NUMANode:   0
