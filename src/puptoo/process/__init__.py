@@ -32,8 +32,14 @@ def validate_size(path, extra):
             extra["request_id"]
         )
         # TODO: actively reject payloads that exceed our configured max size
-        # err_msg = f"Archive exceeds unextracted file limit of {config.MAX_EXTRACTED_SIZE}"
-        # raise Exception(err_msg)
+    elif total_size >= int(config.MAX_EXTRACTED_SIZE_L2):
+        # Request for debugging usage in insights-engine
+        logger.info(
+            "Unpacked archive exceeds extracted file size limit of %s (but within limit %s), request_id: %s",
+            config.MAX_EXTRACTED_SIZE_L2,
+            config.MAX_EXTRACTED_SIZE,
+            extra["request_id"]
+        )
 
 
 @contextmanager
@@ -83,8 +89,9 @@ FACTS_EXCEPT_PROVIDER = [
     'bios_uuid', 'ip_addresses', 'mac_addresses', 'fqdn'
 ]
 
+
 def validateCanonicalFacts(facts):
     if (all(key in facts for key in PROVIDER)
-        or not any(key in facts for key in PROVIDER)) and any(key in facts for key in FACTS_EXCEPT_PROVIDER):
+            or not any(key in facts for key in PROVIDER)) and any(key in facts for key in FACTS_EXCEPT_PROVIDER):
         return True
     return False
