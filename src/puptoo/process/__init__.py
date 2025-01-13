@@ -54,9 +54,11 @@ def unpacked_archive(msg, remove=True):
             tf.write(get_archive(msg["url"]))
             tf.flush()
             with extract_archive(tf.name) as ex:
-                yield ex
-    finally:
-        metrics.msg_processed.inc()
+                yield ex, None
+    except Exception as err:
+        metrics.extract_failure.inc()
+        yield None, err
+    else:
         metrics.extract_success.inc()
 
 
@@ -66,7 +68,12 @@ def extract(msg, extra, remove=True):
     Perform the extraction of canonical system facts and system profile.
     """
     facts = {"system_profile": {}}
-    with unpacked_archive(msg, remove) as unpacked:
+    with unpacked_archive(msg, remove) as (unpacked, err):
+        if err:
+            logger.exception("Failed to extract archive: %s", str(err), extra=extra)
+            facts["error"] = str(err)
+            return facts
+
         try:
             validate_size(unpacked.tmp_dir, extra)
             facts = get_canonical_facts(unpacked.tmp_dir)
@@ -74,8 +81,6 @@ def extract(msg, extra, remove=True):
             if not isValid:
                 raise Exception("Missing canonical fact(s).")
             facts['system_profile'] = get_system_profile(unpacked.tmp_dir)
-            metrics.msg_processed.inc()
-            metrics.extract_success.inc()
             facts = postprocess(facts)
         except Exception as e:
             logger.exception("Failed to extract facts: %s", str(e), extra=extra)
