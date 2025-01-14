@@ -153,9 +153,10 @@ def main():
 
 
 def process_archive(msg, extra):
+    metrics.msg_processed_count.inc()
     facts = extract(msg, extra)
     if facts.get("error"):
-        metrics.extract_failure.inc()
+        metrics.msg_processed_failure.inc()
         send_message(
             config.TRACKER_TOPIC,
             msgs.tracker_message(extra, "error", "Unable to extract facts"),
@@ -180,6 +181,7 @@ def process_archive(msg, extra):
         msg,
         facts,
     )
+    metrics.msg_processed_success.inc()
     return facts
 
 

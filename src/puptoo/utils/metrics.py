@@ -23,9 +23,16 @@ extract_failure = Counter(
 extract_success = Counter(
     "puptoo_successful_extractions_total", "Total archives successfully extracted"
 )
-msg_processed = Counter(
-    "puptoo_messages_processed_total", "Total messages successful process"
+msg_processed_count = Counter(
+    "puptoo_messages_processed_total", "Total messages processed"
 )
+msg_processed_failure = Counter(
+    "puptoo_messages_processed_failure_total", "Total messages failed processed."
+)
+msg_processed_success = Counter(
+    "puptoo_messages_processed_success_total", "Total messages successful processed."
+)
+
 msg_produced = Counter(
     "puptoo_messages_produced_total", "Total messages produced", ["topic"]
 )
