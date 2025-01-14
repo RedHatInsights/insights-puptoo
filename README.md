@@ -174,7 +174,8 @@ From this nature, this test-archive example can be used for system-profile QA Ve
 
 Tar the provided test-archive example with:
 ```sh
-$ tar -zcvf insights-puptoo-test-archive.tar.gz ./dev/test-archives/core-base
+$ cd ./dev/test-archives
+$ tar -zcvf insights-puptoo-test-archive.tar.gz ./core-base
 ```
 
 ## Deployment
