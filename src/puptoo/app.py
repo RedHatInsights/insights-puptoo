@@ -123,7 +123,7 @@ def main():
                 continue
             if msg.error():
                 logger.error("Consumer error: %s", msg.error())
-                metrics.failed_msg_count.inc()
+                metrics.kafka_consume_msg_failure_count.inc()
                 continue
 
             now = time()
@@ -275,6 +275,7 @@ def handle_message(msg, service, extra):
             except:
                 logger.exception("Error occurred while uploading object.")
 
+        metrics.msg_success_count.inc()
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )
