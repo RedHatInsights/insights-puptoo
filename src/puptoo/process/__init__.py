@@ -48,7 +48,7 @@ def unpacked_archive(msg, remove=True):
     Simple ContextManager which is used to for automatically downloading + unpacking
     insights archive, and performing cleanup when needed.
     """
-    metrics.extraction_count.inc()
+    metrics.unpacking_count.inc()
     try:
         with NamedTemporaryFile(delete=remove) as tf:
             tf.write(get_archive(msg["url"]))
@@ -56,10 +56,10 @@ def unpacked_archive(msg, remove=True):
             with extract_archive(tf.name) as ex:
                 yield ex, None
     except Exception as err:
-        metrics.extract_failure.inc()
+        metrics.unpacking_failure.inc()
         yield None, err
     else:
-        metrics.extract_success.inc()
+        metrics.unpacking_success.inc()
 
 
 @metrics.EXTRACT.time()

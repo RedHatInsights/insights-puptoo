@@ -8,20 +8,15 @@ SYSTEM_PROFILE = Summary(
     "puptoo_system_profile_seconds", "Total time spent extracting system profile"
 )
 
-# For messages processed for all services
-msg_count = Counter(
-    "puptoo_messages_consumed_total", "Total messages processed for all services"
+# For message consumed from kafka
+kafka_consume_msg_count = Counter(
+    "puptoo_messages_consumed_total", "Total messages consumed from the kafka topic"
 )
-msg_success_count = Counter(
-    "puptoo_messages_consumed_success_total", "Total messages processed successfully for all services"
-)
-
-# For kafka message consume error counter, keep it for back compatibility
 kafka_consume_msg_failure_count = Counter(
     "puptoo_messages_consume_failure_total", "Total messages that failed to be consumed"
 )
 
-# For advisor service archive unpacking
+# For messages processed for advisor services only
 extraction_count = Counter(
     "puptoo_extractions_total", "Total archive extractions attempted"
 )
@@ -32,15 +27,23 @@ extract_success = Counter(
     "puptoo_successful_extractions_total", "Total archives successfully extracted"
 )
 
-# For messages processed for advisor services only
+# For messages processed for all services
 msg_processed_count = Counter(
-    "puptoo_messages_processed_total", "Total messages processed for advisor service"
-)
-msg_processed_failure = Counter(
-    "puptoo_messages_processed_failure_total", "Total messages failed processed for advisor service"
+    "puptoo_messages_processed_total", "Total messages processed for all service"
 )
 msg_processed_success = Counter(
-    "puptoo_messages_processed_success_total", "Total messages successful processed for advisor service"
+    "puptoo_messages_processed_success_total", "Total messages processed successfully for all services"
+)
+
+# For archive unpacking
+unpacking_count = Counter(
+    "puptoo_archive_unpacking_total", "Total archive unpacking attempted"
+)
+unpacking_failure = Counter(
+    "puptoo_archive_unpacking_failure_total", "Total archives unpacking failure"
+)
+unpacking_success = Counter(
+    "puptoo_archive_unpacking_success_total", "Total archives unpacking successfully"
 )
 
 msg_produced = Counter(
