@@ -130,6 +130,7 @@ def main():
             CONSUMER_WAIT_TIME.observe(now - start)
             start = now
             try:
+                metrics.kafka_consume_msg_count.inc()
                 service = dict(msg.headers() or []).get('service')
                 if service:
                     service = service.decode("utf-8")
@@ -153,10 +154,10 @@ def main():
 
 
 def process_archive(msg, extra):
-    metrics.msg_processed_count.inc()
+    metrics.extraction_count.inc()
     facts = extract(msg, extra)
     if facts.get("error"):
-        metrics.msg_processed_failure.inc()
+        metrics.extract_failure.inc()
         send_message(
             config.TRACKER_TOPIC,
             msgs.tracker_message(extra, "error", "Unable to extract facts"),
@@ -181,7 +182,7 @@ def process_archive(msg, extra):
         msg,
         facts,
     )
-    metrics.msg_processed_success.inc()
+    metrics.extract_success.inc()
     return facts
 
 
@@ -232,7 +233,8 @@ def handle_message(msg, service, extra):
         msgs.tracker_message(extra, "received", "Received message"),
         extra,
     )
-    metrics.msg_count.inc()
+    metrics.msg_processed_count.inc()
+
     owner_id = get_owner(msg["b64_identity"])
 
     if service == "advisor":
@@ -275,7 +277,7 @@ def handle_message(msg, service, extra):
             except:
                 logger.exception("Error occurred while uploading object.")
 
-        metrics.msg_success_count.inc()
+        metrics.msg_processed_success.inc()
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )
