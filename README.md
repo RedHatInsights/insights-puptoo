@@ -2,7 +2,7 @@
 
 The Platform Upload Processor II (PUPTOO) is designed to recieve payloads for the `advisor` service
 via the message queue, extract facts from the payload, forward the information to the inventory
-service.
+service
 
 ## Details
 
