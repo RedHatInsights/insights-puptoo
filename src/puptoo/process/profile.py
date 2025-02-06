@@ -334,6 +334,8 @@ def system_profile(
         try:
             cores_per_socket = lscpu.info.get("Cores per socket")
             profile["cores_per_socket"] = int(cores_per_socket) if cores_per_socket else None
+            threads_per_core = lscpu.info.get("Threads per core")
+            profile["threads_per_core"] = int(threads_per_core) if threads_per_core else None
         except Exception as e:
             catch_error("lscpu", e)
             raise
