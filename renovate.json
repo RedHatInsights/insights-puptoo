@@ -3,10 +3,23 @@
         "github>konflux-ci/mintmaker//config/renovate/renovate.json"
     ],
     "schedule": [
-        "on Monday after 3am and before 10am"
+        "at any time"
     ],
     "ignorePaths": [
-      ".pre-commit-config.yaml"
+        ".pre-commit-config.yaml"
+    ],
+    "packageRules": [
+        {
+            "description": "No auto bump up for insights-core",
+            "matchPackageNames": ["insights-core"],
+            "enabled": false
+        },
+        {
+            "description": "Group minor and patch dependency updates",
+            "matchPackagePatterns": ["*"],
+            "matchUpdateTypes": ["minor", "patch"],
+            "groupName": "all non-major dependencies",
+            "groupSlug": "all-minor-patch"
+        }
     ]
 }
-
