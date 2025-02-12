@@ -32,7 +32,8 @@ data:
       "panels": [
         {
           "datasource": {
-            "uid": "$datasource"
+            "type": "prometheus",
+            "uid": ${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -80,7 +81,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": ${datasource}"
               },
               "expr": "avg(avg_over_time(up{service=\"puptoo-processor\"}[$__range]))",
               "interval": "",
@@ -93,7 +95,8 @@ data:
         },
         {
           "datasource": {
-            "uid": "$datasource"
+            "type": "prometheus",
+            "uid": ${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -141,7 +144,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": ${datasource}"
               },
               "expr": "sum(increase(puptoo_successful_extractions_total[$__range])) / sum(increase(puptoo_extractions_total[$__range]))",
               "interval": "",
@@ -154,7 +158,7 @@ data:
         },
         {
           "datasource": {
-            "uid": "$datasource",
+            "uid": ${datasource}",
             "type": "prometheus"
           },
           "fieldConfig": {
@@ -206,7 +210,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": "${datasource}"
               },
               "expr": "sum(increase(puptoo_messages_processed_success_total[$__range])) / sum(increase(puptoo_messages_processed_total[$__range]))",
               "interval": "",
@@ -222,7 +227,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PC1EAC84DCBBF0697"
+            "uid": "${datasource}"
           },
           "description": "Total messages produced to each topic",
           "fieldConfig": {
@@ -303,7 +308,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PC1EAC84DCBBF0697"
+                "uid": "${datasource}",
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_messages_produced_total[$__range])) by (topic)",
@@ -318,7 +323,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -399,7 +404,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": "${datasource}",
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_messages_consumed_total[$__range]))",
@@ -414,7 +420,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "${datasource}"
           },
           "description": "Total Uploads that failed extractions",
           "fieldConfig": {
@@ -496,7 +502,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_failed_extractions_total[$__range]))",
@@ -511,7 +518,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PC1EAC84DCBBF0697"
+            "uid": "${datasource}"
           },
           "description": "Messages in the announce topic waiting to be picked up by Puptoo. ",
           "fieldConfig": {
@@ -589,7 +596,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PC1EAC84DCBBF0697"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum(kafka_consumergroup_group_lag{topic=\"platform.upload.announce\", group=\"insights-puptoo\"}) by (topic)",
