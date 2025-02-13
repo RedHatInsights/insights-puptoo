@@ -16,7 +16,7 @@
         },
         {
             "description": "Group minor and patch dependency updates",
-            "matchPackagePatterns": ["*"],
+            "matchPackageNames": ["*"],
             "matchUpdateTypes": ["minor", "patch"],
             "groupName": "all non-major dependencies",
             "groupSlug": "all-minor-patch"
