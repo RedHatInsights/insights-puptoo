@@ -315,3 +315,6 @@ setroub+   54600  9.1  9.9 402040 81776 ?        Sl   18:33   0:00 setroubleshoo
 root       54617  0.0  0.0      0     0 ?        I    18:33   0:00 kworker/3:1-events
 root       54872  0.0  0.1   8632   976 pts/0    S    18:33   0:00 timeout
 root       54873  0.0  0.4  55764  3600 pts/0    R    18:33   0:00 ps
+dbp1      161530  0.1  1.3 2306928 314076 ?      Sl   Apr19   8:42 db2sysc
+dbp2      161531  0.1  1.3 2306928 314076 ?      Sl   Apr19   8:42 db2sysc
+root      161532  0.1  1.3 2306928 314076 ?      Sl   Apr19   8:42 db2sysc

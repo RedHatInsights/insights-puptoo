@@ -78,6 +78,21 @@ def test_intersystems():
     assert result["intersystems"]["running_instances"][0]["version"] == "2023.1"
     assert result["intersystems"]["running_instances"][1]["instance_name"] == "IRIS2"
     assert result["intersystems"]["running_instances"][1]["version"] == "2023.2"
+    assert result["workloads"]["intersystems"] == {
+        "is_intersystems": True,
+        "running_instances": [
+            {
+                "instance_name": "IRIS1",
+                "product": "IRIS",
+                "version": "2023.1"
+            },
+            {
+                "instance_name": "IRIS2",
+                "product": "IRIS",
+                "version": "2023.2"
+            }
+        ]
+    }
 
     # As a valid Intersystems system, but no running instance - 1
     input_data = InputData()
@@ -86,6 +101,9 @@ def test_intersystems():
     result = run_test(system_profile, input_data)
     assert result["intersystems"]["is_intersystems"] is True
     assert "running_instances" not in result["intersystems"]
+    result["workloads"]["intersystems"] = {
+        "is_intersystems": True
+    }
 
     # As a valid Intersystems system, but no running instance - 2
     input_data = InputData()
@@ -94,6 +112,9 @@ def test_intersystems():
     result = run_test(system_profile, input_data)
     assert result["intersystems"]["is_intersystems"] is True
     assert "running_instances" not in result["intersystems"]
+    result["workloads"]["intersystems"] = {
+        "is_intersystems": True
+    }
 
     # Not as a valid Intersystems system
     input_data = InputData()
@@ -101,3 +122,4 @@ def test_intersystems():
     input_data.add(Specs.iris_cpf, "", path="/intersystems1/iris.cpf")
     result = run_test(system_profile, input_data)
     assert "intersystems" not in result
+    assert "workloads" not in result
