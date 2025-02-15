@@ -1,5 +1,5 @@
 app-common-python==0.2.3
-attrs==20.3.0
+attrs==25.1.0
 CacheControl==0.12.6
 certifi==2024.7.4
 chardet==3.0.4
