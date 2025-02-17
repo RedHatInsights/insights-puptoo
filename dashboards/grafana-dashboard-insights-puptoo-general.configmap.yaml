@@ -32,7 +32,8 @@ data:
       "panels": [
         {
           "datasource": {
-            "uid": "$datasource"
+            "type": "prometheus",
+            "uid": ${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -59,7 +60,7 @@ data:
           },
           "gridPos": {
             "h": 7,
-            "w": 9,
+            "w": 8,
             "x": 0,
             "y": 0
           },
@@ -80,9 +81,10 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": ${datasource}"
               },
-              "expr": "avg(avg_over_time(up{service=\"puptoo-processor\"}[24h]))",
+              "expr": "avg(avg_over_time(up{service=\"puptoo-processor\"}[$__range]))",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -93,7 +95,8 @@ data:
         },
         {
           "datasource": {
-            "uid": "$datasource"
+            "type": "prometheus",
+            "uid": ${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -120,8 +123,8 @@ data:
           },
           "gridPos": {
             "h": 7,
-            "w": 9,
-            "x": 9,
+            "w": 8,
+            "x": 8,
             "y": 0
           },
           "id": 8,
@@ -141,21 +144,90 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": ${datasource}"
               },
-              "expr": "sum(increase(puptoo_successful_extractions_total[24h])) / sum(increase(puptoo_extractions_total[24h]))",
+              "expr": "sum(increase(puptoo_successful_extractions_total[$__range])) / sum(increase(puptoo_extractions_total[$__range]))",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
             }
           ],
-          "title": "Successful Extractions",
+          "title": "Successful Extractions (Advisor Service)",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "uid": ${datasource}",
+            "type": "prometheus"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 95
+                  }
+                ]
+              },
+              "decimals": 2,
+              "max": 1,
+              "min": 0,
+              "unit": "percentunit"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 16,
+            "y": 0
+          },
+          "id": 17,
+          "options": {
+            "reduceOptions": {
+              "values": false,
+              "calcs": [
+                "mean"
+              ],
+              "fields": ""
+            },
+            "orientation": "auto",
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true,
+            "sizing": "auto",
+            "minVizWidth": 75,
+            "minVizHeight": 75
+          },
+          "pluginVersion": "10.4.1",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${datasource}"
+              },
+              "expr": "sum(increase(puptoo_messages_processed_success_total[$__range])) / sum(increase(puptoo_messages_processed_total[$__range]))",
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A",
+              "editorMode": "code",
+              "range": true
+            }
+          ],
+          "title": "Successful Processed Messages (All Services)",
           "type": "gauge"
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PC1EAC84DCBBF0697"
+            "uid": "${datasource}"
           },
           "description": "Total messages produced to each topic",
           "fieldConfig": {
@@ -236,7 +308,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PC1EAC84DCBBF0697"
+                "uid": "${datasource}",
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_messages_produced_total[$__range])) by (topic)",
@@ -251,7 +323,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -332,7 +404,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": "${datasource}",
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_messages_consumed_total[$__range]))",
@@ -347,7 +420,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "$datasource"
+            "uid": "${datasource}"
           },
           "description": "Total Uploads that failed extractions",
           "fieldConfig": {
@@ -429,7 +502,8 @@ data:
           "targets": [
             {
               "datasource": {
-                "uid": "$datasource"
+                "type": "prometheus",
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_failed_extractions_total[$__range]))",
@@ -444,7 +518,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "PC1EAC84DCBBF0697"
+            "uid": "${datasource}"
           },
           "description": "Messages in the announce topic waiting to be picked up by Puptoo. ",
           "fieldConfig": {
@@ -522,7 +596,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "PC1EAC84DCBBF0697"
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum(kafka_consumergroup_group_lag{topic=\"platform.upload.announce\", group=\"insights-puptoo\"}) by (topic)",
