@@ -68,6 +68,8 @@ dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
 
 MAC_REGEX = '^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$'
+ORACLE_PROCESS_REGEX1 = re.compile(r'^ora_.mon', re.I)
+ORACLE_PROCESS_REGEX2 = re.compile(r'^oracle', re.I)
 
 
 def catch_error(parser, error):
@@ -240,7 +242,11 @@ def system_profile(
     Note that we strip all keys with the value of "None". Inventory service
     ignores any key with None as the value.
     """
-    profile = {"tags": {"insights-client": {}}, "is_marketplace": False}
+    profile = {
+        "tags": {"insights-client": {}},
+        "is_marketplace": False,
+        "workloads": {},
+    }
 
     if uname:
         try:
@@ -523,6 +529,10 @@ def system_profile(
     if ps_auxcww:
         try:
             profile["running_processes"] = sorted(list(ps_auxcww.running))
+            if any(p.startswith("db2sysc") for p in ps_auxcww.cmd_names):
+                profile["workloads"]["ibm_db2"] = {"is_running": True}
+            if any(ORACLE_PROCESS_REGEX1.search(p) or ORACLE_PROCESS_REGEX2.search(p) for p in ps_auxcww.cmd_names):
+                profile["workloads"]["oracle_db"] = {"is_running": True}
         except Exception as e:
             catch_error("ps_auxcww", e)
             raise
@@ -814,7 +824,6 @@ def system_profile(
         if len(ib_facts):
             profile["image_builder"] = ib_facts
 
-
     # profile["third_party_services"]:
     #   containing information about system facts of third party services
     third_party_services = {}
@@ -831,6 +840,25 @@ def system_profile(
 
     if third_party_services:
         profile["third_party_services"] = third_party_services
+
+    # Workloads:
+    #  - Ansible Automation Platform
+    #  - CrowdStrike Falcon
+    #  - IBM DB2
+    #  - InterSystems IRIS
+    #  - Microsoft SQL Server
+    #  - Oracle DB
+    #  - RHEL AI
+    #  - SAP HANA / SAP Netweaver
+    profile["workloads"].update({
+        "ansible": profile.get("ansible"),
+        "crowdstrike": profile.get("third_party_services", {}).get("crowdstrike"),
+        "intersystems": profile.get("intersystems"),
+        "mssql": profile.get("mssql"),
+        "rhel_ai": profile.get("rhel_ai"),
+        "sap": profile.get("sap"),
+    })
+    profile["workloads"] = _remove_empties(profile["workloads"])
 
     metadata_response = make_metadata()
     profile_sans_none = _remove_empties(profile)
@@ -876,7 +904,7 @@ def _remove_empties(d):
     small helper method to remove keys with value of None, [] or ''. These are
     not accepted by inventory service.
     """
-    return {x: d[x] for x in d if d[x] not in [None, "", []]}
+    return {x: d[x] for x in d if d[x] not in [None, "", [], {}]}
 
 
 def _remove_empty_string(arr):

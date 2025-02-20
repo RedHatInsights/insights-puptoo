@@ -86,14 +86,14 @@ SAP_DATA_2 = """
 
 SAP_DATA_3 = """
 *********************************************************
- CreationClassName , String , SAPInstance 
- SID , String , SMA 
- SystemNumber , String , 93 
- InstanceName , String , SMDA93 
- InstanceType , String , Solution Manager Diagnostic Agent 
- Hostname , String , hag 
+ CreationClassName , String , SAPInstance
+ SID , String , SMA
+ SystemNumber , String , 93
+ InstanceName , String , SMDA93
+ InstanceType , String , Solution Manager Diagnostic Agent
+ Hostname , String , hag
  FullQualifiedHostname , String , hag.example.com
- SapVersionInfo , String , 749, patch 200, changelist 1746260 
+ SapVersionInfo , String , 749, patch 200, changelist 1746260
 """.strip()
 
 HOSTNAME = "lu0417.example.com"
@@ -113,6 +113,7 @@ def test_sap():
     assert result["sap_instance_number"] == '88'
     assert result["sap_sids"] == ['D89', 'D90']
     assert result["sap"] == expected_sap_object
+    assert result["workloads"]["sap"] == expected_sap_object
 
 
     input_data = InputData()
@@ -125,6 +126,7 @@ def test_sap():
     assert result.get("sap_instance_number") == '90'
     assert result.get("sap_sids") == ['D90']
     assert result["sap"] == expected_sap_object
+    assert result["workloads"]["sap"] == expected_sap_object
 
 
     input_data = InputData()
@@ -137,7 +139,8 @@ def test_sap():
     assert result.get("sap_instance_number") == None
     assert result.get("sap_sids") == None
     assert result["sap"] == expected_sap_object
-    
+    assert result["workloads"]["sap"] == expected_sap_object
+
 
     input_data = InputData()
     input_data.add(Specs.saphostctl_getcimobject_sapinstance, SAP_DATA_2)
@@ -149,3 +152,4 @@ def test_sap():
     assert result["sap_instance_number"] == '12'
     assert result["sap_sids"] == ['R4D', 'WDX']
     assert result["sap"] == expected_sap_object
+    assert result["workloads"]["sap"] == expected_sap_object

@@ -17,3 +17,8 @@ def test_ansible_info():
     assert result["ansible"]["hub_version"] == "1.0.3"
     assert result["ansible"]["catalog_worker_version"] == "1.0.2"
     assert result["ansible"]["controller_version"] == "1.0.0"
+    assert result["workloads"]["ansible"] == {
+        "hub_version": "1.0.3",
+        "catalog_worker_version": "1.0.2",
+        "controller_version": "1.0.0"
+    }

@@ -149,6 +149,11 @@ def test_rhel_ai():
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
     assert len(result["rhel_ai"]["nvidia_gpu_models"]) == 2
     assert result["rhel_ai"]["nvidia_gpu_models"] == ["NVIDIA T1000", "Tesla V100-PCIE-16GB"]
+    assert result["workloads"]["rhel_ai"] == {
+        "variant": "RHEL AI",
+        "rhel_ai_version_id": "v1.1.3",
+        "nvidia_gpu_models": ["NVIDIA T1000", "Tesla V100-PCIE-16GB"]
+    }
 
     # As a RHEL AI system, without nvidia_gpu_models
     input_data = InputData()
@@ -158,6 +163,10 @@ def test_rhel_ai():
     assert result["rhel_ai"]["variant"] == "RHEL AI"
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
     assert "nvidia_gpu_models" not in result["rhel_ai"]
+    assert result["workloads"]["rhel_ai"] == {
+        "variant": "RHEL AI",
+        "rhel_ai_version_id": "v1.1.3"
+    }
 
     # Not a "RHEL AI" system - RHEL
     input_data = InputData()
@@ -165,6 +174,7 @@ def test_rhel_ai():
     input_data.add(Specs.nvidia_smi_l, NVIDIA_SMI_L)
     result = run_test(system_profile, input_data)
     assert "rhel_ai" not in result
+    assert "workloads" not in result
 
     # Not a "RHEL AI" system - Fedora
     input_data = InputData()
@@ -172,6 +182,7 @@ def test_rhel_ai():
     input_data.add(Specs.nvidia_smi_l, NVIDIA_SMI_L)
     result = run_test(system_profile, input_data)
     assert "rhel_ai" not in result
+    assert "workloads" not in result
 
     # As a RHEL AI system, with amd_gpu_models
     input_data = InputData()
@@ -185,6 +196,13 @@ def test_rhel_ai():
     assert result["rhel_ai"]["amd_gpu_models"] == [
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+    assert result["workloads"]["rhel_ai"] == {
+        "variant": "RHEL AI",
+        "rhel_ai_version_id": "v1.1.3",
+        "amd_gpu_models": [
+                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
+                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+    }
 
     # As a RHEL AI system, with intel_gaudi_hpu_models
     input_data = InputData()
@@ -196,6 +214,11 @@ def test_rhel_ai():
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
     assert len(result["rhel_ai"]["intel_gaudi_hpu_models"]) == 1
     assert result["rhel_ai"]["intel_gaudi_hpu_models"] == ["Habana Labs Ltd. Device 1020"]
+    assert result["workloads"]["rhel_ai"] == {
+        "variant": "RHEL AI",
+        "rhel_ai_version_id": "v1.1.3",
+        "intel_gaudi_hpu_models": ["Habana Labs Ltd. Device 1020"]
+    }
 
     # As a RHEL AI system, with both amd_gpu_models and intel_gaudi_hpu_models
     input_data = InputData()
@@ -209,6 +232,14 @@ def test_rhel_ai():
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
     assert result["rhel_ai"]["intel_gaudi_hpu_models"] == ["Habana Labs Ltd. Device 1020"]
+    assert result["workloads"]["rhel_ai"] == {
+        "variant": "RHEL AI",
+        "rhel_ai_version_id": "v1.1.3",
+        "amd_gpu_models": [
+                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
+                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"],
+        "intel_gaudi_hpu_models": ["Habana Labs Ltd. Device 1020"]
+    }
 
     # As a RHEL AI system, with both nvidia_gpu_models and amd_gpu_models
     input_data = InputData()
@@ -223,3 +254,11 @@ def test_rhel_ai():
     assert result["rhel_ai"]["amd_gpu_models"] == [
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+    assert result["workloads"]["rhel_ai"] == {
+        "variant": "RHEL AI",
+        "rhel_ai_version_id": "v1.1.3",
+        "nvidia_gpu_models": ["NVIDIA T1000", "Tesla V100-PCIE-16GB"],
+        "amd_gpu_models": [
+                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
+                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+    }
