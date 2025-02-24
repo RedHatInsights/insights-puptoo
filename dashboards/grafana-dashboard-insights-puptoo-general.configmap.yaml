@@ -33,7 +33,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": ${datasource}"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -82,7 +82,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": ${datasource}"
+                "uid": "${datasource}"
               },
               "expr": "avg(avg_over_time(up{service=\"puptoo-processor\"}[$__range]))",
               "interval": "",
@@ -96,7 +96,7 @@ data:
         {
           "datasource": {
             "type": "prometheus",
-            "uid": ${datasource}"
+            "uid": "${datasource}"
           },
           "fieldConfig": {
             "defaults": {
@@ -145,7 +145,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": ${datasource}"
+                "uid": "${datasource}"
               },
               "expr": "sum(increase(puptoo_successful_extractions_total[$__range])) / sum(increase(puptoo_extractions_total[$__range]))",
               "interval": "",
@@ -158,7 +158,7 @@ data:
         },
         {
           "datasource": {
-            "uid": ${datasource}",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "fieldConfig": {
@@ -308,7 +308,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${datasource}",
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_messages_produced_total[$__range])) by (topic)",
@@ -405,7 +405,7 @@ data:
             {
               "datasource": {
                 "type": "prometheus",
-                "uid": "${datasource}",
+                "uid": "${datasource}"
               },
               "editorMode": "code",
               "expr": "sum(increase(puptoo_messages_consumed_total[$__range]))",
