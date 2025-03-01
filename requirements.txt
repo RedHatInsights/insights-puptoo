@@ -12,7 +12,7 @@ insights-core==3.4.20
 Jinja2==3.1.5
 jsonschema==3.2.0
 lockfile==0.12.2
-MarkupSafe==2.1.5
+MarkupSafe==3.0.2
 mccabe==0.6.1
 more-itertools==8.6.0
 msgpack==1.0.2
