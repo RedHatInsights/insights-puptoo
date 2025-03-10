@@ -271,7 +271,7 @@ def handle_message(msg, service, extra):
             facts["ansible_host"] = msg["metadata"]["ansible_host"]
 
         # Upload yum_updates to s3
-        if yum_updates:
+        if yum_updates and not config.DISABLE_S3_UPLOAD:
             try:
                 upload_object(yum_updates, extra, msg)
             except:

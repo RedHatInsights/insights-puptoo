@@ -93,3 +93,4 @@ KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
 DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "false").lower() == "true" else False
 REDIS_SSL = True if REDIS_PASSWORD else False
+DISABLE_S3_UPLOAD = True if os.getenv("DISABLE_S3_UPLOAD", "false").lower() == "true" else False
