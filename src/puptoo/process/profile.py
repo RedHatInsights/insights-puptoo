@@ -30,6 +30,7 @@ from insights.parsers.falconctl import (FalconctlAid, FalconctlBackend,
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
+from insights.parsers.ilab import IlabModuleList
 from insights.parsers.image_builder_facts import ImageBuilderFacts
 from insights.parsers.insights_client_conf import InsightsClientConf
 from insights.parsers.installed_product_ids import InstalledProductIDs
@@ -170,6 +171,7 @@ RHEL_AI_GPU_MODEL_IDENTIFIERS = {
         LsPci,
         EAPJSONReports,
         ImageBuilderFacts,
+        IlabModuleList,
     ]
 )
 def system_profile(
@@ -234,6 +236,7 @@ def system_profile(
     lspci,
     eap_json_reports,
     image_builder_facts,
+    ilab_model_list,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -811,6 +814,10 @@ def system_profile(
                             pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]):
                         rhel_ai_profile["intel_gaudi_hpu_models"].append(subsystem)
             profile["rhel_ai"] = _remove_empties(rhel_ai_profile)
+            # keep this profile["rhel_ai"] untouched, and do any updates to profile["workloads"]["rhel_ai"]
+            if ilab_model_list:
+                rhel_ai_profile["ai_models"] = [m.lstrip("models/") for m in ilab_model_list.models]
+            profile["workloads"]["rhel_ai"] = _remove_empties(rhel_ai_profile)
 
     if image_builder_facts:
         ib_facts = {}
@@ -855,7 +862,6 @@ def system_profile(
         "crowdstrike": profile.get("third_party_services", {}).get("crowdstrike"),
         "intersystems": profile.get("intersystems"),
         "mssql": profile.get("mssql"),
-        "rhel_ai": profile.get("rhel_ai"),
         "sap": profile.get("sap"),
     })
     profile["workloads"] = _remove_empties(profile["workloads"])
