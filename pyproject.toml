@@ -8,10 +8,10 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.8"
+python = "~3.11"
 prometheus-client = "0.7.1"
 requests = "2.32.2"
-confluent-kafka = "1.5.0"
+confluent-kafka = "2.8.2"
 insights-core = "3.4.20"
 app-common-python = "0.2.3"
 watchtower = "^1.0.6"
