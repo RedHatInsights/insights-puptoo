@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # check python version
-python3.11 --version
+python3 --version
 
-python3.11 -m venv .unit_test_venv
+python3 -m venv .unit_test_venv
 source .unit_test_venv/bin/activate
 pip install --upgrade pip
 pip install .
@@ -28,8 +28,8 @@ for file in dev/test-archives/*; do
    if [ $? != 0 ]; then
       exit 1
    fi
-   python3.11 dev/parse_json.py
-   python3.11 inventory-schemas/tools/simple-test/tester.py inventory-schemas/schemas/system_profile/v1.yaml output.json
+   python dev/parse_json.py
+   python inventory-schemas/tools/simple-test/tester.py inventory-schemas/schemas/system_profile/v1.yaml output.json
    if [ $? != 0 ]; then
       exit 1
    fi

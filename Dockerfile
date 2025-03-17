@@ -1,15 +1,12 @@
-FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
 WORKDIR /app-root/
 
-RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip && \
+RUN microdnf install -y python38 python38-devel curl python38-pip git tar xz bzip2 unzip && \
     microdnf upgrade -y && \
-    microdnf clean all
-
-RUN set -ex && if [ -e `which python3.11` ]; then ln -s `which python3.11` /usr/local/bin/python; fi
-
-RUN git clone -b 3.0 https://github.com/RedHatInsights/insights-core && \
-    pip3.11 install ./insights-core
+    microdnf clean all && \
+    git clone -b 3.0 https://github.com/RedHatInsights/insights-core && \
+    pip3 install ./insights-core
 
 COPY poetry.lock poetry.lock
 COPY pyproject.toml pyproject.toml
@@ -19,6 +16,6 @@ COPY dev dev
 COPY tests tests
 COPY src src
 
-RUN pip3.11 install --upgrade pip && pip3.11 install .
+RUN pip3 install --upgrade pip && pip3 install .
 
 CMD ["puptoo"]
