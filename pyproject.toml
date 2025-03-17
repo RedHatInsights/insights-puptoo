@@ -8,28 +8,28 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.8"
-prometheus-client = "0.7.1"
-requests = "2.32.2"
-confluent-kafka = "1.5.0"
-insights-core = "3.4.20"
-app-common-python = "0.2.3"
-watchtower = "^1.0.6"
+python = "~3.11"
+prometheus-client = "^0.21.1"
+requests = "^2.32.3"
+confluent-kafka = "^2.8.2"
+insights-core = "3.5.8"
+app-common-python = "^0.2.7"
+watchtower = "^3.4.0"
 logstash_formatter = "^0.5.17"
-minio = "<7.2"
-urllib3 = "<2"
-setuptools = "~70.0.0"
+minio = "^7.2.15"
+urllib3 = "^2.3.0"
+setuptools = "^76.0.0"
 
-[tool.poetry.dev-dependencies]
-pytest = "^5.4.1"
-flake8 = "^3.7.9"
-freezegun = "^0.3.15"
-jsonschema = "^3.2.0"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+flake8 = "^7.1.2"
+freezegun = "^1.5.1"
+jsonschema = "^4.23.0"
 
 [tool.poetry.scripts]
 puptoo = 'src.puptoo.app:main'
 puptoo-run = 'src.puptoo.process.profile:run_profile'
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
