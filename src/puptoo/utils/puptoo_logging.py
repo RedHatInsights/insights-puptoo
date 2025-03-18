@@ -60,12 +60,15 @@ def initialize_logging():
         boto3_session = Session(aws_access_key_id=aws_access_key_id,
                                 aws_secret_access_key=aws_secret_access_key,
                                 region_name=aws_region_name)
+        boto3_client = boto3_session.client("logs")
 
         # configure logging to use watchtower
-        cw_handler = watchtower.CloudWatchLogHandler(boto3_session=boto3_session,
-                                                  log_group=aws_log_group,
-                                                  stream_name=socket.gethostname(),
-                                                  create_log_group=create_log_group)
+        cw_handler = watchtower.CloudWatchLogHandler(
+            boto3_client=boto3_client,
+            log_group_name=aws_log_group,
+            log_stream_name=socket.gethostname(),
+            create_log_group=create_log_group,
+        )
 
         cw_handler.setFormatter(LogstashFormatterV1())
         cw_handler.addFilter(ContextualFilter())
