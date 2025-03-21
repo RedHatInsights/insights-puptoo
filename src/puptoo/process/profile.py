@@ -106,6 +106,16 @@ RHEL_AI_GPU_MODEL_IDENTIFIERS = {
     }
 }
 
+# Note:
+#   The profile_sans_none filtering will be removed and replaced by direct
+#   profile result in the near future. See RHINENG-16233.
+#   Please take care of the empty values case by case when adding facts to
+#   profile, and add fact name to BYPASS_PROFILE_SANS_NONE_FACTS.
+#   * Required for any new facts.
+BYPASS_PROFILE_SANS_NONE_FACTS = set([
+    "dnf_modules"
+])
+
 
 @rule(
     optional=[
@@ -861,7 +871,13 @@ def system_profile(
     profile["workloads"] = _remove_empties(profile["workloads"])
 
     metadata_response = make_metadata()
-    profile_sans_none = _remove_empties(profile)
+    # Note:
+    #   The profile_sans_none filtering will be removed and replaced by direct
+    #   profile result in the near future. See RHINENG-16233.
+    #   Please take care of the empty values case by case when adding facts to
+    #   profile, and add fact name to BYPASS_PROFILE_SANS_NONE_FACTS.
+    #   * Required for any new facts.
+    profile_sans_none = _remove_empties(profile, BYPASS_PROFILE_SANS_NONE_FACTS)
     metadata_response.update(profile_sans_none)
     return metadata_response
 
@@ -899,12 +915,17 @@ def _to_bool(value):
         return None
 
 
-def _remove_empties(d):
+def _remove_empties(d, bypass_keys=None):
     """
-    small helper method to remove keys with value of None, [] or ''. These are
-    not accepted by inventory service.
+    small helper method to remove keys with value of None, [], {} or ''. These
+    are not accepted by inventory service.
     """
-    return {x: d[x] for x in d if d[x] not in [None, "", [], {}]}
+    empty_values = [None, "", [], {}]
+    if bypass_keys:
+        return {x: d[x] for x in d
+                if x in bypass_keys or d[x] not in empty_values}
+    else:
+        return {x: d[x] for x in d if d[x] not in empty_values}
 
 
 def _remove_empty_string(arr):
