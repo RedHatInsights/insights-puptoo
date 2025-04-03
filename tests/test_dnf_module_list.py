@@ -56,13 +56,38 @@ ruby                           3.3                        common [d]            
 Hint: [d]efault, [e]nabled, [x]disabled, [i]nstalled
 """.strip()
 
-DNF_MODULE_LIST_MULTI_SECTIONS = """
+DNF_MODULE_LIST_MULTI_SECTIONS_1 = """
 Last metadata expiration check: 1:37:02 ago on Wed Mar 26 09:50:23 2025.
 RHEL-9.x-optional-latest
 Name       Stream   Profiles                              Summary
 mariadb    10.11    client, galera, server [d]            MariaDB Module
 maven      3.8      common [d]                            Java project management and project comprehension tool
 nginx      1.22 [e] common [d]                            nginx webserver
+nginx      1.24     common [d]                            nginx webserver
+redis      7        common [d]                            Redis persistent key-value database
+ruby       3.1      common [d]                            An interpreter of object-oriented scripting language
+ruby       3.3      common [d]                            An interpreter of object-oriented scripting language
+
+Red Hat Enterprise Linux 9 for x86_64 - AppStream (RPMs)
+Name       Stream   Profiles                              Summary
+mariadb    10.11    client, galera, server [d]            MariaDB Module
+maven      3.8      common [d]                            Java project management and project comprehension tool
+nginx      1.22 [e] common [d]                            nginx webserver
+nginx      1.24     common [d]                            nginx webserver
+redis      7        common [d]                            Redis persistent key-value database
+ruby       3.1      common [d]                            An interpreter of object-oriented scripting language
+ruby       3.3      common [d]                            An interpreter of object-oriented scripting language
+
+Hint: [d]efault, [e]nabled, [x]disabled, [i]nstalled
+""".strip()
+
+DNF_MODULE_LIST_MULTI_SECTIONS_2 = """
+Last metadata expiration check: 1:37:02 ago on Wed Mar 26 09:50:23 2025.
+RHEL-9.x-optional-latest
+Name       Stream   Profiles                              Summary
+mariadb    10.11    client, galera, server [d]            MariaDB Module
+maven      3.8      common [d]                            Java project management and project comprehension tool
+nginx      1.22     common [d]                            nginx webserver
 nginx      1.24     common [d]                            nginx webserver
 redis      7        common [d]                            Redis persistent key-value database
 ruby       3.1      common [d]                            An interpreter of object-oriented scripting language
@@ -91,7 +116,11 @@ def test_dnf_modules():
 
 
 def test_dnf_modules_multi_sections():
-    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS)
+    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS_1)
+    result = run_test(system_profile, input_data)
+    assert result["dnf_modules"] == [{'name': 'nginx', 'stream': '1.22'}]
+
+    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS_2)
     result = run_test(system_profile, input_data)
     assert result["dnf_modules"] == [{'name': 'nginx', 'stream': '1.22'}]
 
