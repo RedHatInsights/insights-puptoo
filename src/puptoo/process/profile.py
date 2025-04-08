@@ -753,6 +753,8 @@ def system_profile(
                             "cached_image": cached_value.get('image', {}).get('image', ''),
                             "cached_image_digest": cached_value.get('imageDigest', ''),
                         })
+            if profile["bootc_status"].get("booted", {}).get("image_digest"):
+                profile["system_update_method"] = "bootc"
         except Exception as e:
             catch_error("bootc_status", e)
             raise
