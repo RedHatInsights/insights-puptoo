@@ -59,6 +59,7 @@ from insights.parsers.uptime import Uptime
 from insights.parsers.yum_repos_d import YumReposD
 from insights.parsers.yum_updates import YumUpdates
 from insights.specs import Specs
+from insights.util.canonical_facts import canonical_facts
 
 from src.puptoo.utils import config, metrics, puptoo_logging
 
@@ -1057,7 +1058,6 @@ def _remove_bad_names(facts, keys):
 
 
 def run_profile():
-
     args = None
 
     import argparse
@@ -1083,10 +1083,13 @@ def run_profile():
 
 @metrics.SYSTEM_PROFILE.time()
 def get_system_profile(path=None):
-    broker = run(system_profile, root=path)
-    result = broker[system_profile]
-    del result["type"]
-    return result
+    rule_components = [canonical_facts, system_profile]
+    broker = run(rule_components, root=path)
+    facts = broker[canonical_facts]
+    del facts["type"]
+    facts['system_profile'] = broker[system_profile]
+    del facts['system_profile']["type"]
+    return facts
 
 
 def postprocess(facts):

@@ -5,7 +5,6 @@ from pathlib import Path
 
 import requests
 from insights import extract as extract_archive
-from insights.util.canonical_facts import get_canonical_facts
 
 from .profile import get_system_profile, postprocess
 from ..utils import config, metrics
@@ -76,11 +75,11 @@ def extract(msg, extra, remove=True):
 
         try:
             validate_size(unpacked.tmp_dir, extra)
-            facts = get_canonical_facts(unpacked.tmp_dir)
+            # extract canonical_facts and system_profile in one go
+            facts = get_system_profile(unpacked.tmp_dir)
             isValid = validateCanonicalFacts(facts)
             if not isValid:
                 raise Exception("Missing canonical fact(s).")
-            facts['system_profile'] = get_system_profile(unpacked.tmp_dir)
             facts = postprocess(facts)
         except Exception as e:
             logger.exception("Failed to extract facts: %s", str(e), extra=extra)
