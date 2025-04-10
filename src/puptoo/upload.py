@@ -26,11 +26,11 @@ def upload_object(yum_updates, extra, msg):
             logger.exception("An error occurred while uploading object")
     else:
         logger.error("Bucket (%s) does not exist", config.BUCKET_NAME)
-            
+
 
 # Get presigned object URL
 def get_url(client, object_name):
-    try: 
+    try:
         url = client.presigned_get_object(config.BUCKET_NAME, object_name)
         logger.info("Successfully fetched object (%s) url - %s", object_name, url)
     except Exception:
