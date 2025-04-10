@@ -113,7 +113,10 @@ RHEL_AI_GPU_MODEL_IDENTIFIERS = {
 #   profile, and add fact name to BYPASS_PROFILE_SANS_NONE_FACTS.
 #   * Required for any new facts.
 BYPASS_PROFILE_SANS_NONE_FACTS = set([
-    "dnf_modules"
+    "dnf_modules",
+    "bootc_status",
+    "bios_vendor",
+    "rhsm",   # A dict contains an empty string as the only value, which is acceptable abviously.
 ])
 
 

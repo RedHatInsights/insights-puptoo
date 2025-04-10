@@ -6,7 +6,7 @@ Table at 0x000F5B20.
 
 Handle 0x0000, DMI type 0, 24 bytes
 BIOS Information
-	Vendor: SeaBIOS
+	Vendor: 
 	Version: ?-20180724_192412-buildhw-07.phx2.fedoraproject.org-1.fc29
 	Release Date: 04/01/2014
 	Address: 0xE8000
