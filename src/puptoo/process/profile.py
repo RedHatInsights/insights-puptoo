@@ -378,7 +378,7 @@ def system_profile(
 
     if hdb_version:
         try:
-            if type(hdb_version) == list:
+            if type(hdb_version) is list:
                 profile["sap_version"] = hdb_version[0].version
             else:
                 profile["sap_version"] = hdb_version.version
@@ -645,7 +645,7 @@ def system_profile(
             else:
                 profile["satellite_managed"] = False
             if branch_info_json.get("labels"):
-                if type(branch_info_json["labels"]) == list:
+                if type(branch_info_json["labels"]) is list:
                     new_tags = format_tags(branch_info_json["labels"])
                     profile["tags"].update(new_tags)
                 else:
@@ -669,14 +669,14 @@ def system_profile(
     if tags:
         try:
             tags_json = tags.data
-            if type(tags_json) == list:
+            if type(tags_json) is list:
                 new_tags = format_tags(tags_json)
                 profile["tags"].update(new_tags)
             else:
                 # Need to turn the values into a list
                 for entry in tags_json.keys():
                     for k, v in tags_json[entry].items():
-                        if type(tags_json[entry][k]) != list:
+                        if type(tags_json[entry][k]) is not list:
                             tags_json[entry][k] = []
                             tags_json[entry][k].append(v)
                 profile["tags"].update(tags_json)
@@ -692,7 +692,7 @@ def system_profile(
             raise
 
         # Add general facts to global system profile, as yum_updates is large
-        if type(profile["yum_updates"]) == dict:
+        if type(profile["yum_updates"]) is dict:
             profile["releasever"] = profile["yum_updates"].get("releasever")
             profile["basearch"] = profile["yum_updates"].get("basearch")
 
