@@ -1083,6 +1083,9 @@ def run_profile():
 
 @metrics.SYSTEM_PROFILE.time()
 def get_system_profile(path=None):
+    # Compatiable for the insights-archives with legacy collection structures
+    dr.load_components("insights.specs.default", "insights.specs.insights_archive")
+
     rule_components = [canonical_facts, system_profile]
     broker = run(rule_components, root=path)
     facts = broker[canonical_facts]
