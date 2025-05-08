@@ -51,6 +51,7 @@ from insights.parsers.rpm_ostree_status import RpmOstreeStatus
 from insights.parsers.sap_hdb_version import HDBVersion
 from insights.parsers.sestatus import SEStatus
 from insights.parsers.subscription_manager import SubscriptionManagerFacts
+from insights.parsers.subscription_manager import SubscriptionManagerSyspurpose
 from insights.parsers.systemctl_status_all import SystemctlStatusAll
 from insights.parsers.systemd.unitfiles import ListUnits, UnitFiles
 from insights.parsers.tuned import Tuned
@@ -174,6 +175,7 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set([
         IrisCpf,
         IrisList,
         SubscriptionManagerFacts,
+        SubscriptionManagerSyspurpose,
         FalconctlAid,
         FalconctlBackend,
         FalconctlVersion,
@@ -238,6 +240,7 @@ def system_profile(
     iris_cpfs,
     iris_list,
     subscription_manager_facts,
+    subscription_manager_syspurpose,
     falconctl_aid,
     falconctl_backend,
     falconctl_version,
@@ -802,6 +805,13 @@ def system_profile(
         profile["conversions"] = {"activity": False}
         if subscription_manager_facts.get('conversions.activity') == 'conversion':
             profile["conversions"]["activity"] = True
+
+    if subscription_manager_syspurpose:
+        profile["system_purpose"] = {
+            "role": subscription_manager_syspurpose.get('role', ''),
+            "sla": subscription_manager_syspurpose.get('service_level_agreement', ''),
+            "usage": subscription_manager_syspurpose.get('usage', ''),
+        }
 
     if os_release_parser:
         variant_id = os_release_parser.get("VARIANT_ID")
