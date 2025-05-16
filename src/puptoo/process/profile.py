@@ -744,10 +744,12 @@ def system_profile(
             for bootc_key in ["booted", "staged", "rollback"]:
                 bootc_value = status.get(bootc_key)
                 if bootc_value:
-                    profile["bootc_status"][bootc_key] = {
-                        "image": bootc_value.get('image', {}).get('image', {}).get('image', ''),
-                        "image_digest": bootc_value.get('image', {}).get('imageDigest', ''),
-                    }
+                    image_value = bootc_value.get('image')
+                    if image_value:
+                        profile["bootc_status"][bootc_key] = {
+                            "image": image_value.get('image', {}).get('image', ''),
+                            "image_digest": image_value.get('imageDigest', ''),
+                        }
                     cached_value = bootc_value.get('cachedUpdate')
                     if cached_value:
                         profile["bootc_status"][bootc_key].update({
