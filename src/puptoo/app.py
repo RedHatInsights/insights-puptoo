@@ -1,4 +1,5 @@
 import json
+import os
 import signal
 import re
 from datetime import datetime, timedelta
@@ -124,7 +125,9 @@ def main():
             if msg.error():
                 logger.error("Consumer error: %s", msg.error())
                 metrics.kafka_consume_msg_failure_count.inc()
-                continue
+                # Known kafka msg error that pod exiting for: SESSTMOUT, MAXPOLL
+                logger.error("Puptoo exiting on kafka consumer poll error to let the pod be recreated!")
+                os._exit(os.EX_SOFTWARE)
 
             now = time()
             CONSUMER_WAIT_TIME.observe(now - start)
