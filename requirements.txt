@@ -7,7 +7,7 @@ defusedxml==0.7.1
 flake8==7.1.2
 freezegun==1.5.1
 idna==3.10
-insights-core==3.5.14
+insights-core==3.5.15
 Jinja2==3.1.6
 jsonschema==4.23.0
 logstash_formatter==0.5.17
