@@ -108,8 +108,7 @@ parameters:
 - description: Image NAME
   name: IMAGE
   required: true
-  value: quay.io/cloudservices/insights-puptoo
-#  value: quay.io/redhat-services-prod/insights-management-tenant/insights-puptoo/insights-puptoo
+  value: quay.io/redhat-services-prod/insights-management-tenant/insights-puptoo/insights-puptoo
 - description : ClowdEnvironment name
   name: ENV_NAME
   required: true
@@ -138,7 +137,7 @@ parameters:
 - description: Kafka Logging level
   name: KAFKA_LOGGER
   value: "ERROR"
-- description: Insights puptoo s3 bucket 
+- description: Insights puptoo s3 bucket
   name: PUPTOO_BUCKET
   value: insights-upload-puptoo
 - description: Access key for the object storage endpoint
