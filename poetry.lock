@@ -2,14 +2,14 @@
 
 [[package]]
 name = "app-common-python"
-version = "0.2.7"
+version = "0.2.8"
 description = ""
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "app_common_python-0.2.7-py3-none-any.whl", hash = "sha256:9388623371c7f4c04727b0057578d85bf6c7086961f10058370e023b7620eea3"},
-    {file = "app_common_python-0.2.7.tar.gz", hash = "sha256:bd3c7fea89eae26eac26d3ca5cddb45459408e0d84fa1b805d0a3c1ad782351b"},
+    {file = "app_common_python-0.2.8-py3-none-any.whl", hash = "sha256:bf0e020b1b4d77b03e6e0e97e4f1f5112e3c27954721c2c82cd2ac40d20cb0f6"},
+    {file = "app_common_python-0.2.8.tar.gz", hash = "sha256:4e3d12f17cec46755f3255c3a40abb192cef9fc04a13141e77f4abe7fd71fb58"},
 ]
 
 [[package]]
@@ -517,14 +517,14 @@ files = [
 
 [[package]]
 name = "insights-core"
-version = "3.5.15"
+version = "3.5.16"
 description = "Insights Core is a data collection and analysis framework"
 optional = false
 python-versions = ">=2.7"
 groups = ["main"]
 files = [
-    {file = "insights_core-3.5.15-py3-none-any.whl", hash = "sha256:8353249607ab40956541a14030a414604421473c1e8f14443a71467c8b6cddc4"},
-    {file = "insights_core-3.5.15.tar.gz", hash = "sha256:c54b9fc9218cb540061058ba703b025284b97d66d4bacc9da81b1307b09a3fd3"},
+    {file = "insights_core-3.5.16-py3-none-any.whl", hash = "sha256:281308a3ab46e9cf3abead0f5acea4ad6c59dd3910e1b42d39171392334a99cc"},
+    {file = "insights_core-3.5.16.tar.gz", hash = "sha256:8f5a3c05dd9a53754e14db5f19907be9fa582884e9f52cda236c03ee0513bd29"},
 ]
 
 [package.dependencies]
@@ -1346,4 +1346,4 @@ test = ["build", "coverage", "mypy", "pyyaml", "ruff", "wheel"]
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "7687a841c5cf77c83469b358304d74edeaf8e7e40e3673dfe0e99c05a2497415"
+content-hash = "c110e169fd788ff5870d244d2e3634950edafb5b8adcbab17ea04e3b974a90b0"
