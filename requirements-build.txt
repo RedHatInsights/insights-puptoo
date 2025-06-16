@@ -14,3 +14,4 @@ Cython==3.0.12
 argon2-cffi==23.1.0
 hatch-fancy-pypi-readme==25.1.0
 pycryptodome==3.23.0
+typing-extensions==4.13.2
