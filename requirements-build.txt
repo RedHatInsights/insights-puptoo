@@ -17,3 +17,4 @@ pycryptodome==3.23.0
 typing-extensions==4.13.2
 charset_normalizer==3.4.2
 mypy==1.15.0
+mypy_extensions==1.1.0
