@@ -12,3 +12,4 @@ hatch-vcs==0.4.0
 pbr==6.1.1
 Cython==3.0.12
 argon2-cffi==23.1.0
+hatch-fancy-pypi-readme==25.1.0
