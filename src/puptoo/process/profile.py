@@ -808,9 +808,9 @@ def system_profile(
 
     if subscription_manager_syspurpose:
         profile["system_purpose"] = {
-            "role": subscription_manager_syspurpose.get('role', ''),
-            "sla": subscription_manager_syspurpose.get('service_level_agreement', ''),
-            "usage": subscription_manager_syspurpose.get('usage', ''),
+            "role": subscription_manager_syspurpose.get('role') or '',
+            "sla": subscription_manager_syspurpose.get('service_level_agreement') or '',
+            "usage": subscription_manager_syspurpose.get('usage') or '',
         }
 
     if os_release_parser:
