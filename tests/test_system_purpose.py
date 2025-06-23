@@ -48,6 +48,15 @@ SUBSCRIPTION_MANAGER_SYSPURPOSE_5 = """
 }
 """.strip()
 
+SUBSCRIPTION_MANAGER_SYSPURPOSE_6 = """
+{
+  "addons": [],
+  "role": null,
+  "service_level_agreement": "",
+  "usage": null
+}
+""".strip()
+
 
 def test_system_purpose():
     input_data = InputData("test_system_purpose_with_all_values")
@@ -98,4 +107,13 @@ def test_system_purpose():
         "role": "RHEL Server",
         "sla": "None",
         "usage": "glb8_ready"
+    }
+
+    input_data = InputData("test_system_purpose_with_valid_listed_wo_values")
+    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_6)
+    result = run_test(system_profile, input_data)
+    assert result["system_purpose"] == {
+        "role": "",
+        "sla": "",
+        "usage": ""
     }
