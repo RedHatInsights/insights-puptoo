@@ -12,3 +12,4 @@ echo "Cython>=3.0.8" >> requirements-build.in
 echo "hatch-fancy-pypi-readme>=24.1.0" >> requirements-build.in
 echo "mypy<=1.15.0,>=1.4.1" >> requirements-build.in
 echo "types-psutil>=6.0.0.20240621" >> requirements-build.in
+echo "types-setuptools>=75.6.0.20241223" >> requirements-build.in
