@@ -1,6 +1,6 @@
 #!/bin/bash
 
-microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc krb5-libs krb5-devel python3.11-devel && \
+microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc krb5-libs krb5-devel python3.11-devel libffi-devel && \
     microdnf upgrade -y && \
     microdnf clean all
 set -ex && if [ -e `which python3.11` ]; then ln -s `which python3.11` /usr/local/bin/python3; fi
