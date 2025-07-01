@@ -1,0 +1,4 @@
+packages: [bzip2, gcc, git, krb5-devel, krb5-libs, libffi-devel, python3.11, python3.11-devel, python3.11-pip, tar, unzip, which, xz]
+contentOrigin:
+  repofiles: ["./ubi.repo"]
+arches: [x86_64]
