@@ -2,11 +2,20 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 WORKDIR /app-root/
 
-RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3.11-devel libffi-devel && \
+RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3.11-devel libffi-devel gcc-c++ make zlib-devel openssl-devel libzstd-devel && \
     microdnf upgrade -y && \
     microdnf clean all
 
 RUN set -ex && if [ -e `which python3.11` ]; then ln -s `which python3.11` /usr/local/bin/python; fi
+
+# Download and install librdkafka
+RUN curl -L https://github.com/confluentinc/librdkafka/archive/refs/tags/v2.10.1.zip -o /tmp/librdkafka.zip || cp /cachi2/output/deps/generic/v2.10.1.zip /tmp/librdkafka.zip && \
+    unzip /tmp/librdkafka.zip -d /tmp && \
+    cd /tmp/librdkafka-2.10.1 && \
+    ./configure --prefix=/usr && \
+    make && \
+    make install && \
+    rm -rf /tmp/librdkafka*
 
 COPY poetry.lock poetry.lock
 COPY pyproject.toml pyproject.toml

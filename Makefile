@@ -3,6 +3,12 @@ BASE_IMAGE ?= registry.access.redhat.com/ubi9/ubi-minimal:latest
 # Default value for CONTAINERFILE
 CONTAINERFILE ?= Dockerfile
 
+# Define the AWK command based on platform (gawk on macOS, awk elsewhere)
+AWK = awk
+ifeq ($(shell uname),Darwin)
+AWK = gawk
+endif
+
 # Generate the ubi.repo file from the specified BASE_IMAGE
 # Usage: make generate-repo-file [BASE_IMAGE=<image>]
 # Example: make generate-repo-file BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
@@ -24,24 +30,28 @@ generate-repo-file:
 .PHONY: generate-rpms-in-yaml
 generate-rpms-in-yaml:
 	@if [ ! -f "$(CONTAINERFILE)" ]; then \
-		echo "Error: $(CONTAINERFILE) not found"; \
 		exit 1; \
 	fi
-	@packages=$$(grep -E '^(RUN[[:space:]]+)?(.*[[:space:]]*(yum|dnf|microdnf)[[:space:]]+.*install.*)' "$(CONTAINERFILE)" | \
-	sed 's/\\$$//' | \
-	awk '{for (i=1; i<=NF; i++) { \
-		if ($$i ~ /^[a-zA-Z0-9][a-zA-Z0-9_.-]*$$/) { \
-			if ($$i != "yum" && $$i != "dnf" && $$i != "microdnf" && $$i != "install" && $$i != "-y" && $$i != "--assumeyes" && $$i != "--allowerasing" && $$i != "--setopt=tsflags=nodocs" && $$i != "RUN") { \
-				print $$i \
+	@if ! command -v $(AWK) >/dev/null 2>&1; then \
+		exit 1; \
+	fi; \
+	packages=$$(grep -E '^(RUN[[:space:]]+)?(.*[[:space:]]*(yum|dnf|microdnf)[[:space:]]+.*install.*)' "$(CONTAINERFILE)" | \
+		sed -E 's/\\$$//' | \
+		$(AWK) '{ \
+			start=0; \
+			for (i=1; i<=NF; i++) { \
+				if ($$i == "install") { start=1; continue } \
+				if (start && $$i ~ /^[a-zA-Z0-9][a-zA-Z0-9_.+-]*$$/ && \
+					$$i !~ /^-/ && $$i != "&&" && $$i != "clean" && $$i != "all" && $$i != "upgrade") { \
+					print $$i \
+				} \
+				if ($$i == "&&") { start=0 } \
 			} \
-		} \
-	}}' | \
-	sort -u); \
+		}' | sort -u); \
 	if [ -z "$$packages" ]; then \
-		echo "No RPM packages found in $(CONTAINERFILE)"; \
 		exit 1; \
 	else \
-		echo "packages: [$$(echo "$$packages" | paste -sd, - | sed 's/,/, /g')]" > rpms.in.yaml; \
+		echo "packages: [$$(echo "$$packages" | tr '\n' ',' | sed -E 's/,/, /g; s/, $$//')]" > rpms.in.yaml; \
 		echo "contentOrigin:" >> rpms.in.yaml; \
 		echo "  repofiles: [\"./ubi.repo\"]" >> rpms.in.yaml; \
 		echo "arches: [x86_64]" >> rpms.in.yaml; \

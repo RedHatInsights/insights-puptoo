@@ -84,7 +84,7 @@ spec:
       description: Execute the build with network isolation
       name: hermetic
       type: string
-    - default: '[{"type": "pip", "path": ".", "requirements_files": ["requirements.txt", "requirements-extras.txt", "requirements-build.txt"]}, {"type": "rpm", "path": "."}]'
+    - default: '[{"type": "pip", "path": ".", "requirements_files": ["requirements.txt", "requirements-extras.txt", "requirements-build.txt"]}, {"type": "rpm", "path": "."}, {"type": "generic", "path": "."}]'
       description: Build dependencies to be prefetched by Cachi2
       name: prefetch-input
       type: string
