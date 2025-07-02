@@ -26,5 +26,5 @@ PyYAML==6.0.2
 redis==5.2.1
 requests==2.32.3
 six==1.17.0
-urllib3==2.3.0
+urllib3==2.5.0
 watchtower==3.4.0
