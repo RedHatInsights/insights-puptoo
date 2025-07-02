@@ -27,7 +27,7 @@ COPY src src
 
 RUN pip3.11 install .
 
-RUN microdnf remove -y which gcc krb5-libs krb5-devel python3.11-devel libffi-devel gcc-c++ make zlib-devel openssl-devel libzstd-devel && \
+RUN microdnf remove -y which gcc python3.11-devel libffi-devel gcc-c++ make zlib-devel openssl-devel libzstd-devel && \
     microdnf clean all
 
 CMD ["puptoo"]
