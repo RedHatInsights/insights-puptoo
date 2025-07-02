@@ -2,7 +2,7 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 WORKDIR /app-root/
 
-RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc krb5-libs krb5-devel python3.11-devel libffi-devel && \
+RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3.11-devel libffi-devel && \
     microdnf upgrade -y && \
     microdnf clean all
 
