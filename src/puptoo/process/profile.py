@@ -605,7 +605,16 @@ def system_profile(
             for name, module in dnf_module_list.items():
                 for stream in module.streams:
                     if stream.active:
-                        modules.append({"name": name, "stream": stream.stream})
+                        stream_status = list(filter(lambda x: x, [
+                            "default" if stream.default else None,
+                            "enabled" if stream.enabled else None,
+                            "installed" if any(p.installed for p in stream.profiles) else None
+                        ]))
+                        modules.append({
+                            "name": name,
+                            "stream": stream.stream,
+                            "status": stream_status,
+                        })
             profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
         except Exception as e:
             catch_error("dnf_modules", e)
