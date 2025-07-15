@@ -2,7 +2,7 @@ import io
 import json
 import logging
 from minio import Minio
-from .utils import config, puptoo_logging
+from .utils import config, puptoo_logging  # noqa: F401
 
 logger = logging.getLogger(config.APP_NAME)
 
