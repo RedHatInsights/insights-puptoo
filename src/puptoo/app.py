@@ -14,7 +14,7 @@ from .upload import upload_object
 from .process import extract
 from .process.profile import MAC_REGEX
 from .mq import consume, msgs, produce
-from .utils import config, metrics, puptoo_logging
+from .utils import config, metrics, puptoo_logging, validators
 from .utils.puptoo_logging import threadctx
 from redis import Redis
 
@@ -161,24 +161,7 @@ def process_archive(msg, extra):
     facts = extract(msg, extra)
     if facts.get("error"):
         metrics.extract_failure.inc()
-        send_message(
-            config.TRACKER_TOPIC,
-            msgs.tracker_message(extra, "error", "Unable to extract facts"),
-            extra,
-        )
-        send_message(
-            config.VALIDATION_TOPIC,
-            msgs.validation_message(msg, facts, "failure"),
-            extra,
-        )
-        send_message(
-            config.TRACKER_TOPIC,
-            msgs.tracker_message(
-                extra, "failed", "Validation failure. Message sent to storage broker"
-            ),
-            extra,
-        )
-        return None
+        raise Exception("process_archive failure", facts.get("error"))
     logger.debug(
         "extracted facts from message for %s\nMessage: %s\nFacts: %s",
         extra["request_id"],
@@ -238,20 +221,30 @@ def handle_message(msg, service, extra):
     )
     metrics.msg_processed_count.inc()
 
-    owner_id = get_owner(msg["b64_identity"])
+    try:
+        # Facts extraction
+        facts = {}
+        if service == "advisor":
+            facts = process_archive(msg, extra)
+        elif service in ["compliance", "malware-detection"]:
+            facts = msg.get("metadata")
+        else:
+            raise Exception("Unsupported service type.")
 
-    if service == "advisor":
-        facts = process_archive(msg, extra)
-    if service in ["compliance", "malware-detection"]:
-        facts = msg.get("metadata")
+        # Facts validation
+        if not facts:
+            raise Exception("Empty facts extracted.")
+        if not validators.validateCanonicalFacts(facts):
+            raise Exception("Missing canonical fact(s).")
 
-    if facts:
+        # Facts refinement
         yum_updates = None
         facts["stale_timestamp"] = get_staletime()
         facts["reporter"] = "puptoo"
         if facts.get("metadata"):
             clean_macs(facts)
         if facts.get("system_profile"):
+            owner_id = get_owner(msg["b64_identity"])
             if owner_id:
                 facts["system_profile"]["owner_id"] = owner_id
             if facts["system_profile"].get("is_ros"):
@@ -280,6 +273,31 @@ def handle_message(msg, service, extra):
             except:
                 logger.exception("Error occurred while uploading object.")
 
+    except Exception as e:
+        metrics.msg_processed_failure.labels(service).inc()
+        logger.exception(
+            "Failed to process message of %s service: %s: %s", service, extra["request_id"], str(e)
+        )
+        send_message(
+            config.TRACKER_TOPIC,
+            msgs.tracker_message(
+                extra, "error", "Unable to extract facts of %s service: %s" % (service, str(e))
+            ),
+            extra,
+        )
+        send_message(
+            config.VALIDATION_TOPIC,
+            msgs.validation_message(msg, facts, "failure"),
+            extra,
+        )
+        send_message(
+            config.TRACKER_TOPIC,
+            msgs.tracker_message(
+                extra, "failed", "Validation failure. Message sent to storage broker"
+            ),
+            extra,
+        )
+    else:
         metrics.msg_processed_success.inc()
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra

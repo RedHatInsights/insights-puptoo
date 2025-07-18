@@ -32,7 +32,13 @@ msg_processed_count = Counter(
     "puptoo_messages_processed_total", "Total messages processed for all service"
 )
 msg_processed_success = Counter(
-    "puptoo_messages_processed_success_total", "Total messages processed successfully for all services"
+    "puptoo_messages_processed_success_total",
+    "Total messages processed successfully for all services"
+)
+msg_processed_failure = Counter(
+    "puptoo_messages_processed_failure_total",
+    "Total messages processed faliure for all services",
+    ["service"],
 )
 
 # For archive unpacking
