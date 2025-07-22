@@ -1,4 +1,4 @@
-from src.puptoo.process import validateCanonicalFacts
+from src.puptoo.utils.validators import validateCanonicalFacts
 
 
 CANONICAL_FACTS_NORMAL = {
