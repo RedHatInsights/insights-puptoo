@@ -178,6 +178,33 @@ $ cd ./dev/test-archives
 $ tar -zcvf insights-puptoo-test-archive.tar.gz ./core-base
 ```
 
+## Konflux Hermetic Build
+
+Konflux Hermetic Build had been enabled for Puptoo repo.
+
+A hermetic build is a secure, self-contained build process that doesn’t depend on anything outside of the build environment.
+Konflux can prefetch dependencies for your hermetic builds using Cachi2 by generating a software bill of materials (SBOM) where all dependencies are properly declared and pinned to specific versions.
+
+For any dependencies update introduced in [pyproject.toml](pyproject.toml) and [poetry.lock](poetry.lock), please update the following required files referring to this [Hermetic Build Process](.hermetic_builds/README.md):
+
+  - Enabling prefetch builds for rpm
+    - [rpms.in.yaml](rpms.in.yaml)
+    - [rpms.lock.yaml](rpms.lock.yaml)
+
+  - Enabling prefetch builds for pip
+    - [requirements.txt](requirements.txt)
+    - [requirements-dev.txt](requirements-dev.txt)
+    - [requirements-build.in](requirements-build.in)
+    - [requirements-build.txt](requirements-build.txt)
+    - [requirements-extras.txt](requirements-extras.txt)
+
+  - Enabling prefetch builds for generic fetcher
+    - [artifacts.lock.yaml](artifacts.lock.yaml)
+
+More Konflux Hermetic Build resources:
+  - https://konflux-ci.dev/docs/building/hermetic-builds/
+  - https://konflux-ci.dev/docs/building/prefetching-dependencies/
+
 ## Deployment
 
 The PUPTOO service `master` branch has a webhook that notifies App-interface to build a new image within Jenkins. The image build will then trigger a redployment of the service in `ingress-stage`. In order to push to production, an app-interface PR should be created with the git ref for the image that should exist within `ingress-prod` on the Production cluster.

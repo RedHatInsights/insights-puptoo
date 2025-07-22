@@ -2,6 +2,8 @@
 BASE_IMAGE ?= registry.access.redhat.com/ubi9/ubi-minimal:latest
 # Default value for CONTAINERFILE
 CONTAINERFILE ?= Dockerfile
+# Default value of IMAGE_ARCH
+IMAGE_ARCH ?= x86_64
 
 # Define the AWK command based on platform (gawk on macOS, awk elsewhere)
 AWK = awk
@@ -9,13 +11,22 @@ ifeq ($(shell uname),Darwin)
 AWK = gawk
 endif
 
+ensure_image = \
+	@if ! podman image exists $(BASE_IMAGE); then \
+		echo "--- Image '$(BASE_IMAGE)' not found. Pulling..."; \
+		podman pull $(BASE_IMAGE) --arch $(IMAGE_ARCH); \
+	else \
+		echo "--- Image '$(BASE_IMAGE)' already exists locally. Skipping pull."; \
+	fi
+
 # Generate the ubi.repo file from the specified BASE_IMAGE
 # Usage: make generate-repo-file [BASE_IMAGE=<image>]
 # Example: make generate-repo-file BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
 #          make generate-repo-file (uses default BASE_IMAGE)
 .PHONY: generate-repo-file
 generate-repo-file:
-	podman run -it $(BASE_IMAGE) cat /etc/yum.repos.d/ubi.repo > ubi.repo
+	$(ensure_image)
+	podman run --arch $(IMAGE_ARCH) -it $(BASE_IMAGE) cat /etc/yum.repos.d/ubi.repo > ubi.repo
 	sed -i '' 's/ubi-9-appstream-source-rpms/ubi-9-for-x86_64-appstream-source-rpms/' ubi.repo
 	sed -i '' 's/ubi-9-appstream-rpms/ubi-9-for-x86_64-appstream-rpms/' ubi.repo
 	sed -i '' 's/ubi-9-baseos-source-rpms/ubi-9-for-x86_64-baseos-source-rpms/' ubi.repo
@@ -64,9 +75,9 @@ generate-rpms-in-yaml:
 .PHONY: generate-rpm-lockfile
 generate-rpm-lockfile: rpms.in.yaml
 	@curl -s https://raw.githubusercontent.com/konflux-ci/rpm-lockfile-prototype/refs/heads/main/Containerfile | \
-	podman build -t localhost/rpm-lockfile-prototype -
+	podman build --arch $(IMAGE_ARCH) -t localhost/rpm-lockfile-prototype -
 	@container_dir=/work; \
-	podman run --rm -v $${PWD}:$${container_dir} localhost/rpm-lockfile-prototype:latest --outfile=$${container_dir}/rpms.lock.yaml --image $(BASE_IMAGE) $${container_dir}/rpms.in.yaml
+	podman run --arch $(IMAGE_ARCH) --rm -v $${PWD}:$${container_dir} localhost/rpm-lockfile-prototype:latest --outfile=$${container_dir}/rpms.lock.yaml --image $(BASE_IMAGE) $${container_dir}/rpms.in.yaml
 	@if [ ! -f rpms.lock.yaml ]; then \
 		echo "Error: rpms.lock.yaml was not generated"; \
 		exit 1; \
@@ -171,9 +182,8 @@ generate-requirements-build-txt:
 		echo "Error: Missing scripts in .hermetic_builds directory"; \
 		exit 1; \
 	fi
-	@podman run -it -v "$$(pwd)":/var/tmp:rw --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
+	@podman run --arch $(IMAGE_ARCH) -it -v "$$(pwd)":/var/tmp:rw --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
 	@if [ ! -f requirements-build.txt ]; then \
 		echo "Error: requirements-build.txt was not generated"; \
 		exit 1; \
 	fi
-
