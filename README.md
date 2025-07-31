@@ -137,10 +137,16 @@ Stand Up Isolated Puptoo
 cd dev && source .env && sudo docker-compose up
 ```
 
-Stand Up Full stack
+Stand Up Full stack - Linux
 
 ```sh
 cd dev && source .env && sudo docker-compose -f full-stack.yml up
+```
+
+Stand Up Full stack - macOS
+
+```sh
+cd dev && source .env && sudo docker-compose -f full-stack-mac.yml up
 ```
 
 **NOTE**: The full stack expects you to have an ingress and inventory image available. See those projects for steps for building the images needed. It's also typical for puptoo to fail to start if it can't initially connect to kafka. If this happens, simply run `sudo docker-compose -f full-stack.yml up -d pup` to have it attempt another startup.
