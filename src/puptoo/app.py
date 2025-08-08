@@ -219,7 +219,7 @@ def handle_message(msg, service, extra):
         msgs.tracker_message(extra, "received", "Received message"),
         extra,
     )
-    metrics.msg_processed_count.inc()
+    metrics.msg_processed_count.labels(service).inc()
 
     try:
         # Facts extraction
@@ -298,7 +298,7 @@ def handle_message(msg, service, extra):
             extra,
         )
     else:
-        metrics.msg_processed_success.inc()
+        metrics.msg_processed_success.labels(service).inc()
         send_message(
             config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
         )

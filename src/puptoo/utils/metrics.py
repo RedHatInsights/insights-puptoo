@@ -29,11 +29,14 @@ extract_success = Counter(
 
 # For messages processed for all services
 msg_processed_count = Counter(
-    "puptoo_messages_processed_total", "Total messages processed for all service"
+    "puptoo_messages_processed_total",
+    "Total messages processed for all service",
+    ["service"],
 )
 msg_processed_success = Counter(
     "puptoo_messages_processed_success_total",
-    "Total messages processed successfully for all services"
+    "Total messages processed successfully for all services",
+    ["service"],
 )
 msg_processed_failure = Counter(
     "puptoo_messages_processed_failure_total",
