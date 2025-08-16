@@ -7,7 +7,7 @@ colorama==0.4.6 ; python_version == "3.11" and sys_platform == "win32" \
 flake8==7.3.0 ; python_version == "3.11" \
     --hash=sha256:b9696257b9ce8beb888cdbe31cf885c90d31928fe202be0889a7cdafad32f01e \
     --hash=sha256:fe044858146b9fc69b551a4b490d69cf960fcb78ad1edcb84e7fbb1b4a8e3872
-freezegun==1.5.3 ; python_version == "3.11" \
+freezegun==1.5.5 ; python_version == "3.11" \
     --hash=sha256:1ce20ee4be61349ba52c3af64f5eaba8d08ff51acfcf1b3ea671f03e54c818f1 \
     --hash=sha256:d7c6204e33a50affd7c7aa284f4f92e04e96f72d63313b89ceaaf60d9c64bc5e
 iniconfig==2.1.0 ; python_version == "3.11" \
@@ -16,7 +16,7 @@ iniconfig==2.1.0 ; python_version == "3.11" \
 jsonschema-specifications==2025.4.1 ; python_version == "3.11" \
     --hash=sha256:4653bffbd6584f7de83a67e0d620ef16900b390ddc7939d56684d6c81e33f1af \
     --hash=sha256:630159c9f4dbea161a6a2205c3011cc4f18ff381b189fff48bb39b9bf26ae608
-jsonschema==4.24.0 ; python_version == "3.11" \
+jsonschema==4.25.0 ; python_version == "3.11" \
     --hash=sha256:0b4e8069eb12aedfa881333004bccaec24ecef5a8a6a4b6df142b2cc9599d196 \
     --hash=sha256:a462455f19f5faf404a7902952b6f0e3ce868f3ee09a359b05eca6673bd8412d
 mccabe==0.7.0 ; python_version == "3.11" \
@@ -46,7 +46,7 @@ python-dateutil==2.9.0.post0 ; python_version == "3.11" \
 referencing==0.36.2 ; python_version == "3.11" \
     --hash=sha256:df2e89862cd09deabbdba16944cc3f10feb6b3e6f18e902f7cc25609a34775aa \
     --hash=sha256:e8699adbbf8b5c7de96d8ffa0eb5c158b3beafce084968e2ea8bb08c6794dcd0
-rpds-py==0.26.0 ; python_version == "3.11" \
+rpds-py==0.27.0 ; python_version == "3.11" \
     --hash=sha256:0919f38f5542c0a87e7b4afcafab6fd2c15386632d249e9a087498571250abe3 \
     --hash=sha256:093d63b4b0f52d98ebae33b8c50900d3d67e0666094b1be7a12fffd7f65de74b \
     --hash=sha256:0a0b60701f2300c81b2ac88a5fb893ccfa408e1c4a555a77f908a2596eb875a5 \
