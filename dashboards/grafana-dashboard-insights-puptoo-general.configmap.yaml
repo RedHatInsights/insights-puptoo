@@ -27,7 +27,6 @@ data:
       "editable": true,
       "fiscalYearStartMonth": 0,
       "graphTooltip": 0,
-      "id": 886203,
       "links": [],
       "panels": [
         {
@@ -617,11 +616,11 @@ data:
               },
               "disableTextWrap": false,
               "editorMode": "code",
-              "expr": "aws_kafka_sum_offset_lag_sum{cluster_name=\"consoledot-prod\", topic=\"platform.upload.announce\", consumer_group=\"insights-puptoo\"}",
+              "expr": "aws_kafka_sum_offset_lag_sum{topic=\"platform.upload.announce\", consumer_group=\"insights-puptoo\"}",
               "fullMetaSearch": false,
               "includeNullMetadata": true,
               "instant": false,
-              "legendFormat": "__auto",
+              "legendFormat": "{{consumer_group}}",
               "range": true,
               "refId": "A",
               "useBackend": false
@@ -675,7 +674,7 @@ data:
       "timezone": "",
       "title": "Puptoo",
       "uid": "EDPmNcdGk",
-      "version": 1
+      "version": 3
     }
 kind: ConfigMap
 metadata:
