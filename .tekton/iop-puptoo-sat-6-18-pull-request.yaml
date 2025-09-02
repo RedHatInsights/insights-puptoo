@@ -40,6 +40,16 @@ spec:
     value: '[{"type": "pip", "path": ".", "requirements_files": ["requirements.txt", "requirements-build.txt", "requirements-extras.txt"]}, {"type": "rpm", "path": "."}, {"type": "generic", "path": "."}]'
   - name: prefetch-dev-package-managers
     value: "true"
+  - name: labels
+    value:
+      - 'url="https://www.redhat.com"'
+      - 'name="iop-puptoo"'
+      - 'description="This adds the satellite/iop-puptoo-rhel9 image to the Red Hat container registry. To pull this container image, run the following command: podman pull registry.redhat.io/satellite/iop-puptoo-rhel9"'
+      - 'summary="A new satellite/iop-puptoo-rhel9 container image is now generally available in the Red Hat container registry."'
+      - 'com.redhat.component="iop-puptoo"'
+      - 'io.k8s.display-name="IoP Puptoo"'
+      - 'io.k8s.description="This adds the satellite/iop-puptoo-rhel9 image to the Red Hat container registry. To pull this container image, run the following command: podman pull registry.redhat.io/satellite/iop-puptoo-rhel9"'
+      - 'io.openshift.tags="insights satellite iop puptoo"'
   pipelineRef:
     name: docker-build-oci-ta
   taskRunTemplate:
