@@ -15,13 +15,13 @@ jobs:
         WORKSPACE: ${{ github.workspace }}
       steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Create artifacts directory
         run: mkdir -p $WORKSPACE/artifacts
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v2
         with:
           python-version: 3.11
 
