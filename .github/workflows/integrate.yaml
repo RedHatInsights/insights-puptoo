@@ -23,6 +23,7 @@ jobs:
       - name: Install all dependencies for Puptoo
         run: |
             pip install -r requirements.txt
+            pip install -r requirements-dev.txt
             
 
       - name: Lint with flake8
@@ -44,6 +45,7 @@ jobs:
       - name: Install pipenv and all dependencies for Puptoo
         run: |
             pip install -r requirements.txt
+            pip install -r requirements-dev.txt
 
       - name: Install pytest-cov to produce coverage reports
         run: |
