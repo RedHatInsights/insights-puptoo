@@ -8,7 +8,7 @@ on:
     branches: [ "main", "master" ]
 
 jobs:
-    Lint:
+    Lint-Check:
       runs-on: ubuntu-latest
 
       steps:
@@ -23,13 +23,13 @@ jobs:
       - name: Install pipenv and all dependencies for Puptoo
         run: |
             pip install pipenv
-            pipenv install --dev
+            pipenv install --dev --deploy
 
       - name: Lint with flake8
         run: |
             pipenv run flake8
 
-    Test:
+    Unit-Test:
       runs-on: ubuntu-latest
 
       steps:
@@ -44,6 +44,7 @@ jobs:
       - name: Install pipenv and all dependencies for Puptoo
         run: |
             pip install pipenv
+            pip install pytest
             pipenv install --dev
 
       - name: Install pytest-cov to produce coverage reports
