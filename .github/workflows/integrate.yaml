@@ -15,5 +15,5 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v2
 
-      - name: Run unit tests via run.sh
-        run: ./run.sh
+      - name: Run unit tests via unit_test.sh
+        run: ./unit_test.sh
