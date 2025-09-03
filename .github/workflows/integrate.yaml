@@ -20,10 +20,10 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install pipenv and all dependencies for Puptoo
+      - name: Install all dependencies for Puptoo
         run: |
-            pip install pipenv
-            pipenv install --dev --deploy
+            pip install -r requirements.txt
+            
 
       - name: Lint with flake8
         run: |
@@ -43,9 +43,7 @@ jobs:
 
       - name: Install pipenv and all dependencies for Puptoo
         run: |
-            pip install pipenv
-            pip install pytest
-            pipenv install --dev
+            pip install -r requirements.txt
 
       - name: Install pytest-cov to produce coverage reports
         run: |
