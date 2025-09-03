@@ -1,0 +1,64 @@
+
+name: Continuous Integration
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+    Lint:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install pipenv and all dependencies for Puptoo
+        run: |
+            pip install pipenv
+            pipenv install --dev
+
+      - name: Lint with flake8
+        run: |
+            pipenv run flake8
+
+    Test:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install pipenv and all dependencies for Puptoo
+        run: |
+            pip install pipenv
+            pipenv install --dev
+
+      - name: Install pytest-cov to produce coverage reports
+        run: |
+            pip install pytest-cov
+
+      - name: Test with pytest
+        run: |
+            pipenv run python -m pytest --cov=puptoo tests
+
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          verbose: true
+          flags: unittests
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
