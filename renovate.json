@@ -2,6 +2,7 @@
     "extends": [
         "github>konflux-ci/mintmaker//config/renovate/renovate.json"
     ],
+    "baseBranches": ["master"],
     "schedule": [
         "at any time"
     ],
