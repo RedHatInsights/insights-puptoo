@@ -34,10 +34,10 @@ argon2-cffi==25.1.0 ; python_version == "3.11" \
 async-timeout==5.0.1 ; python_version == "3.11" and python_full_version < "3.11.3" \
     --hash=sha256:39e3809566ff85354557ec2398b55e096c8364bacac9405a7a1fa429e77fe76c \
     --hash=sha256:d9321a7a3d5a6a5e187e824d2fa0793ce379a202935782d555d6e9d2735677d3
-boto3==1.40.11 ; python_version == "3.11" \
+boto3==1.40.30 ; python_version == "3.11" \
     --hash=sha256:0c03da130467d51c6b940d19be295c56314e14ce0f0464cc86145e98d3c9e983 \
     --hash=sha256:9d2d211d9cb3efc9a2b2ceec3c510b4e62e389618fd5c871e74d2cbca4561ff5
-botocore==1.40.11 ; python_version == "3.11" \
+botocore==1.40.30 ; python_version == "3.11" \
     --hash=sha256:4beca0c5f92201da1bf1bc0a55038538ad2defded32ab0638cb68f5631dcc665 \
     --hash=sha256:95af22e1b2230bdd5faa9d1c87e8b147028b14b531770a1148bf495967ccba5e
 cachecontrol==0.14.3 ; python_version == "3.11" \
@@ -194,7 +194,7 @@ charset-normalizer==3.4.3 ; python_version == "3.11" \
     --hash=sha256:fb7f67a1bfa6e40b438170ebdc8158b78dc465a5a67b6dde178a46987b244a72 \
     --hash=sha256:fd10de089bcdcd1be95a2f73dbe6254798ec1bda9f450d5828c96f93e2536b9c \
     --hash=sha256:fdabf8315679312cfa71302f9bd509ded4f2f263fb5b765cf1433b39106c3cc9
-confluent-kafka==2.11.0 ; python_version == "3.11" \
+confluent-kafka==2.11.1 ; python_version == "3.11" \
     --hash=sha256:02e383dcc6174512851add8c5bd17987fb2bfa4dc94b3646158d0a6be2b95683 \
     --hash=sha256:08e0b0b7fb21ddd83801231f5f32b7e7ba4f7c9a7dee9034a1e36e6b6479143a \
     --hash=sha256:0e5f5ebe3742f2bb430d437f5f1b3539e0648e598af590c9f7d588e21d7297e1 \
@@ -378,10 +378,10 @@ msgpack==1.1.1 ; python_version == "3.11" \
     --hash=sha256:e4141c5a32b5e37905b5940aacbc59739f036930367d7acce7a64e4dec1f5e0b \
     --hash=sha256:f5be6b6bc52fad84d010cb45433720327ce886009d862f46b26d4d154001994b \
     --hash=sha256:f6d58656842e1b2ddbe07f43f56b10a60f2ba5826164910968f5933e5178af75
-prometheus-client==0.21.1 ; python_version == "3.11" \
+prometheus-client==0.22.1 ; python_version == "3.11" \
     --hash=sha256:252505a722ac04b0456be05c05f75f45d760c2911ffc45f2a06bcaed9f3ae3fb \
     --hash=sha256:594b45c410d6f4f8888940fe80b5cc2521b305a1fafe1c58609ef715a001f301
-pycparser==2.22 ; python_version == "3.11" \
+pycparser==2.23 ; python_version == "3.11" \
     --hash=sha256:491c8be9c040f5390f5bf44a5b07752bd07f56edf992381b05c701439eec10f6 \
     --hash=sha256:c3702b6d3dd8c7abc1afa565d7e63d53a1d0bd86cdc24edd75470f4de499cfcc
 pycryptodome==3.23.0 ; python_version == "3.11" \
@@ -486,13 +486,13 @@ pyyaml==6.0.2 ; python_version == "3.11" \
 redis==6.4.0 ; python_version == "3.11" \
     --hash=sha256:b01bc7282b8444e28ec36b261df5375183bb47a07eb9c603f284e89cbc5ef010 \
     --hash=sha256:f0544fa9604264e9464cdf4814e7d4830f74b165d52f2a330a760a88dd248b7f
-requests==2.32.4 ; python_version == "3.11" \
+requests==2.32.5 ; python_version == "3.11" \
     --hash=sha256:27babd3cda2a6d50b30443204ee89830707d396671944c998b5975b031ac2b2c \
     --hash=sha256:27d0316682c8a29834d3264820024b62a36942083d52caf2f14c0591336d3422
 rpm==0.4.0 ; python_version == "3.11" \
     --hash=sha256:0ef697cb5fb73bf9300a13d423529d7ec215239bf95c5ecb145e6610645f6067 \
     --hash=sha256:79adbefa82318e2625d6e4fa16666cf88543498a1f2c10dc3879165d1dc3ecee
-s3transfer==0.13.1 ; python_version == "3.11" \
+s3transfer==0.14.0 ; python_version == "3.11" \
     --hash=sha256:a981aa7429be23fe6dfc13e80e4020057cbab622b08c0315288758d67cabc724 \
     --hash=sha256:c3fdba22ba1bd367922f27ec8032d6a1cf5f10c934fb5d68cf60fd5a23d936cf
 setuptools==80.9.0 ; python_version == "3.11" \
@@ -501,7 +501,7 @@ setuptools==80.9.0 ; python_version == "3.11" \
 six==1.17.0 ; python_version == "3.11" \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81
-typing-extensions==4.14.1 ; python_version == "3.11" \
+typing-extensions==4.15.0 ; python_version == "3.11" \
     --hash=sha256:38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36 \
     --hash=sha256:d1e1e3b58374dc93031d6eda2420a48ea44a36c2b4766a4fdeb3710755731d76
 urllib3==2.5.0 ; python_version == "3.11" \

@@ -13,10 +13,10 @@ freezegun==1.5.5 ; python_version == "3.11" \
 iniconfig==2.1.0 ; python_version == "3.11" \
     --hash=sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7 \
     --hash=sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760
-jsonschema-specifications==2025.4.1 ; python_version == "3.11" \
+jsonschema-specifications==2025.9.1 ; python_version == "3.11" \
     --hash=sha256:4653bffbd6584f7de83a67e0d620ef16900b390ddc7939d56684d6c81e33f1af \
     --hash=sha256:630159c9f4dbea161a6a2205c3011cc4f18ff381b189fff48bb39b9bf26ae608
-jsonschema==4.25.0 ; python_version == "3.11" \
+jsonschema==4.25.1 ; python_version == "3.11" \
     --hash=sha256:24c2e8da302de79c8b9382fee3e76b355e44d2a4364bb207159ce10b517bd716 \
     --hash=sha256:e63acf5c11762c0e6672ffb61482bdf57f0876684d8d249c0fe2d730d48bc55f
 mccabe==0.7.0 ; python_version == "3.11" \
@@ -37,7 +37,7 @@ pyflakes==3.4.0 ; python_version == "3.11" \
 pygments==2.19.2 ; python_version == "3.11" \
     --hash=sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887 \
     --hash=sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b
-pytest==8.4.1 ; python_version == "3.11" \
+pytest==8.4.2 ; python_version == "3.11" \
     --hash=sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7 \
     --hash=sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c
 python-dateutil==2.9.0.post0 ; python_version == "3.11" \
@@ -46,7 +46,7 @@ python-dateutil==2.9.0.post0 ; python_version == "3.11" \
 referencing==0.36.2 ; python_version == "3.11" \
     --hash=sha256:df2e89862cd09deabbdba16944cc3f10feb6b3e6f18e902f7cc25609a34775aa \
     --hash=sha256:e8699adbbf8b5c7de96d8ffa0eb5c158b3beafce084968e2ea8bb08c6794dcd0
-rpds-py==0.27.0 ; python_version == "3.11" \
+rpds-py==0.27.1 ; python_version == "3.11" \
     --hash=sha256:010c4843a3b92b54373e3d2291a7447d6c3fc29f591772cc2ea0e9f5c1da434b \
     --hash=sha256:05284439ebe7d9f5f5a668d4d8a0a1d851d16f7d47c78e1fab968c8ad30cab04 \
     --hash=sha256:0665be515767dc727ffa5f74bd2ef60b0ff85dad6bb8f50d91eaa6b5fb226f51 \
@@ -205,6 +205,6 @@ rpds-py==0.27.0 ; python_version == "3.11" \
 six==1.17.0 ; python_version == "3.11" \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81
-typing-extensions==4.14.1 ; python_version == "3.11" \
+typing-extensions==4.15.0 ; python_version == "3.11" \
     --hash=sha256:38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36 \
     --hash=sha256:d1e1e3b58374dc93031d6eda2420a48ea44a36c2b4766a4fdeb3710755731d76
