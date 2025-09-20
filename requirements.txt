@@ -256,7 +256,7 @@ filelock==3.19.1 ; python_version == "3.11" \
 idna==3.10 ; python_version == "3.11" \
     --hash=sha256:12f65c9b470abda6dc35cf8e63cc574b1c52b11df2c86030af0ac09b01b13ea9 \
     --hash=sha256:946d195a0d259cbba61165e88e65941f16e9b36ea6ddb97f00452bae8b1287d3
-insights-core==3.6.6 ; python_version == "3.11" \
+insights-core==3.6.7 ; python_version == "3.11" \
     --hash=sha256:a2a6b11d1145d2ed4f9aab67a848ccf23cdde3b7aa8ac71f3119de5806655dd8 \
     --hash=sha256:eeb604fbf03559bc86e4f289fc58e53dd3cbbdd4948e9e17b0c4d36f64a1fce3
 jinja2==3.1.6 ; python_version == "3.11" \
