@@ -16,8 +16,8 @@ if [ $? != 0 ]; then
    exit 1
 fi
 
-# Clone inventory-schemas to /tmp
-git clone https://github.com/RedHatInsights/inventory-schemas.git /tmp/inventory-schemas
+# Clone system-profile schema repo to /tmp
+git clone https://github.com/RedHatInsights/insights-host-inventory.git /tmp/insights-host-inventory
 
 echo '---------------------------------'
 echo ' Run the profile and schema check'
@@ -34,7 +34,8 @@ for file in dev/test-archives/*; do
     fi
     OUTPUT_JSON="/tmp/output.json" python3.11 dev/parse_json.py
     # Run schema tester with files in /tmp
-    python3.11 /tmp/inventory-schemas/tools/simple-test/tester.py /tmp/inventory-schemas/schemas/system_profile/v1.yaml /tmp/output.json
+    # TODO: get the new tester
+    python3.11 /tmp/insights-host-inventory/?/tester.py tester.py /tmp/insights-host-inventory/swagger/system_profile.spec.yaml /tmp/output.json
     if [ $? != 0 ]; then
         exit 1
     fi
@@ -43,8 +44,8 @@ for file in dev/test-archives/*; do
     rm /tmp/output.json
 done
 
-# Clean up inventory-schemas directory
-rm -rf /tmp/inventory-schemas
+# Clean up schema repo directory
+rm -rf /tmp/insights-host-inventory
 
 # Deactivate virtual environment
 deactivate
