@@ -66,9 +66,9 @@ VARIANT="Server Edition"
 VARIANT_ID=server
 """.strip()
 
-NVIDIA_SMI_L = """
-GPU 0: NVIDIA T1000 (UUID: GPU-c05fe28c-5935-1c6d-3633-2fc61d26b6d4)
-GPU 1: Tesla V100-PCIE-16GB (UUID: GPU-b08ecee0-0ea5-7b07-d459-baa5b95f5e89)
+NVIDIA_SMI_GPUS = """
+0, NVIDIA T1000, GPU-c05fe28c-5935-1c6d-3633-2fc61d26b6d4, 4096 MiB
+1, Tesla V100-PCIE-16GB, GPU-b08ecee0-0ea5-7b07-d459-baa5b95f5e89, 16280 MiB
 """.strip()
 
 LSPCI_K_AMD = """
@@ -137,32 +137,67 @@ Module: habanalabs
 NUMANode:   0
 """.strip()
 
+ILAB_MODULE_LIST = """
++-----------------------------------+---------------------+---------+
+| Model Name                        | Last Modified       | Size    |
++-----------------------------------+---------------------+---------+
+| models/prometheus-8x7b-v2-0       | 2024-08-09 13:28:50 |  87.0 GB|
+| models/mixtral-8x7b-instruct-v0-1 | 2024-08-09 13:28:24 |  87.0 GB|
+| models/granite-7b-redhat-lab      | 2024-08-09 14:28:40 |  12.6 GB|
+| models/granite-7b-starter         | 2024-08-09 14:40:35 |  12.6 GB|
++-----------------------------------+---------------------+---------+
+""".strip()
+
 
 def test_rhel_ai():
 
     # As a RHEL AI system, with nvidia_gpu_models
     input_data = InputData()
     input_data.add(Specs.os_release, OS_RELEASE_RHEL_AI)
-    input_data.add(Specs.nvidia_smi_l, NVIDIA_SMI_L)
+    input_data.add(Specs.nvidia_smi_query_gpu, NVIDIA_SMI_GPUS)
+    input_data.add(Specs.ilab_model_list, ILAB_MODULE_LIST)
     result = run_test(system_profile, input_data)
     assert result["rhel_ai"]["variant"] == "RHEL AI"
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
     assert len(result["rhel_ai"]["nvidia_gpu_models"]) == 2
     assert result["rhel_ai"]["nvidia_gpu_models"] == ["NVIDIA T1000", "Tesla V100-PCIE-16GB"]
+    assert "ai_models" not in result["rhel_ai"]
+
     assert result["workloads"]["rhel_ai"] == {
         "variant": "RHEL AI",
         "rhel_ai_version_id": "v1.1.3",
-        "nvidia_gpu_models": ["NVIDIA T1000", "Tesla V100-PCIE-16GB"]
+        "gpu_models": [
+            {
+                "name": "NVIDIA T1000",
+                "vendor": "Nvidia",
+                "memory": "4096 MiB",
+                "count": 1
+            },
+            {
+                "name": "Tesla V100-PCIE-16GB",
+                "vendor": "Nvidia",
+                "memory": "16280 MiB",
+                "count": 1
+            },
+        ],
+        "ai_models": [
+            "prometheus-8x7b-v2-0",
+            "mixtral-8x7b-instruct-v0-1",
+            "granite-7b-redhat-lab",
+            "granite-7b-starter"
+        ]
     }
 
     # As a RHEL AI system, without nvidia_gpu_models
     input_data = InputData()
     input_data.add(Specs.os_release, OS_RELEASE_RHEL_AI)
-    input_data.add(Specs.nvidia_smi_l, "")
+    input_data.add(Specs.nvidia_smi_query_gpu, "")
+    input_data.add(Specs.ilab_model_list, "")
     result = run_test(system_profile, input_data)
     assert result["rhel_ai"]["variant"] == "RHEL AI"
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
     assert "nvidia_gpu_models" not in result["rhel_ai"]
+
     assert result["workloads"]["rhel_ai"] == {
         "variant": "RHEL AI",
         "rhel_ai_version_id": "v1.1.3"
@@ -171,7 +206,7 @@ def test_rhel_ai():
     # Not a "RHEL AI" system - RHEL
     input_data = InputData()
     input_data.add(Specs.os_release, OS_RELEASE_RHEL)
-    input_data.add(Specs.nvidia_smi_l, NVIDIA_SMI_L)
+    input_data.add(Specs.nvidia_smi_query_gpu, NVIDIA_SMI_GPUS)
     result = run_test(system_profile, input_data)
     assert "rhel_ai" not in result
     assert "workloads" not in result
@@ -179,7 +214,7 @@ def test_rhel_ai():
     # Not a "RHEL AI" system - Fedora
     input_data = InputData()
     input_data.add(Specs.os_release, OS_RELEASE_FEDORA)
-    input_data.add(Specs.nvidia_smi_l, NVIDIA_SMI_L)
+    input_data.add(Specs.nvidia_smi_query_gpu, NVIDIA_SMI_GPUS)
     result = run_test(system_profile, input_data)
     assert "rhel_ai" not in result
     assert "workloads" not in result
@@ -196,12 +231,18 @@ def test_rhel_ai():
     assert result["rhel_ai"]["amd_gpu_models"] == [
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+
     assert result["workloads"]["rhel_ai"] == {
         "variant": "RHEL AI",
         "rhel_ai_version_id": "v1.1.3",
-        "amd_gpu_models": [
-                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
-                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+        "gpu_models": [
+            {
+                "name": "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
+                "vendor": "AMD",
+                "memory": "-",
+                "count": 2
+            },
+        ]
     }
 
     # As a RHEL AI system, with intel_gaudi_hpu_models
@@ -214,10 +255,18 @@ def test_rhel_ai():
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
     assert len(result["rhel_ai"]["intel_gaudi_hpu_models"]) == 1
     assert result["rhel_ai"]["intel_gaudi_hpu_models"] == ["Habana Labs Ltd. Device 1020"]
+
     assert result["workloads"]["rhel_ai"] == {
         "variant": "RHEL AI",
         "rhel_ai_version_id": "v1.1.3",
-        "intel_gaudi_hpu_models": ["Habana Labs Ltd. Device 1020"]
+        "gpu_models": [
+            {
+                "name": "Habana Labs Ltd. Device 1020",
+                "vendor": "Intel",
+                "memory": "-",
+                "count": 1
+            },
+        ]
     }
 
     # As a RHEL AI system, with both amd_gpu_models and intel_gaudi_hpu_models
@@ -232,21 +281,33 @@ def test_rhel_ai():
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
     assert result["rhel_ai"]["intel_gaudi_hpu_models"] == ["Habana Labs Ltd. Device 1020"]
+
     assert result["workloads"]["rhel_ai"] == {
         "variant": "RHEL AI",
         "rhel_ai_version_id": "v1.1.3",
-        "amd_gpu_models": [
-                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
-                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"],
-        "intel_gaudi_hpu_models": ["Habana Labs Ltd. Device 1020"]
+        "gpu_models": [
+            {
+                "name": "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
+                "vendor": "AMD",
+                "memory": "-",
+                "count": 2
+            },
+            {
+                "name": "Habana Labs Ltd. Device 1020",
+                "vendor": "Intel",
+                "memory": "-",
+                "count": 1
+            },
+        ]
     }
 
     # As a RHEL AI system, with both nvidia_gpu_models and amd_gpu_models
     input_data = InputData()
     input_data.add(Specs.os_release, OS_RELEASE_RHEL_AI)
-    input_data.add(Specs.nvidia_smi_l, NVIDIA_SMI_L)
+    input_data.add(Specs.nvidia_smi_query_gpu, NVIDIA_SMI_GPUS)
     input_data.add(Specs.lspci, LSPCI_K_AMD)
     input_data.add(Specs.lspci_vmmkn, LSPCI_VMMKN_AMD)
+    input_data.add(Specs.ilab_model_list, ILAB_MODULE_LIST)
     result = run_test(system_profile, input_data)
     assert result["rhel_ai"]["variant"] == "RHEL AI"
     assert result["rhel_ai"]["rhel_ai_version_id"] == "v1.1.3"
@@ -254,11 +315,34 @@ def test_rhel_ai():
     assert result["rhel_ai"]["amd_gpu_models"] == [
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
                     "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+
     assert result["workloads"]["rhel_ai"] == {
         "variant": "RHEL AI",
         "rhel_ai_version_id": "v1.1.3",
-        "nvidia_gpu_models": ["NVIDIA T1000", "Tesla V100-PCIE-16GB"],
-        "amd_gpu_models": [
-                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
-                    "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34"]
+        "gpu_models": [
+            {
+                "name": "NVIDIA T1000",
+                "vendor": "Nvidia",
+                "memory": "4096 MiB",
+                "count": 1
+            },
+            {
+                "name": "Tesla V100-PCIE-16GB",
+                "vendor": "Nvidia",
+                "memory": "16280 MiB",
+                "count": 1
+            },
+            {
+                "name": "Advanced Micro Devices, Inc. [AMD/ATI] Device 0c34",
+                "vendor": "AMD",
+                "memory": "-",
+                "count": 2
+            },
+        ],
+        "ai_models": [
+            "prometheus-8x7b-v2-0",
+            "mixtral-8x7b-instruct-v0-1",
+            "granite-7b-redhat-lab",
+            "granite-7b-starter"
+        ]
     }
