@@ -34,8 +34,7 @@ for file in dev/test-archives/*; do
     fi
     OUTPUT_JSON="/tmp/output.json" python3.11 dev/parse_json.py
     # Run schema tester with files in /tmp
-    # TODO: get the new tester
-    python3.11 /tmp/insights-host-inventory/?/tester.py tester.py /tmp/insights-host-inventory/swagger/system_profile.spec.yaml /tmp/output.json
+    python3.11 /tmp/insights-host-inventory/tools/simple-test/tester.py tester.py /tmp/insights-host-inventory/swagger/system_profile.spec.yaml /tmp/output.json
     if [ $? != 0 ]; then
         exit 1
     fi
