@@ -9,9 +9,9 @@ RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which 
 RUN set -ex && if [ -e `which python3.11` ]; then ln -s `which python3.11` /usr/local/bin/python; fi
 
 # Download and install librdkafka
-RUN curl -L https://github.com/confluentinc/librdkafka/archive/refs/tags/v2.12.1.zip -o /tmp/librdkafka.zip || cp /cachi2/output/deps/generic/v2.12.1.zip /tmp/librdkafka.zip && \
+RUN curl -L https://github.com/confluentinc/librdkafka/archive/refs/tags/v2.12.0.zip -o /tmp/librdkafka.zip || cp /cachi2/output/deps/generic/v2.12.0.zip /tmp/librdkafka.zip && \
     unzip /tmp/librdkafka.zip -d /tmp && \
-    cd /tmp/librdkafka-2.12.1 && \
+    cd /tmp/librdkafka-2.12.0 && \
     ./configure --prefix=/usr && \
     make && \
     make install && \
