@@ -30,6 +30,7 @@ from insights.parsers.falconctl import (FalconctlAid, FalconctlBackend,
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
+from insights.parsers.ilab import IlabModuleList
 from insights.parsers.image_builder_facts import ImageBuilderFacts
 from insights.parsers.insights_client_conf import InsightsClientConf
 from insights.parsers.installed_product_ids import InstalledProductIDs
@@ -39,7 +40,7 @@ from insights.parsers.iris import IrisCpf, IrisList
 from insights.parsers.lscpu import LsCPU
 from insights.parsers.lsmod import LsMod
 from insights.parsers.meminfo import MemInfo
-from insights.parsers.nvidia import NvidiaSmiL
+from insights.parsers.nvidia import NvidiaSmiQueryGPU
 from insights.parsers.os_release import OsRelease
 from insights.parsers.pmlog_summary import (PmLogSummary,
                                             PmLogSummaryPcpZeroConf)
@@ -179,10 +180,11 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set([
         FalconctlAid,
         FalconctlBackend,
         FalconctlVersion,
-        NvidiaSmiL,
+        NvidiaSmiQueryGPU,
         LsPci,
         EAPJSONReports,
         ImageBuilderFacts,
+        IlabModuleList,
     ]
 )
 def system_profile(
@@ -244,10 +246,11 @@ def system_profile(
     falconctl_aid,
     falconctl_backend,
     falconctl_version,
-    nvidia_smi_l,
+    nvidia_smi_gpu,
     lspci,
     eap_json_reports,
     image_builder_facts,
+    ilab_model_list,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -825,12 +828,13 @@ def system_profile(
     if os_release_parser:
         variant_id = os_release_parser.get("VARIANT_ID")
         if variant_id == 'rhel_ai':
+            # Note: deprecated profile["rhel_ai"], use profile["workloads"]["rhel_ai"] instead
             rhel_ai_profile = {
                 "variant": os_release_parser.get("VARIANT"),
                 "rhel_ai_version_id": os_release_parser.get("RHEL_AI_VERSION_ID"),
             }
-            if nvidia_smi_l:
-                rhel_ai_profile["nvidia_gpu_models"] = [gpu["model"] for gpu in nvidia_smi_l]
+            if nvidia_smi_gpu:
+                rhel_ai_profile["nvidia_gpu_models"] = [gpu.model for gpu in nvidia_smi_gpu]
             if lspci:
                 rhel_ai_profile["amd_gpu_models"] = []
                 rhel_ai_profile["intel_gaudi_hpu_models"] = []
@@ -845,6 +849,44 @@ def system_profile(
                             pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]):
                         rhel_ai_profile["intel_gaudi_hpu_models"].append(subsystem)
             profile["rhel_ai"] = _remove_empties(rhel_ai_profile)
+
+            # keep the profile["rhel_ai"] untouched and do any updates to profile["workloads"]["rhel_ai"]
+            wkld_rhel_ai_pf = {
+                "variant": os_release_parser.get("VARIANT"),
+                "rhel_ai_version_id": os_release_parser.get("RHEL_AI_VERSION_ID"),
+            }
+            gpu_model_counting = {}
+
+            def _count_on_gpu(model, vendor, mem_total=None):
+                vendor_gpus = gpu_model_counting.setdefault(vendor, {})
+                this_gpu = vendor_gpus.setdefault(model, {
+                    "name": model,
+                    "vendor": vendor,
+                    "memory": mem_total or '-',
+                    "count": 0,
+                })
+                this_gpu["count"] += 1
+
+            if nvidia_smi_gpu:
+                for gpu in nvidia_smi_gpu:
+                    _count_on_gpu(gpu.model, 'Nvidia', gpu.memory_total)
+            if lspci:
+                for pci in lspci:
+                    subsystem = pci.get("Subsystem")
+                    if (subsystem and
+                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["VENDOR_ID"] and
+                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["DEVICE_ID"]):
+                        _count_on_gpu(subsystem, 'AMD')
+                    elif (subsystem and
+                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["VENDOR_ID"] and
+                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]):
+                        _count_on_gpu(subsystem, 'Intel')
+
+            wkld_rhel_ai_pf["gpu_models"] = [gpu for gpus in gpu_model_counting.values() for gpu in gpus.values()]
+
+            if ilab_model_list:
+                wkld_rhel_ai_pf["ai_models"] = [m.split("models/")[-1] for m in ilab_model_list.models]
+            profile["workloads"]["rhel_ai"] = _remove_empties(wkld_rhel_ai_pf)
 
     if image_builder_facts:
         ib_facts = {}
@@ -889,7 +931,6 @@ def system_profile(
         "crowdstrike": profile.get("third_party_services", {}).get("crowdstrike"),
         "intersystems": profile.get("intersystems"),
         "mssql": profile.get("mssql"),
-        "rhel_ai": profile.get("rhel_ai"),
         "sap": profile.get("sap"),
     })
     profile["workloads"] = _remove_empties(profile["workloads"])
