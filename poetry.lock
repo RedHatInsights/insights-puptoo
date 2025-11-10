@@ -2,14 +2,14 @@
 
 [[package]]
 name = "app-common-python"
-version = "0.2.8"
+version = "0.2.9"
 description = ""
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "app_common_python-0.2.8-py3-none-any.whl", hash = "sha256:bf0e020b1b4d77b03e6e0e97e4f1f5112e3c27954721c2c82cd2ac40d20cb0f6"},
-    {file = "app_common_python-0.2.8.tar.gz", hash = "sha256:4e3d12f17cec46755f3255c3a40abb192cef9fc04a13141e77f4abe7fd71fb58"},
+    {file = "app_common_python-0.2.9-py3-none-any.whl", hash = "sha256:861bd93482edabd00a85eb6512e0d7df08597be6f76b864be8e53d6294f81389"},
+    {file = "app_common_python-0.2.9.tar.gz", hash = "sha256:74125371e2865bcba7a7c34f0700d4b8b97a0c0a9ff67bbb06fdb20a3da4b75c"},
 ]
 
 [[package]]
@@ -1443,4 +1443,4 @@ test = ["build", "coverage", "mypy", "pyyaml", "ruff", "wheel"]
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "723cfc9d7648eb2729e5c1502c60caf47f38aa5e94095c9b10eb4c06a71354b9"
+content-hash = "97d2281bbaad1be4e475d66c4c56b8dbb625f327a6e9df5060651263c0795e14"
