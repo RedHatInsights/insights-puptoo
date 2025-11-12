@@ -885,7 +885,7 @@ def system_profile(
             wkld_rhel_ai_pf["gpu_models"] = [gpu for gpus in gpu_model_counting.values() for gpu in gpus.values()]
 
             if ilab_model_list:
-                wkld_rhel_ai_pf["ai_models"] = [m.split("models/")[-1] for m in ilab_model_list.models]
+                wkld_rhel_ai_pf["ai_models"] = list(ilab_model_list.models)
             profile["workloads"]["rhel_ai"] = _remove_empties(wkld_rhel_ai_pf)
 
     if image_builder_facts:

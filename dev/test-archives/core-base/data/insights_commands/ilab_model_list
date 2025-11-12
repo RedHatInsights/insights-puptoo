@@ -1,0 +1,7 @@
+time="2025-11-05T08:20:28Z" level=warning msg="The input device is not a TTY. The --tty and --interactive flags might not work properly"
++----------------------------+---------------------+--------+------------------------------------------------------------+
+| Model Name                 | Last Modified       | Size   | Absolute path                                              |
++----------------------------+---------------------+--------+------------------------------------------------------------+
+| granite-7b-lab-Q4_K_M.gguf | 2025-11-05 08:16:33 | 3.8 GB | /root/.cache/instructlab/models/granite-7b-lab-Q4_K_M.gguf |
+| granite-8b-lab-Q4_K_M.gguf | 2025-11-05 08:16:33 | 3.8 GB | /root/.cache/instructlab/models/granite-7b-lab-Q4_K_M.gguf |
++----------------------------+---------------------+--------+------------------------------------------------------------+
