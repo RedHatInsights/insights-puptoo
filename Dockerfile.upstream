@@ -19,6 +19,6 @@ COPY dev dev
 COPY tests tests
 COPY src src
 
-RUN pip3.11 install --upgrade pip && pip3.11 install .
+RUN pip3.11 install --upgrade pip && pip3.11 install . --ignore-installed
 
 CMD ["puptoo"]
