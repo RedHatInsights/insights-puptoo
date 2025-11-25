@@ -460,7 +460,7 @@ msgpack==1.1.2 ; python_version == "3.11" \
     --hash=sha256:f2cb069d8b981abc72b41aea1c580ce92d57c673ec61af4c500153a626cb9e20 \
     --hash=sha256:fac4be746328f90caa3cd4bc67e6fe36ca2bf61d5c6eb6d895b6527e3f05071e \
     --hash=sha256:fffee09044073e69f2bad787071aeec727183e7580443dfeb8556cbf1978d162
-prometheus-client==0.21.1 ; python_version == "3.11" \
+prometheus-client==0.23.1 ; python_version == "3.11" \
     --hash=sha256:252505a722ac04b0456be05c05f75f45d760c2911ffc45f2a06bcaed9f3ae3fb \
     --hash=sha256:594b45c410d6f4f8888940fe80b5cc2521b305a1fafe1c58609ef715a001f301
 pycparser==2.23 ; python_version == "3.11" and implementation_name != "PyPy" \
