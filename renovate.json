@@ -2,9 +2,6 @@
     "extends": [
         "github>RedHatInsights/konflux-pipelines//renovate/foreman_satellite/renovate.json"
     ],
-    "baseBranchPatterns": [
-        "master"
-    ],
     "schedule": [
         "on Monday after 3am and before 10am"
     ],
