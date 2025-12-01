@@ -446,6 +446,7 @@ files = [
     {file = "confluent_kafka-2.12.1-cp39-cp39-manylinux_2_28_aarch64.whl", hash = "sha256:1ca2519bf27ea71ca32feb01859a086183614c44f8d843a917fcc1c135c24706"},
     {file = "confluent_kafka-2.12.1-cp39-cp39-manylinux_2_28_x86_64.whl", hash = "sha256:2b4bb9fefa85462aa0b1f5d96abadffad911d93033b470b3b6fc46d63f2a28e9"},
     {file = "confluent_kafka-2.12.1-cp39-cp39-win_amd64.whl", hash = "sha256:64a5798ec7fe5a101e055c2729c6ac6d6fd9d462a93a1fb3e314866a70ce804b"},
+    {file = "confluent_kafka-2.12.1.tar.gz", hash = "sha256:cfc4ceeb3071a678f7c93cfe1e76216442e1621ee6192584cdf704db1d619894"},
 ]
 
 [package.extras]
@@ -547,14 +548,14 @@ files = [
 
 [[package]]
 name = "insights-core"
-version = "3.6.9"
+version = "3.6.10"
 description = "Insights Core is a data collection and analysis framework"
 optional = false
 python-versions = ">=2.7"
 groups = ["main"]
 files = [
-    {file = "insights_core-3.6.9-py3-none-any.whl", hash = "sha256:829766987d4189a44124ab23d404342dea57839f9728968d20f14532fb29696b"},
-    {file = "insights_core-3.6.9.tar.gz", hash = "sha256:3b61bc4c02342cd09684ae70f40025dc981058ffa01d46b47ab3d58458291368"},
+    {file = "insights_core-3.6.10-py3-none-any.whl", hash = "sha256:efc49c384f863743db70e84dbe3a5477b1a22a2d14e86e8be0f1344a08146aa4"},
+    {file = "insights_core-3.6.10.tar.gz", hash = "sha256:16933097d3727bf588c51d797fde2c63d61de1fe753c4d24c04b0d184b1349f2"},
 ]
 
 [package.dependencies]
@@ -1443,4 +1444,4 @@ test = ["build", "coverage", "mypy", "pyyaml", "ruff", "wheel"]
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "723cfc9d7648eb2729e5c1502c60caf47f38aa5e94095c9b10eb4c06a71354b9"
+content-hash = "c47ec53eb2a56a7eb39ce720169ee216d12c8ff4244af5bbbee4b02eadf43cb3"
