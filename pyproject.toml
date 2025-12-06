@@ -17,7 +17,7 @@ app-common-python = "0.2.8"
 watchtower = "^3.4.0"
 logstash_formatter = "^0.5.17"
 minio = "^7.2.15"
-urllib3 = "^2.5.0"
+urllib3 = "^2.6.0"
 setuptools = "^80.0.0"
 
 [tool.poetry.group.dev.dependencies]
