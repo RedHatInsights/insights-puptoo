@@ -245,7 +245,7 @@ charset-normalizer==3.4.4 ; python_version == "3.11" \
     --hash=sha256:fa09f53c465e532f4d3db095e0c55b615f010ad81803d383195b6b5ca6cbf5f3 \
     --hash=sha256:faa3a41b2b66b6e50f84ae4a68c64fcd0c44355741c6374813a800cd6695db9e \
     --hash=sha256:fd44c878ea55ba351104cb93cc85e74916eb8fa440ca7903e57575e97394f608
-confluent-kafka==2.12.0 ; python_version == "3.11" \
+confluent-kafka==2.12.2 ; python_version == "3.11" \
     --hash=sha256:01219f2e93ab25377444721bb8080467d0dae66a584faf4eeadaab842f6a86b5 \
     --hash=sha256:13293b3ccc0716757d48cbd186046e1abb95121687753565c26a65db899cd704 \
     --hash=sha256:140400d2a288c03e3948c1ff7cc654a089de195582c3a5e12e2e30306b71dcb6 \
