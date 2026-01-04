@@ -546,14 +546,14 @@ files = [
 
 [[package]]
 name = "insights-core"
-version = "3.6.10"
+version = "3.6.11"
 description = "Insights Core is a data collection and analysis framework"
 optional = false
 python-versions = ">=2.7"
 groups = ["main"]
 files = [
-    {file = "insights_core-3.6.10-py3-none-any.whl", hash = "sha256:efc49c384f863743db70e84dbe3a5477b1a22a2d14e86e8be0f1344a08146aa4"},
-    {file = "insights_core-3.6.10.tar.gz", hash = "sha256:16933097d3727bf588c51d797fde2c63d61de1fe753c4d24c04b0d184b1349f2"},
+    {file = "insights_core-3.6.11-py3-none-any.whl", hash = "sha256:696d818554af484da45dd765df0c68d37376c5a5d1cc2ba8af849e2efcfa92a7"},
+    {file = "insights_core-3.6.11.tar.gz", hash = "sha256:f57fc6b1e241ba9c0d0bd27a1579b7c4b8dfcc772c01a18f6a08cd0707da8e94"},
 ]
 
 [package.dependencies]
@@ -1494,4 +1494,4 @@ test = ["build", "coverage", "mypy", "pyyaml", "ruff", "wheel"]
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "72ada0f3622f0071136fcd5eb95bd6349cc0bca811a00fffeac1c41a95c32a83"
+content-hash = "09e273acf6d9bb646663073eb97de3420e6f1e6694290ac68e5f515a5513df11"
