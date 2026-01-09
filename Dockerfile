@@ -1,5 +1,9 @@
 FROM registry.access.redhat.com/ubi9/ubi-minimal:9.7-1764794109
 
+USER 0
+ADD librdkafka .
+RUN ls -ltr && ./configure --prefix=/usr
+
 WORKDIR /app-root/
 
 RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3.11-devel libffi-devel gcc-c++ make zlib zlib-devel openssl-libs openssl-devel libzstd libzstd-devel && \
