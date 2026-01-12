@@ -673,8 +673,12 @@ def system_profile(
     if product_ids:
         installed_products = []
         try:
-            for product_id in list(product_ids.ids):
-                installed_products.append({"id": product_id})
+            for product in product_ids.product_certs:
+                if product.get("id"):
+                    installed_products.append(_remove_empties({
+                        "id": product["id"],
+                        "name": product.get("name"),
+                    }))
             profile["installed_products"] = sorted(
                 installed_products, key=lambda k: k["id"]
             )
