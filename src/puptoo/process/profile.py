@@ -283,14 +283,14 @@ def system_profile(
             raise
 
     if ansible_info:
-        profile["ansible"] = {}
+        profile["workloads"]["ansible"] = {}
         try:
             if ansible_info.catalog_worker_version:
-                profile["ansible"]["catalog_worker_version"] = ansible_info.catalog_worker_version
+                profile["workloads"]["ansible"]["catalog_worker_version"] = ansible_info.catalog_worker_version
             if ansible_info.controller_version:
-                profile["ansible"]["controller_version"] = ansible_info.controller_version
+                profile["workloads"]["ansible"]["controller_version"] = ansible_info.controller_version
             if ansible_info.hub_version:
-                profile["ansible"]["hub_version"] = ansible_info.hub_version
+                profile["workloads"]["ansible"]["hub_version"] = ansible_info.hub_version
         except Exception as e:
             catch_error("ansible_info", e)
             raise
@@ -364,21 +364,17 @@ def system_profile(
             raise
 
     if sap:
-        profile["sap_system"] = False
         try:
             instances = sap.instances
+            profile["workloads"]["sap"] = {}
             if instances:
-                profile["sap_system"] = True
+                profile["workloads"]["sap"]["sap_system"] = True
                 sids = {sap.sid(instance) for instance in instances}
-                profile["sap_sids"] = sorted(list(sids))
+                profile["workloads"]["sap"]["sids"] = sorted(list(sids))
                 inst = instances[0]
-                profile["sap_instance_number"] = sap[inst].number
-            profile["sap"] = {}
-            profile["sap"]["sap_system"] = profile.get("sap_system")
-            if profile.get("sap_sids"):
-                profile["sap"]["sids"] = profile.get("sap_sids")
-            if profile.get("sap_instance_number"):
-                profile["sap"]["instance_number"] = profile.get("sap_instance_number")
+                profile["workloads"]["sap"]["instance_number"] = sap[inst].number
+            else:
+                profile["workloads"]["sap"]["sap_system"] = False
         except Exception as e:
             catch_error("sap", e)
             raise
@@ -386,11 +382,11 @@ def system_profile(
     if hdb_version:
         try:
             if type(hdb_version) is list:
-                profile["sap_version"] = hdb_version[0].version
+                sap_version = hdb_version[0].version
             else:
-                profile["sap_version"] = hdb_version.version
-            if profile.get("sap"):
-                profile["sap"]["version"] = profile["sap_version"]
+                sap_version = hdb_version.version
+            if profile["workloads"].get("sap"):
+                profile["workloads"]["sap"]["version"] = sap_version
         except Exception as e:
             catch_error("hdb_version", e)
             raise
@@ -444,7 +440,7 @@ def system_profile(
 
             mssql_server = _get_mssql_server_package(latest)
             if mssql_server:
-                profile["mssql"] = {"version": mssql_server.version}
+                profile["workloads"]["mssql"] = {"version": mssql_server.version}
         except Exception as e:
             catch_error("installed_packages", e)
             raise
@@ -812,7 +808,7 @@ def system_profile(
                             })
                             if instance_info:
                                 intersystems_profile["running_instances"].append(instance_info)
-            profile["intersystems"] = _remove_empties(intersystems_profile)
+            profile["workloads"]["intersystems"] = _remove_empties(intersystems_profile)
         except Exception as e:
             catch_error("intersystems", e)
             raise
@@ -904,10 +900,7 @@ def system_profile(
         if len(ib_facts):
             profile["image_builder"] = ib_facts
 
-    # profile["third_party_services"]:
-    #   containing information about system facts of third party services
-    third_party_services = {}
-
+    # Workloads: CrowdStrike Falcon
     crowdstrike_facts = {}
     if falconctl_aid:
         crowdstrike_facts["falcon_aid"] = falconctl_aid.aid
@@ -916,27 +909,9 @@ def system_profile(
     if falconctl_version:
         crowdstrike_facts["falcon_version"] = falconctl_version.version
     if crowdstrike_facts:
-        third_party_services["crowdstrike"] = crowdstrike_facts
+        profile["workloads"]["crowdstrike"] = crowdstrike_facts
 
-    if third_party_services:
-        profile["third_party_services"] = third_party_services
-
-    # Workloads:
-    #  - Ansible Automation Platform
-    #  - CrowdStrike Falcon
-    #  - IBM DB2
-    #  - InterSystems IRIS
-    #  - Microsoft SQL Server
-    #  - Oracle DB
-    #  - RHEL AI
-    #  - SAP HANA / SAP Netweaver
-    profile["workloads"].update({
-        "ansible": profile.get("ansible"),
-        "crowdstrike": profile.get("third_party_services", {}).get("crowdstrike"),
-        "intersystems": profile.get("intersystems"),
-        "mssql": profile.get("mssql"),
-        "sap": profile.get("sap"),
-    })
+    # Clean up empty workloads
     profile["workloads"] = _remove_empties(profile["workloads"])
 
     metadata_response = make_metadata()
