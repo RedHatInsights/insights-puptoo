@@ -249,9 +249,9 @@ setuptools-scm==9.2.1 \
     #   hatch-vcs
     #   pluggy
     #   rpm
-trove-classifiers==2025.9.11.17 \
-    --hash=sha256:5d392f2d244deb1866556457d6f3516792124a23d1c3a463a2e8668a5d1c15dd \
-    --hash=sha256:931ca9841a5e9c9408bc2ae67b50d28acf85bef56219b56860876dd1f2d024dd
+trove-classifiers==2026.1.14.14 \
+    --hash=sha256:00492545a1402b09d4858605ba190ea33243d361e2b01c9c296ce06b5c3325f3 \
+    --hash=sha256:1f9553927f18d0513d8e5ff80ab8980b8202ce37ecae0e3274ed2ef11880e74d
     # via hatchling
 typing-extensions==4.15.0 ; python_version == "3.11" \
     --hash=sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466 \
