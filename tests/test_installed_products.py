@@ -61,6 +61,17 @@ path: /etc/pki/product/479.pem
 id: 479
 """.strip()
 
+INSTALLED_PRODUCTS_4 = """
+Product Certificate
+path: /etc/pki/product-default/69.pem
+id: 69
+Name: Red Hat Enterprise Linux Server
+Product Certificate
+path: /etc/pki/product/69.pem
+id: 69
+Name: Red Hat Enterprise Linux Server
+""".strip()
+
 
 def test_installed_products():
 
@@ -83,6 +94,13 @@ def test_installed_products():
     input_data.add(Specs.subscription_manager_installed_product_ids, INSTALLED_PRODUCTS_3)
     result = run_test(system_profile, input_data)
     assert result["installed_products"] == [{"id": "479"}, {"id": "69"}]
+
+    input_data = InputData()
+    input_data.add(Specs.subscription_manager_installed_product_ids, INSTALLED_PRODUCTS_4)
+    result = run_test(system_profile, input_data)
+    assert result["installed_products"] == [
+            {"id": "69", "name": "Red Hat Enterprise Linux Server"},
+        ]
 
     input_data = InputData()
     input_data.add(Specs.subscription_manager_installed_product_ids, "some random data")
