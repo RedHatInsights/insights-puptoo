@@ -674,9 +674,10 @@ def system_profile(
         installed_products = {}
         try:
             for product in product_ids.product_certs:
-                if product.get("id") and product["id"] not in installed_products:
+                product_id = product.get("id")
+                if product_id and product_id not in installed_products:
                     installed_products[product["id"]] = _remove_empties({
-                        "id": product["id"],
+                        "id": product_id,
                         "name": product.get("name"),
                     })
             profile["installed_products"] = sorted(
