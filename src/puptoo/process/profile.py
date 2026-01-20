@@ -671,16 +671,17 @@ def system_profile(
             raise
 
     if product_ids:
-        installed_products = []
+        installed_products = {}
         try:
             for product in product_ids.product_certs:
-                if product.get("id"):
-                    installed_products.append(_remove_empties({
-                        "id": product["id"],
+                product_id = product.get("id")
+                if product_id and product_id not in installed_products:
+                    installed_products[product["id"]] = _remove_empties({
+                        "id": product_id,
                         "name": product.get("name"),
-                    }))
+                    })
             profile["installed_products"] = sorted(
-                installed_products, key=lambda k: k["id"]
+                installed_products.values(), key=lambda k: k["id"]
             )
         except Exception as e:
             catch_error("product_ids", e)
