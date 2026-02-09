@@ -4,7 +4,7 @@
 #
 #    pip-compile --allow-unsafe --generate-hashes --output-file=requirements-extras.txt requirements-build.in
 #
-poetry-core==2.2.1 \
-    --hash=sha256:97e50d8593c8729d3f49364b428583e044087ee3def1e010c6496db76bd65ac5 \
-    --hash=sha256:bdfce710edc10bfcf9ab35041605c480829be4ab23f5bc01202cfe5db8f125ab
+poetry-core==2.3.1 \
+    --hash=sha256:96f791d5d7d4e040f3983d76779425cf9532690e2756a24fd5ca0f86af19ef82 \
+    --hash=sha256:db1cf63b782570deb38bfba61e2304a553eef0740dc17959a50cc0f5115ee634
     # via -r requirements-build.in
