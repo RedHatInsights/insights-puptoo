@@ -71,13 +71,6 @@ def test_intersystems():
     input_data.add(Specs.iris_cpf, IRIS_CPF_2, path="/intersystems2/iris.cpf")
     input_data.add(Specs.iris_cpf, IRIS_CPF_2, path="/intersystems3/iris.cpf")
     result = run_test(system_profile, input_data)
-    assert result["intersystems"]["is_intersystems"] is True
-    assert len(result["intersystems"]["running_instances"]) == 2
-    assert result["intersystems"]["running_instances"][0]["instance_name"] == "IRIS1"
-    assert result["intersystems"]["running_instances"][0]["product"] == "IRIS"
-    assert result["intersystems"]["running_instances"][0]["version"] == "2023.1"
-    assert result["intersystems"]["running_instances"][1]["instance_name"] == "IRIS2"
-    assert result["intersystems"]["running_instances"][1]["version"] == "2023.2"
     assert result["workloads"]["intersystems"] == {
         "is_intersystems": True,
         "running_instances": [
@@ -99,9 +92,7 @@ def test_intersystems():
     input_data.add(Specs.iris_list, IRIS_LIST)
     input_data.add(Specs.iris_cpf, IRIS_CPF_2, path="/intersystems3/iris.cpf")
     result = run_test(system_profile, input_data)
-    assert result["intersystems"]["is_intersystems"] is True
-    assert "running_instances" not in result["intersystems"]
-    result["workloads"]["intersystems"] = {
+    assert result["workloads"]["intersystems"] == {
         "is_intersystems": True
     }
 
@@ -110,9 +101,7 @@ def test_intersystems():
     input_data.add(Specs.iris_list, IRIS_LIST)
     input_data.add(Specs.iris_cpf, IRIS_CPF_3, path="/intersystems2/iris.cpf")
     result = run_test(system_profile, input_data)
-    assert result["intersystems"]["is_intersystems"] is True
-    assert "running_instances" not in result["intersystems"]
-    result["workloads"]["intersystems"] = {
+    assert result["workloads"]["intersystems"] == {
         "is_intersystems": True
     }
 
@@ -121,5 +110,4 @@ def test_intersystems():
     input_data.add(Specs.iris_list, "")
     input_data.add(Specs.iris_cpf, "", path="/intersystems1/iris.cpf")
     result = run_test(system_profile, input_data)
-    assert "intersystems" not in result
     assert "workloads" not in result
