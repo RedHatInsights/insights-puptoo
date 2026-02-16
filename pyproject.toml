@@ -19,7 +19,7 @@ logstash_formatter = "^0.5.17"
 minio = "^7.2.15"
 urllib3 = "^2.5.0"
 setuptools = "^80.0.0"
-cachecontrol = "<0.14.4"
+cachecontrol = "<0.14.5"
 wheel = ">=0.46.2"
 
 [tool.poetry.group.dev.dependencies]
