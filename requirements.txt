@@ -37,9 +37,9 @@ async-timeout==5.0.1 ; python_version == "3.11" and python_full_version < "3.11.
 boto3==1.42.25 ; python_version == "3.11" \
     --hash=sha256:8128bde4f9d5ffce129c76d1a2efe220e3af967a2ad30bc305ba088bbc96343d \
     --hash=sha256:ccb5e757dd62698d25766cc54cf5c47bea43287efa59c93cf1df8c8fbc26eeda
-botocore==1.42.25 ; python_version == "3.11" \
-    --hash=sha256:470261966aab1d09a1cd4ba56810098834443602846559ba9504f6613dfa52dc \
-    --hash=sha256:7ae79d1f77d3771e83e4dd46bce43166a1ba85d58a49cffe4c4a721418616054
+botocore==1.42.54; python_version == "3.11" \
+    --hash=sha256:853a0822de66d060aeebafa07ca13a03799f7958313d1b29f8dc7e2e1be8f527 \
+    --hash=sha256:ab203d4e57d22913c8386a695d048e003b7508a8a4a7a46c9ddf4ebd67a20b69
 cachecontrol==0.14.3 ; python_version == "3.11" \
     --hash=sha256:73e7efec4b06b20d9267b441c1f733664f989fb8688391b670ca812d70795d11 \
     --hash=sha256:b35e44a3113f17d2a31c1e6b27b9de6d4405f84ae51baa8c1d3cc5b633010cae
