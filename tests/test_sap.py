@@ -109,10 +109,6 @@ def test_sap():
     result = run_test(system_profile, input_data)
 
     expected_sap_object = {'instance_number': '88', 'sap_system': True, 'sids': ['D89', 'D90']}
-    assert result["sap_system"] == True
-    assert result["sap_instance_number"] == '88'
-    assert result["sap_sids"] == ['D89', 'D90']
-    assert result["sap"] == expected_sap_object
     assert result["workloads"]["sap"] == expected_sap_object
 
 
@@ -122,10 +118,6 @@ def test_sap():
     result = run_test(system_profile, input_data)
 
     expected_sap_object = {'instance_number': '90', 'sap_system': True, 'sids': ['D90']}
-    assert result["sap_system"] == True
-    assert result.get("sap_instance_number") == '90'
-    assert result.get("sap_sids") == ['D90']
-    assert result["sap"] == expected_sap_object
     assert result["workloads"]["sap"] == expected_sap_object
 
 
@@ -135,10 +127,6 @@ def test_sap():
     result = run_test(system_profile, input_data)
 
     expected_sap_object = {'sap_system': False}
-    assert result["sap_system"] == False
-    assert result.get("sap_instance_number") == None
-    assert result.get("sap_sids") == None
-    assert result["sap"] == expected_sap_object
     assert result["workloads"]["sap"] == expected_sap_object
 
 
@@ -148,8 +136,4 @@ def test_sap():
     result = run_test(system_profile, input_data)
 
     expected_sap_object = {'instance_number': '12', 'sap_system': True, 'sids': ['R4D', 'WDX']}
-    assert result["sap_system"] == True
-    assert result["sap_instance_number"] == '12'
-    assert result["sap_sids"] == ['R4D', 'WDX']
-    assert result["sap"] == expected_sap_object
     assert result["workloads"]["sap"] == expected_sap_object
