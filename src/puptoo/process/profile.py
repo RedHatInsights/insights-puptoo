@@ -897,6 +897,9 @@ def system_profile(
         pol_id = image_builder_facts.get("image-builder.insights.compliance-policy-id")
         if pol_id:
             ib_facts["compliance_policy_id"] = pol_id
+        blueprint_id = image_builder_facts.get("image-builder.blueprint-id")
+        if blueprint_id:
+            ib_facts["blueprint_id"] = blueprint_id
 
         if len(ib_facts):
             profile["image_builder"] = ib_facts
