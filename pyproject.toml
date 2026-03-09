@@ -8,7 +8,7 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "~3.11"
+python = "~3.14.0"
 prometheus-client = "^0.21.1"
 requests = "^2.32.4"
 confluent-kafka = "2.12.0"
