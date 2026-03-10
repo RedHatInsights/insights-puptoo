@@ -24,7 +24,7 @@ RPM_COMMANDS=(
 )
 
 PYTHON_COMMANDS=(
-  "make generate-requirements-txt"
+  "make generate-poetry-lock"
   "make generate-requirements-build-in"
   "make generate-requirements-build-txt"
 )
