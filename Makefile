@@ -187,3 +187,23 @@ generate-requirements-build-txt:
 		echo "Error: requirements-build.txt was not generated"; \
 		exit 1; \
 	fi
+
+# Build development container and run interactively
+# Usage: make build-dev
+.PHONY: build-dev
+build-dev:
+	podman build -t puptoo-dev -f Dockerfile.dev .
+	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash
+
+# Generate poetry.lock and requirements files in container
+# Usage: make generate-py-pkg-lock
+.PHONY: generate-py-pkg-lock
+generate-py-pkg-lock:
+	podman build -t puptoo-dev -f Dockerfile.dev .
+	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
+
+# Bump up Python package dependencies (creates branch, regenerates lock files, commits, and pushes)
+# Usage: make bump-up-py-pkg-deps
+.PHONY: bump-up-py-pkg-deps
+bump-up-py-pkg-deps:
+	bash py-pkg-deps-bump-up.sh
