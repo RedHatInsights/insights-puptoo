@@ -144,7 +144,6 @@ flit-core==3.12.0 \
     #   jinja2
     #   packaging
     #   pathspec
-    #   tomli
     #   typing-extensions
     #   wheel
 hatch-fancy-pypi-readme==25.1.0 \
@@ -159,9 +158,9 @@ hatch-vcs==0.5.0 \
     #   filelock
     #   urllib3
     #   watchtower
-hatchling==1.28.0 \
-    --hash=sha256:4d50b02aece6892b8cd0b3ce6c82cb218594d3ec5836dbde75bf41a21ab004c8 \
-    --hash=sha256:dc48722b68b3f4bbfa3ff618ca07cdea6750e7d03481289ffa8be1521d18a961
+hatchling==1.29.0 \
+    --hash=sha256:50af9343281f34785fab12da82e445ed987a6efb34fd8c2fc0f6e6630dbcc1b0 \
+    --hash=sha256:793c31816d952cee405b83488ce001c719f325d9cda69f1fc4cd750527640ea6
     # via
     #   argon2-cffi
     #   filelock
@@ -170,9 +169,9 @@ hatchling==1.28.0 \
     #   redis
     #   urllib3
     #   watchtower
-packaging==25.0 ; python_version == "3.11" \
-    --hash=sha256:29572ef2b1f17581046b3a2227d5c611fb25ec70ca1ba8554b24b0e69331a484 \
-    --hash=sha256:d443872c98d677bf60f6a1f2f8c1cb748e8fe762d2bf9d3148b5599295b0fc4f
+packaging==26.0 ; python_version == "3.11" \
+    --hash=sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4 \
+    --hash=sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529
     # via
     #   hatchling
     #   setuptools-scm
@@ -189,9 +188,9 @@ pluggy==1.6.0 \
     --hash=sha256:7dcc130b76258d33b90f61b658791dede3486c3e6bfb003ee5c9bfb396dd22f3 \
     --hash=sha256:e920276dd6813095e9377c0bc5566d94c932c33b27a3e3945d8389c374dd4746
     # via hatchling
-pycparser==2.23 ; python_version == "3.11" and implementation_name != "PyPy" \
-    --hash=sha256:78816d4f24add8f10a06d6f05b4d424ad9e96cfebf68a4ddc99c65c0720d00c2 \
-    --hash=sha256:e5c6e8d3fbad53479cab09ac03729e0a9faf2bee3db8208a550daf5af81a5934
+pycparser==3.0 ; python_version == "3.11" and implementation_name != "PyPy" \
+    --hash=sha256:600f49d217304a5902ac3c37e1281c9fe94e4d0489de643a9504c5cdfdfc6b29 \
+    --hash=sha256:b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992
     # via cffi
 setuptools-scm-git-archive==1.4.1 \
     --hash=sha256:4a0b90286f469df220769a66ed1e910a11f524c61f3caa2cd4fad95750ac3b4f \
@@ -225,12 +224,13 @@ wheel==0.46.3 ; python_version == "3.11" \
     # via
     #   async-timeout
     #   confluent-kafka
+    #   pycparser
     #   python-dateutil
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==80.9.0 ; python_version == "3.11" \
-    --hash=sha256:062d34222ad13e0cc312a4c02d73f059e86a4acbfbdea8f8f76b28c99f306922 \
-    --hash=sha256:f36b47402ecde768dbfafc46e8e4207b4360c654f1f3bb84475f0a28628fb19c
+setuptools==80.10.2 ; python_version == "3.11" \
+    --hash=sha256:8b0e9d10c784bf7d262c4e5ec5d4ec94127ce206e8738f29a437945fbc219b70 \
+    --hash=sha256:95b30ddfb717250edb492926c92b5221f7ef3fbcc2b07579bcd4a27da21d0173
     # via
     #   app-common-python
     #   argon2-cffi-bindings
@@ -245,14 +245,15 @@ setuptools==80.9.0 ; python_version == "3.11" \
     #   pathspec
     #   pbr
     #   pluggy
+    #   pycparser
     #   pycryptodome
     #   pyyaml
     #   rpm
     #   setuptools-scm
     #   trove-classifiers
-setuptools==82.0.0 ; python_version == "3.11" \
-    --hash=sha256:22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb \
-    --hash=sha256:70b18734b607bd1da571d097d236cfcfacaf01de45717d59e6e04b96877532e0
+setuptools==82.0.1 ; python_version == "3.11" \
+    --hash=sha256:7d872682c5d01cfde07da7bccc7b65469d3dca203318515ada1de5eda35efbf9 \
+    --hash=sha256:a59e362652f08dcd477c78bb6e7bd9d80a7995bc73ce773050228a348ce2e5bb
     # via
     #   python-dateutil
     #   setuptools-scm
