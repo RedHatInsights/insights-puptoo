@@ -196,9 +196,9 @@ build-dev:
 	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash
 
 # Generate poetry.lock and requirements files in container
-# Usage: make generate-poetry-lock
-.PHONY: generate-poetry-lock
-generate-poetry-lock:
+# Usage: make generate-py-pkg-lock
+.PHONY: generate-py-pkg-lock
+generate-py-pkg-lock:
 	podman build -t puptoo-dev -f Dockerfile.dev .
 	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
 

@@ -16,12 +16,12 @@ poetry lock
 ret=$?
 echo "<<< Return value of 'poetry lock': $ret"
 
-# Export requirements.txt & requirements-dev.txt
-echo ">>> Running: poetry self add poetry-plugin-export"
-poetry self add poetry-plugin-export
-ret=$?
-echo "<<< Return value of 'poetry self add poetry-plugin-export': $ret"
+# echo ">>> Running: poetry self add poetry-plugin-export"
+# poetry self add poetry-plugin-export
+# ret=$?
+# echo "<<< Return value of 'poetry self add poetry-plugin-export': $ret"
 
+### Export requirements.txt & requirements-dev.txt
 echo ">>> Running: poetry export --format requirements.txt --output requirements.txt"
 poetry export --format requirements.txt --output requirements.txt
 ret=$?

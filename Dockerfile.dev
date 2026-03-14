@@ -8,7 +8,8 @@ RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which 
 
 RUN set -ex && if [ -e `which python3.11` ]; then ln -s `which python3.11` /usr/local/bin/python; fi
 
-RUN git clone -b 3.0 https://github.com/RedHatInsights/insights-core && \
-    pip3.11 install ./insights-core
+# RUN git clone -b 3.0 https://github.com/RedHatInsights/insights-core && \
+#     pip3.11 install ./insights-core
 
 RUN pip3.11 install --upgrade pip && pip3.11 install poetry
+RUN poetry self add poetry-plugin-export
