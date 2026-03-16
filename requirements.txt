@@ -1,6 +1,6 @@
-app-common-python==0.2.8 ; python_version == "3.11" \
-    --hash=sha256:4e3d12f17cec46755f3255c3a40abb192cef9fc04a13141e77f4abe7fd71fb58 \
-    --hash=sha256:bf0e020b1b4d77b03e6e0e97e4f1f5112e3c27954721c2c82cd2ac40d20cb0f6
+app-common-python==0.2.9; python_version == "3.11" \
+    --hash=sha256:74125371e2865bcba7a7c34f0700d4b8b97a0c0a9ff67bbb06fdb20a3da4b75c \
+    --hash=sha256:861bd93482edabd00a85eb6512e0d7df08597be6f76b864be8e53d6294f81389
 argon2-cffi-bindings==25.1.0 ; python_version == "3.11" \
     --hash=sha256:1db89609c06afa1a214a69a462ea741cf735b29a57530478c06eb81dd403de99 \
     --hash=sha256:1e021e87faa76ae0d413b619fe2b65ab9a037f24c60a1e6cc43457ae20de6dc6 \
