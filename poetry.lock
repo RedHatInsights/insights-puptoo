@@ -2,14 +2,14 @@
 
 [[package]]
 name = "app-common-python"
-version = "0.2.8"
+version = "0.2.9"
 description = ""
 optional = false
 python-versions = "*"
 groups = ["main"]
 files = [
-    {file = "app_common_python-0.2.8-py3-none-any.whl", hash = "sha256:bf0e020b1b4d77b03e6e0e97e4f1f5112e3c27954721c2c82cd2ac40d20cb0f6"},
-    {file = "app_common_python-0.2.8.tar.gz", hash = "sha256:4e3d12f17cec46755f3255c3a40abb192cef9fc04a13141e77f4abe7fd71fb58"},
+    {file = "app_common_python-0.2.9-py3-none-any.whl", hash = "sha256:861bd93482edabd00a85eb6512e0d7df08597be6f76b864be8e53d6294f81389"},
+    {file = "app_common_python-0.2.9.tar.gz", hash = "sha256:74125371e2865bcba7a7c34f0700d4b8b97a0c0a9ff67bbb06fdb20a3da4b75c"},
 ]
 
 [[package]]
@@ -1460,4 +1460,4 @@ test = ["pytest (>=6.0.0)", "setuptools (>=77)"]
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "19d5420aab04c1e26f10d5a7fe63910931db3d0adf003b64b859e8a914e3b814"
+content-hash = "5dc4199a1f71e73ce7b17dd4b39bc01e8708eb716fb3e05189f96dfb48cc4153"
