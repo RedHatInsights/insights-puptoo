@@ -34,9 +34,9 @@ argon2-cffi==25.1.0 ; python_version == "3.11" \
 async-timeout==5.0.1 ; python_version == "3.11" and python_full_version < "3.11.3" \
     --hash=sha256:39e3809566ff85354557ec2398b55e096c8364bacac9405a7a1fa429e77fe76c \
     --hash=sha256:d9321a7a3d5a6a5e187e824d2fa0793ce379a202935782d555d6e9d2735677d3
-boto3==1.42.62 ; python_version == "3.11" \
-    --hash=sha256:6b26ff56c458685caec3d42adde0549f6a55410e557e1f51bebde5c8abcf3037 \
-    --hash=sha256:eef0ee08f30e5ed16d8296719808801a827fa0f3126a3e2a9ef9be9eb5e6a313
+boto3==1.42.68; python_version == "3.11" \
+    --hash=sha256:3f349f967ab38c23425626d130962bcb363e75f042734fe856ea8c5a00eef03c \
+    --hash=sha256:dbff353eb7dc93cbddd7926ed24793e0174c04adbe88860dfa639568442e4962
 botocore==1.42.62 ; python_version == "3.11" \
     --hash=sha256:86d327fded96775268ffe8d8bd6ed96c4a1db86cf24eb64ff85233db12dbc287 \
     --hash=sha256:c210dc93b0b81bf72cfe745a7b1c8df765d04bd90b4ac6c8707fbb6714141dae
