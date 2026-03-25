@@ -731,15 +731,20 @@ def system_profile(
         profile["is_runtimes"] = True
 
     if systemctl_status_all:
-        profile["systemd"] = {
-            "state": systemctl_status_all.state,
-            "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0]),
-            "failed": int(systemctl_status_all.failed.split(" ")[0])
-        }
-        if list_units:
-            if int(systemctl_status_all.failed.split(" ")[0]) > 0:
-                profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names
-                    if list_units.is_failed(svc)]
+        try:
+            profile["systemd"] = {
+                "state": systemctl_status_all.state,
+                "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0]) if systemctl_status_all.jobs else None,
+                "failed": int(systemctl_status_all.failed.split(" ")[0]) if systemctl_status_all.failed else None
+            }
+            if list_units:
+                if profile["systemd"]["failed"] is not None and profile["systemd"]["failed"] > 0:
+                    profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names
+                        if list_units.is_failed(svc)]
+            profile["systemd"] = _remove_empties(profile["systemd"])
+        except Exception as e:
+            # log the error and continue with the next parser
+            catch_error("systemctl_status_all", e)
 
     if aws_public_hostnames:
         profile["public_dns"] = _remove_empty_string(aws_public_hostnames)
