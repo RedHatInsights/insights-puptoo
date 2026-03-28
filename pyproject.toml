@@ -23,7 +23,7 @@ cachecontrol = "<0.14.4"
 wheel = ">=0.46.2"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.3.5"
+pytest = "^9.0.0"
 flake8 = "^7.1.2"
 freezegun = "^1.5.1"
 jsonschema = "^4.23.0"
