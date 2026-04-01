@@ -641,27 +641,27 @@ arches:
     name: perl-vars
     evr: 1.05-481.1.el9_6
     sourcerpm: perl-5.32.1-481.1.el9_6.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-3.11.13-5.1.el9_7.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-3.11.13-5.2.el9_7.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 31827
-    checksum: sha256:eb490f1bfc37ee9639e06641febd6d1a9035853a0e4037fe9272bd75f7675a2e
+    size: 31936
+    checksum: sha256:24a5d9e0f61ab54e986982251c06a8d354cfa90b8e4894738db3122bfb6d8c9d
     name: python3.11
-    evr: 3.11.13-5.1.el9_7
-    sourcerpm: python3.11-3.11.13-5.1.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-devel-3.11.13-5.1.el9_7.x86_64.rpm
+    evr: 3.11.13-5.2.el9_7
+    sourcerpm: python3.11-3.11.13-5.2.el9_7.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-devel-3.11.13-5.2.el9_7.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 290088
-    checksum: sha256:3380adcb021c7e872c05e4b4884baef4ced6d3cf03bbe50e0147de970aa3a4c3
+    size: 290154
+    checksum: sha256:96dd0741b0dc8945199907a9a7a5c9ea4644cf52a436d2496893875049fc81bc
     name: python3.11-devel
-    evr: 3.11.13-5.1.el9_7
-    sourcerpm: python3.11-3.11.13-5.1.el9_7.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-libs-3.11.13-5.1.el9_7.x86_64.rpm
+    evr: 3.11.13-5.2.el9_7
+    sourcerpm: python3.11-3.11.13-5.2.el9_7.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-libs-3.11.13-5.2.el9_7.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 10715230
-    checksum: sha256:f2d5ac78c2553c34367933700053a7234584685a14940d81e19a9f9a6d724a37
+    size: 10716900
+    checksum: sha256:12d33828e1df45e669284bb3d67f32632185b5b4ee8a012994e0ee4c8cac3736
     name: python3.11-libs
-    evr: 3.11.13-5.1.el9_7
-    sourcerpm: python3.11-3.11.13-5.1.el9_7.src.rpm
+    evr: 3.11.13-5.2.el9_7
+    sourcerpm: python3.11-3.11.13-5.2.el9_7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/p/python3.11-pip-22.3.1-6.el9.noarch.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 3351885
