@@ -15,7 +15,8 @@ from insights.parsers.aws_instance_id import (AWSInstanceIdDoc,
                                               AWSPublicHostnames,
                                               AWSPublicIpv4Addresses)
 from insights.parsers.azure_instance import (AzureInstancePlan,
-                                             AzurePublicIpv4Addresses)
+                                             AzurePublicIpv4Addresses,
+                                             AzureInstanceComputeMetadata)
 from insights.parsers.bootc import BootcStatus
 from insights.parsers.client_metadata import (AnsibleHost, BranchInfo,
                                               DisplayName, Tags, VersionInfo)
@@ -127,6 +128,7 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set([
         AWSPublicHostnames,
         AWSPublicIpv4Addresses,
         AzureInstancePlan,
+        AzureInstanceComputeMetadata,
         AzurePublicIpv4Addresses,
         BootcStatus,
         CpuInfo,
@@ -193,6 +195,7 @@ def system_profile(
     aws_public_hostnames,
     aws_public_ipv4_addresses,
     azure_instance_plan,
+    azure_instance_compute_metadata,
     azure_public_ipv4_addresses,
     bootc_status,
     cpu_info,
@@ -304,7 +307,31 @@ def system_profile(
             profile["is_marketplace"] = any(bp not in MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES
                                                 for bp in aws_billing_products)
 
-    if azure_instance_plan:
+    if azure_instance_compute_metadata:
+        """ RHINENG-13790
+        A Azure VM should be considered BYOS(is_marketplace = False) when:
+            offer == "RHEL_BYOS" AND licenseType == "" OR licenseType == "RHEL_BYOS" OR plan.product == 'rhel-byos'
+        Otherwise, the VM should be treated as PAYG(is_marketplace = True).
+        """
+        # Extract metadata fields safely
+        offer = azure_instance_compute_metadata.get("offer") or ""
+        license_type = azure_instance_compute_metadata.get("licenseType") or ""
+        plan = azure_instance_compute_metadata.get("plan") or {}
+        plan_product = (plan.get("product") or "") if isinstance(plan, dict) else ""
+
+        # Determine if VM is BYOS (Bring Your Own Subscription)
+        is_byos = (
+            (offer == "RHEL_BYOS" and license_type == "") or
+            license_type == "RHEL_BYOS" or
+            plan_product == "rhel-byos"
+        )
+
+        # Set marketplace flag: False for BYOS, True for PAYG
+        profile["is_marketplace"] = not is_byos
+
+    # Compatibility for customers with old insights-core version
+    #  - to be removed after most customers have updated to insights-core 3.7.6+
+    elif azure_instance_plan:
         if any(
             [
                 azure_instance_plan.name,
