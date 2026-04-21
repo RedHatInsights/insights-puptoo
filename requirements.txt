@@ -592,9 +592,9 @@ pyyaml==6.0.3 ; python_version == "3.11" \
 redis==7.2.1 ; python_version == "3.11" \
     --hash=sha256:49e231fbc8df2001436ae5252b3f0f3dc930430239bfeb6da4c7ee92b16e5d33 \
     --hash=sha256:6163c1a47ee2d9d01221d8456bc1c75ab953cbda18cfbc15e7140e9ba16ca3a5
-requests==2.32.5 ; python_version == "3.11" \
-    --hash=sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6 \
-    --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
+requests==2.33.1 ; python_version == "3.11" \
+    --hash=sha256:18817f8c57c6263968bc123d237e3b8b08ac046f5456bd1e307ee8f4250d3517 \
+    --hash=sha256:4e6d1ef462f3626a1f0a0a9c42dd93c63bad33f9f1c1937509b8c5c8718ab56a
 rpm==0.4.0 ; python_version == "3.11" \
     --hash=sha256:0ef697cb5fb73bf9300a13d423529d7ec215239bf95c5ecb145e6610645f6067 \
     --hash=sha256:79adbefa82318e2625d6e4fa16666cf88543498a1f2c10dc3879165d1dc3ecee
