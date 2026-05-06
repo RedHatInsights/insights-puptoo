@@ -304,9 +304,9 @@ defusedxml==0.7.1 ; python_version == "3.11" \
 filelock==3.25.0 ; python_version == "3.11" \
     --hash=sha256:5ccf8069f7948f494968fc0713c10e5c182a9c9d9eef3a636307a20c2490f047 \
     --hash=sha256:8f00faf3abf9dc730a1ffe9c354ae5c04e079ab7d3a683b7c32da5dd05f26af3
-idna==3.11 ; python_version == "3.11" \
-    --hash=sha256:771a87f49d9defaf64091e6e6fe9c18d4833f140bd19464795bc32d966ca37ea \
-    --hash=sha256:795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902
+idna==3.13; python_version == "3.11" \
+    --hash=sha256:585ea8fe5d69b9181ec1afba340451fba6ba764af97026f92a91d4eef164a242 \
+    --hash=sha256:892ea0cde124a99ce773decba204c5552b69c3c67ffd5f232eb7696135bc8bb3
 insights-core==3.7.6; python_version == "3.11" \
     --hash=sha256:275a817d1f8a88363a37bcc57c48c90e1873d1ea2baf59140050140051e5be74 \
     --hash=sha256:90d33972a99e2c3b5c49778bb0fe9643227dff5b038dc06e8878d49c58326d79
