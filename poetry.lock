@@ -560,14 +560,14 @@ files = [
 
 [[package]]
 name = "insights-core"
-version = "3.7.6"
+version = "3.7.7"
 description = "Insights Core is a data collection and analysis framework"
 optional = false
 python-versions = ">=2.7"
 groups = ["main"]
 files = [
-    {file = "insights_core-3.7.6-py3-none-any.whl", hash = "sha256:275a817d1f8a88363a37bcc57c48c90e1873d1ea2baf59140050140051e5be74"},
-    {file = "insights_core-3.7.6.tar.gz", hash = "sha256:90d33972a99e2c3b5c49778bb0fe9643227dff5b038dc06e8878d49c58326d79"},
+    {file = "insights_core-3.7.7-py3-none-any.whl", hash = "sha256:3d3610945f824e988cb13a0ea479000e6fb45b703491c7628ccb352d4f4229b3"},
+    {file = "insights_core-3.7.7.tar.gz", hash = "sha256:ed3e72d4b6e3249cd9e1d02116eb3825ca54a6fb9e0a0846fd9bd359888990b2"},
 ]
 
 [package.dependencies]
@@ -1474,4 +1474,4 @@ packaging = ">=24.0"
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "5afcce7c349cbedf06586b3d7a4d42c2cf0da615f49b35bb9e18e61dd140b236"
+content-hash = "f6059ff85f56caa678e458cfc7a4c64fff0b1cc6b2c90192b1558643267f87ff"
