@@ -1,0 +1,1 @@
+{"name": "insights.specs.Specs.azure_instance_compute_metadata", "exec_time": 0.0002741813659667969, "errors": [], "results": {"type": "insights.core.spec_factory.DatasourceProvider", "object": {"relative_path": "insights_datasources/azure_instance_compute_metadata", "save_as": null}}, "ser_time": 0.00047969818115234375}
