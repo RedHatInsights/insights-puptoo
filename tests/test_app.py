@@ -1,4 +1,5 @@
 from src.puptoo import app
+from src.puptoo.handlers.base import _get_staletime
 from freezegun import freeze_time
 from datetime import datetime
 
@@ -6,7 +7,7 @@ from datetime import datetime
 @freeze_time("2019-7-23")
 def test_get_staletime():
     dtz = datetime.fromtimestamp(1563944400).astimezone()
-    assert app.get_staletime() == dtz.isoformat()
+    assert _get_staletime() == dtz.isoformat()
 
 
 def test_get_extra():
