@@ -27,7 +27,7 @@ log_error() {
 
 # Generate timestamp and define files to track
 timestamp=$(date +%Y%m%d_%H%M%S)
-PY_PKG_DEPS_FILES=(pyproject.toml poetry.lock requirements.txt requirements-dev.txt requirements-build.in requirements-build.txt)
+PY_PKG_DEPS_FILES=(pyproject.toml uv.lock requirements.txt requirements-dev.txt requirements-build.in requirements-build.txt)
 
 log_info "Starting Python package dependencies bump-up process..."
 echo "=========================================="
@@ -44,11 +44,11 @@ fi
 echo ""
 
 # Run make commands for python package dependencies bump up
-log_info "Step 1/3: Generating poetry.lock and requirements files..."
-if make generate-poetry-lock; then
-    log_success "Poetry lock generation completed"
+log_info "Step 1/3: Generating uv.lock and requirements files..."
+if make generate-uv-lock; then
+    log_success "uv lock generation completed"
 else
-    log_error "Failed to generate poetry lock"
+    log_error "Failed to generate uv lock"
     exit 1
 fi
 echo ""

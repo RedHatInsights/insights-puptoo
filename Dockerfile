@@ -21,7 +21,7 @@ COPY --from=kafka_build /usr/lib/pkgconfig/rdkafka*.pc /usr/lib/pkgconfig/
 COPY --from=kafka_build /usr/include/librdkafka /usr/include/librdkafka
 RUN ldconfig
 
-COPY --chown=1001:0 poetry.lock poetry.lock
+COPY --chown=1001:0 uv.lock uv.lock
 COPY --chown=1001:0 pyproject.toml pyproject.toml
 COPY --chown=1001:0 requirements.txt requirements.txt
 COPY --chown=1001:0 requirements-dev.txt requirements-dev.txt

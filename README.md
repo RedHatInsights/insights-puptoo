@@ -106,7 +106,7 @@ PUPTOO does expect a kafka message queue to be available for connection.
 - python3
 
 - optional:
-  - [poetry](https://python-poetry.org/)
+  - [uv](https://docs.astral.sh/uv/)
 
 #### Python
 
@@ -164,10 +164,10 @@ This test assumes you have an inventory service available and ready to use. Visi
 
 ## Testing System Profile
 
-Occassionaly, an archive may be rejected by puptoo for a reason that is unclear. You may also see an archive that doens't seem to work properly or gathers the wrong information. In order to test this locally, you can use the `insights-run` tool to process the system-profile of that archive easily.
+Occasionally, an archive may be rejected by puptoo for a reason that is unclear. You may also see an archive that doesn't seem to work properly or gathers the wrong information. In order to test this locally, you can use the `insights-run` tool to process the system-profile of that archive easily.
 
 ```sh
-   poetry run insights-run -p src.puptoo ~/path/to/archive
+   uv run insights-run -p src.puptoo ~/path/to/archive
 ```
 
 This will print the system_profile so you can analyze it for issues.
@@ -191,7 +191,7 @@ Konflux Hermetic Build had been enabled for Puptoo repo.
 A hermetic build is a secure, self-contained build process that doesn’t depend on anything outside of the build environment.
 Konflux can prefetch dependencies for your hermetic builds using Cachi2 by generating a software bill of materials (SBOM) where all dependencies are properly declared and pinned to specific versions.
 
-For any dependencies update introduced in [pyproject.toml](pyproject.toml) and [poetry.lock](poetry.lock), please update the following required files referring to this [Hermetic Build Process](.hermetic_builds/README.md):
+For any dependencies update introduced in [pyproject.toml](pyproject.toml) and [uv.lock](uv.lock), please update the following required files referring to this [Hermetic Build Process](.hermetic_builds/README.md):
 
   - Enabling prefetch builds for rpm
     - [rpms.in.yaml](rpms.in.yaml)
@@ -236,4 +236,3 @@ New functionality that may effect other services should increment by `1`. Minor 
 
 - **Stephen Adams** - **Initial Work** - [SteveHNH](https://github.com/SteveHNH)
 - **Xiaoxue Wang**  - **Maintainer** - [JoySnow](https://github.com/JoySnow)
-

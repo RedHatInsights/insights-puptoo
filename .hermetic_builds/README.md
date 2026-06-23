@@ -58,7 +58,7 @@ Run the `generate-requirements-txt` target to create `requirements.txt` from Poe
 make generate-requirements-txt
 ```
 
-- **Input**: Uses `poetry.lock` or `Pipfile.lock` if present; exits successfully if `requirements.txt` already exists.
+- **Input**: Uses `uv.lock`, `poetry.lock`, or `Pipfile.lock` if present; exits successfully if `requirements.txt` already exists.
 - **Output**: Creates `requirements.txt` with application dependencies.
 - **Error**: Fails if no lock file is found and `requirements.txt` is missing.
 
@@ -70,7 +70,7 @@ make generate-requirements-build-in
 ```
 
 - **Input**: Parses `pyproject.toml` for `[build-system].requires`.
-- **Output**: Creates `requirements-build.in` with build dependencies (e.g., `poetry-core==2.1.3`).
+- **Output**: Creates `requirements-build.in` with build dependencies (e.g., `hatchling==1.27.0`).
 - **Manual Step**: If additional build dependencies are discovered (e.g., during testing), update `.hermetic_builds/add_manual_build_dependencies.sh` (if it exists) to append them. Each entry should be:
 
   ```bash
