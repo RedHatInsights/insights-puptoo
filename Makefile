@@ -83,12 +83,14 @@ generate-rpm-lockfile: rpms.in.yaml
 		exit 1; \
 	fi
 
-# Generate requirements.txt from Poetry or Pipenv lock files
+# Generate requirements.txt from uv, Poetry, or Pipenv lock files
 # Usage: make generate-requirements-txt
 # Example: make generate-requirements-txt
 .PHONY: generate-requirements-txt
 generate-requirements-txt:
-	@if [ -f poetry.lock ]; then \
+	@if [ -f uv.lock ]; then \
+		uv export --format requirements-txt --no-emit-project -o requirements.txt; \
+	elif [ -f poetry.lock ]; then \
 		poetry export --format requirements.txt --output requirements.txt; \
 	elif [ -f Pipfile.lock ]; then \
 		pipenv requirements > requirements.txt; \
@@ -103,12 +105,14 @@ generate-requirements-txt:
 		exit 1; \
 	fi
 
-# Generate requirements-dev.txt from Poetry or Pipenv lock files
+# Generate requirements-dev.txt from uv, Poetry, or Pipenv lock files
 # Usage: make generate-requirements-dev-txt
 # Example: make generate-requirements-dev-txt
 .PHONY: generate-requirements-dev-txt
 generate-requirements-dev-txt:
-	@if [ -f poetry.lock ]; then \
+	@if [ -f uv.lock ]; then \
+		uv export --format requirements-txt --no-emit-project --only-group dev -o requirements-dev.txt; \
+	elif [ -f poetry.lock ]; then \
 		poetry export --only dev -o requirements-dev.txt; \
 	elif [ -f Pipfile.lock ]; then \
 		pipenv lock --dev-only -r > requirements-dev.txt; \
@@ -195,12 +199,15 @@ build-dev:
 	podman build -t puptoo-dev -f Dockerfile.dev .
 	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash
 
-# Generate poetry.lock and requirements files in container
-# Usage: make generate-py-pkg-lock
-.PHONY: generate-py-pkg-lock
-generate-py-pkg-lock:
+# Generate uv.lock and requirements files in container
+# Usage: make generate-uv-lock
+.PHONY: generate-uv-lock
+generate-uv-lock:
 	podman build -t puptoo-dev -f Dockerfile.dev .
 	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
+
+.PHONY: generate-py-pkg-lock
+generate-py-pkg-lock: generate-uv-lock
 
 # Bump up Python package dependencies (creates branch, regenerates lock files, commits, and pushes)
 # Usage: make bump-up-py-pkg-deps

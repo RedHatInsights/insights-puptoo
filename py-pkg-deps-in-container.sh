@@ -5,29 +5,23 @@ cd /app-root/insights-puptoo
 ret=$?
 echo "<<< Return value of 'cd /app-root/insights-puptoo': $ret"
 
-# pip install poetry
-echo ">>> Running: poetry install"
-poetry install
+echo ">>> Running: uv sync"
+uv sync
 ret=$?
-echo "<<< Return value of 'poetry install': $ret"
+echo "<<< Return value of 'uv sync': $ret"
 
-echo ">>> Running: poetry lock"
-poetry lock
+echo ">>> Running: uv lock"
+uv lock
 ret=$?
-echo "<<< Return value of 'poetry lock': $ret"
-
-# echo ">>> Running: poetry self add poetry-plugin-export"
-# poetry self add poetry-plugin-export
-# ret=$?
-# echo "<<< Return value of 'poetry self add poetry-plugin-export': $ret"
+echo "<<< Return value of 'uv lock': $ret"
 
 ### Export requirements.txt & requirements-dev.txt
-echo ">>> Running: poetry export --format requirements.txt --output requirements.txt"
-poetry export --format requirements.txt --output requirements.txt
+echo ">>> Running: uv export --format requirements-txt --no-emit-project -o requirements.txt"
+uv export --format requirements-txt --no-emit-project -o requirements.txt
 ret=$?
-echo "<<< Return value of 'poetry export --format requirements.txt --output requirements.txt': $ret"
+echo "<<< Return value of 'uv export ... requirements.txt': $ret"
 
-echo ">>> Running: poetry export --only dev -o requirements-dev.txt"
-poetry export --only dev -o requirements-dev.txt
+echo ">>> Running: uv export --format requirements-txt --no-emit-project --only-group dev -o requirements-dev.txt"
+uv export --format requirements-txt --no-emit-project --only-group dev -o requirements-dev.txt
 ret=$?
-echo "<<< Return value of 'poetry export --only dev -o requirements-dev.txt': $ret"
+echo "<<< Return value of 'uv export ... requirements-dev.txt': $ret"

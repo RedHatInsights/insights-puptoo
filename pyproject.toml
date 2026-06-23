@@ -1,37 +1,41 @@
-[tool.poetry]
+[project]
 name = "insights-puptoo"
 version = "0.1.0"
 description = "Platform Upload PreProcessor II"
-authors = ["Stephen Adams <sadams@redhat.com>"]
-packages = [
-    { include = "src/puptoo" }
+authors = [
+    { name = "Stephen Adams", email = "sadams@redhat.com" }
+]
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "prometheus-client>=0.25.0,<0.26.0",
+    "requests>=2.32.4,<3.0.0",
+    "confluent-kafka==2.13.2",
+    "insights-core==3.7.7",
+    "app-common-python==0.2.9",
+    "watchtower>=3.4.0,<4.0.0",
+    "logstash_formatter>=0.5.17,<0.6.0",
+    "minio>=7.2.15,<8.0.0",
+    "urllib3>=2.5.0,<3.0.0",
+    "setuptools>=82.0.0,<83.0.0",
+    "cachecontrol<0.14.4",
+    "wheel>=0.46.2",
 ]
 
-[tool.poetry.dependencies]
-python = "~3.11"
-prometheus-client = "^0.25.0"
-requests = "^2.32.4"
-confluent-kafka = "2.13.2"
-insights-core = "3.7.7"
-app-common-python = "0.2.9"
-watchtower = "^3.4.0"
-logstash_formatter = "^0.5.17"
-minio = "^7.2.15"
-urllib3 = "^2.5.0"
-setuptools = "^82.0.0"
-cachecontrol = "<0.14.4"
-wheel = ">=0.46.2"
+[project.scripts]
+puptoo = "src.puptoo.app:main"
+puptoo-run = "src.puptoo.process.profile:run_profile"
 
-[tool.poetry.group.dev.dependencies]
-pytest = ">=8.3.5,<10.0.0"
-flake8 = "^7.1.2"
-freezegun = "^1.5.1"
-jsonschema = "^4.23.0"
-
-[tool.poetry.scripts]
-puptoo = 'src.puptoo.app:main'
-puptoo-run = 'src.puptoo.process.profile:run_profile'
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5,<10.0.0",
+    "flake8>=7.1.2,<8.0.0",
+    "freezegun>=1.5.1,<2.0.0",
+    "jsonschema>=4.23.0,<5.0.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
