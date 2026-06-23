@@ -9,7 +9,7 @@ requires-python = ">=3.11,<3.12"
 dependencies = [
     "prometheus-client>=0.25.0,<0.26.0",
     "requests>=2.32.4,<3.0.0",
-    "confluent-kafka==2.13.2",
+    "confluent-kafka==2.14.2",
     "insights-core==3.7.7",
     "app-common-python==0.2.9",
     "watchtower>=3.4.0,<4.0.0",
