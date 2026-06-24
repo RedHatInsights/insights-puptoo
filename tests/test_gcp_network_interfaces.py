@@ -66,6 +66,7 @@ GCP_NIC_4 = """
 ]
 """.strip()
 
+
 def test_gcp_network_interfaces():
     input_data = InputData().add(Specs.gcp_network_interfaces, GCP_NIC_1)
     result = run_test(system_profile, input_data)
@@ -73,11 +74,11 @@ def test_gcp_network_interfaces():
 
     input_data = InputData().add(Specs.gcp_network_interfaces, GCP_NIC_2)
     result = run_test(system_profile, input_data)
-    assert result.get("public_ipv4_addresses") == None
+    assert result.get("public_ipv4_addresses") is None
 
     input_data = InputData().add(Specs.gcp_network_interfaces, GCP_NIC_3)
     result = run_test(system_profile, input_data)
-    assert result.get("public_ipv4_addresses") == None
+    assert result.get("public_ipv4_addresses") is None
 
     input_data = InputData().add(Specs.gcp_network_interfaces, GCP_NIC_4)
     result = run_test(system_profile, input_data)

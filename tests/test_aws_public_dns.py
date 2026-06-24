@@ -37,7 +37,9 @@ AWS_CURL_ERROR_2 = """
 def test_aws_public_ipv4_addresses():
     input_data = InputData().add(Specs.aws_public_hostnames, AWSPUBLICHOSTNAMES)
     result = run_test(system_profile, input_data)
-    assert result["public_dns"] == ["ec2-52-95-95-95.ap-northeast-1.compute.amazonaws.com"]
+    assert result["public_dns"] == [
+        "ec2-52-95-95-95.ap-northeast-1.compute.amazonaws.com"
+    ]
 
     input_data = InputData().add(Specs.aws_public_hostnames, AWS_CURL_ERROR_1)
     result = run_test(system_profile, input_data)

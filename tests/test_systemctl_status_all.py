@@ -68,19 +68,19 @@ def test_systemctl_status():
     input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL)
     result = run_test(system_profile, input_data)
 
-    assert result['systemd']['failed'] == 2
-    assert result['systemd']['jobs_queued'] == 0
-    assert result['systemd']['state'] == 'degraded'
+    assert result["systemd"]["failed"] == 2
+    assert result["systemd"]["jobs_queued"] == 0
+    assert result["systemd"]["state"] == "degraded"
 
     input_data = InputData()
     input_data.add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL)
     input_data.add(Specs.systemctl_list_units, LISTUNITS)
     result = run_test(system_profile, input_data)
 
-    assert result['systemd']['failed'] == 2
-    assert result['systemd']['jobs_queued'] == 0
-    assert result['systemd']['state'] == 'degraded'
-    assert result['systemd']['failed_services'] == ['chronyd.service']
+    assert result["systemd"]["failed"] == 2
+    assert result["systemd"]["jobs_queued"] == 0
+    assert result["systemd"]["state"] == "degraded"
+    assert result["systemd"]["failed_services"] == ["chronyd.service"]
 
 
 def test_systemctl_status_missing_state_and_jobs():
@@ -88,9 +88,9 @@ def test_systemctl_status_missing_state_and_jobs():
     input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL_2)
     result = run_test(system_profile, input_data)
 
-    assert result['systemd']['failed'] == 1
-    assert 'jobs_queued' not in result['systemd']
-    assert 'state' not in result['systemd']
+    assert result["systemd"]["failed"] == 1
+    assert "jobs_queued" not in result["systemd"]
+    assert "state" not in result["systemd"]
 
 
 def test_systemctl_status_missing_state():
@@ -99,10 +99,10 @@ def test_systemctl_status_missing_state():
     input_data.add(Specs.systemctl_list_units, LISTUNITS)
     result = run_test(system_profile, input_data)
 
-    assert result['systemd']['failed'] == 1
-    assert result['systemd']['jobs_queued'] == 0
-    assert 'state' not in result['systemd']
-    assert result['systemd']['failed_services'] == ['chronyd.service']
+    assert result["systemd"]["failed"] == 1
+    assert result["systemd"]["jobs_queued"] == 0
+    assert "state" not in result["systemd"]
+    assert result["systemd"]["failed_services"] == ["chronyd.service"]
 
 
 def test_systemctl_status_invalid_failed_value():
@@ -111,5 +111,5 @@ def test_systemctl_status_invalid_failed_value():
     input_data.add(Specs.systemctl_list_units, LISTUNITS)
     result = run_test(system_profile, input_data)
 
-    assert 'systemd' not in result
-    assert result.get('systemd') == None
+    assert "systemd" not in result
+    assert result.get("systemd") is None

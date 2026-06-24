@@ -141,32 +141,44 @@ def test_azure_instance_plan():
 def test_azure_is_marketplace():
     """Test azure_is_marketplace"""
     input_data = InputData("on_value_fallback_to_payg")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_1)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_1
+    )
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is True
 
     input_data = InputData("on_license_type_byos")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_2)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_2
+    )
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is False
 
     input_data = InputData("on_product_plan_byos")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_3)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_3
+    )
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is False
 
     input_data = InputData("on_value_fallback_to_payg")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_4)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_4
+    )
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is True
 
     input_data = InputData("on_offer_byos")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_5)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_5
+    )
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is False
 
     input_data = InputData("on_product_plan_not_byos")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_6)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_6
+    )
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is True
 
@@ -177,7 +189,9 @@ def test_azure_is_marketplace():
 
     # Compatibility test: test with both azure_instance_compute_metadata and azure_instance_plan
     input_data = InputData("use_azure_instance_compute_metadata_first")
-    input_data.add(Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_2)
+    input_data.add(
+        Specs.azure_instance_compute_metadata, AZURE_INSTANCE_COMPUTE_METADATA_2
+    )
     input_data.add(Specs.azure_instance_plan, AZURE_PLAN_3)
     result = run_test(system_profile, input_data)
     assert result.get("is_marketplace") is False

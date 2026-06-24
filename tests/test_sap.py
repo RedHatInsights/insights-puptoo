@@ -108,32 +108,37 @@ def test_sap():
     input_data.add(Specs.hostname, HOSTNAME)
     result = run_test(system_profile, input_data)
 
-    expected_sap_object = {'instance_number': '88', 'sap_system': True, 'sids': ['D89', 'D90']}
+    expected_sap_object = {
+        "instance_number": "88",
+        "sap_system": True,
+        "sids": ["D89", "D90"],
+    }
     assert result["workloads"]["sap"] == expected_sap_object
-
 
     input_data = InputData()
     input_data.add(Specs.saphostctl_getcimobject_sapinstance, SAP_DATA_1)
     input_data.add(Specs.hostname, HOSTNAME)
     result = run_test(system_profile, input_data)
 
-    expected_sap_object = {'instance_number': '90', 'sap_system': True, 'sids': ['D90']}
+    expected_sap_object = {"instance_number": "90", "sap_system": True, "sids": ["D90"]}
     assert result["workloads"]["sap"] == expected_sap_object
-
 
     input_data = InputData()
     input_data.add(Specs.saphostctl_getcimobject_sapinstance, SAP_DATA_3)
     input_data.add(Specs.hostname, HOSTNAME_3)
     result = run_test(system_profile, input_data)
 
-    expected_sap_object = {'sap_system': False}
+    expected_sap_object = {"sap_system": False}
     assert result["workloads"]["sap"] == expected_sap_object
-
 
     input_data = InputData()
     input_data.add(Specs.saphostctl_getcimobject_sapinstance, SAP_DATA_2)
     input_data.add(Specs.hostname, HOSTNAME_2)
     result = run_test(system_profile, input_data)
 
-    expected_sap_object = {'instance_number': '12', 'sap_system': True, 'sids': ['R4D', 'WDX']}
+    expected_sap_object = {
+        "instance_number": "12",
+        "sap_system": True,
+        "sids": ["R4D", "WDX"],
+    }
     assert result["workloads"]["sap"] == expected_sap_object

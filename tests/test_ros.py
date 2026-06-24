@@ -71,7 +71,11 @@ def test_ros():
 
     input_data = InputData("test_pmlog_summary_pcp_zeroconf_with_pcp_raw_data")
     input_data.add(Specs.pmlog_summary_pcp_zeroconf, PMLOG_SUMMARY_OUTPUT)
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
     assert result["is_ros_v2"] is True
@@ -84,10 +88,16 @@ def test_ros():
     assert result["is_ros_v2"] is True
     assert result["is_pcp_raw_data_collected"] is False
 
-    input_data = InputData("test_ros_collect_and_pmlog_summary_pcp_zeroconf_with_pcp_raw_data")
+    input_data = InputData(
+        "test_ros_collect_and_pmlog_summary_pcp_zeroconf_with_pcp_raw_data"
+    )
     input_data.add(Specs.pmlog_summary_pcp_zeroconf, PMLOG_SUMMARY_OUTPUT)
     input_data.add(Specs.insights_client_conf, INSIGHTS_CLIENT_CONF_ROS_COLLECT_HIT)
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
     assert result["is_ros_v2"] is True
@@ -96,9 +106,13 @@ def test_ros():
     # ### test for both collection ways ###
 
     input_data = InputData("test_both_way_collected")
-    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)   # old collection
+    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)  # old collection
     input_data.add(Specs.insights_client_conf, INSIGHTS_CLIENT_CONF_ROS_COLLECT_HIT)
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     input_data.add(Specs.pmlog_summary_pcp_zeroconf, PMLOG_SUMMARY_OUTPUT)
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
@@ -106,16 +120,20 @@ def test_ros():
     assert result["is_pcp_raw_data_collected"] is True
 
     input_data = InputData("test_both_way_collected_wo_pmlog_summary_pcp_zeroconf")
-    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)   # old collection
+    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)  # old collection
     input_data.add(Specs.insights_client_conf, INSIGHTS_CLIENT_CONF_ROS_COLLECT_HIT)
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
     assert result["is_ros_v2"] is True
     assert result["is_pcp_raw_data_collected"] is True
 
     input_data = InputData("test_both_way_collected_wo_pcp_raw_data")
-    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)   # old collection
+    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)  # old collection
     input_data.add(Specs.insights_client_conf, INSIGHTS_CLIENT_CONF_ROS_COLLECT_HIT)
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
@@ -123,17 +141,27 @@ def test_ros():
     assert result["is_pcp_raw_data_collected"] is False
 
     input_data = InputData("test_both_way_collected_wo_conf_file")
-    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)   # old collection
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)  # old collection
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     input_data.add(Specs.pmlog_summary_pcp_zeroconf, PMLOG_SUMMARY_OUTPUT)
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
     assert result["is_ros_v2"] is True
     assert result["is_pcp_raw_data_collected"] is True
 
-    input_data = InputData("test_both_way_collected_wo_conf_file_wo_pmlog_summary_pcp_zeroconf")
-    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)   # old collection
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data = InputData(
+        "test_both_way_collected_wo_conf_file_wo_pmlog_summary_pcp_zeroconf"
+    )
+    input_data.add(Specs.pmlog_summary, PMLOG_SUMMARY_OUTPUT)  # old collection
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     result = run_test(system_profile, input_data)
     assert result["is_ros"] is True
     assert result["is_ros_v2"] is False
@@ -150,7 +178,11 @@ def test_ros():
 
     input_data = InputData("test_ros_collect_but_nothit_2")
     input_data.add(Specs.insights_client_conf, INSIGHTS_CLIENT_CONF_ROS_COLLECT_UNHIT_2)
-    input_data.add(Specs.pcp_raw_data, PCP_RAW_DATA_FAKE_FILE, path="var/log/pcp/pmlogger/20240401.index")
+    input_data.add(
+        Specs.pcp_raw_data,
+        PCP_RAW_DATA_FAKE_FILE,
+        path="var/log/pcp/pmlogger/20240401.index",
+    )
     result = run_test(system_profile, input_data)
     assert "is_ros" not in result
     assert "is_ros_v2" not in result

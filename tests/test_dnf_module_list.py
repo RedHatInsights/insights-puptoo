@@ -177,13 +177,17 @@ def test_dnf_modules():
         assert module in EXPECTED
     assert len(result["dnf_modules"]) == len(EXPECTED)
 
-    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_WITH_INSTALLED_1)
+    input_data = InputData().add(
+        Specs.dnf_module_list, DNF_MODULE_LIST_WITH_INSTALLED_1
+    )
     result = run_test(system_profile, input_data)
     for module in result["dnf_modules"]:
         assert module in EXPECTED_DNF_MODULE_LIST_WITH_INSTALLED_1
     assert len(result["dnf_modules"]) == len(EXPECTED_DNF_MODULE_LIST_WITH_INSTALLED_1)
 
-    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_WITH_INSTALLED_2)
+    input_data = InputData().add(
+        Specs.dnf_module_list, DNF_MODULE_LIST_WITH_INSTALLED_2
+    )
     result = run_test(system_profile, input_data)
     for module in result["dnf_modules"]:
         assert module in EXPECTED_DNF_MODULE_LIST_WITH_INSTALLED_2
@@ -191,13 +195,21 @@ def test_dnf_modules():
 
 
 def test_dnf_modules_multi_sections():
-    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS_1)
+    input_data = InputData().add(
+        Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS_1
+    )
     result = run_test(system_profile, input_data)
-    assert result["dnf_modules"] == [{'name': 'nginx', 'stream': '1.22', "status": ["enabled"]}]
+    assert result["dnf_modules"] == [
+        {"name": "nginx", "stream": "1.22", "status": ["enabled"]}
+    ]
 
-    input_data = InputData().add(Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS_2)
+    input_data = InputData().add(
+        Specs.dnf_module_list, DNF_MODULE_LIST_MULTI_SECTIONS_2
+    )
     result = run_test(system_profile, input_data)
-    assert result["dnf_modules"] == [{'name': 'nginx', 'stream': '1.22', "status": ["enabled"]}]
+    assert result["dnf_modules"] == [
+        {"name": "nginx", "stream": "1.22", "status": ["enabled"]}
+    ]
 
 
 def test_dnf_modules_none_enabled():

@@ -5,7 +5,7 @@ IMAGE="quay.io/cloudservices/insights-puptoo"
 IMAGE_TAG=$IMAGE_TAG
 NETWORK="puptoo-test-$IMAGE_TAG"
 
-function teardown_docker {	
+function teardown_docker {
 	docker rm -f $TEST_CONTAINER_ID || true
 	docker network rm $NETWORK || true
 }
@@ -45,6 +45,3 @@ echo '====   ✔ SUCCESS: PASSED TESTS   ===='
 echo '====================================='
 
 teardown_docker
-
-
-

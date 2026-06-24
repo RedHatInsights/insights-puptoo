@@ -26,29 +26,30 @@ DATA_0 = """
 }
 """.strip()
 
+
 def test_is_runtimes():
 
     input_data = InputData().add(Specs.eap_json_reports, None)
     result = run_test(system_profile, input_data)
-    assert result.get("is_runtimes") == None
+    assert result.get("is_runtimes") is None
 
     input_data = InputData().add(Specs.eap_json_reports, DATA_0)
     result = run_test(system_profile, input_data)
-    assert result.get("is_runtimes") == True
+    assert result.get("is_runtimes") is True
 
     operation = "add_host"
     data = {
-                "insights_id": "cdbd-2e23-cdef-1234",
-                "fqdn": "something.example.com",
-                "ip_addresses": ["192.168.0.1", "127.0.0.1"],
-                "bios_uuid": "12335kjlj"
-           }
+        "insights_id": "cdbd-2e23-cdef-1234",
+        "fqdn": "something.example.com",
+        "ip_addresses": ["192.168.0.1", "127.0.0.1"],
+        "bios_uuid": "12335kjlj",
+    }
     metadata = {
-                    "account": "123456",
-                    "org_id": "654321",
-                    "request_id": "abcd-1234",
-                    "is_runtimes": result["is_runtimes"]
-               }
+        "account": "123456",
+        "org_id": "654321",
+        "request_id": "abcd-1234",
+        "is_runtimes": result["is_runtimes"],
+    }
 
     message = msgs.inv_message(operation, data, metadata)
-    assert message["platform_metadata"]["is_runtimes"] == True
+    assert message["platform_metadata"]["is_runtimes"]

@@ -60,31 +60,33 @@ SUBSCRIPTION_MANAGER_SYSPURPOSE_6 = """
 
 def test_system_purpose():
     input_data = InputData("test_system_purpose_with_all_values")
-    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_1)
+    input_data.add(
+        Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_1
+    )
     result = run_test(system_profile, input_data)
     assert result["system_purpose"] == {
         "role": "Red Hat Enterprise Linux Server",
         "sla": "Standard",
-        "usage": "Development/Test"
+        "usage": "Development/Test",
     }
 
     input_data = InputData("test_system_purpose_with_some_values")
-    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_2)
+    input_data.add(
+        Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_2
+    )
     result = run_test(system_profile, input_data)
     assert result["system_purpose"] == {
         "role": "",
         "sla": "",
-        "usage": "Development/Test"
+        "usage": "Development/Test",
     }
 
     input_data = InputData("test_system_purpose_with_no_values")
-    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_3)
+    input_data.add(
+        Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_3
+    )
     result = run_test(system_profile, input_data)
-    assert result["system_purpose"] == {
-        "role": "",
-        "sla": "",
-        "usage": ""
-    }
+    assert result["system_purpose"] == {"role": "", "sla": "", "usage": ""}
 
     input_data = InputData("test_system_purpose_without_fact")
     input_data.add(Specs.subscription_manager_syspurpose, "")
@@ -92,28 +94,30 @@ def test_system_purpose():
     assert "system_purpose" not in result
 
     input_data = InputData("test_system_purpose_with_not_validlisted_values")
-    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_4)
+    input_data.add(
+        Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_4
+    )
     result = run_test(system_profile, input_data)
     assert result["system_purpose"] == {
         "role": "RHEL Server",
         "sla": "Dev-Professional",
-        "usage": "glb8_ready"
+        "usage": "glb8_ready",
     }
 
     input_data = InputData("test_system_purpose_with_valid_listed_none_values")
-    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_5)
+    input_data.add(
+        Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_5
+    )
     result = run_test(system_profile, input_data)
     assert result["system_purpose"] == {
         "role": "RHEL Server",
         "sla": "None",
-        "usage": "glb8_ready"
+        "usage": "glb8_ready",
     }
 
     input_data = InputData("test_system_purpose_with_valid_listed_wo_values")
-    input_data.add(Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_6)
+    input_data.add(
+        Specs.subscription_manager_syspurpose, SUBSCRIPTION_MANAGER_SYSPURPOSE_6
+    )
     result = run_test(system_profile, input_data)
-    assert result["system_purpose"] == {
-        "role": "",
-        "sla": "",
-        "usage": ""
-    }
+    assert result["system_purpose"] == {"role": "", "sla": "", "usage": ""}

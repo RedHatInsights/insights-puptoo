@@ -29,6 +29,7 @@ IB_FACTS_BLUEPRINT_ONLY = """
 }
 """.strip()
 
+
 def test_image_builder_facts():
     input_data = InputData().add(Specs.image_builder_facts, IB_FACTS)
     result = run_test(system_profile, input_data)
@@ -49,6 +50,7 @@ def test_image_builder_facts():
     input_data = InputData().add(Specs.image_builder_facts, IB_FACTS_EMPTY)
     result = run_test(system_profile, input_data)
     assert "image_builder" not in result
+
 
 def test_image_builder_blueprint_id_only():
     input_data = InputData().add(Specs.image_builder_facts, IB_FACTS_BLUEPRINT_ONLY)

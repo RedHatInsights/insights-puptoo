@@ -23,49 +23,49 @@ AWS_INSTANCE_ID_DOC_TEMPLATE = """
 }""".strip()
 
 # Only marketplace_product_codes
-AWS_INSTANCE_ID_DOC_1 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # True
-                            '[ "1abc2defghijklm3nopqrs4tu" ]',
-                            'null',
-                        )
-AWS_INSTANCE_ID_DOC_2 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # True
-                            '[ "1abc2defghijklm3nopqrs4tu" ]',
-                            '[ ]',
-                        )
+AWS_INSTANCE_ID_DOC_1 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # True
+    '[ "1abc2defghijklm3nopqrs4tu" ]',
+    "null",
+)
+AWS_INSTANCE_ID_DOC_2 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # True
+    '[ "1abc2defghijklm3nopqrs4tu" ]',
+    "[ ]",
+)
 # Only billing_products
-AWS_INSTANCE_ID_DOC_3 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # False
-                            'null',
-                            '[ "bp-63a5400a" ]',
-                        )
-AWS_INSTANCE_ID_DOC_4 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # True
-                            'null',
-                            '[ "bp-6ba54002" ]',
-                        )
-AWS_INSTANCE_ID_DOC_5 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # True
-                            'null',
-                            '[ "bp-6ba54002", "bp-63a5400a" ]',
-                        )
+AWS_INSTANCE_ID_DOC_3 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # False
+    "null",
+    '[ "bp-63a5400a" ]',
+)
+AWS_INSTANCE_ID_DOC_4 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # True
+    "null",
+    '[ "bp-6ba54002" ]',
+)
+AWS_INSTANCE_ID_DOC_5 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # True
+    "null",
+    '[ "bp-6ba54002", "bp-63a5400a" ]',
+)
 # Both exist
-AWS_INSTANCE_ID_DOC_6 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # False
-                            '[ "1abc2defghijklm3nopqrs4tu" ]',
-                            '[ "bp-63a5400a" ]',
-                        )
-AWS_INSTANCE_ID_DOC_7 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # True
-                            '[ "1abc2defghijklm3nopqrs4tu" ]',
-                            '[ "bp-6ba54002" ]',
-                        )
-AWS_INSTANCE_ID_DOC_8 = AWS_INSTANCE_ID_DOC_TEMPLATE % (    # True
-                            '[ "1abc2defghijklm3nopqrs4tu" ]',
-                            '[ "bp-6ba54002", "bp-63a5400a" ]'
-                        )
+AWS_INSTANCE_ID_DOC_6 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # False
+    '[ "1abc2defghijklm3nopqrs4tu" ]',
+    '[ "bp-63a5400a" ]',
+)
+AWS_INSTANCE_ID_DOC_7 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # True
+    '[ "1abc2defghijklm3nopqrs4tu" ]',
+    '[ "bp-6ba54002" ]',
+)
+AWS_INSTANCE_ID_DOC_8 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # True
+    '[ "1abc2defghijklm3nopqrs4tu" ]',
+    '[ "bp-6ba54002", "bp-63a5400a" ]',
+)
 # Both empty
 AWS_INSTANCE_ID_DOC_EMPTY_1 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # False
-                            'null',
-                            'null',
-                        )
+    "null",
+    "null",
+)
 AWS_INSTANCE_ID_DOC_EMPTY_2 = AWS_INSTANCE_ID_DOC_TEMPLATE % (  # False
-                            '[]',
-                            '[]',
-                        )
+    "[]",
+    "[]",
+)
 
 
 def test_azure_instance_plan():

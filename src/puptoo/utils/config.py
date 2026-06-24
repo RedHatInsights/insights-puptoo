@@ -5,7 +5,12 @@ APP_NAME = os.getenv("APP_NAME", "insights-puptoo")
 
 logger = logging.getLogger(APP_NAME)
 
-CLOWDER_ENABLED = True if os.getenv("CLOWDER_ENABLED", default="False").lower() in ["true", "t", "yes", "y"] else False
+CLOWDER_ENABLED = (
+    True
+    if os.getenv("CLOWDER_ENABLED", default="False").lower()
+    in ["true", "t", "yes", "y"]
+    else False
+)
 
 
 def log_config():
@@ -18,9 +23,11 @@ def log_config():
             logger.info("Using %s: %s", k, v)
 
     if CLOWDER_ENABLED:
-        logger.info("Using CLOWDAPP KAFKA_BROKER: %s:%s",
-                    LoadedConfig.kafka.brokers[0].hostname,
-                    LoadedConfig.kafka.brokers[0].port)
+        logger.info(
+            "Using CLOWDAPP KAFKA_BROKER: %s:%s",
+            LoadedConfig.kafka.brokers[0].hostname,
+            LoadedConfig.kafka.brokers[0].port,
+        )
 
 
 def get_namespace():
@@ -36,20 +43,39 @@ def get_namespace():
 if CLOWDER_ENABLED:
     logger.info("Using Clowder Operator...")
     from app_common_python import LoadedConfig, KafkaTopics, KafkaServers
+
     BOOTSTRAP_SERVERS = KafkaServers
     KAFKA_BROKER = LoadedConfig.kafka.brokers[0]
-    ANNOUNCE_TOPIC = os.getenv("ANNOUNCE_TOPIC", KafkaTopics["platform.upload.announce"].name)
-    INVENTORY_TOPIC = os.getenv("INVENTORY_TOPIC") or KafkaTopics["platform.inventory.host-ingress-p1"].name
-    VALIDATION_TOPIC = os.getenv("VALIDATION_TOPIC", KafkaTopics["platform.upload.validation"].name)
-    TRACKER_TOPIC = os.getenv("TRACKER_TOPIC", KafkaTopics["platform.payload-status"].name)
+    ANNOUNCE_TOPIC = os.getenv(
+        "ANNOUNCE_TOPIC", KafkaTopics["platform.upload.announce"].name
+    )
+    INVENTORY_TOPIC = (
+        os.getenv("INVENTORY_TOPIC")
+        or KafkaTopics["platform.inventory.host-ingress-p1"].name
+    )
+    VALIDATION_TOPIC = os.getenv(
+        "VALIDATION_TOPIC", KafkaTopics["platform.upload.validation"].name
+    )
+    TRACKER_TOPIC = os.getenv(
+        "TRACKER_TOPIC", KafkaTopics["platform.payload-status"].name
+    )
     PROMETHEUS_PORT = int(os.getenv("PROMETHEUS_PORT", LoadedConfig.metricsPort))
     LOG_GROUP = os.getenv("LOG_GROUP", LoadedConfig.logging.cloudwatch.logGroup)
 
     # Storage secrets
-    BUCKET_NAME = os.getenv("PUPTOO_BUCKET", LoadedConfig.objectStore.buckets[0].requestedName)
-    S3_ENDPOINT = os.getenv("S3_ENDPOINT", f'{LoadedConfig.objectStore.hostname}:{LoadedConfig.objectStore.port}')
-    AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey)
-    AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey)
+    BUCKET_NAME = os.getenv(
+        "PUPTOO_BUCKET", LoadedConfig.objectStore.buckets[0].requestedName
+    )
+    S3_ENDPOINT = os.getenv(
+        "S3_ENDPOINT",
+        f"{LoadedConfig.objectStore.hostname}:{LoadedConfig.objectStore.port}",
+    )
+    AWS_ACCESS_KEY = os.getenv(
+        "STORAGE_ACCESS_KEY", LoadedConfig.objectStore.buckets[0].accessKey
+    )
+    AWS_SECRET_KEY = os.getenv(
+        "STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey
+    )
     USE_SSL = os.getenv("USE_SSL", LoadedConfig.objectStore.tls)
     REDIS_HOST = LoadedConfig.inMemoryDb.hostname
     REDIS_PORT = LoadedConfig.inMemoryDb.port
@@ -71,8 +97,12 @@ else:
     # Storage secrets
     BUCKET_NAME = os.getenv("PUPTOO_BUCKET", "insights-upload-puptoo")
     S3_ENDPOINT = os.getenv("S3_ENDPOINT", "minio:9000")
-    AWS_ACCESS_KEY = os.getenv("STORAGE_ACCESS_KEY", os.getenv("MINIO_ACCESS_KEY", None))
-    AWS_SECRET_KEY = os.getenv("STORAGE_SECRET_KEY", os.getenv("MINIO_SECRET_KEY", None))
+    AWS_ACCESS_KEY = os.getenv(
+        "STORAGE_ACCESS_KEY", os.getenv("MINIO_ACCESS_KEY", None)
+    )
+    AWS_SECRET_KEY = os.getenv(
+        "STORAGE_SECRET_KEY", os.getenv("MINIO_SECRET_KEY", None)
+    )
     USE_SSL = os.getenv("USE_SSL", False)
     REDIS_HOST = os.getenv("REDIS_HOST", "redis")
     REDIS_PORT = os.getenv("REDIS_PORT", 6379)
@@ -93,4 +123,6 @@ KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
 DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "false").lower() == "true" else False
 REDIS_SSL = True if REDIS_PASSWORD else False
-DISABLE_S3_UPLOAD = True if os.getenv("DISABLE_S3_UPLOAD", "false").lower() == "true" else False
+DISABLE_S3_UPLOAD = (
+    True if os.getenv("DISABLE_S3_UPLOAD", "false").lower() == "true" else False
+)

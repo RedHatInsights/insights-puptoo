@@ -8,6 +8,7 @@ from insights import extract as extract_archive
 
 from .profile import get_system_profile, postprocess
 from ..utils import config, metrics
+
 logger = logging.getLogger(config.APP_NAME)
 
 
@@ -21,14 +22,14 @@ def validate_size(path, extra):
     """
     reject payloads where the extracted size exceeds the configured max
     """
-    total_size = sum(p.stat().st_size for p in Path(path).rglob('*'))
+    total_size = sum(p.stat().st_size for p in Path(path).rglob("*"))
     metrics.msg_extraction_size.observe(total_size)
     if total_size >= int(config.MAX_EXTRACTED_SIZE):
         metrics.msg_size_exceeded.inc()
         logger.info(
             "Unpacked archive exceeds extracted file size limit of %s, request_id: %s",
             config.MAX_EXTRACTED_SIZE,
-            extra["request_id"]
+            extra["request_id"],
         )
         # TODO: actively reject payloads that exceed our configured max size
     elif total_size >= int(config.MAX_EXTRACTED_SIZE_L2):
@@ -37,7 +38,7 @@ def validate_size(path, extra):
             "Unpacked archive exceeds extracted file size limit of %s (but within limit %s), request_id: %s",
             config.MAX_EXTRACTED_SIZE_L2,
             config.MAX_EXTRACTED_SIZE,
-            extra["request_id"]
+            extra["request_id"],
         )
 
 

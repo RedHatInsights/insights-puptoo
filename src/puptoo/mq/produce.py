@@ -5,9 +5,7 @@ from ..utils import config
 
 def init_producer():
 
-    connection_info = {
-        "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)
-    }
+    connection_info = {"bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)}
 
     if config.KAFKA_BROKER:
         if config.KAFKA_BROKER.cacert:

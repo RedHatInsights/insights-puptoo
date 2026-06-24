@@ -67,6 +67,7 @@ NO_LOGS = """
 WARNING: No greenboot logs were found!
 """.strip()
 
+
 def test_greenboot_status_green():
     input_data = InputData().add(Specs.greenboot_status, GREEN)
     result = run_test(system_profile, input_data)
@@ -87,8 +88,9 @@ def test_greenboot_status_fallback():
     assert result["greenboot_status"] == "green"
     assert result["greenboot_fallback_detected"] is True
 
+
 def test_greenboot_no_logs():
     input_data = InputData().add(Specs.greenboot_status, NO_LOGS)
     result = run_test(system_profile, input_data)
-    assert result.get("greenboot_status") == None
+    assert result.get("greenboot_status") is None
     assert result["greenboot_fallback_detected"] is False

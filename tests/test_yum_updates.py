@@ -73,6 +73,6 @@ def test_uname():
     result = run_test(system_profile, input_data)
     assert len(result["yum_updates"]["update_list"]) == 3
     pkg = result["yum_updates"]["update_list"]["audit-0:3.0.7-4.el8.x86_64"]
-    assert pkg['available_updates'][0]["erratum"] == "RHBA-2023:7157"
+    assert pkg["available_updates"][0]["erratum"] == "RHBA-2023:7157"
     assert result["releasever"] == "8"
     assert result["basearch"] == "x86_64"

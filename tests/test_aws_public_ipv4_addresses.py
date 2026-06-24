@@ -33,15 +33,18 @@ AWS_CURL_ERROR_2 = """
 </html>
 """
 
+
 def test_aws_public_ipv4_addresses():
-    input_data = InputData().add(Specs.aws_public_ipv4_addresses, AWSPUBLICIPV4ADDRESSES)
+    input_data = InputData().add(
+        Specs.aws_public_ipv4_addresses, AWSPUBLICIPV4ADDRESSES
+    )
     result = run_test(system_profile, input_data)
     assert result["public_ipv4_addresses"] == ["1.2.3.4"]
 
     input_data = InputData().add(Specs.aws_public_ipv4_addresses, AWS_CURL_ERROR_1)
     result = run_test(system_profile, input_data)
-    assert result.get("public_ipv4_addresses") == None
+    assert result.get("public_ipv4_addresses") is None
 
     input_data = InputData().add(Specs.aws_public_ipv4_addresses, AWS_CURL_ERROR_2)
     result = run_test(system_profile, input_data)
-    assert result.get("public_ipv4_addresses") == None
+    assert result.get("public_ipv4_addresses") is None
