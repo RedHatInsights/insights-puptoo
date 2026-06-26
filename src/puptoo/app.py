@@ -1,20 +1,15 @@
 import json
 import os
 import signal
-import re
-from datetime import datetime, timedelta
 from functools import partial
 from time import time
-from base64 import b64decode
 
 from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
-from .upload import upload_object
 
-from .process import extract
-from .process.profile import MAC_REGEX
-from .mq import consume, msgs, produce
-from .utils import config, metrics, puptoo_logging, validators
+from .handlers import get_handler
+from .mq import consume, produce
+from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
 from redis import Redis
 
@@ -42,28 +37,6 @@ def get_extra(account="unknown", org_id="unknown", request_id="unknown"):
     threadctx.account = account
     threadctx.org_id = org_id
     return {"account": account, "org_id": org_id, "request_id": request_id}
-
-
-def get_staletime():
-    the_time = datetime.now() + timedelta(hours=29)
-    return the_time.astimezone().isoformat()
-
-
-def get_owner(ident):
-    s = b64decode(ident).decode("utf-8")
-    identity = json.loads(s)
-    if identity["identity"].get("system"):
-        owner_id = identity["identity"]["system"].get("cn")
-        return owner_id
-
-
-def clean_macs(facts):
-    if facts["metadata"].get("mac_addresses"):
-        m = re.compile(MAC_REGEX)
-        facts["metadata"]["mac_addresses"] = [
-            mac for mac in facts["metadata"]["mac_addresses"] if m.match(mac)
-        ]
-    return facts
 
 
 producer = None
@@ -147,13 +120,14 @@ def main():
                 service = dict(msg.headers() or []).get("service")
                 if service:
                     service = service.decode("utf-8")
-                    if service in ["advisor", "compliance", "malware-detection"]:
+                    handler = get_handler(service)
+                    if handler:
                         msg = json.loads(msg.value().decode("utf-8"))
                         extra = get_extra(
                             msg.get("account"), msg.get("org_id"), msg.get("request_id")
                         )
                         handle_retries(redis, extra["request_id"])
-                        handle_message(msg, service, extra)
+                        handler.handle(msg, service, extra, send_message=send_message)
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
@@ -166,22 +140,6 @@ def main():
         producer.flush()
     except Exception:
         logger.exception("Puptoo failed with Error")
-
-
-def process_archive(msg, extra):
-    metrics.extraction_count.inc()
-    facts = extract(msg, extra)
-    if facts.get("error"):
-        metrics.extract_failure.inc()
-        raise Exception("process_archive failure", facts.get("error"))
-    logger.debug(
-        "extracted facts from message for %s\nMessage: %s\nFacts: %s",
-        extra["request_id"],
-        msg,
-        facts,
-    )
-    metrics.extract_success.inc()
-    return facts
 
 
 def delivery_report(err, msg=None, extra=None):
@@ -226,109 +184,6 @@ def send_message(topic, msg, extra):
         metrics.msg_send_failure.labels(topic).inc()
         logger.exception(
             "Failed to produce message to [%s] topic: %s", topic, extra["request_id"]
-        )
-
-
-def handle_message(msg, service, extra):
-    msg["elapsed_time"] = time()
-    logger.info("received request_id: %s", extra["request_id"])
-    send_message(
-        config.TRACKER_TOPIC,
-        msgs.tracker_message(extra, "received", "Received message"),
-        extra,
-    )
-    metrics.msg_processed_count.labels(service).inc()
-
-    try:
-        # Facts extraction
-        facts = {}
-        if service == "advisor":
-            facts = process_archive(msg, extra)
-        elif service in ["compliance", "malware-detection"]:
-            facts = msg.get("metadata")
-        else:
-            raise Exception("Unsupported service type.")
-
-        # Facts validation
-        if not facts:
-            raise Exception("Empty facts extracted.")
-        if not validators.validateCanonicalFacts(facts):
-            raise Exception("Missing canonical fact(s).")
-
-        # Facts refinement
-        yum_updates = None
-        facts["stale_timestamp"] = get_staletime()
-        facts["reporter"] = "puptoo"
-        if facts.get("metadata"):
-            clean_macs(facts)
-        if facts.get("system_profile"):
-            owner_id = get_owner(msg["b64_identity"])
-            if owner_id:
-                facts["system_profile"]["owner_id"] = owner_id
-            if facts["system_profile"].get("is_ros"):
-                msg["is_ros"] = True
-            if facts["system_profile"].get("is_ros_v2"):
-                msg["is_ros_v2"] = True
-            if facts["system_profile"].get("is_pcp_raw_data_collected"):
-                msg["is_pcp_raw_data_collected"] = True
-            if facts["system_profile"].get("is_runtimes"):
-                msg["is_runtimes"] = True
-            if facts["system_profile"].get("yum_updates"):
-                yum_updates = facts["system_profile"].get("yum_updates")
-                # delete yum_updates from system_profile as it is already present under custom_metadata
-                del facts["system_profile"]["yum_updates"]
-
-        # Override archive hostname with name provided by client metadata
-        if msg["metadata"].get("display_name"):
-            facts["display_name"] = msg["metadata"]["display_name"]
-        if msg["metadata"].get("ansible_host"):
-            facts["ansible_host"] = msg["metadata"]["ansible_host"]
-
-        # Upload yum_updates to s3
-        if yum_updates and not config.DISABLE_S3_UPLOAD:
-            try:
-                upload_object(yum_updates, extra, msg)
-            except:
-                logger.exception("Error occurred while uploading object.")
-
-    except Exception as e:
-        metrics.msg_processed_failure.labels(service).inc()
-        logger.exception(
-            "Failed to process message of %s service: %s: %s",
-            service,
-            extra["request_id"],
-            str(e),
-        )
-        send_message(
-            config.TRACKER_TOPIC,
-            msgs.tracker_message(
-                extra,
-                "error",
-                "Unable to extract facts of %s service: %s" % (service, str(e)),
-            ),
-            extra,
-        )
-        send_message(
-            config.VALIDATION_TOPIC,
-            msgs.validation_message(msg, facts, "failure"),
-            extra,
-        )
-        send_message(
-            config.TRACKER_TOPIC,
-            msgs.tracker_message(
-                extra, "failed", "Validation failure. Message sent to storage broker"
-            ),
-            extra,
-        )
-    else:
-        metrics.msg_processed_success.labels(service).inc()
-        send_message(
-            config.INVENTORY_TOPIC, msgs.inv_message("add_host", facts, msg), extra
-        )
-        send_message(
-            config.TRACKER_TOPIC,
-            msgs.tracker_message(extra, "success", "Message sent to inventory"),
-            extra,
         )
 
 
