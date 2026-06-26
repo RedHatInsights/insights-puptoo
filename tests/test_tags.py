@@ -13,7 +13,10 @@ TAGS = """
 @pytest.mark.parametrize(
     "input_tags, expected_tags",
     [
-        ([{"namespace": "ns1", "key": "key1", "value": "value1"}], {"ns1": {"key1": ["value1"]}}),
+        (
+            [{"namespace": "ns1", "key": "key1", "value": "value1"}],
+            {"ns1": {"key1": ["value1"]}},
+        ),
         (
             [{"namespace": "insights-client", "key": "key1", "value": "value1"}],
             {"insights-client": {"key1": ["value1"]}},
@@ -41,7 +44,10 @@ TAGS = """
                 "ns2": {"key2": ["value1", "value3"], "key3": ["value3", "value4"]},
             },
         ),
-        ([{"key": "key1", "value": "value1"}], {"insights-client": {"key1": ["value1"]}}),
+        (
+            [{"key": "key1", "value": "value1"}],
+            {"insights-client": {"key1": ["value1"]}},
+        ),
         ([{"namespace": "ns1", "key": "key1", "value": 1}], {"ns1": {"key1": ["1"]}}),
         ([{"namespace": "ns1", "key": "key1", "value": None}], {"ns1": {"key1": []}}),
         (
@@ -97,4 +103,4 @@ def test_format_tags(input_tags, expected_tags):
 def test_tags():
     input_data = InputData().add(Specs.tags, TAGS)
     result = run_test(system_profile, input_data)
-    assert result['tags'] == format_tags(json.loads(TAGS))
+    assert result["tags"] == format_tags(json.loads(TAGS))

@@ -30,7 +30,13 @@ def non_clowder_config():
     aws_region_name = os.getenv("AWS_REGION_NAME", None)
     aws_log_group = os.getenv("AWS_LOG_GROUP", "platform")
     create_log_group = str(os.getenv("AWS_CREATE_LOG_GROUP")).lower() == "true"
-    return aws_access_key_id, aws_secret_access_key, aws_region_name, aws_log_group, create_log_group
+    return (
+        aws_access_key_id,
+        aws_secret_access_key,
+        aws_region_name,
+        aws_log_group,
+        create_log_group,
+    )
 
 
 def initialize_logging():
@@ -51,15 +57,23 @@ def initialize_logging():
     else:
         f = non_clowder_config
 
-    aws_access_key_id, aws_secret_access_key, aws_region_name, aws_log_group, create_log_group = f()
+    (
+        aws_access_key_id,
+        aws_secret_access_key,
+        aws_region_name,
+        aws_log_group,
+        create_log_group,
+    ) = f()
 
     if all((aws_access_key_id, aws_secret_access_key, aws_region_name, aws_log_group)):
         from boto3.session import Session
         import watchtower
 
-        boto3_session = Session(aws_access_key_id=aws_access_key_id,
-                                aws_secret_access_key=aws_secret_access_key,
-                                region_name=aws_region_name)
+        boto3_session = Session(
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=aws_region_name,
+        )
         boto3_client = boto3_session.client("logs")
 
         # configure logging to use watchtower

@@ -1,13 +1,13 @@
 # Platform Upload Processor II
 
-The Platform Upload Processor II (PUPTOO) is designed to recieve payloads for the `advisor` service
+The Platform Upload Processor II (PUPTOO) is designed to receive payloads for the `advisor` service
 via the message queue, extract facts from the payload, forward the information to the inventory
 service.
 
 ## Details
 
 The PUPTOO service is a component of the Insights Platform that validates the payloads uploaded
-to Red Hat by the insights-client. The service is engaged after an upload has been recieved and stored in
+to Red Hat by the insights-client. The service is engaged after an upload has been received and stored in
 cloud storage.
 
 PUPTOO retrieves payloads via URL in the message, processes it through
@@ -21,10 +21,10 @@ The service runs in Openshift Dedicated.
 
 The PUP service workflow is as follows:
 
-- Recieve a message from `platform.upload.advisor` topic in the MQ
+- Receive a message from `platform.upload.advisor` topic in the MQ
 - PUP downloads the archive from the url specified in the message
 - Insights Core is engaged to open the tar file and extract the facts as determined by the `get_canonical_facts` method in insights-core
-- During extraction it also runs a custom `system-profile` ruleset to extract more information about the ssytem
+- During extraction it also runs a custom `system-profile` ruleset to extract more information about the system
 - PUP sends the result to inventory via the message queue
 
 ### The Compliance Situation
@@ -103,19 +103,30 @@ PUPTOO does expect a kafka message queue to be available for connection.
 
 #### Prerequisites
 
-- python3
+- Python 3.11
+- [uv](https://docs.astral.sh/uv/) - Python package and project manager
+- [pre-commit](https://pre-commit.com/) - Git hook framework
 
-- optional:
-  - [uv](https://docs.astral.sh/uv/)
+#### Setting up the development environment
 
-#### Python
-
-Create a virtualenv using pipenv and install requirements. Once complete you can start the app by running `puptoo`
+Install dependencies and set up pre-commit hooks:
 
 ```sh
-python -m venv path/to/venv
-source path/to/venv/bin/activate
-pip3 install .
+uv sync
+pre-commit install
+```
+
+`uv sync` creates a virtual environment in `.venv/` and installs all project and dev dependencies from `uv.lock`.
+
+Pre-commit hooks run automatically on every commit to enforce code quality:
+- **ruff** - linting (with auto-fix) and formatting
+- **trailing-whitespace** / **end-of-file-fixer** - whitespace hygiene
+- **check-yaml** / **check-merge-conflict** - file integrity checks
+
+To run the hooks manually against all files:
+
+```sh
+pre-commit run --all-files
 ```
 
 #### Running Locally
@@ -123,13 +134,19 @@ pip3 install .
 Activate your virtual environment and run the validator
 
 ```sh
-source path/to/venv/bin/activate
+source .venv/bin/activate
 puptoo
+```
+
+Or run directly with uv:
+
+```sh
+uv run puptoo
 ```
 
 #### Running with Docker Compose
 
-Two docker-compose files are made available in this repo for standing up a local dev environment. The `docker-compose.yml` file stands up putoo, kafka, and minio for isolated tested. The `full-stack.yml` file stands up ingress, kafka, puptoo, minio, and inventory components so that the entire first bits of the platform pipeline can be tested.
+Two docker-compose files are made available in this repo for standing up a local dev environment. The `docker-compose.yml` file stands up puptoo, kafka, and minio for isolated tested. The `full-stack.yml` file stands up ingress, kafka, puptoo, minio, and inventory components so that the entire first bits of the platform pipeline can be tested.
 
 Stand Up Isolated Puptoo
 
@@ -153,7 +170,7 @@ cd dev && source .env && sudo docker-compose -f full-stack-mac.yml up
 
 #### Bonfire
 
-Deploying with bonfire to an ephemeral environmnet is the preferred way to test puptoo. See the [bonfire documentation](https://clouddot.pages.redhat.com/docs/dev/getting-started/ephemeral/deploying.html) for more information.
+Deploying with bonfire to an ephemeral environment is the preferred way to test puptoo. See the [bonfire documentation](https://clouddot.pages.redhat.com/docs/dev/getting-started/ephemeral/deploying.html) for more information.
 
 ## File Processing
 
@@ -225,7 +242,7 @@ inside a real archive, and the test itself should be written and provided in the
 ## Running unit tests
 
 ```sh
-    ACG_CONFIG=./cdappconfig.json pytest
+ACG_CONFIG=./cdappconfig.json uv run pytest tests/
 ```
 
 ## Versioning

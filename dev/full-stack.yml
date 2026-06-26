@@ -1,7 +1,7 @@
 # This docker-compose file will stand up the entire stack including ingress and inventory.
 # The steps for buidling those images are out of scope, but this will reference them if they exist.
 # This docker compose file will stand up the minimal components necessary for
-# Puptoo to work. Nothing is stood up for uploads or to consume the inventory 
+# Puptoo to work. Nothing is stood up for uploads or to consume the inventory
 # messages.
 version: "3"
 services:
@@ -125,7 +125,7 @@ services:
       - INVENTORY_DB_NAME=insights
       - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
       - PAYLOAD_TRACKER_ENABLED=false
-      - PROMETHEUS_MULTIPROC_DIR=/tmp  # required env by insights-inventory-web 
+      - PROMETHEUS_MULTIPROC_DIR=/tmp  # required env by insights-inventory-web
       - BYPASS_RBAC="true"
       - BYPASS_UNLEASH="true"
       - BYPASS_XJOIN="true"
@@ -151,4 +151,3 @@ services:
       POSTGRES_DB: insights
     ports:
       - "5432:5432"
-

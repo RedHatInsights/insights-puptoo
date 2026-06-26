@@ -37,9 +37,11 @@ warning: Signature not supported. Hash algorithm SHA1 not available.
 {"name":"gpg-pubkey","epoch":"(none)","version":"d4082792","release":"5b32db75","arch":"(none)","installtime":"Tue Feb 23 08:27:53 2021","buildtime":"1530059637","vendor":"(none)","buildhost":"localhost","sigpgp":"(none)"}
 """.strip().splitlines()
 
+
 @pytest.fixture
 def rpms():
     return InstalledRpms(context_wrap(RPM_DATA))
+
 
 @pytest.fixture
 def rpms_with_warnings():
@@ -88,7 +90,7 @@ def test_with_warnings_get_gpg_pubkey_packages(rpms_with_warnings):
 def test_with_warnings_get_latest_packages(rpms_with_warnings):
     pkgs = _get_latest_packages(rpms_with_warnings)
     assert len(pkgs) == len(RPM_DATA_1) - 4
-    assert rpms_with_warnings.get_max('fonts-filesystem') in pkgs
+    assert rpms_with_warnings.get_max("fonts-filesystem") in pkgs
 
 
 def test_with_warnings_get_stale_packages(rpms_with_warnings):

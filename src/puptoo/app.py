@@ -29,7 +29,7 @@ logger = puptoo_logging.initialize_logging()
 
 
 def write_cert(cert):
-    with open('/tmp/cacert', 'w') as f:
+    with open("/tmp/cacert", "w") as f:
         f.write(cert)
 
 
@@ -60,7 +60,9 @@ def get_owner(ident):
 def clean_macs(facts):
     if facts["metadata"].get("mac_addresses"):
         m = re.compile(MAC_REGEX)
-        facts["metadata"]["mac_addresses"] = [mac for mac in facts["metadata"]["mac_addresses"] if m.match(mac)]
+        facts["metadata"]["mac_addresses"] = [
+            mac for mac in facts["metadata"]["mac_addresses"] if m.match(mac)
+        ]
     return facts
 
 
@@ -75,8 +77,12 @@ def handle_signal(signal, frame):
 
 
 def redis_client():
-    return Redis(host=config.REDIS_HOST, port=config.REDIS_PORT,
-                 password=config.REDIS_PASSWORD, ssl=config.REDIS_SSL)
+    return Redis(
+        host=config.REDIS_HOST,
+        port=config.REDIS_PORT,
+        password=config.REDIS_PASSWORD,
+        ssl=config.REDIS_SSL,
+    )
 
 
 def handle_retries(redis, request_id):
@@ -86,7 +92,9 @@ def handle_retries(redis, request_id):
     if not count:
         count = 0
     if int(count) == 3:
-        raise Exception("Message process attempts exceeded for request_id: %s", request_id)
+        raise Exception(
+            "Message process attempts exceeded for request_id: %s", request_id
+        )
     else:
         count = int(count) + 1
         redis.set(request_id, count, ex=3600)
@@ -126,7 +134,9 @@ def main():
                 logger.error("Consumer error: %s", msg.error())
                 metrics.kafka_consume_msg_failure_count.inc()
                 # Known kafka msg error that pod exiting for: SESSTMOUT, MAXPOLL
-                logger.error("Puptoo exiting on kafka consumer poll error to let the pod be recreated!")
+                logger.error(
+                    "Puptoo exiting on kafka consumer poll error to let the pod be recreated!"
+                )
                 os._exit(os.EX_SOFTWARE)
 
             now = time()
@@ -134,12 +144,14 @@ def main():
             start = now
             try:
                 metrics.kafka_consume_msg_count.inc()
-                service = dict(msg.headers() or []).get('service')
+                service = dict(msg.headers() or []).get("service")
                 if service:
                     service = service.decode("utf-8")
-                    if service in ['advisor', 'compliance', 'malware-detection']:
+                    if service in ["advisor", "compliance", "malware-detection"]:
                         msg = json.loads(msg.value().decode("utf-8"))
-                        extra = get_extra(msg.get("account"), msg.get("org_id"), msg.get("request_id"))
+                        extra = get_extra(
+                            msg.get("account"), msg.get("org_id"), msg.get("request_id")
+                        )
                         handle_retries(redis, extra["request_id"])
                         handle_message(msg, service, extra)
             except Exception:
@@ -196,9 +208,15 @@ def send_message(topic, msg, extra):
     try:
         producer.poll(0)
         _bytes = json.dumps(msg, ensure_ascii=False).encode("utf-8")
-        org_id = msg.get('platform_metadata', {}).get('org_id')
-        key = org_id.encode("utf-8") if topic == config.INVENTORY_TOPIC and org_id else None
-        producer.produce(topic, _bytes, key, callback=partial(delivery_report, extra=extra))
+        org_id = msg.get("platform_metadata", {}).get("org_id")
+        key = (
+            org_id.encode("utf-8")
+            if topic == config.INVENTORY_TOPIC and org_id
+            else None
+        )
+        producer.produce(
+            topic, _bytes, key, callback=partial(delivery_report, extra=extra)
+        )
 
         if topic == config.INVENTORY_TOPIC and msg.get("system_profile"):
             msg["data"].pop("system_profile")
@@ -276,12 +294,17 @@ def handle_message(msg, service, extra):
     except Exception as e:
         metrics.msg_processed_failure.labels(service).inc()
         logger.exception(
-            "Failed to process message of %s service: %s: %s", service, extra["request_id"], str(e)
+            "Failed to process message of %s service: %s: %s",
+            service,
+            extra["request_id"],
+            str(e),
         )
         send_message(
             config.TRACKER_TOPIC,
             msgs.tracker_message(
-                extra, "error", "Unable to extract facts of %s service: %s" % (service, str(e))
+                extra,
+                "error",
+                "Unable to extract facts of %s service: %s" % (service, str(e)),
             ),
             extra,
         )

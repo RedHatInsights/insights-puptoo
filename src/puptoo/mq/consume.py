@@ -10,7 +10,7 @@ def init_consumer():
         "queued.max.messages.kbytes": config.KAFKA_QUEUE_MAX_KBYTES,
         "enable.auto.commit": config.KAFKA_AUTO_COMMIT,
         "allow.auto.create.topics": config.KAFKA_ALLOW_CREATE_TOPICS,
-        "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS)
+        "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),
     }
 
     if config.KAFKA_BROKER:

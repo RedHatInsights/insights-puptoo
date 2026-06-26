@@ -17,8 +17,8 @@ AZURE_DATA = """
 }
 """.strip()
 
+
 def test_azure_public_ipv4_addresses():
     input_data = InputData().add(Specs.azure_load_balancer, AZURE_DATA)
     result = run_test(system_profile, input_data)
     assert result["public_ipv4_addresses"] == ["137.116.118.209"]
-

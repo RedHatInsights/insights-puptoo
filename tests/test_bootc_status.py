@@ -335,7 +335,8 @@ def test_bootc_status():
         "rollback": {
             "image": "quay.io/centos-boot/fedora-boot-cloud:eln",
             "image_digest": "sha256:92e476435ced1c148350c660b09c744717defbd300a15d33deda5b50ad6b21a0",
-        }}
+        },
+    }
 
     input_data = InputData().add(Specs.bootc_status, BOOTC_STATUS_WITH_CACHEDUPDATE_1)
     result = run_test(system_profile, input_data)
@@ -351,7 +352,8 @@ def test_bootc_status():
             "image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
             "cached_image": "192.168.122.1:5000/bootc-insights:latest",
             "cached_image_digest": "sha256:3c1cea8218e4331641020c59e0877ae20ec058e34a346fa424bbe726daab294e",
-        }}
+        },
+    }
 
     input_data = InputData().add(Specs.bootc_status, BOOTC_STATUS_WITH_CACHEDUPDATE_2)
     result = run_test(system_profile, input_data)
@@ -365,7 +367,8 @@ def test_bootc_status():
         "staged": {
             "image": "192.168.122.1:5000/bootc-insights:latest",
             "image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
-        }}
+        },
+    }
 
     input_data = InputData().add(Specs.bootc_status, BOOTC_STATUS_BAD_DATA)
     result = run_test(system_profile, input_data)
@@ -373,7 +376,8 @@ def test_bootc_status():
         "booted": {
             "image": "",
             "image_digest": "sha256:806d77394f96e47cf99b1233561ce970c94521244a2d8f2affa12c3261961223",
-        }}
+        }
+    }
 
     input_data = InputData().add(Specs.bootc_status, BOOTC_STATUS_SPECIAL_DATA)
     result = run_test(system_profile, input_data)
@@ -381,7 +385,8 @@ def test_bootc_status():
         "rollback": {
             "image": "quay.io/centos-boot/fedora-boot-cloud:eln",
             "image_digest": "sha256:92e476435ced1c148350c660b09c744717defbd300a15d33deda5b50ad6b21a0",
-        }}
+        }
+    }
 
     input_data = InputData().add(Specs.bootc_status, BOOTC_STATUS_WITH_NULL_IMAGE_OBJ)
     result = run_test(system_profile, input_data)
@@ -389,4 +394,5 @@ def test_bootc_status():
         "rollback": {
             "image": "registry.stage.redhat.io/rhelai1/bootc-nvidia-rhel9:1.5-1746836947",
             "image_digest": "sha256:654275229d342b2836dcb8e5b851bbb1461b664a9fb9b8c934011e1abf15d778",
-        }}
+        }
+    }

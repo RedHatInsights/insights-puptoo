@@ -512,7 +512,7 @@ def test_rpmostree_status_simple():
         "origin": "edge:rhel/8/x86_64/edge",
         "osname": "rhel",
         "booted": True,
-        "pinned": False
+        "pinned": False,
     }
 
 

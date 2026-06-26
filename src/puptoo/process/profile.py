@@ -11,23 +11,31 @@ from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.sap import Sap
 from insights.combiners.virt_what import VirtWhat
 from insights.core import dr
-from insights.parsers.aws_instance_id import (AWSInstanceIdDoc,
-                                              AWSPublicHostnames,
-                                              AWSPublicIpv4Addresses)
-from insights.parsers.azure_instance import (AzureInstancePlan,
-                                             AzurePublicIpv4Addresses,
-                                             AzureInstanceComputeMetadata)
+from insights.parsers.aws_instance_id import (
+    AWSInstanceIdDoc,
+    AWSPublicHostnames,
+    AWSPublicIpv4Addresses,
+)
+from insights.parsers.azure_instance import (
+    AzureInstancePlan,
+    AzurePublicIpv4Addresses,
+    AzureInstanceComputeMetadata,
+)
 from insights.parsers.bootc import BootcStatus
-from insights.parsers.client_metadata import (AnsibleHost, BranchInfo,
-                                              DisplayName, Tags, VersionInfo)
+from insights.parsers.client_metadata import (
+    AnsibleHost,
+    BranchInfo,
+    DisplayName,
+    Tags,
+    VersionInfo,
+)
 from insights.parsers.cpuinfo import CpuInfo
 from insights.parsers.date import DateUTC
 from insights.parsers.dmidecode import DMIDecode
 from insights.parsers.dnf_module import DnfModuleList
 from insights.parsers.dnf_modules import DnfModules
 from insights.parsers.eap_json_reports import EAPJSONReports
-from insights.parsers.falconctl import (FalconctlAid, FalconctlBackend,
-                                        FalconctlVersion)
+from insights.parsers.falconctl import FalconctlAid, FalconctlBackend, FalconctlVersion
 from insights.parsers.gcp_license_codes import GCPLicenseCodes
 from insights.parsers.gcp_network_interfaces import GCPNetworkInterfaces
 from insights.parsers.greenboot_status import GreenbootStatus
@@ -43,8 +51,7 @@ from insights.parsers.lsmod import LsMod
 from insights.parsers.meminfo import MemInfo
 from insights.parsers.nvidia import NvidiaSmiQueryGPU
 from insights.parsers.os_release import OsRelease
-from insights.parsers.pmlog_summary import (PmLogSummary,
-                                            PmLogSummaryPcpZeroConf)
+from insights.parsers.pmlog_summary import PmLogSummary, PmLogSummaryPcpZeroConf
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.redhat_release import RedhatRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
@@ -71,9 +78,9 @@ logger = logging.getLogger(config.APP_NAME)
 dr.log.setLevel(config.FACT_EXTRACT_LOGLEVEL)
 
 
-MAC_REGEX = '^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$'
-ORACLE_PROCESS_REGEX1 = re.compile(r'^ora_.mon', re.I)
-ORACLE_PROCESS_REGEX2 = re.compile(r'^oracle', re.I)
+MAC_REGEX = "^([A-Fa-f0-9]{2}[:-]){5}[A-Fa-f0-9]{2}$|^([A-Fa-f0-9]{4}[.]){2}[A-Fa-f0-9]{4}$|^[A-Fa-f0-9]{12}$|^([A-Fa-f0-9]{2}[:-]){19}[A-Fa-f0-9]{2}$|^[A-Fa-f0-9]{40}$"
+ORACLE_PROCESS_REGEX1 = re.compile(r"^ora_.mon", re.I)
+ORACLE_PROCESS_REGEX2 = re.compile(r"^oracle", re.I)
 
 
 def catch_error(parser, error):
@@ -85,34 +92,48 @@ def catch_error(parser, error):
 # from the Google Compute Platform. These may need to be updated regularly.
 # Share the same list with swatch-system-conduit, see RHINENG-642
 GCP_CONFIRMED_CODES = [
-    "1000002",              # rhel-6
-    "1000006",              # rhel-7
-    "601259152637613565",   # rhel-8
+    "1000002",  # rhel-6
+    "1000006",  # rhel-7
+    "601259152637613565",  # rhel-8
     "7883559014960410759",  # rhel-9, rhel-9-arm64
     "5882583258875011738",  # rhel-7-4-sap
     "8555687517154622919",  # rhel-7-6-sap-ha, rhel-7-7-sap-ha, rhel-7-9-sap-ha
     "5955710252559838163",  # rhel-7-sap-apps
-    "996690525257673675",   # rhel-7-sap-hana
+    "996690525257673675",  # rhel-7-sap-hana
     "1270685562947480748",  # rhel-8-1-sap-ha, rhel-8-10-sap-ha, rhel-8-2-sap-ha,
-                            # # rhel-8-4-sap-ha, rhel-8-6-sap-ha, rhel-8-8-sap-ha
+    # # rhel-8-4-sap-ha, rhel-8-6-sap-ha, rhel-8-8-sap-ha
     "8291906032809750558",  # rhel-9-0-sap-ha, rhel-9-2-sap-ha, rhel-9-4-sap-ha
 ]
 
 # AWS Product Codes that have been identified as BYOS, see RHINENG-13408
-MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES = set([
-    "bp-63a5400a",
-])
+MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES = set(
+    [
+        "bp-63a5400a",
+    ]
+)
 
 RHEL_AI_GPU_MODEL_IDENTIFIERS = {
     "AMD_GPU": {
         "VENDOR_ID": "1002",
-        "DEVICE_ID": set(['740f', '740c', '7408', '738e', '738c',
-                          '686c', '6864', '6860', '66a1', '66a0'])
+        "DEVICE_ID": set(
+            [
+                "740f",
+                "740c",
+                "7408",
+                "738e",
+                "738c",
+                "686c",
+                "6864",
+                "6860",
+                "66a1",
+                "66a0",
+            ]
+        ),
     },
     "INTEL_GAUDI_HPU": {
         "VENDOR_ID": "1da3",
-        "DEVICE_ID": set(['1020', '1010', '1000', '0030', '0001'])
-    }
+        "DEVICE_ID": set(["1020", "1010", "1000", "0030", "0001"]),
+    },
 }
 
 # Note:
@@ -121,9 +142,7 @@ RHEL_AI_GPU_MODEL_IDENTIFIERS = {
 #   Please take care of the empty values case by case when adding facts to
 #   profile, and add fact name to BYPASS_PROFILE_SANS_NONE_FACTS.
 #   * Required for any new facts.
-BYPASS_PROFILE_SANS_NONE_FACTS = set([
-    "dnf_modules"
-])
+BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
 
 
 @rule(
@@ -294,11 +313,17 @@ def system_profile(
         profile["workloads"]["ansible"] = {}
         try:
             if ansible_info.catalog_worker_version:
-                profile["workloads"]["ansible"]["catalog_worker_version"] = ansible_info.catalog_worker_version
+                profile["workloads"]["ansible"]["catalog_worker_version"] = (
+                    ansible_info.catalog_worker_version
+                )
             if ansible_info.controller_version:
-                profile["workloads"]["ansible"]["controller_version"] = ansible_info.controller_version
+                profile["workloads"]["ansible"]["controller_version"] = (
+                    ansible_info.controller_version
+                )
             if ansible_info.hub_version:
-                profile["workloads"]["ansible"]["hub_version"] = ansible_info.hub_version
+                profile["workloads"]["ansible"]["hub_version"] = (
+                    ansible_info.hub_version
+                )
         except Exception as e:
             catch_error("ansible_info", e)
             raise
@@ -309,8 +334,10 @@ def system_profile(
                 profile["is_marketplace"] = True
         aws_billing_products = aws_instance_id.get("billingProducts")
         if aws_billing_products and len(aws_billing_products) >= 1:
-            profile["is_marketplace"] = any(bp not in MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES
-                                                for bp in aws_billing_products)
+            profile["is_marketplace"] = any(
+                bp not in MARKETPLACE_AWS_BYOS_BILLING_PRODUCT_CODES
+                for bp in aws_billing_products
+            )
 
     if azure_instance_compute_metadata:
         """ RHINENG-13790
@@ -326,9 +353,9 @@ def system_profile(
 
         # Determine if VM is BYOS (Bring Your Own Subscription)
         is_byos = (
-            (offer == "RHEL_BYOS" and license_type == "") or
-            license_type == "RHEL_BYOS" or
-            plan_product == "rhel-byos"
+            (offer == "RHEL_BYOS" and license_type == "")
+            or license_type == "RHEL_BYOS"
+            or plan_product == "rhel-byos"
         )
 
         # Set marketplace flag: False for BYOS, True for PAYG
@@ -344,7 +371,7 @@ def system_profile(
                 azure_instance_plan.publisher,
             ]
         ):
-            if azure_instance_plan.product != 'rhel-byos':
+            if azure_instance_plan.product != "rhel-byos":
                 profile["is_marketplace"] = True
 
     if gcp_license_codes:
@@ -388,9 +415,13 @@ def system_profile(
     if lscpu:
         try:
             cores_per_socket = lscpu.info.get("Cores per socket")
-            profile["cores_per_socket"] = int(cores_per_socket) if cores_per_socket else None
+            profile["cores_per_socket"] = (
+                int(cores_per_socket) if cores_per_socket else None
+            )
             threads_per_core = lscpu.info.get("Threads per core")
-            profile["threads_per_core"] = int(threads_per_core) if threads_per_core else None
+            profile["threads_per_core"] = (
+                int(threads_per_core) if threads_per_core else None
+            )
         except Exception as e:
             catch_error("lscpu", e)
             raise
@@ -509,7 +540,9 @@ def system_profile(
                 interface = {
                     "ipv4_addresses": iface.addrs(version=4),
                     "ipv6_addresses": iface.addrs(version=6),
-                    "mac_address": _filter_macs(_safe_fetch_interface_field(iface, "mac")),
+                    "mac_address": _filter_macs(
+                        _safe_fetch_interface_field(iface, "mac")
+                    ),
                     "mtu": _safe_fetch_interface_field(iface, "mtu"),
                     "name": _safe_fetch_interface_field(iface, "name"),
                     "state": _safe_fetch_interface_field(iface, "state"),
@@ -541,18 +574,24 @@ def system_profile(
                 profile["operating_system"] = {
                     "major": redhat_release_combiner.major,
                     "minor": redhat_release_combiner.minor,
-                    "name": "RHEL"
+                    "name": "RHEL",
                 }
                 if profile.get("host_type") is None:
                     if redhat_release_combiner.major >= 8:
                         profile["system_update_method"] = "dnf"
             elif "CentOS Linux" in os_release_combiner.name and redhat_release_parser:
-                minor = 0 if redhat_release_parser.minor is None else redhat_release_parser.minor
-                profile["os_release"] = '{0}.{1}'.format(redhat_release_parser.major, minor)
+                minor = (
+                    0
+                    if redhat_release_parser.minor is None
+                    else redhat_release_parser.minor
+                )
+                profile["os_release"] = "{0}.{1}".format(
+                    redhat_release_parser.major, minor
+                )
                 profile["operating_system"] = {
                     "major": redhat_release_parser.major,
                     "minor": minor,
-                    "name": os_release_combiner.name
+                    "name": os_release_combiner.name,
                 }
 
         except Exception as e:
@@ -576,7 +615,10 @@ def system_profile(
             profile["running_processes"] = sorted(list(ps_auxcww.running))
             if any(p.startswith("db2sysc") for p in ps_auxcww.cmd_names):
                 profile["workloads"]["ibm_db2"] = {"is_running": True}
-            if any(ORACLE_PROCESS_REGEX1.search(p) or ORACLE_PROCESS_REGEX2.search(p) for p in ps_auxcww.cmd_names):
+            if any(
+                ORACLE_PROCESS_REGEX1.search(p) or ORACLE_PROCESS_REGEX2.search(p)
+                for p in ps_auxcww.cmd_names
+            ):
                 profile["workloads"]["oracle_db"] = {"is_running": True}
         except Exception as e:
             catch_error("ps_auxcww", e)
@@ -599,7 +641,9 @@ def system_profile(
                         "id": yum_repo_definition,
                         "name": yum_repo_file[yum_repo_definition].get("name"),
                         "base_url": baseurl[0] if len(baseurl) > 0 else None,
-                        "mirrorlist": yum_repo_file[yum_repo_definition].get("mirrorlist"),
+                        "mirrorlist": yum_repo_file[yum_repo_definition].get(
+                            "mirrorlist"
+                        ),
                         "enabled": _to_bool(
                             yum_repo_file[yum_repo_definition].get("enabled")
                         ),
@@ -636,16 +680,25 @@ def system_profile(
             for name, module in dnf_module_list.items():
                 for stream in module.streams:
                     if stream.active:
-                        stream_status = list(filter(lambda x: x, [
-                            "default" if stream.default else None,
-                            "enabled" if stream.enabled else None,
-                            "installed" if any(p.installed for p in stream.profiles) else None
-                        ]))
-                        modules.append({
-                            "name": name,
-                            "stream": stream.stream,
-                            "status": stream_status,
-                        })
+                        stream_status = list(
+                            filter(
+                                lambda x: x,
+                                [
+                                    "default" if stream.default else None,
+                                    "enabled" if stream.enabled else None,
+                                    "installed"
+                                    if any(p.installed for p in stream.profiles)
+                                    else None,
+                                ],
+                            )
+                        )
+                        modules.append(
+                            {
+                                "name": name,
+                                "stream": stream.stream,
+                                "status": stream_status,
+                            }
+                        )
             profile["dnf_modules"] = sorted(modules, key=lambda k: k["name"])
         except Exception as e:
             catch_error("dnf_modules", e)
@@ -704,10 +757,12 @@ def system_profile(
             for product in product_ids.product_certs:
                 product_id = product.get("id")
                 if product_id and product_id not in installed_products:
-                    installed_products[product["id"]] = _remove_empties({
-                        "id": product_id,
-                        "name": product.get("name"),
-                    })
+                    installed_products[product["id"]] = _remove_empties(
+                        {
+                            "id": product_id,
+                            "name": product.get("name"),
+                        }
+                    )
             profile["installed_products"] = sorted(
                 installed_products.values(), key=lambda k: k["id"]
             )
@@ -746,10 +801,11 @@ def system_profile(
             profile["basearch"] = profile["yum_updates"].get("basearch")
 
     # ros new collection
-    if (pmlog_summary_pcp_zeroconf or
-            (insights_client_conf and
-                insights_client_conf.has_option("insights-client", "ros_collect") and
-                insights_client_conf.getboolean("insights-client", "ros_collect"))):
+    if pmlog_summary_pcp_zeroconf or (
+        insights_client_conf
+        and insights_client_conf.has_option("insights-client", "ros_collect")
+        and insights_client_conf.getboolean("insights-client", "ros_collect")
+    ):
         profile["is_ros"] = True
         profile["is_ros_v2"] = True
         profile["is_pcp_raw_data_collected"] = bool(pcp_raw_data)
@@ -766,13 +822,23 @@ def system_profile(
         try:
             profile["systemd"] = {
                 "state": systemctl_status_all.state,
-                "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0]) if systemctl_status_all.jobs else None,
-                "failed": int(systemctl_status_all.failed.split(" ")[0]) if systemctl_status_all.failed else None
+                "jobs_queued": int(systemctl_status_all.jobs.split(" ")[0])
+                if systemctl_status_all.jobs
+                else None,
+                "failed": int(systemctl_status_all.failed.split(" ")[0])
+                if systemctl_status_all.failed
+                else None,
             }
             if list_units:
-                if profile["systemd"]["failed"] is not None and profile["systemd"]["failed"] > 0:
-                    profile["systemd"]["failed_services"] = [svc for svc in list_units.service_names
-                        if list_units.is_failed(svc)]
+                if (
+                    profile["systemd"]["failed"] is not None
+                    and profile["systemd"]["failed"] > 0
+                ):
+                    profile["systemd"]["failed_services"] = [
+                        svc
+                        for svc in list_units.service_names
+                        if list_units.is_failed(svc)
+                    ]
             profile["systemd"] = _remove_empties(profile["systemd"])
         except Exception as e:
             # log the error and continue with the next parser
@@ -782,33 +848,45 @@ def system_profile(
         profile["public_dns"] = _remove_empty_string(aws_public_hostnames)
 
     if aws_public_ipv4_addresses:
-        profile["public_ipv4_addresses"] = _remove_empty_string(aws_public_ipv4_addresses)
+        profile["public_ipv4_addresses"] = _remove_empty_string(
+            aws_public_ipv4_addresses
+        )
 
     if azure_public_ipv4_addresses:
-        profile["public_ipv4_addresses"] = _remove_empty_string(azure_public_ipv4_addresses)
+        profile["public_ipv4_addresses"] = _remove_empty_string(
+            azure_public_ipv4_addresses
+        )
 
     if gcp_network_interfaces:
-        profile["public_ipv4_addresses"] = _remove_empty_string(gcp_network_interfaces.public_ips)
+        profile["public_ipv4_addresses"] = _remove_empty_string(
+            gcp_network_interfaces.public_ips
+        )
 
     if bootc_status:
         try:
             profile["bootc_status"] = {}
-            status = bootc_status.get('status', {})
+            status = bootc_status.get("status", {})
             for bootc_key in ["booted", "staged", "rollback"]:
                 bootc_value = status.get(bootc_key)
                 if bootc_value:
-                    image_value = bootc_value.get('image')
+                    image_value = bootc_value.get("image")
                     if image_value:
                         profile["bootc_status"][bootc_key] = {
-                            "image": image_value.get('image', {}).get('image', ''),
-                            "image_digest": image_value.get('imageDigest', ''),
+                            "image": image_value.get("image", {}).get("image", ""),
+                            "image_digest": image_value.get("imageDigest", ""),
                         }
-                    cached_value = bootc_value.get('cachedUpdate')
+                    cached_value = bootc_value.get("cachedUpdate")
                     if cached_value:
-                        profile["bootc_status"][bootc_key].update({
-                            "cached_image": cached_value.get('image', {}).get('image', ''),
-                            "cached_image_digest": cached_value.get('imageDigest', ''),
-                        })
+                        profile["bootc_status"][bootc_key].update(
+                            {
+                                "cached_image": cached_value.get("image", {}).get(
+                                    "image", ""
+                                ),
+                                "cached_image_digest": cached_value.get(
+                                    "imageDigest", ""
+                                ),
+                            }
+                        )
             if profile["bootc_status"].get("booted", {}).get("image_digest"):
                 profile["system_update_method"] = "bootc"
         except Exception as e:
@@ -824,28 +902,39 @@ def system_profile(
             # Get all CPF info in format <cpf-file-path: cpf-info>
             cpf_info = {}
             for cpf in iris_cpfs:
-                if (cpf.file_path and cpf.has_option('ConfigFile', 'Product') and
-                        cpf.has_option('ConfigFile', 'Version')):
+                if (
+                    cpf.file_path
+                    and cpf.has_option("ConfigFile", "Product")
+                    and cpf.has_option("ConfigFile", "Version")
+                ):
                     cpf_info[cpf.file_path] = {
-                        "product": cpf.get('ConfigFile', 'Product'),
-                        "version": cpf.get('ConfigFile', 'Version'),
+                        "product": cpf.get("ConfigFile", "Product"),
+                        "version": cpf.get("ConfigFile", "Version"),
                     }
             if cpf_info:
                 # Filter for running instance and grab the instance_name
                 for instance in iris_list:
-                    if instance['status'].startswith('running'):
-                        instance_name = instance['instance_name']
-                        conf_directory = instance['directory']
-                        conf_file = instance['conf file'].split()[0].strip()
+                    if instance["status"].startswith("running"):
+                        instance_name = instance["instance_name"]
+                        conf_directory = instance["directory"]
+                        conf_file = instance["conf file"].split()[0].strip()
                         cpf_file_path = os.path.join(conf_directory, conf_file)
-                        if instance_name and cpf_file_path and cpf_file_path in cpf_info:
-                            instance_info = _remove_empties({
-                                "instance_name": instance['instance_name'],
-                                "product": cpf_info[cpf_file_path]["product"],
-                                "version": cpf_info[cpf_file_path]["version"],
-                            })
+                        if (
+                            instance_name
+                            and cpf_file_path
+                            and cpf_file_path in cpf_info
+                        ):
+                            instance_info = _remove_empties(
+                                {
+                                    "instance_name": instance["instance_name"],
+                                    "product": cpf_info[cpf_file_path]["product"],
+                                    "version": cpf_info[cpf_file_path]["version"],
+                                }
+                            )
                             if instance_info:
-                                intersystems_profile["running_instances"].append(instance_info)
+                                intersystems_profile["running_instances"].append(
+                                    instance_info
+                                )
             profile["workloads"]["intersystems"] = _remove_empties(intersystems_profile)
         except Exception as e:
             catch_error("intersystems", e)
@@ -853,38 +942,48 @@ def system_profile(
 
     if subscription_manager_facts:
         profile["conversions"] = {"activity": False}
-        if subscription_manager_facts.get('conversions.activity') == 'conversion':
+        if subscription_manager_facts.get("conversions.activity") == "conversion":
             profile["conversions"]["activity"] = True
 
     if subscription_manager_syspurpose:
         profile["system_purpose"] = {
-            "role": subscription_manager_syspurpose.get('role') or '',
-            "sla": subscription_manager_syspurpose.get('service_level_agreement') or '',
-            "usage": subscription_manager_syspurpose.get('usage') or '',
+            "role": subscription_manager_syspurpose.get("role") or "",
+            "sla": subscription_manager_syspurpose.get("service_level_agreement") or "",
+            "usage": subscription_manager_syspurpose.get("usage") or "",
         }
 
     if os_release_parser:
         variant_id = os_release_parser.get("VARIANT_ID")
-        if variant_id == 'rhel_ai':
+        if variant_id == "rhel_ai":
             # Note: deprecated profile["rhel_ai"], use profile["workloads"]["rhel_ai"] instead
             rhel_ai_profile = {
                 "variant": os_release_parser.get("VARIANT"),
                 "rhel_ai_version_id": os_release_parser.get("RHEL_AI_VERSION_ID"),
             }
             if nvidia_smi_gpu:
-                rhel_ai_profile["nvidia_gpu_models"] = [gpu.model for gpu in nvidia_smi_gpu]
+                rhel_ai_profile["nvidia_gpu_models"] = [
+                    gpu.model for gpu in nvidia_smi_gpu
+                ]
             if lspci:
                 rhel_ai_profile["amd_gpu_models"] = []
                 rhel_ai_profile["intel_gaudi_hpu_models"] = []
                 for pci in lspci:
                     subsystem = pci.get("Subsystem")
-                    if (subsystem and
-                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["VENDOR_ID"] and
-                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["DEVICE_ID"]):
+                    if (
+                        subsystem
+                        and pci.get("Vendor")
+                        == RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["VENDOR_ID"]
+                        and pci.get("Device")
+                        in RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["DEVICE_ID"]
+                    ):
                         rhel_ai_profile["amd_gpu_models"].append(subsystem)
-                    elif (subsystem and
-                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["VENDOR_ID"] and
-                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]):
+                    elif (
+                        subsystem
+                        and pci.get("Vendor")
+                        == RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["VENDOR_ID"]
+                        and pci.get("Device")
+                        in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]
+                    ):
                         rhel_ai_profile["intel_gaudi_hpu_models"].append(subsystem)
             profile["rhel_ai"] = _remove_empties(rhel_ai_profile)
 
@@ -897,30 +996,43 @@ def system_profile(
 
             def _count_on_gpu(model, vendor, mem_total=None):
                 vendor_gpus = gpu_model_counting.setdefault(vendor, {})
-                this_gpu = vendor_gpus.setdefault(model, {
-                    "name": model,
-                    "vendor": vendor,
-                    "memory": mem_total or '-',
-                    "count": 0,
-                })
+                this_gpu = vendor_gpus.setdefault(
+                    model,
+                    {
+                        "name": model,
+                        "vendor": vendor,
+                        "memory": mem_total or "-",
+                        "count": 0,
+                    },
+                )
                 this_gpu["count"] += 1
 
             if nvidia_smi_gpu:
                 for gpu in nvidia_smi_gpu:
-                    _count_on_gpu(gpu.model, 'Nvidia', gpu.memory_total)
+                    _count_on_gpu(gpu.model, "Nvidia", gpu.memory_total)
             if lspci:
                 for pci in lspci:
                     subsystem = pci.get("Subsystem")
-                    if (subsystem and
-                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["VENDOR_ID"] and
-                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["DEVICE_ID"]):
-                        _count_on_gpu(subsystem, 'AMD')
-                    elif (subsystem and
-                            pci.get("Vendor") == RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["VENDOR_ID"] and
-                            pci.get("Device") in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]):
-                        _count_on_gpu(subsystem, 'Intel')
+                    if (
+                        subsystem
+                        and pci.get("Vendor")
+                        == RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["VENDOR_ID"]
+                        and pci.get("Device")
+                        in RHEL_AI_GPU_MODEL_IDENTIFIERS["AMD_GPU"]["DEVICE_ID"]
+                    ):
+                        _count_on_gpu(subsystem, "AMD")
+                    elif (
+                        subsystem
+                        and pci.get("Vendor")
+                        == RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["VENDOR_ID"]
+                        and pci.get("Device")
+                        in RHEL_AI_GPU_MODEL_IDENTIFIERS["INTEL_GAUDI_HPU"]["DEVICE_ID"]
+                    ):
+                        _count_on_gpu(subsystem, "Intel")
 
-            wkld_rhel_ai_pf["gpu_models"] = [gpu for gpus in gpu_model_counting.values() for gpu in gpus.values()]
+            wkld_rhel_ai_pf["gpu_models"] = [
+                gpu for gpus in gpu_model_counting.values() for gpu in gpus.values()
+            ]
 
             if ilab_model_list:
                 wkld_rhel_ai_pf["ai_models"] = list(ilab_model_list.models)
@@ -928,7 +1040,9 @@ def system_profile(
 
     if image_builder_facts:
         ib_facts = {}
-        prof_id = image_builder_facts.get("image-builder.insights.compliance-profile-id")
+        prof_id = image_builder_facts.get(
+            "image-builder.insights.compliance-profile-id"
+        )
         if prof_id:
             ib_facts["compliance_profile_id"] = prof_id
         pol_id = image_builder_facts.get("image-builder.insights.compliance-policy-id")
@@ -1007,8 +1121,7 @@ def _remove_empties(d, bypass_keys=None):
     """
     empty_values = [None, "", [], {}]
     if bypass_keys:
-        return {x: d[x] for x in d
-                if x in bypass_keys or d[x] not in empty_values}
+        return {x: d[x] for x in d if x in bypass_keys or d[x] not in empty_values}
     else:
         return {x: d[x] for x in d if d[x] not in empty_values}
 
@@ -1017,7 +1130,7 @@ def _remove_empty_string(arr):
     """
     small helper method to remove empty string from an array.
     """
-    return [i for i in arr if i != '']
+    return [i for i in arr if i != ""]
 
 
 def _get_deployments(rpm_ostree_status):
@@ -1172,8 +1285,8 @@ def get_system_profile(path=None):
     broker = run(rule_components, root=path)
     facts = broker[canonical_facts]
     del facts["type"]
-    facts['system_profile'] = broker[system_profile]
-    del facts['system_profile']["type"]
+    facts["system_profile"] = broker[system_profile]
+    del facts["system_profile"]["type"]
     return facts
 
 

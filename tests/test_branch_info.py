@@ -1,7 +1,7 @@
 import json
 from insights.specs import Specs
 from insights.tests import InputData, run_test
-from src.puptoo.process.profile import format_tags,system_profile
+from src.puptoo.process.profile import format_tags, system_profile
 
 
 BRANCH_INFO_1 = """
@@ -12,14 +12,15 @@ BRANCH_INFO_2 = """
 {"remote_branch": -1, "remote_leaf": -1}
 """.strip()
 
+
 def test_branch_info():
     input_data = InputData().add(Specs.branch_info, BRANCH_INFO_1)
     result = run_test(system_profile, input_data)
-    del result['tags']['insights-client']
-    assert result['satellite_managed'] == True
-    assert result['satellite_id'] == "9b53c93a-88ea-4168-9edf-b58e6c2ba66d"
-    assert result['tags'] == format_tags((json.loads(BRANCH_INFO_1))['labels'])
+    del result["tags"]["insights-client"]
+    assert result["satellite_managed"]
+    assert result["satellite_id"] == "9b53c93a-88ea-4168-9edf-b58e6c2ba66d"
+    assert result["tags"] == format_tags((json.loads(BRANCH_INFO_1))["labels"])
 
     input_data = InputData().add(Specs.branch_info, BRANCH_INFO_2)
     result = run_test(system_profile, input_data)
-    assert result['satellite_managed'] == False
+    assert not result["satellite_managed"]
