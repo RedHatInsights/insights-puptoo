@@ -1,153 +1,247 @@
-# This docker-compose file will stand up the entire stack including ingress and inventory.
-# The steps for buidling those images are out of scope, but this will reference them if they exist.
-# This docker compose file will stand up the minimal components necessary for
-# Puptoo to work. Nothing is stood up for uploads or to consume the inventory
-# messages.
-version: "3"
+# Full local stack: Kafka (KRaft), MinIO, Redis, Ingress, Puptoo, and
+# Host Inventory (MQ + Web + PostgreSQL).
+#
+# Prerequisites:
+#   The ingress and inventory images must be available locally or pullable
+#   from quay.io.  See those projects for build instructions.
+#
+# Usage:
+#   docker compose -f full-stack.yml up --build
+#   docker compose -f full-stack.yml down -v
+
 services:
 
-  # ### Setup Kafka
-  zookeeper:
-    image: confluentinc/cp-zookeeper
-    environment:
-      - ZOOKEEPER_CLIENT_PORT=32181
-      - ZOOKEEPER_SERVER_ID=1
+  # ---------------------------------------------------------------------------
+  # Kafka (KRaft — no Zookeeper)
+  # ---------------------------------------------------------------------------
   kafka:
-    image: confluentinc/cp-kafka
+    image: docker.io/confluentinc/cp-kafka:8.2.1
+    container_name: puptoo-kafka
+    hostname: kafka
+    restart: unless-stopped
     ports:
-      - 29092:29092
-    depends_on:
-      - zookeeper
+      - "29092:29092"
+      - "9092:9092"
     environment:
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
-      - KAFKA_BROKER_ID=1
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
-      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
-  init-kafka:
-    image: confluentinc/cp-kafka
-    depends_on:
-      - kafka
-    entrypoint: [ '/bin/sh', '-c' ]
-    command: |
-      "
-      # blocks until kafka is reachable
-      kafka-topics --bootstrap-server kafka:29092 --list
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: DOCKER://0.0.0.0:29092,LOCALHOST://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: DOCKER://kafka:29092,LOCALHOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER:PLAINTEXT,LOCALHOST:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - |
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.upload.advisor --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.upload.announce --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.inventory.host-ingress --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.upload.validation --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.payload-status --replication-factor 1 --partitions 1 && \
+          kafka-broker-api-versions --bootstrap-server localhost:29092
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    volumes:
+      - kafka-data:/var/lib/kafka/data
 
-      echo -e 'Creating kafka topics'
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic platform.upload.advisor --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic platform.upload.announce --replication-factor 1 --partitions 1
-      kafka-topics --bootstrap-server kafka:29092 --create --if-not-exists --topic platform.inventory.host-ingress --replication-factor 1 --partitions 1
-
-      echo -e 'Successfully created the following topics:'
-      kafka-topics --bootstrap-server kafka:29092 --list
-      "
-
-  # ### Setup Storage
+  # ---------------------------------------------------------------------------
+  # Object Storage (MinIO)
+  # ---------------------------------------------------------------------------
   minio:
-      image: minio/minio
-      command: ["server", "--console-address", ":9001", "/data"]
-      volumes:
-        - '$MINIO_DATA_DIR:/data:Z'
-        - '$MINIO_CONFIG_DIR:/root/.minio:Z'
-      ports:
-        - 9000:9000
-      environment:
-        - MINIO_ROOT_USER=$MINIO_ACCESS_KEY
-        - MINIO_ROOT_PASSWORD=$MINIO_SECRET_KEY
+    image: docker.io/minio/minio
+    container_name: puptoo-minio
+    hostname: minio
+    restart: unless-stopped
+    command: "server --address 0.0.0.0:9000 --console-address 0.0.0.0:9001 /data"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioaccess}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-miniosecret}
+    healthcheck:
+      test: ["CMD-SHELL", "mc ready local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - minio-data:/data
+
   createbuckets:
-    image: minio/mc
+    image: docker.io/minio/mc
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
+    restart: on-failure
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY;
-      /usr/bin/mc mb --ignore-existing myminio/insights-upload-perma;
-      /usr/bin/mc mb --ignore-existing myminio/insights-upload-rejected;
-      /usr/bin/mc mb --ignore-existing myminio/insights-upload-puptoo;
-      /usr/bin/mc anonymous set public myminio/insights-upload-perma;
-      /usr/bin/mc anonymous set public myminio/insights-upload-rejected;
-      /usr/bin/mc anonymous set public myminio/insights-upload-puptoo;
+      mc alias set myminio http://minio:9000 ${MINIO_ACCESS_KEY:-minioaccess} ${MINIO_SECRET_KEY:-miniosecret};
+      mc mb --ignore-existing myminio/insights-upload-perma;
+      mc mb --ignore-existing myminio/insights-upload-rejected;
+      mc mb --ignore-existing myminio/insights-upload-puptoo;
+      mc anonymous set public myminio/insights-upload-perma;
+      mc anonymous set public myminio/insights-upload-rejected;
+      mc anonymous set public myminio/insights-upload-puptoo;
       exit 0;
       "
 
-  # ### Setup Ingress
+  # ---------------------------------------------------------------------------
+  # Redis
+  # ---------------------------------------------------------------------------
+  redis:
+    image: docker.io/library/redis:7
+    container_name: puptoo-redis
+    hostname: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis-data:/data
+
+  # ---------------------------------------------------------------------------
+  # Ingress
+  # ---------------------------------------------------------------------------
   ingress:
     image: quay.io/cloudservices/insights-ingress
+    container_name: puptoo-ingress
     ports:
-      - 8080:3000
+      - "8080:3000"
     environment:
-      - AWS_ACCESS_KEY_ID=$MINIO_ACCESS_KEY
-      - AWS_SECRET_ACCESS_KEY=$MINIO_SECRET_KEY
-      - AWS_REGION=us-east-1
-      - INGRESS_STAGEBUCKET=insights-upload-perma
-      - INGRESS_REJECTBUCKET=insights-upload-rejected
-      - INGRESS_INVENTORYURL=http://inventory:8080/api/inventory/v1/hosts
-      - INGRESS_VALIDTOPICS=testareno,advisor #if you test a different topic, add it here
-      - INGRESS_VALID_UPLOAD_TYPES=advisor,compliance,hccm,qpc,rhv,tower,leapp-reporting,xavier,mkt,playbook,playbook-sat,resource-optimization,malware-detection,pinakes,assisted-installer,runtimes-java-general,openshift,tasks,automation-hub,aap-billing-controller
-      - OPENSHIFT_BUILD_COMMIT=woopwoop
-      - INGRESS_MINIODEV=true
-      - INGRESS_MINIOACCESSKEY=$MINIO_ACCESS_KEY
-      - INGRESS_MINIOSECRETKEY=$MINIO_SECRET_KEY
-      - INGRESS_MINIOENDPOINT=minio:9000
+      AWS_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY:-minioaccess}
+      AWS_SECRET_ACCESS_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      AWS_REGION: us-east-1
+      INGRESS_STAGEBUCKET: insights-upload-perma
+      INGRESS_REJECTBUCKET: insights-upload-rejected
+      INGRESS_INVENTORYURL: http://insights-inventory-web:8080/api/inventory/v1/hosts
+      INGRESS_VALIDTOPICS: testareno,advisor
+      INGRESS_VALID_UPLOAD_TYPES: advisor,compliance,hccm,qpc,rhv,tower,leapp-reporting,xavier,mkt,playbook,playbook-sat,resource-optimization,malware-detection,pinakes,assisted-installer,runtimes-java-general,openshift,tasks,automation-hub,aap-billing-controller
+      OPENSHIFT_BUILD_COMMIT: local-dev
+      INGRESS_MINIODEV: "true"
+      INGRESS_MINIOACCESSKEY: ${MINIO_ACCESS_KEY:-minioaccess}
+      INGRESS_MINIOSECRETKEY: ${MINIO_SECRET_KEY:-miniosecret}
+      INGRESS_MINIOENDPOINT: minio:9000
     depends_on:
-      - kafka
-      - minio
-      - createbuckets
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      createbuckets:
+        condition: service_completed_successfully
 
-  # ### Setup Puptoo
+  # ---------------------------------------------------------------------------
+  # Puptoo
+  # ---------------------------------------------------------------------------
   puptoo:
-    image: quay.io/cloudservices/insights-puptoo:latest
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: puptoo
+    hostname: puptoo
+    restart: unless-stopped
     ports:
-      - 8000:8000 #for prometheus endpoint
+      - "8000:8000"
     environment:
-      - LOG_LEVEL=DEBUG
+      LOG_LEVEL: DEBUG
+      CLOWDER_ENABLED: "False"
+      BOOTSTRAP_SERVERS: kafka:29092
+      S3_ENDPOINT: minio:9000
+      PUPTOO_BUCKET: insights-upload-puptoo
+      STORAGE_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
+      STORAGE_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      USE_SSL: "False"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DISABLE_REDIS: "False"
     depends_on:
-      - kafka
-      - init-kafka
-      - minio
-  redis:
-    image: redis
-    container_name: puptoo-redis
-    ports:
-      - 6379:6379
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      createbuckets:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
 
-  # ### Setup Puptoo
-  insights-inventory-mq: &inventory
-    image: quay.io/cloudservices/insights-inventory:latest
-    command: "make upgrade_db run_inv_mq_service"
-    environment:
-      - APP_NAME=inventory
-      - PATH_PREFIX=api
-      - INVENTORY_DB_USER=insights
-      - INVENTORY_DB_PASS=insights
-      - INVENTORY_DB_HOST=db-host-inventory
-      - INVENTORY_DB_NAME=insights
-      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
-      - PAYLOAD_TRACKER_ENABLED=false
-      - PROMETHEUS_MULTIPROC_DIR=/tmp  # required env by insights-inventory-web
-      - BYPASS_RBAC="true"
-      - BYPASS_UNLEASH="true"
-      - BYPASS_XJOIN="true"
-    depends_on:
-       - db-host-inventory
-       - kafka
-       - init-kafka
-       - createbuckets
-    ports:
-      - "8081:8080"
-  insights-inventory-web:
-    <<: *inventory
-    command: "make upgrade_db run_inv_web_service"
-    depends_on:
-      - insights-inventory-mq
-    ports:
-      - "8082:8080"
+  # ---------------------------------------------------------------------------
+  # Host Inventory
+  # ---------------------------------------------------------------------------
   db-host-inventory:
-    image: postgres
+    image: docker.io/library/postgres:16
+    container_name: puptoo-db
+    hostname: db-host-inventory
+    restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: insights
       POSTGRES_USER: insights
+      POSTGRES_PASSWORD: insights
       POSTGRES_DB: insights
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U insights"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  insights-inventory-mq: &inventory
+    image: quay.io/cloudservices/insights-inventory:latest
+    container_name: puptoo-inventory-mq
+    command: "make upgrade_db run_inv_mq_service"
+    restart: unless-stopped
+    environment:
+      APP_NAME: inventory
+      PATH_PREFIX: api
+      INVENTORY_DB_USER: insights
+      INVENTORY_DB_PASS: insights
+      INVENTORY_DB_HOST: db-host-inventory
+      INVENTORY_DB_NAME: insights
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      PAYLOAD_TRACKER_ENABLED: "false"
+      PROMETHEUS_MULTIPROC_DIR: /tmp
+      BYPASS_RBAC: "true"
+      BYPASS_UNLEASH: "true"
+      BYPASS_XJOIN: "true"
+    depends_on:
+      db-host-inventory:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      createbuckets:
+        condition: service_completed_successfully
+    ports:
+      - "8081:8080"
+
+  insights-inventory-web:
+    <<: *inventory
+    container_name: puptoo-inventory-web
+    command: "make upgrade_db run_inv_web_service"
+    depends_on:
+      insights-inventory-mq:
+        condition: service_started
+    ports:
+      - "8082:8080"
+
+volumes:
+  kafka-data:
+  minio-data:
+  redis-data:
+  db-data:

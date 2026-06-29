@@ -1,8 +1,7 @@
 import json
-import time
 import logging
 import os
-
+from time import time
 
 from kafka import KafkaConsumer
 
@@ -25,16 +24,21 @@ logger = logging.getLogger("consumer")
 
 
 def main():
-    while True:
-        for data in consumer:
-            msg = data.value
+    for data in consumer:
+        msg = data.value
+        metadata = msg.get("platform_metadata", {})
+        request_id = metadata.get("request_id", "unknown")
+        start_time = metadata.get("elapsed_time")
+        if start_time:
+            elapsed = round(time() - start_time, 3)
             logger.info(
                 "request_id %s took %s seconds to traverse pup",
-                msg["data"]["request_id"],
-                msg["data"]["elapsed_time"],
+                request_id,
+                elapsed,
             )
+        else:
+            logger.info("received message for request_id %s", request_id)
 
 
 if __name__ == "__main__":
-    time.sleep(10)
     main()
