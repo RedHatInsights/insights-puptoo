@@ -9,6 +9,7 @@ from prometheus_client import Info, Summary, start_http_server
 
 from .handlers import get_handler
 from .mq import consume, produce
+from .mq.auth import write_kafka_cert
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
 from redis import Redis
@@ -21,11 +22,6 @@ CONSUMER_ASSIGNMENTS = Info(
 )
 
 logger = puptoo_logging.initialize_logging()
-
-
-def write_cert(cert):
-    with open("/tmp/cacert", "w") as f:
-        f.write(cert)
 
 
 def start_prometheus():
@@ -82,9 +78,7 @@ def main():
 
         config.log_config()
 
-        if config.KAFKA_BROKER:
-            if config.KAFKA_BROKER.cacert:
-                write_cert(config.KAFKA_BROKER.cacert)
+        write_kafka_cert()
 
         consumer = consume.init_consumer()
         global producer

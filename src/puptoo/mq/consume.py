@@ -1,6 +1,7 @@
 from confluent_kafka import Consumer
 
 from ..utils import config
+from .auth import kafka_auth_config
 
 
 def init_consumer():
@@ -13,18 +14,7 @@ def init_consumer():
         "bootstrap.servers": ",".join(config.BOOTSTRAP_SERVERS),
     }
 
-    if config.KAFKA_BROKER:
-        if config.KAFKA_BROKER.cacert:
-            connection_info["ssl.ca.location"] = "/tmp/cacert"
-        if config.KAFKA_BROKER.sasl and config.KAFKA_BROKER.sasl.username:
-            connection_info.update(
-                {
-                    "security.protocol": config.KAFKA_BROKER.sasl.securityProtocol,
-                    "sasl.mechanisms": config.KAFKA_BROKER.sasl.saslMechanism,
-                    "sasl.username": config.KAFKA_BROKER.sasl.username,
-                    "sasl.password": config.KAFKA_BROKER.sasl.password,
-                }
-            )
+    kafka_auth_config(connection_info)
 
     consumer = Consumer(connection_info)
 
