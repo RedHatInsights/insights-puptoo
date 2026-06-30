@@ -1,13 +1,12 @@
 import json
 import logging
-import re
 from abc import ABC, abstractmethod
 from base64 import b64decode
 from datetime import datetime, timedelta
 from time import time
 
+from ..exceptions import FailExtractException, FailUploadException
 from ..mq import msgs
-from ..process.profile import MAC_REGEX
 from ..upload import upload_object
 from ..utils import config, metrics, validators
 
@@ -25,15 +24,6 @@ def _get_owner(ident):
     if identity["identity"].get("system"):
         owner_id = identity["identity"]["system"].get("cn")
         return owner_id
-
-
-def _clean_macs(facts):
-    if facts["metadata"].get("mac_addresses"):
-        m = re.compile(MAC_REGEX)
-        facts["metadata"]["mac_addresses"] = [
-            mac for mac in facts["metadata"]["mac_addresses"] if m.match(mac)
-        ]
-    return facts
 
 
 class BaseHandler(ABC):
@@ -60,15 +50,13 @@ class BaseHandler(ABC):
             facts = self.process(msg, extra)
 
             if not facts:
-                raise Exception("Empty facts extracted.")
+                raise FailExtractException("Empty facts extracted.")
             if not validators.validateCanonicalFacts(facts):
-                raise Exception("Missing canonical fact(s).")
+                raise FailExtractException("Missing canonical fact(s).")
 
             yum_updates = None
             facts["stale_timestamp"] = _get_staletime()
             facts["reporter"] = "puptoo"
-            if facts.get("metadata"):
-                _clean_macs(facts)
             if facts.get("system_profile"):
                 owner_id = _get_owner(msg["b64_identity"])
                 if owner_id:
@@ -93,7 +81,7 @@ class BaseHandler(ABC):
             if yum_updates and not config.DISABLE_S3_UPLOAD:
                 try:
                     upload_object(yum_updates, extra, msg)
-                except:
+                except FailUploadException:
                     logger.exception("Error occurred while uploading object.")
 
         except Exception as e:

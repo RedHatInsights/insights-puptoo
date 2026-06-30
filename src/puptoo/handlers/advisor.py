@@ -2,6 +2,7 @@ import logging
 
 from . import handler
 from .base import BaseHandler
+from ..exceptions import FailExtractException
 from ..mq import msgs
 from ..process import extract
 from ..utils import metrics
@@ -16,7 +17,7 @@ class AdvisorHandler(BaseHandler):
         facts = extract(msg, extra)
         if facts.get("error"):
             metrics.extract_failure.inc()
-            raise Exception("process_archive failure", facts.get("error"))
+            raise FailExtractException(f"process_archive failure: {facts.get('error')}")
         logger.debug(
             "extracted facts from message for %s\nMessage: %s\nFacts: %s",
             extra["request_id"],
