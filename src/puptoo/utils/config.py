@@ -81,7 +81,7 @@ if CLOWDER_ENABLED:
     REDIS_PORT = LoadedConfig.inMemoryDb.port
     try:
         REDIS_PASSWORD = LoadedConfig.inMemoryDb.password
-    except:
+    except AttributeError:
         REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 else:
@@ -121,6 +121,9 @@ KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
 KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
 KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
+KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE = int(
+    os.getenv("KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE", 2097152)
+)
 DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "false").lower() == "true" else False
 REDIS_SSL = True if REDIS_PASSWORD else False
 DISABLE_S3_UPLOAD = (
