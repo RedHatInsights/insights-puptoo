@@ -1,11 +1,11 @@
-FROM registry.access.redhat.com/ubi9/s2i-base:9.8-1780453893 AS kafka_build
+FROM registry.access.redhat.com/ubi9/s2i-base:9.8-1782812284 AS kafka_build
 USER 0
 ADD librdkafka .
 RUN ./configure --prefix=/usr && \
     make && \
     make install
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal:9.8-1780378819
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.8-1782797275
 
 WORKDIR /app-root/
 
