@@ -5,12 +5,7 @@ APP_NAME = os.getenv("APP_NAME", "insights-puptoo")
 
 logger = logging.getLogger(APP_NAME)
 
-CLOWDER_ENABLED = (
-    True
-    if os.getenv("CLOWDER_ENABLED", default="False").lower()
-    in ["true", "t", "yes", "y"]
-    else False
-)
+CLOWDER_ENABLED = os.getenv("CLOWDER_ENABLED", "").lower() in ("true", "t", "yes", "y")
 
 
 def log_config():
@@ -81,7 +76,7 @@ if CLOWDER_ENABLED:
     REDIS_PORT = LoadedConfig.inMemoryDb.port
     try:
         REDIS_PASSWORD = LoadedConfig.inMemoryDb.password
-    except:
+    except AttributeError:
         REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 else:
@@ -111,18 +106,42 @@ else:
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
 FACT_EXTRACT_LOGLEVEL = os.getenv("FACT_EXTRACT_LOGLEVEL", "ERROR")
-DISABLE_PROMETHEUS = True if os.getenv("DISABLE_PROMETHEUS") == "True" else False
+DISABLE_PROMETHEUS = os.getenv("DISABLE_PROMETHEUS", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
 MAX_EXTRACTED_SIZE = os.getenv("MAX_EXTRACTED_SIZE", 1000000000)  # 1GB Default
 MAX_EXTRACTED_SIZE_L2 = os.getenv("MAX_EXTRACTED_SIZE_L2", 536870912)  # 512MB Default
 NAMESPACE = get_namespace()
 HOSTNAME = os.environ.get("HOSTNAME")
 BUILD_COMMIT = os.getenv("OPENSHIFT_BUILD_COMMIT", "not_in_openshift")
 KAFKA_QUEUE_MAX_KBYTES = os.getenv("KAFKA_QUEUE_MAX_KBYTES", 1024)
-KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", False)
-KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", False)
+KAFKA_AUTO_COMMIT = os.getenv("KAFKA_AUTO_COMMIT", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+KAFKA_ALLOW_CREATE_TOPICS = os.getenv("KAFKA_ALLOW_CREATE_TOPICS", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+KAFKA_CONSUMER_MAXPOLL_INTERVAL = int(
+    os.getenv("KAFKA_CONSUMER_MAXPOLL_INTERVAL", 600000)
+)
 KAFKA_LOGGER = os.getenv("KAFKA_LOGGER", "ERROR").upper()
-DISABLE_REDIS = True if os.getenv("DISABLE_REDIS", "false").lower() == "true" else False
+KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE = int(
+    os.getenv("KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE", 2097152)
+)
+DISABLE_REDIS = os.getenv("DISABLE_REDIS", "").lower() in ("true", "t", "yes", "y")
 REDIS_SSL = True if REDIS_PASSWORD else False
-DISABLE_S3_UPLOAD = (
-    True if os.getenv("DISABLE_S3_UPLOAD", "false").lower() == "true" else False
+DISABLE_S3_UPLOAD = os.getenv("DISABLE_S3_UPLOAD", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
 )
