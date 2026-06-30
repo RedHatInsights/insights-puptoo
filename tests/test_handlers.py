@@ -2,15 +2,36 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
+from src.puptoo.exceptions import FailExtractException, FailUploadException
 from src.puptoo.handlers import get_handler, handler, register, _REGISTRY
 from src.puptoo.handlers.base import BaseHandler
 
 
 class DummyHandler(BaseHandler):
-    def process(self, msg: dict, extra: dict) -> dict:
+    def process(self, msg: dict, extra: dict) -> dict:  # noqa: ARG002
         return {"dummy": True}
 
-    def build_hbi_messages(self, facts: dict, msg: dict) -> list[dict]:
+    def build_hbi_messages(self, facts: dict, msg: dict) -> list[dict]:  # noqa: ARG002
+        return [{"operation": "add_host", "data": facts}]
+
+
+class FailingHandler(BaseHandler):
+    def process(self, msg: dict, extra: dict) -> dict:  # noqa: ARG002
+        raise FailExtractException("extraction failed")
+
+    def build_hbi_messages(self, facts: dict, msg: dict) -> list[dict]:  # noqa: ARG002
+        return []
+
+
+class YumHandler(BaseHandler):
+    def process(self, msg: dict, extra: dict) -> dict:  # noqa: ARG002
+        return {
+            "insights_id": "abc",
+            "fqdn": "test.example.com",
+            "system_profile": {"yum_updates": {"pkg": "1.0"}},
+        }
+
+    def build_hbi_messages(self, facts: dict, msg: dict) -> list[dict]:  # noqa: ARG002
         return [{"operation": "add_host", "data": facts}]
 
 
@@ -97,7 +118,7 @@ def test_handler_build_hbi_messages():
 
 def test_base_handler_cannot_be_instantiated():
     with pytest.raises(TypeError):
-        BaseHandler()
+        BaseHandler()  # type: ignore[reportAbstractUsage]
 
 
 # --- Concrete handlers ---
@@ -220,6 +241,10 @@ def test_handle_error_path(
     assert "tracker" in topics
     assert "validation" in topics
     mock_metrics.msg_processed_failure.labels.assert_called_with("test")
+    error_calls = [
+        c for c in mock_msgs.tracker_message.call_args_list if c.args[1] == "error"
+    ]
+    assert any("Missing canonical fact(s)." in str(c) for c in error_calls)
 
 
 @patch("src.puptoo.handlers.base.upload_object")
@@ -248,3 +273,61 @@ def test_handle_empty_facts_triggers_error_path(
     h.handle(msg, "test", extra, send_message=send)
 
     mock_metrics.msg_processed_failure.labels.assert_called_with("test")
+    error_calls = [
+        c for c in mock_msgs.tracker_message.call_args_list if c.args[1] == "error"
+    ]
+    assert any("Empty facts extracted." in str(c) for c in error_calls)
+
+
+@patch("src.puptoo.handlers.base.upload_object")
+@patch("src.puptoo.handlers.base.msgs")
+@patch("src.puptoo.handlers.base.validators")
+@patch("src.puptoo.handlers.base.config")
+@patch("src.puptoo.handlers.base.metrics")
+def test_handle_fail_extract_exception_type(
+    mock_metrics, mock_config, mock_validators, mock_msgs, mock_upload
+):
+    mock_config.TRACKER_TOPIC = "tracker"
+    mock_config.VALIDATION_TOPIC = "validation"
+
+    send = MagicMock()
+    h = FailingHandler()
+    msg = {"metadata": {}}
+    extra = {"request_id": "req-1", "account": "acct", "org_id": "org"}
+
+    h.handle(msg, "test", extra, send_message=send)
+
+    mock_metrics.msg_processed_failure.labels.assert_called_with("test")
+    error_calls = [
+        c for c in mock_msgs.tracker_message.call_args_list if c.args[1] == "error"
+    ]
+    assert any("extraction failed" in str(c) for c in error_calls)
+
+
+@patch("src.puptoo.handlers.base._get_owner", return_value=None)
+@patch("src.puptoo.handlers.base.upload_object")
+@patch("src.puptoo.handlers.base.msgs")
+@patch("src.puptoo.handlers.base.validators")
+@patch("src.puptoo.handlers.base.config")
+@patch("src.puptoo.handlers.base.metrics")
+def test_handle_catches_fail_upload_and_continues(
+    mock_metrics, mock_config, mock_validators, mock_msgs, mock_upload, mock_owner
+):
+    mock_validators.validateCanonicalFacts.return_value = True
+    mock_config.TRACKER_TOPIC = "tracker"
+    mock_config.INVENTORY_TOPIC = "inventory"
+    mock_config.DISABLE_S3_UPLOAD = False
+
+    mock_upload.side_effect = FailUploadException("upload boom")
+
+    send = MagicMock()
+    h = YumHandler()
+    msg = {"metadata": {}, "b64_identity": "e30="}
+    extra = {"request_id": "req-1", "account": "acct", "org_id": "org"}
+
+    h.handle(msg, "test", extra, send_message=send)
+
+    mock_upload.assert_called_once()
+    mock_metrics.msg_processed_success.labels.assert_called_with("test")
+    topics = [call.args[0] for call in send.call_args_list]
+    assert "inventory" in topics

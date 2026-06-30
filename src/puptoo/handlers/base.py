@@ -6,6 +6,7 @@ from base64 import b64decode
 from datetime import datetime, timedelta
 from time import time
 
+from ..exceptions import FailExtractException, FailUploadException
 from ..mq import msgs
 from ..process.profile import MAC_REGEX
 from ..upload import upload_object
@@ -60,9 +61,9 @@ class BaseHandler(ABC):
             facts = self.process(msg, extra)
 
             if not facts:
-                raise Exception("Empty facts extracted.")
+                raise FailExtractException("Empty facts extracted.")
             if not validators.validateCanonicalFacts(facts):
-                raise Exception("Missing canonical fact(s).")
+                raise FailExtractException("Missing canonical fact(s).")
 
             yum_updates = None
             facts["stale_timestamp"] = _get_staletime()
@@ -93,7 +94,7 @@ class BaseHandler(ABC):
             if yum_updates and not config.DISABLE_S3_UPLOAD:
                 try:
                     upload_object(yum_updates, extra, msg)
-                except:
+                except FailUploadException:
                     logger.exception("Error occurred while uploading object.")
 
         except Exception as e:

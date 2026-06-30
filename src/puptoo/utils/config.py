@@ -81,7 +81,7 @@ if CLOWDER_ENABLED:
     REDIS_PORT = LoadedConfig.inMemoryDb.port
     try:
         REDIS_PASSWORD = LoadedConfig.inMemoryDb.password
-    except:
+    except AttributeError:
         REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
 else:

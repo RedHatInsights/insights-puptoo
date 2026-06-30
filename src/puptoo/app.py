@@ -5,6 +5,7 @@ from time import time
 
 from prometheus_client import Info, Summary, start_http_server
 
+from .exceptions import RetryExhaustedException
 from .handlers import get_handler
 from .mq import consume
 from .mq.auth import write_kafka_cert
@@ -58,8 +59,8 @@ def handle_retries(redis, request_id):
     if not count:
         count = 0
     if int(count) == 3:
-        raise Exception(
-            "Message process attempts exceeded for request_id: %s", request_id
+        raise RetryExhaustedException(
+            f"Message process attempts exceeded for request_id: {request_id}"
         )
     else:
         count = int(count) + 1
