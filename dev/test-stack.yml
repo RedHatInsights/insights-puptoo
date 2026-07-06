@@ -1,56 +1,158 @@
-version: "3"
+# Test stack: Kafka (KRaft), MinIO, Puptoo, and io_test producer/consumer.
+# Used to watch archives flow through the system end-to-end.
+#
+# Prerequisites:
+#   Place an insights archive in MinIO.  The archive filename becomes the
+#   REQUEST_ID env variable under the producer service below.
+#
+# Usage:
+#   docker compose -f test-stack.yml up --build
+#   docker compose -f test-stack.yml up -d consumer   # start consuming
+#   docker compose -f test-stack.yml up -d producer   # send 100 copies
+#   docker compose -f test-stack.yml down -v
+
 services:
-  zookeeper:
-    image: confluentinc/cp-zookeeper
-    environment:
-      - ZOOKEEPER_CLIENT_PORT=32181
-      - ZOOKEEPER_SERVER_ID=1
+
+  # ---------------------------------------------------------------------------
+  # Kafka (KRaft — no Zookeeper)
+  # ---------------------------------------------------------------------------
   kafka:
-    image: confluentinc/cp-kafka
+    image: docker.io/confluentinc/cp-kafka:8.2.1
+    container_name: puptoo-kafka
+    hostname: kafka
+    restart: unless-stopped
     ports:
-      - 29092:29092
-    depends_on:
-      - zookeeper
+      - "29092:29092"
+      - "9092:9092"
     environment:
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29092
-      - KAFKA_BROKER_ID=1
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
-  pup:
-    image: insights-puptoo:latest
-    ports:
-      - 8000:8000 #for prometheus endpoint
-    depends_on:
-      - kafka
-  producer:
-    build: ./io_test/producer
-    environment:
-      - REQUEST_ID=dootdootscootscoot
-      - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY
-      - MINIO_SECRET_KEY=$MINIO_SECRET_KEY
-  consumer:
-    build: ./io_test/consumer
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: DOCKER://0.0.0.0:29092,LOCALHOST://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: DOCKER://kafka:29092,LOCALHOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: DOCKER:PLAINTEXT,LOCALHOST:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: DOCKER
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - |
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.upload.announce --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.inventory.host-ingress --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.upload.validation --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.payload-status --replication-factor 1 --partitions 1 && \
+          kafka-broker-api-versions --bootstrap-server localhost:29092
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+
+  # ---------------------------------------------------------------------------
+  # Object Storage (MinIO)
+  # ---------------------------------------------------------------------------
   minio:
-      image: minio/minio
-      command: server /data
-      volumes:
-        - '$MINIO_DATA_DIR:/data:Z'
-        - '$MINIO_CONFIG_DIR:/root/.minio:Z'
-      ports:
-        - 9000:9000
-      environment:
-        - MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY
-        - MINIO_SECRET_KEY=$MINIO_SECRET_KEY
+    image: docker.io/minio/minio
+    container_name: puptoo-minio
+    hostname: minio
+    restart: unless-stopped
+    command: "server --address 0.0.0.0:9000 --console-address 0.0.0.0:9001 /data"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioaccess}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-miniosecret}
+    healthcheck:
+      test: ["CMD-SHELL", "mc ready local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - minio-data:/data
+
   createbuckets:
-    image: minio/mc
+    image: docker.io/minio/mc
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
+    restart: on-failure
     entrypoint: >
       /bin/sh -c "
-      /usr/bin/mc config host add myminio http://minio:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY;
-      /usr/bin/mc mb myminio/insights-upload-perma;
-      /usr/bin/mc mb myminio/insights-upload-rejected;
-      /usr/bin/mc policy download myminio/insights-upload-perma;
-      /usr/bin/mc policy download myminio/insights-upload-rejected;
+      mc alias set myminio http://minio:9000 ${MINIO_ACCESS_KEY:-minioaccess} ${MINIO_SECRET_KEY:-miniosecret};
+      mc mb --ignore-existing myminio/insights-upload-perma;
+      mc mb --ignore-existing myminio/insights-upload-rejected;
+      mc mb --ignore-existing myminio/insights-upload-puptoo;
+      mc anonymous set public myminio/insights-upload-perma;
+      mc anonymous set public myminio/insights-upload-rejected;
+      mc anonymous set public myminio/insights-upload-puptoo;
       exit 0;
       "
+
+  # ---------------------------------------------------------------------------
+  # Puptoo
+  # ---------------------------------------------------------------------------
+  puptoo:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: puptoo
+    hostname: puptoo
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      LOG_LEVEL: DEBUG
+      CLOWDER_ENABLED: "False"
+      BOOTSTRAP_SERVERS: kafka:29092
+      S3_ENDPOINT: minio:9000
+      PUPTOO_BUCKET: insights-upload-puptoo
+      STORAGE_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
+      STORAGE_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      USE_SSL: "False"
+      DISABLE_REDIS: "True"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      createbuckets:
+        condition: service_completed_successfully
+
+  # ---------------------------------------------------------------------------
+  # IO Test helpers
+  # ---------------------------------------------------------------------------
+  producer:
+    build: ./io_test/producer
+    container_name: puptoo-test-producer
+    environment:
+      REQUEST_ID: dootdootscootscoot
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+    depends_on:
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      puptoo:
+        condition: service_started
+
+  consumer:
+    build: ./io_test/consumer
+    container_name: puptoo-test-consumer
+    depends_on:
+      kafka:
+        condition: service_healthy
+
+volumes:
+  kafka-data:
+  minio-data:

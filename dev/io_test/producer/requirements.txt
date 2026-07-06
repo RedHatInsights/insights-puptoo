@@ -1,2 +1,2 @@
-kafka
+kafka-python-ng
 boto3
