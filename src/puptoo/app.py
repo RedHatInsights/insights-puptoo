@@ -4,21 +4,32 @@ import signal
 from time import time
 
 from prometheus_client import Summary, start_http_server
+from redis import Redis
 
 from .exceptions import RetryExhaustedException
 from .handlers import get_handler
 from .mq import consume
+from .mq import produce as produce_mod
 from .mq.auth import write_kafka_cert
 from .mq.produce import init_producer, send_message
+from opentelemetry import trace
+
+from .telemetry import (
+    get_tracer,
+    init_otel,
+    instrument_kafka_consumer,
+    instrument_kafka_producer,
+    instrument_outbound_http,
+)
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
-from redis import Redis
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"
 )
 
 logger = puptoo_logging.initialize_logging()
+tracer = get_tracer(__name__)
 
 
 def start_prometheus():
@@ -72,12 +83,16 @@ def main():
     try:
         logger.info("Starting Puptoo Service")
 
+        init_otel(service_name="insights-puptoo")
+        instrument_outbound_http()
+
         config.log_config()
 
         write_kafka_cert()
 
-        consumer = consume.init_consumer()
-        producer = init_producer()
+        consumer = instrument_kafka_consumer(consume.init_consumer())
+        producer = instrument_kafka_producer(init_producer())
+        produce_mod.producer = producer
         if config.DISABLE_REDIS:
             redis = None
         else:
@@ -115,8 +130,24 @@ def main():
                         extra = get_extra(
                             msg.get("account"), msg.get("org_id"), msg.get("request_id")
                         )
-                        handle_retries(redis, extra["request_id"])
-                        handler.handle(msg, service, extra, send_message=send_message)
+                        threadctx.service = service
+                        with tracer.start_as_current_span(
+                            "puptoo.handle_message",
+                            attributes={"messaging.system": "kafka"},
+                        ) as span:
+                            try:
+                                with tracer.start_as_current_span(
+                                    "puptoo.redis_retry_check",
+                                ):
+                                    handle_retries(redis, extra["request_id"])
+                                handler.handle(
+                                    msg, service, extra, send_message=send_message
+                                )
+                                span.set_status(trace.StatusCode.OK)
+                            except Exception as exc:
+                                span.set_status(trace.StatusCode.ERROR, str(exc))
+                                span.record_exception(exc)
+                                raise
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")

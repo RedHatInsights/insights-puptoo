@@ -56,7 +56,10 @@ def send_message(topic, msg, extra):
             else None
         )
         producer.produce(
-            topic, _bytes, key, callback=partial(delivery_report, extra=extra)
+            topic,
+            value=_bytes,
+            key=key,
+            on_delivery=partial(delivery_report, extra=extra),
         )
 
         if topic == config.INVENTORY_TOPIC and msg.get("system_profile"):
