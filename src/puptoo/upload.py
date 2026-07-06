@@ -2,6 +2,7 @@ import io
 import json
 import logging
 from minio import Minio
+from .exceptions import FailUploadException
 from .utils import config, puptoo_logging  # noqa: F401
 
 logger = logging.getLogger(config.APP_NAME)
@@ -34,8 +35,10 @@ def upload_object(yum_updates, extra, msg):
             msg["custom_metadata"]["yum_updates_s3url"] = get_url(
                 client, extra["request_id"]
             )
-        except:
-            logger.exception("An error occurred while uploading object")
+        except Exception as exc:
+            raise FailUploadException(
+                f"Failed to upload object {extra['request_id']}"
+            ) from exc
     else:
         logger.error("Bucket (%s) does not exist", config.BUCKET_NAME)
 
@@ -45,9 +48,9 @@ def get_url(client, object_name):
     try:
         url = client.presigned_get_object(config.BUCKET_NAME, object_name)
         logger.info("Successfully fetched object (%s) url - %s", object_name, url)
-    except Exception:
-        logger.exception(
-            "An error occurred while fetching s3 url for object %s", object_name
-        )
+    except Exception as exc:
+        raise FailUploadException(
+            f"Failed to fetch presigned URL for object {object_name}"
+        ) from exc
 
     return url
