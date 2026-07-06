@@ -1,15 +1,14 @@
 import json
 import os
 import signal
-from functools import partial
 from time import time
 
-from confluent_kafka import KafkaError
 from prometheus_client import Info, Summary, start_http_server
 
 from .handlers import get_handler
-from .mq import consume, produce
+from .mq import consume
 from .mq.auth import write_kafka_cert
+from .mq.produce import init_producer, send_message
 from .utils import config, metrics, puptoo_logging
 from .utils.puptoo_logging import threadctx
 from redis import Redis
@@ -34,8 +33,6 @@ def get_extra(account="unknown", org_id="unknown", request_id="unknown"):
     threadctx.org_id = org_id
     return {"account": account, "org_id": org_id, "request_id": request_id}
 
-
-producer = None
 
 running = True
 
@@ -81,8 +78,7 @@ def main():
         write_kafka_cert()
 
         consumer = consume.init_consumer()
-        global producer
-        producer = produce.init_producer()
+        producer = init_producer()
         if config.DISABLE_REDIS:
             redis = None
         else:
@@ -134,51 +130,6 @@ def main():
         producer.flush()
     except Exception:
         logger.exception("Puptoo failed with Error")
-
-
-def delivery_report(err, msg=None, extra=None):
-    if err is not None:
-        logger.error(
-            "Message delivery for topic %s failed for request_id [%s]: %s",
-            msg.topic(),
-            err,
-            extra["request_id"],
-        )
-        metrics.msg_send_failure.labels(msg.topic()).inc()
-    else:
-        logger.info(
-            "Message delivered to %s [%s] for request_id [%s]",
-            msg.topic(),
-            msg.partition(),
-            extra["request_id"],
-        )
-        metrics.msg_produced.labels(msg.topic()).inc()
-
-
-@metrics.send_time.time()
-def send_message(topic, msg, extra):
-    try:
-        producer.poll(0)
-        _bytes = json.dumps(msg, ensure_ascii=False).encode("utf-8")
-        org_id = msg.get("platform_metadata", {}).get("org_id")
-        key = (
-            org_id.encode("utf-8")
-            if topic == config.INVENTORY_TOPIC and org_id
-            else None
-        )
-        producer.produce(
-            topic, _bytes, key, callback=partial(delivery_report, extra=extra)
-        )
-
-        if topic == config.INVENTORY_TOPIC and msg.get("system_profile"):
-            msg["data"].pop("system_profile")
-            logger.info("Message sent to inventory: %s", msg)
-
-    except KafkaError:
-        metrics.msg_send_failure.labels(topic).inc()
-        logger.exception(
-            "Failed to produce message to [%s] topic: %s", topic, extra["request_id"]
-        )
 
 
 if __name__ == "__main__":
