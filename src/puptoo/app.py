@@ -3,7 +3,7 @@ import os
 import signal
 from time import time
 
-from prometheus_client import Info, Summary, start_http_server
+from prometheus_client import Summary, start_http_server
 
 from .exceptions import RetryExhaustedException
 from .handlers import get_handler
@@ -16,9 +16,6 @@ from redis import Redis
 
 CONSUMER_WAIT_TIME = Summary(
     "puptoo_consumer_wait_time", "Time spent waiting on consumer iteration"
-)
-CONSUMER_ASSIGNMENTS = Info(
-    "puptoo_consumer_assignments", "List of partitions assigned to the consumer"
 )
 
 logger = puptoo_logging.initialize_logging()
@@ -68,6 +65,7 @@ def handle_retries(redis, request_id):
 
 
 signal.signal(signal.SIGTERM, handle_signal)
+signal.signal(signal.SIGINT, handle_signal)
 
 
 def main():
