@@ -71,7 +71,13 @@ if CLOWDER_ENABLED:
     AWS_SECRET_KEY = os.getenv(
         "STORAGE_SECRET_KEY", LoadedConfig.objectStore.buckets[0].secretKey
     )
-    USE_SSL = os.getenv("USE_SSL", LoadedConfig.objectStore.tls)
+    _use_ssl_default = LoadedConfig.objectStore.tls
+    _use_ssl_env = os.getenv("USE_SSL")
+    USE_SSL = (
+        _use_ssl_env.lower() in ("true", "t", "yes", "y")
+        if _use_ssl_env is not None
+        else _use_ssl_default
+    )
     REDIS_HOST = LoadedConfig.inMemoryDb.hostname
     REDIS_PORT = LoadedConfig.inMemoryDb.port
     try:
@@ -98,7 +104,7 @@ else:
     AWS_SECRET_KEY = os.getenv(
         "STORAGE_SECRET_KEY", os.getenv("MINIO_SECRET_KEY", None)
     )
-    USE_SSL = os.getenv("USE_SSL", False)
+    USE_SSL = os.getenv("USE_SSL", "").lower() in ("true", "t", "yes", "y")
     REDIS_HOST = os.getenv("REDIS_HOST", "redis")
     REDIS_PORT = os.getenv("REDIS_PORT", 6379)
     REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
