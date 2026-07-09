@@ -7,8 +7,10 @@ IMAGE_ARCH ?= x86_64
 
 # Define the AWK command based on platform (gawk on macOS, awk elsewhere)
 AWK = awk
+OPEN = xdg-open
 ifeq ($(shell uname),Darwin)
 AWK = gawk
+OPEN = open
 endif
 
 ensure_image = \
@@ -214,3 +216,104 @@ generate-py-pkg-lock: generate-uv-lock
 .PHONY: bump-up-py-pkg-deps
 bump-up-py-pkg-deps:
 	bash py-pkg-deps-bump-up.sh
+
+# =============================================================================
+# Local Development
+# =============================================================================
+COMPOSE_FILE := dev/full-stack.yml
+COMPOSE      := podman compose -f $(COMPOSE_FILE)
+INGRESS_URL  := http://localhost:8080/api/ingress/v1/upload
+INVENTORY_URL := http://localhost:8082/api/inventory/v1/hosts
+ARCHIVE_DIR  := dev/test-archives
+
+B64_IDENTITY := eyJpZGVudGl0eSI6eyJvcmdfaWQiOiIwMDAwMDEiLCJhdXRoX3R5cGUiOiJiYXNpYy1hdXRoIiwidHlwZSI6IlVzZXIiLCJpbnRlcm5hbCI6eyJvcmdfaWQiOiIwMDAwMDEifSwidXNlciI6eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpc19vcmdfYWRtaW4iOnRydWV9LCJzeXN0ZW0iOnsiY24iOiIxYjM2YjIwZi03ZmEwLTQ1NzEtYTEwOC04ZWI4MDYyMDRkYzAifX19
+
+# Start the full dev stack (Kafka, MinIO, Redis, Ingress, Puptoo, Host Inventory)
+# Usage: make dev-up
+.PHONY: dev-up
+dev-up:
+	$(COMPOSE) up --build -d
+	@echo "Stack is starting. Use 'make dev-status' to check health and 'make dev-logs' to follow puptoo logs."
+
+# Tear down the stack and remove volumes
+# Usage: make dev-down
+.PHONY: dev-down
+dev-down:
+	$(COMPOSE) down -v
+
+# Follow puptoo logs
+# Usage: make dev-logs
+.PHONY: dev-logs
+dev-logs:
+	$(COMPOSE) logs -f puptoo
+
+# Show service status
+# Usage: make dev-status
+.PHONY: dev-status
+dev-status:
+	$(COMPOSE) ps
+
+# Inject a single archive into the pipeline via Ingress
+# Usage: make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz
+.PHONY: inject
+inject:
+ifndef ARCHIVE
+	$(error ARCHIVE is required. Usage: make inject ARCHIVE=path/to/archive.tar.gz)
+endif
+	@echo "Injecting $(ARCHIVE) ..."
+	@status=$$(curl -sS -o /dev/null -w "%{http_code}" \
+		-F "file=@$(ARCHIVE);type=application/vnd.redhat.advisor.collection+tgz" \
+		-H "x-rh-identity: $(B64_IDENTITY)" \
+		$(INGRESS_URL)); \
+	if [ "$$status" = "201" ] || [ "$$status" = "202" ]; then \
+		echo "  -> Accepted (HTTP $$status)"; \
+	else \
+		echo "  -> Failed (HTTP $$status)"; \
+		exit 1; \
+	fi
+
+# Inject all test archives from ARCHIVE_DIR
+# Usage: make inject-all
+#        make inject-all ARCHIVE_DIR=path/to/archives
+.PHONY: inject-all
+inject-all:
+	@if ! ls $(ARCHIVE_DIR)/*.tar.gz >/dev/null 2>&1; then \
+		echo "No archives found in $(ARCHIVE_DIR) (expected *.tar.gz)"; \
+		exit 1; \
+	fi; \
+	total=0; failed=0; \
+	for archive in $(ARCHIVE_DIR)/*.tar.gz; do \
+		total=$$((total + 1)); \
+		echo "Injecting $$archive ..."; \
+		status=$$(curl -sS -o /dev/null -w "%{http_code}" \
+			-F "file=@$$archive;type=application/vnd.redhat.advisor.collection+tgz" \
+			-H "x-rh-identity: $(B64_IDENTITY)" \
+			$(INGRESS_URL)); \
+		if [ "$$status" = "201" ] || [ "$$status" = "202" ]; then \
+			echo "  -> Accepted (HTTP $$status)"; \
+		else \
+			echo "  -> Failed (HTTP $$status)"; \
+			failed=$$((failed + 1)); \
+		fi; \
+	done; \
+	echo ""; \
+	echo "Injected $$((total - failed))/$$total archives successfully."; \
+	if [ "$$failed" -gt 0 ]; then exit 1; fi
+
+# Query Host Inventory for ingested hosts
+# Usage: make dev-hosts
+.PHONY: dev-hosts
+dev-hosts:
+	@curl -sS -f -H "x-rh-identity: $(B64_IDENTITY)" $(INVENTORY_URL) 2>/dev/null | jq . 2>/dev/null || echo "No hosts found (inventory may still be starting)."
+
+# Open MinIO admin console in the default browser
+# Usage: make dev-minio
+.PHONY: dev-minio
+dev-minio:
+	$(OPEN) http://localhost:9001
+
+# Open Grafana dashboard to view OTel traces
+# Usage: make dev-grafana
+.PHONY: dev-grafana
+dev-grafana:
+	$(OPEN) http://localhost:3000

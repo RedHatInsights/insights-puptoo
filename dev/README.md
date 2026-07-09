@@ -4,36 +4,39 @@
 
 - Podman (with Compose V2)
 
+## Quick Start (Makefile)
+
+The recommended way to run the local dev environment is via Makefile targets
+from the **repo root**:
+
+```sh
+make dev-up                    # Start the full pipeline (detached)
+make dev-status                # Check service health
+make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz
+make inject-all                # Inject all test archives
+make dev-hosts                 # Query ingested hosts from Inventory API
+make dev-logs                  # Follow puptoo logs
+make dev-down                  # Tear down everything (including volumes)
+```
+
+`make inject` uploads a single archive to the Ingress API on `localhost:8080`.
+`make inject-all` loops over all `*.tar.gz` files in `dev/test-archives/`.
+`make dev-hosts` queries the Host Inventory REST API on `localhost:8082`.
+
 ## Compose Files
 
 | File | Description |
 |------|-------------|
 | `docker-compose.yml` | Minimal stack: Kafka, MinIO, Redis, and Puptoo |
 | `full-stack.yml` | Full pipeline: adds Ingress, Host Inventory (MQ + Web), and PostgreSQL |
-| `test-stack.yml` | IO test harness: Kafka, MinIO, Puptoo, plus a test producer and consumer |
 
-All compose files use **KRaft-mode Kafka** (no Zookeeper) with healthchecks and
+Both compose files use **KRaft-mode Kafka** (no Zookeeper) with healthchecks and
 proper `depends_on` conditions, so services start in the correct order
 automatically.
 
-All three compose files include **Tempo** and **Grafana** for local distributed
+Both compose files include **Tempo** and **Grafana** for local distributed
 tracing.  Puptoo starts with `OTEL_ENABLED=true` by default in the dev stacks
 so traces are collected automatically.
-
-## Quick Start
-
-Build and launch the minimal stack:
-
-```sh
-cd dev
-podman compose up --build
-```
-
-Tear down (including named volumes):
-
-```sh
-podman compose down -v
-```
 
 ## Launching the Full Stack
 
@@ -48,33 +51,6 @@ podman compose -f full-stack.yml up --build
 > **Note:** The Ingress and Inventory images are pulled from `quay.io`.  See
 > those projects for details on building custom images.
 
-## Launching the Test Stack
-
-The test stack lets you watch archives flow through Puptoo end-to-end with a
-test producer and consumer — no other platform components required.
-
-1. Start the core services and let healthchecks settle:
-
-   ```sh
-   cd dev
-   podman compose -f test-stack.yml up --build
-   ```
-
-2. Start the consumer (reads from `platform.inventory.host-ingress`):
-
-   ```sh
-   podman compose -f test-stack.yml up -d consumer
-   ```
-
-3. Fire the producer (sends 100 copies of the configured archive):
-
-   ```sh
-   podman compose -f test-stack.yml up -d producer
-   ```
-
-The consumer logs the `elapsed_time` showing how long Puptoo took to process
-each archive.
-
 ## Viewing Traces
 
 Open Grafana at [http://localhost:3000](http://localhost:3000) → **Explore** →
@@ -85,7 +61,7 @@ Kafka produce.
 To disable tracing locally, set `OTEL_ENABLED=false` before starting the stack:
 
 ```sh
-OTEL_ENABLED=false docker compose up --build
+OTEL_ENABLED=false podman compose -f full-stack.yml up --build
 ```
 
 ## Configuration

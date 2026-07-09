@@ -200,6 +200,12 @@ services:
       DISABLE_REDIS: "False"
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/')\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     depends_on:
       kafka:
         condition: service_healthy
@@ -227,19 +233,21 @@ services:
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U insights"]
+      test: ["CMD-SHELL", "pg_isready -U insights -d insights"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+      start_period: 10s
     volumes:
       - db-data:/var/lib/postgresql/data
 
-  insights-inventory-mq: &inventory
+  insights-inventory-mq:
     image: quay.io/cloudservices/insights-inventory:latest
     container_name: puptoo-inventory-mq
-    command: "make upgrade_db run_inv_mq_service"
+    command: >
+      sh -c "make upgrade_db && touch /tmp/.db-migrated && exec make run_inv_mq_service"
     restart: unless-stopped
-    environment:
+    environment: &inventory-env
       APP_NAME: inventory
       PATH_PREFIX: api
       INVENTORY_DB_USER: insights
@@ -254,6 +262,12 @@ services:
       BYPASS_KESSEL: "true"
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/.db-migrated"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 15s
     depends_on:
       db-host-inventory:
         condition: service_healthy
@@ -267,12 +281,16 @@ services:
       - "8081:8080"
 
   insights-inventory-web:
-    <<: *inventory
+    image: quay.io/cloudservices/insights-inventory:latest
     container_name: puptoo-inventory-web
-    command: "make upgrade_db run_inv_web_service"
+    command: >
+      sh -c "gunicorn -b :8080 -k uvicorn.workers.UvicornWorker run:app"
+    restart: unless-stopped
+    environment:
+      <<: *inventory-env
     depends_on:
       insights-inventory-mq:
-        condition: service_started
+        condition: service_healthy
       tempo:
         condition: service_started
     ports:
