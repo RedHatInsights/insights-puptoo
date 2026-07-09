@@ -2,8 +2,8 @@
 # Nothing is stood up for uploads or to consume the inventory messages.
 #
 # Usage:
-#   docker compose up --build
-#   docker compose down -v   # tear down including volumes
+#   podman compose up --build
+#   podman compose down -v   # tear down including volumes
 
 services:
 

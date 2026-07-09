@@ -6,8 +6,8 @@
 #   from quay.io.  See those projects for build instructions.
 #
 # Usage:
-#   docker compose -f full-stack.yml up --build
-#   docker compose -f full-stack.yml down -v
+#   podman compose -f full-stack.yml up --build
+#   podman compose -f full-stack.yml down -v
 
 services:
 

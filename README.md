@@ -144,29 +144,38 @@ Or run directly with uv:
 uv run puptoo
 ```
 
-#### Running with Docker Compose
+#### Running with Podman Compose
 
-Two docker-compose files are made available in this repo for standing up a local dev environment. The `docker-compose.yml` file stands up puptoo, kafka, and minio for isolated tested. The `full-stack.yml` file stands up ingress, kafka, puptoo, minio, and inventory components so that the entire first bits of the platform pipeline can be tested.
+Several compose files are available in the `dev/` directory for standing up a local dev environment. See [`dev/README.md`](dev/README.md) for full details.
 
-Stand Up Isolated Puptoo
-
-```sh
-cd dev && source .env && sudo docker-compose up
-```
-
-Stand Up Full stack - Linux
+Stand up the minimal stack (Kafka, MinIO, Puptoo):
 
 ```sh
-cd dev && source .env && sudo docker-compose -f full-stack.yml up
+cd dev
+podman compose up --build
 ```
 
-Stand Up Full stack - macOS
+Stand up the full pipeline (adds Ingress, Host Inventory, PostgreSQL):
 
 ```sh
-cd dev && source .env && sudo docker-compose -f full-stack-mac.yml up
+cd dev
+podman compose -f full-stack.yml up --build
 ```
 
-**NOTE**: The full stack expects you to have an ingress and inventory image available. See those projects for steps for building the images needed. It's also typical for puptoo to fail to start if it can't initially connect to kafka. If this happens, simply run `sudo docker-compose -f full-stack.yml up -d pup` to have it attempt another startup.
+Stand up the test harness (Kafka, MinIO, Puptoo, test producer/consumer):
+
+```sh
+cd dev
+podman compose -f test-stack.yml up --build
+```
+
+Tear down (including named volumes):
+
+```sh
+podman compose down -v
+```
+
+> **Note:** The Ingress and Inventory images are pulled from `quay.io`. See those projects for details on building custom images.
 
 #### Bonfire
 
@@ -174,8 +183,7 @@ Deploying with bonfire to an ephemeral environment is the preferred way to test 
 
 ## File Processing
 
-The best way to test is by standing up this server and incorporating it with the upload-service. The [insights-upload](https://www.github.com/RedHatInsights/insights-upload) repo has a docker-compose that will get you most of the way there. Other details regarding
-posting your archive to the service can be found in that readme.
+The best way to test is by standing up the local dev stack with `podman compose` (see [Running with Podman Compose](#running-with-podman-compose)). The [insights-upload](https://www.github.com/RedHatInsights/insights-upload) repo has additional details regarding posting archives to the service.
 
 This test assumes you have an inventory service available and ready to use. Visit the `insights-host-inventory` repo for those instructions.
 
@@ -242,7 +250,7 @@ inside a real archive, and the test itself should be written and provided in the
 ## Running unit tests
 
 ```sh
-ACG_CONFIG=./cdappconfig.json uv run pytest tests/
+uv run pytest tests/
 ```
 
 ## Versioning
