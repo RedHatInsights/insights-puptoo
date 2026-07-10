@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Docker (with Compose V2)
+- Podman (with Compose V2)
 
 ## Compose Files
 
@@ -26,13 +26,13 @@ Build and launch the minimal stack:
 
 ```sh
 cd dev
-docker compose up --build
+podman compose up --build
 ```
 
 Tear down (including named volumes):
 
 ```sh
-docker compose down -v
+podman compose down -v
 ```
 
 ## Launching the Full Stack
@@ -42,7 +42,7 @@ Inventory so the entire first segment of the platform pipeline can be tested.
 
 ```sh
 cd dev
-docker compose -f full-stack.yml up --build
+podman compose -f full-stack.yml up --build
 ```
 
 > **Note:** The Ingress and Inventory images are pulled from `quay.io`.  See
@@ -57,19 +57,19 @@ test producer and consumer — no other platform components required.
 
    ```sh
    cd dev
-   docker compose -f test-stack.yml up --build
+   podman compose -f test-stack.yml up --build
    ```
 
 2. Start the consumer (reads from `platform.inventory.host-ingress`):
 
    ```sh
-   docker compose -f test-stack.yml up -d consumer
+   podman compose -f test-stack.yml up -d consumer
    ```
 
 3. Fire the producer (sends 100 copies of the configured archive):
 
    ```sh
-   docker compose -f test-stack.yml up -d producer
+   podman compose -f test-stack.yml up -d producer
    ```
 
 The consumer logs the `elapsed_time` showing how long Puptoo took to process
@@ -102,7 +102,7 @@ MINIO_SECRET_KEY=mysecret
 
 | Service | Port | Purpose |
 |---------|------|---------|
-| Kafka | 29092 (Docker) / 9092 (localhost) | Broker |
+| Kafka | 29092 (container) / 9092 (localhost) | Broker |
 | MinIO | 9000 (API) / 9001 (Console) | Object store |
 | Redis | 6379 | In-memory cache |
 | Puptoo | 8000 | Prometheus metrics |

@@ -6,10 +6,10 @@
 #   REQUEST_ID env variable under the producer service below.
 #
 # Usage:
-#   docker compose -f test-stack.yml up --build
-#   docker compose -f test-stack.yml up -d consumer   # start consuming
-#   docker compose -f test-stack.yml up -d producer   # send 100 copies
-#   docker compose -f test-stack.yml down -v
+#   podman compose -f test-stack.yml up --build
+#   podman compose -f test-stack.yml up -d consumer   # start consuming
+#   podman compose -f test-stack.yml up -d producer   # send 100 copies
+#   podman compose -f test-stack.yml down -v
 
 services:
 

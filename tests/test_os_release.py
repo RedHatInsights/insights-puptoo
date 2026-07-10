@@ -34,6 +34,14 @@ ID="centos"
 PRETTY_NAME="CentOS Stream 9"
 """.strip()
 
+REDHAT_RELEASE_CENTOS_8 = "CentOS Linux release 8.5.2111"
+OS_RELEASE_CENTOS_8 = """
+NAME="CentOS Linux"
+VERSION="8"
+ID="centos"
+PRETTY_NAME="CentOS Linux 8"
+""".strip()
+
 REDHAT_RELEASE_SERVER_7_9 = "Red Hat Enterprise Linux Server release 7.9 (Maipo)"
 OS_RELEASE_ORACLE_7_9 = """
 NAME="Oracle Linux Server"
@@ -69,6 +77,15 @@ def test_os_release():
     result = run_test(system_profile, input_data)
     expected_result = {"major": 7, "minor": 9, "name": "CentOS Linux"}
     assert result["os_release"] == "7.9"
+    assert result["system_update_method"] == "yum"
+    assert result["operating_system"] == expected_result
+
+    input_data = InputData()
+    input_data.add(Specs.redhat_release, REDHAT_RELEASE_CENTOS_8)
+    input_data.add(Specs.os_release, OS_RELEASE_CENTOS_8)
+    result = run_test(system_profile, input_data)
+    expected_result = {"major": 8, "minor": 5, "name": "CentOS Linux"}
+    assert result["os_release"] == "8.5"
     assert result["system_update_method"] == "yum"
     assert result["operating_system"] == expected_result
 

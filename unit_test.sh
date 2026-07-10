@@ -1,59 +1,34 @@
 #!/bin/bash
+set -euo pipefail
 
-# check python version
-python3.11 --version
+echo "### Installing dependencies with uv ..."
+uv sync
 
-python3.11 -m venv /tmp/.unit_test_venv
-source /tmp/.unit_test_venv/bin/activate
-pip install --upgrade pip
-pip install .
-pip install -r requirements.txt
-pip install -r requirements-dev.txt
-
-echo "### Running unit test ..."
-INSIGHTS_FILTERS_ENABLED=false INVENTORY_TOPIC=platform.inventory.host-ingress-p1 ACG_CONFIG=dev/cdappconfig.json pytest tests/ --junitxml=$WORKSPACE/artifacts/junit-unit_tests.xml
-
-if [ $? != 0 ]; then
-   echo ">>> unit test result: FAILURE"
-   exit 1
-fi
+echo "### Running unit tests ..."
+uv run pytest tests/ --junitxml="${WORKSPACE:-.}/artifacts/junit-unit_tests.xml"
 echo ">>> unit test result: SUCCESS"
 
 # Clone system-profile schema repo to /tmp
-git clone https://github.com/RedHatInsights/insights-host-inventory.git /tmp/insights-host-inventory
+SCHEMA_DIR=/tmp/insights-host-inventory
+rm -rf "$SCHEMA_DIR"
+git clone --depth 1 https://github.com/RedHatInsights/insights-host-inventory.git "$SCHEMA_DIR"
 
 echo '---------------------------------'
 echo ' Run the profile and schema check'
 echo '---------------------------------'
 for file in dev/test-archives/*; do
     filename="$(basename "$file").tar.gz"
-    # Create tar archive in /tmp
-    tar -zcf /tmp/$filename "$file"
-    # Run insights-run and output to /tmp/output.json
+    tar -zcf "/tmp/$filename" "$file"
     echo "### Running insights-run to populate profile on $file ..."
-    insights-run -p src/puptoo -f json /tmp/$filename > /tmp/output.json
-    insights-run -p src/puptoo /tmp/$filename # Print results in test console
-    if [ $? != 0 ]; then
-        echo ">>> Profile result: FAILURE"
-        exit 1
-    fi
+    uv run insights-run -p src/puptoo -f json "/tmp/$filename" > /tmp/output.json
+    uv run insights-run -p src/puptoo "/tmp/$filename"
     echo ">>> Profile result: SUCCESS"
-    OUTPUT_JSON="/tmp/output.json" python3.11 dev/parse_json.py
-    # Run schema tester with files in /tmp
-    echo "### Checking output against schema insights-host-inventory/swagger/system_profile.spec.yaml ..."
-    python3.11 /tmp/insights-host-inventory/tools/simple-test/tester.py /tmp/insights-host-inventory/swagger/system_profile.spec.yaml /tmp/output.json
-    if [ $? != 0 ]; then
-        echo ">>> Schema validation result: FAILURE"
-        exit 1
-    fi
+    OUTPUT_JSON="/tmp/output.json" uv run python dev/parse_json.py
+    echo "### Checking output against schema ..."
+    uv run python "$SCHEMA_DIR/tools/simple-test/tester.py" \
+        "$SCHEMA_DIR/swagger/system_profile.spec.yaml" /tmp/output.json
     echo ">>> Schema validation result: SUCCESS"
-    # Clean up files
-    rm /tmp/$filename
-    rm /tmp/output.json
+    rm "/tmp/$filename" /tmp/output.json
 done
 
-# Clean up schema repo directory
-rm -rf /tmp/insights-host-inventory
-
-# Deactivate virtual environment
-deactivate
+rm -rf "$SCHEMA_DIR"

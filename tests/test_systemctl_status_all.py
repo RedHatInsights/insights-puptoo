@@ -63,6 +63,16 @@ SYSTEMCTLSTATUSALL_4 = """
                | |-9743 grep -F -- "Failed: "
 """.strip()
 
+SYSTEMCTLSTATUSALL_RUNNING = """
+* rhel9.example.com
+    State: running
+     Jobs: 0 queued
+   Failed: 0 units
+    Since: Mon 2024-01-15 08:22:31 UTC; 5 days ago
+   CGroup: /
+           |-user.slice
+""".strip()
+
 
 def test_systemctl_status():
     input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL)
@@ -113,3 +123,12 @@ def test_systemctl_status_invalid_failed_value():
 
     assert "systemd" not in result
     assert result.get("systemd") is None
+
+
+def test_systemctl_status_running():
+    input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL_RUNNING)
+    result = run_test(system_profile, input_data)
+
+    assert result["systemd"]["state"] == "running"
+    assert result["systemd"]["jobs_queued"] == 0
+    assert result["systemd"]["failed"] == 0
