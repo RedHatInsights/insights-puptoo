@@ -47,7 +47,7 @@ def test_send_message_produces_to_topic(mock_metrics, mock_config):
     mock_producer.produce.assert_called_once()
     call_args = mock_producer.produce.call_args
     assert call_args[0][0] == topic
-    assert json.loads(call_args[0][1].decode("utf-8")) == msg
+    assert json.loads(call_args.kwargs["value"].decode("utf-8")) == msg
 
 
 @patch("src.puptoo.mq.produce.config")
@@ -63,7 +63,7 @@ def test_send_message_uses_org_id_key_for_inventory(mock_metrics, mock_config):
     send_message("inventory", msg, extra)
 
     call_args = mock_producer.produce.call_args
-    assert call_args[0][2] == b"org-123"
+    assert call_args.kwargs["key"] == b"org-123"
 
 
 @patch("src.puptoo.mq.produce.config")
@@ -79,7 +79,7 @@ def test_send_message_no_key_for_non_inventory(mock_metrics, mock_config):
     send_message("platform.payload-status", msg, extra)
 
     call_args = mock_producer.produce.call_args
-    assert call_args[0][2] is None
+    assert call_args.kwargs["key"] is None
 
 
 @patch("src.puptoo.mq.produce.config")

@@ -36,8 +36,10 @@ SERVICE = os.getenv("SERVICE", "advisor")
 BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split()
 
 B64_IDENTITY = (
-    "eyJpZGVudGl0eSI6IHsib3JnX2lkIjogIjAwMDAwMSIsICJ0eXBlIjogIlVzZXIiLCAi"
-    "c3lzdGVtIjogeyJjbiI6ICJ0ZXN0LW93bmVyIn19fQ=="
+    "eyJpZGVudGl0eSI6IHsib3JnX2lkIjogIjAwMDAwMSIsICJhdXRoX3R5cGUiOiAiY2Vy"
+    "dC1hdXRoIiwgInR5cGUiOiAiU3lzdGVtIiwgInN5c3RlbSI6IHsiY24iOiAiMjJjZDhl"
+    "MzktMTNiYi00ZDAyLTgzMTYtODRiODUwZGM1MTM2IiwgImNlcnRfdHlwZSI6ICJzeXN0"
+    "ZW0ifX19"
 )
 
 producer = KafkaProducer(

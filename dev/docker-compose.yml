@@ -101,6 +101,31 @@ services:
     volumes:
       - redis-data:/data
 
+  tempo:
+    image: grafana/tempo:2.7.1
+    container_name: puptoo-tempo
+    hostname: tempo
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ../.otel/tempo.yaml:/etc/tempo.yaml
+    ports:
+      - "4318:4318"
+      - "3200:3200"
+
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: puptoo-grafana
+    hostname: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    volumes:
+      - ../.otel/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    depends_on:
+      - tempo
+
   puptoo:
     build:
       context: ..
@@ -122,6 +147,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       DISABLE_REDIS: "False"
+      OTEL_ENABLED: ${OTEL_ENABLED:-true}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     depends_on:
       kafka:
         condition: service_healthy
@@ -131,6 +158,8 @@ services:
         condition: service_completed_successfully
       redis:
         condition: service_healthy
+      tempo:
+        condition: service_started
 
 volumes:
   kafka-data:
