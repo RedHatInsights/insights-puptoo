@@ -16,8 +16,8 @@ ret=$?
 echo "<<< Return value of 'uv lock': $ret"
 
 ### Export requirements.txt & requirements-dev.txt
-echo ">>> Running: uv export --format requirements-txt --no-emit-project -o requirements.txt"
-uv export --format requirements-txt --no-emit-project -o requirements.txt
+echo ">>> Running: uv export --format requirements-txt --no-dev --no-emit-project -o requirements.txt"
+uv export --format requirements-txt --no-dev --no-emit-project -o requirements.txt
 ret=$?
 echo "<<< Return value of 'uv export ... requirements.txt': $ret"
 
