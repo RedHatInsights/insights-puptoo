@@ -89,7 +89,7 @@ generate-rpm-lockfile: rpms.in.yaml
 .PHONY: generate-requirements-txt
 generate-requirements-txt:
 	@if [ -f uv.lock ]; then \
-		uv export --format requirements-txt --no-emit-project -o requirements.txt; \
+		uv export --format requirements-txt --no-dev --no-emit-project -o requirements.txt; \
 	elif [ -f poetry.lock ]; then \
 		poetry export --format requirements.txt --output requirements.txt; \
 	elif [ -f Pipfile.lock ]; then \
