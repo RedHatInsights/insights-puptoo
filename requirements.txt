@@ -29,9 +29,9 @@ boto3==1.43.42 \
     --hash=sha256:c34a36c9181998dd9b663095b0b0f5f5bc97f3b6846d6a63b31529462091047a \
     --hash=sha256:f5a7fa503fd902dbd305d52a4571971149acb2c19f02508188f283e244e121e4
     # via watchtower
-botocore==1.43.42 \
-    --hash=sha256:62aa017eb5bb9791b1bc655571fa1548611e508f35e13e636d3939e1be3745f0 \
-    --hash=sha256:d813d5d5707db5f1c73b5d65f6b172c49f38375b23b30c593966fef56f8b5e40
+botocore==1.43.46 \
+    --hash=sha256:59f2e1ac3cdc66d191cae91c0804bc41847ce817dc8147cf43eaada8f76a5533 \
+    --hash=sha256:cb673891e623ae6e6a1bf24d94ef169504f3eb02584adb5d5bee2f6aae819b60
     # via
     #   boto3
     #   s3transfer
