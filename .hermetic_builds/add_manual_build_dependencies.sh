@@ -1,3 +1,3 @@
 #!/bin/bash
 
-echo "" >> requirements-build.in
+echo "pip>=26.1.2" >> requirements-build.in

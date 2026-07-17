@@ -16,7 +16,7 @@ dependencies = [
     "logstash_formatter>=0.5.17,<0.6.0",
     "minio>=7.2.15,<8.0.0",
     "urllib3>=2.5.0,<3.0.0",
-    "setuptools>=82.0.0,<83.0.0",
+    "setuptools>=81.0.0,<82.0.0",
     "cachecontrol<0.14.4",
     "wheel>=0.46.2",
     "opentelemetry-api~=1.42.1",
