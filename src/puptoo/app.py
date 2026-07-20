@@ -14,6 +14,7 @@ from .mq.auth import write_kafka_cert
 from .mq.produce import init_producer, send_message
 from opentelemetry import trace
 
+from .feature_flags import init_unleash
 from .telemetry import (
     get_tracer,
     init_otel,
@@ -88,6 +89,8 @@ def main():
             service_version=config.IMAGE_TAG,
         )
         instrument_outbound_http()
+
+        init_unleash()
 
         config.log_config()
 
