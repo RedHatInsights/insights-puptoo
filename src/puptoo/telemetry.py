@@ -80,7 +80,7 @@ def init_otel(service_name, service_version="unknown"):
     from opentelemetry.sdk.resources import SERVICE_NAME, SERVICE_VERSION, Resource
     from opentelemetry.sdk.trace import SpanLimits, SpanProcessor, TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
-    from opentelemetry.sdk.trace.sampling import TraceIdRatioBased
+    from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
 
     resource = Resource.create(
         attributes={
@@ -90,7 +90,7 @@ def init_otel(service_name, service_version="unknown"):
         }
     )
 
-    sampler = TraceIdRatioBased(OTEL_SAMPLING_RATE)
+    sampler = ParentBased(root=TraceIdRatioBased(OTEL_SAMPLING_RATE))
     span_limits = SpanLimits(
         max_attributes=OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT,
         max_attribute_length=OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT,
@@ -109,10 +109,10 @@ def init_otel(service_name, service_version="unknown"):
         def on_start(self, span, parent_context=None):
             if not span.is_recording():
                 return
+            span.set_attribute("rh.service", "puptoo")
             for attr, field in (
                 ("rh.org_id", "org_id"),
                 ("rh.request_id", "request_id"),
-                ("rh.service", "service"),
             ):
                 value = getattr(threadctx, field, None)
                 if value:
