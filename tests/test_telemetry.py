@@ -1,6 +1,7 @@
 """Tests for OpenTelemetry helpers in src.puptoo.telemetry."""
 
 import importlib
+import logging
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -114,7 +115,7 @@ def test_sampling_rate_applied_in_init_otel(monkeypatch):
     )
 
     with patch.object(telemetry_mod, "_otel_initialized", False):
-        from opentelemetry.sdk.trace.sampling import TraceIdRatioBased
+        from opentelemetry.sdk.trace.sampling import ParentBased, TraceIdRatioBased
 
         with (
             patch("opentelemetry.sdk.trace.TracerProvider") as mock_provider_cls,
@@ -127,8 +128,10 @@ def test_sampling_rate_applied_in_init_otel(monkeypatch):
 
             call_kwargs = mock_provider_cls.call_args[1]
             sampler = call_kwargs["sampler"]
-            assert isinstance(sampler, TraceIdRatioBased)
-            assert sampler.rate == 0.25
+            assert isinstance(sampler, ParentBased)
+            root_sampler = sampler._root
+            assert isinstance(root_sampler, TraceIdRatioBased)
+            assert root_sampler.rate == 0.25
 
     _cleanup_telemetry(monkeypatch)
 
@@ -382,7 +385,6 @@ def test_platform_attribute_span_processor_stamps_threadctx(monkeypatch):
 
     threadctx.org_id = "123456"
     threadctx.request_id = "req-abc"
-    threadctx.service = "advisor"
 
     with patch.object(telemetry_mod, "_otel_initialized", False):
         with (
@@ -406,11 +408,10 @@ def test_platform_attribute_span_processor_stamps_threadctx(monkeypatch):
 
             span.set_attribute.assert_any_call("rh.org_id", "123456")
             span.set_attribute.assert_any_call("rh.request_id", "req-abc")
-            span.set_attribute.assert_any_call("rh.service", "advisor")
+            span.set_attribute.assert_any_call("rh.service", "puptoo")
 
     del threadctx.org_id
     del threadctx.request_id
-    del threadctx.service
     _cleanup_telemetry(monkeypatch)
 
 
@@ -440,3 +441,65 @@ def test_platform_attribute_span_processor_skips_when_not_recording(monkeypatch)
             span.set_attribute.assert_not_called()
 
     _cleanup_telemetry(monkeypatch)
+
+
+# --- service.version from IMAGE_TAG ---
+
+
+def test_service_version_from_image_tag(monkeypatch):
+    telemetry_mod = _reload_telemetry(monkeypatch, {"OTEL_ENABLED": "true"})
+
+    with patch.object(telemetry_mod, "_otel_initialized", False):
+        with (
+            patch("opentelemetry.sdk.trace.TracerProvider") as mock_provider_cls,
+            patch(
+                "opentelemetry.exporter.otlp.proto.http.trace_exporter.OTLPSpanExporter"
+            ),
+            patch("opentelemetry.sdk.resources.Resource.create") as mock_resource,
+        ):
+            mock_provider_cls.return_value = MagicMock()
+            telemetry_mod.init_otel(service_name="test", service_version="abc123")
+
+            attrs = mock_resource.call_args[1]["attributes"]
+            assert attrs["service.version"] == "abc123"
+
+    _cleanup_telemetry(monkeypatch)
+
+
+# --- log correlation ---
+
+
+def test_contextual_filter_trace_id_with_active_span():
+    from opentelemetry import trace
+    from opentelemetry.sdk.trace import TracerProvider
+
+    from src.puptoo.utils.puptoo_logging import ContextualFilter
+
+    provider = TracerProvider()
+    trace.set_tracer_provider(provider)
+    tracer = provider.get_tracer("test")
+
+    filt = ContextualFilter()
+    record = logging.LogRecord("test", logging.INFO, "", 0, "msg", (), None)
+
+    with tracer.start_as_current_span("test-span") as span:
+        ctx = span.get_span_context()
+        expected_trace_id = format(ctx.trace_id, "032x")
+        expected_span_id = format(ctx.span_id, "016x")
+        filt.filter(record)
+
+    assert record.trace_id == expected_trace_id
+    assert record.span_id == expected_span_id
+    assert len(record.trace_id) == 32
+    assert len(record.span_id) == 16
+
+
+def test_contextual_filter_trace_id_without_active_span():
+    from src.puptoo.utils.puptoo_logging import ContextualFilter
+
+    filt = ContextualFilter()
+    record = logging.LogRecord("test", logging.INFO, "", 0, "msg", (), None)
+    filt.filter(record)
+
+    assert record.trace_id == ""
+    assert record.span_id == ""

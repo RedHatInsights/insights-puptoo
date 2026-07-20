@@ -93,6 +93,19 @@ def initialize_logging():
     return logger
 
 
+def _get_trace_context():
+    try:
+        from opentelemetry import trace
+
+        span = trace.get_current_span()
+        ctx = span.get_span_context()
+        if ctx and ctx.trace_id:
+            return format(ctx.trace_id, "032x"), format(ctx.span_id, "016x")
+    except Exception:
+        pass
+    return "", ""
+
+
 class ContextualFilter(logging.Filter):
     """
     This filter gets the request_id from the message and adds it to
@@ -115,5 +128,7 @@ class ContextualFilter(logging.Filter):
             log_record.org_id = threadctx.org_id
         except Exception:
             log_record.org_id = "000001"
+
+        log_record.trace_id, log_record.span_id = _get_trace_context()
 
         return True

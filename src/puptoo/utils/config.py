@@ -151,3 +151,4 @@ DISABLE_S3_UPLOAD = os.getenv("DISABLE_S3_UPLOAD", "").lower() in (
     "yes",
     "y",
 )
+IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
