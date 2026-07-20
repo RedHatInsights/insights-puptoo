@@ -92,6 +92,15 @@ if CLOWDER_ENABLED:
     except AttributeError:
         REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
 
+    # Feature Flags (Unleash)
+    _unleash_ff = getattr(LoadedConfig, "featureFlags", None)
+    if _unleash_ff:
+        UNLEASH_TOKEN = _unleash_ff.clientAccessToken
+        UNLEASH_URL = f"{_unleash_ff.scheme.value}://{_unleash_ff.hostname}:{_unleash_ff.port}/api"
+    else:
+        UNLEASH_URL = os.getenv("UNLEASH_URL", "http://unleash:4242/api")
+        UNLEASH_TOKEN = os.getenv("UNLEASH_TOKEN", "")
+
 else:
     KAFKA_BROKER = None
     BOOTSTRAP_SERVERS = os.getenv("BOOTSTRAP_SERVERS", "kafka:29092").split(",")
@@ -115,6 +124,10 @@ else:
     REDIS_HOST = os.getenv("REDIS_HOST", "redis")
     REDIS_PORT = os.getenv("REDIS_PORT", 6379)
     REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", None)
+
+    # Feature Flags (Unleash)
+    UNLEASH_URL = os.getenv("UNLEASH_URL", "http://unleash:4242/api")
+    UNLEASH_TOKEN = os.getenv("UNLEASH_TOKEN", "")
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO").upper()
 GROUP_ID = os.getenv("GROUP_ID", APP_NAME)
@@ -170,6 +183,14 @@ HOSTS_TRANSFORMATION_ENABLED = os.getenv(
     "yes",
     "y",
 )
+
+BYPASS_UNLEASH = os.getenv("BYPASS_UNLEASH", "false").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+
 DISCOVERY_HOST_TTL = os.getenv("DISCOVERY_HOST_TTL", "29")
 SATELLITE_HOST_TTL = os.getenv("SATELLITE_HOST_TTL", "29")
 BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() in (
@@ -192,3 +213,6 @@ if _enabled_handlers_env:
     ENABLED_HANDLERS = _enabled_handlers_parsed or None
 else:
     ENABLED_HANDLERS = None
+
+UNLEASH_CACHE_DIR = os.getenv("UNLEASH_CACHE_DIR", "/tmp/.unleashcache")
+UNLEASH_REFRESH_INTERVAL = int(os.getenv("UNLEASH_REFRESH_INTERVAL", "15"))
