@@ -1,0 +1,37 @@
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.15.14
+  hooks:
+  - id: ruff-check
+    args:
+    - '--fix'
+  - id: ruff-format
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: debug-statements
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: 'v2.1.0'
+  hooks:
+  - id: mypy
+    additional_dependencies:
+    - attrs
+    - pytest
+- repo: https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools.git
+  rev: rh-pre-commit-2.3.2
+  hooks:
+  # If you have not run this hook on your system before, it may prompt you to
+  # log in for patterns, and you will need to try again.
+  #
+  # Docs:
+  # https://source.redhat.com/departments/it/it-information-security/leaktk/leaktk_components/rh_pre_commit
+  - id: rh-pre-commit
+  - id: rh-pre-commit.commit-msg # Optional for commit-msg attestation
+- repo: https://gitlab.cee.redhat.com/insights-qe/iqe-pre-commit-hooks
+  rev: v26.04.07.0
+  hooks:
+  - id: iqe-checks
+  - id: iqe-tests-metadata

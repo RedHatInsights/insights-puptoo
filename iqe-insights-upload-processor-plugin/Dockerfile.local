@@ -1,0 +1,19 @@
+ARG REPOSITORY=quay.io/cloudservices/iqe-tests
+ARG TAG
+
+FROM ${REPOSITORY}:${TAG}
+
+ARG TAG
+
+USER 0
+
+COPY . ${IQE_VENV}/${TAG}
+
+RUN dnf install -y --nodocs --setopt=install_weak_deps=0 vi && \
+    dnf clean all
+
+RUN pip install --no-cache-dir setuptools==59.6.0 && \
+    pip install --no-cache-dir -U ${TAG}/ && \
+    chmod -R g+rwX ${IQE_VENV}
+
+USER 1001
