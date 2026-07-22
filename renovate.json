@@ -9,6 +9,7 @@
         "schedule": ["at any time"]
     },
     "ignorePaths": [
-        ".pre-commit-config.yaml"
+        ".pre-commit-config.yaml",
+        "iqe-insights-upload-processor/.pre-commit-config.yaml"
     ]
 }
