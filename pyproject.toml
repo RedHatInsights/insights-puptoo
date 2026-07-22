@@ -45,6 +45,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src"]
 
+[tool.pytest.ini_options]
+addopts = "--ignore=iqe-insights-upload-processor --ignore=librdkafka"
+
 [tool.ruff]
 exclude = ["bin", "docs", "include", "lib", "lib64", ".git"]
 
