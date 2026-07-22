@@ -1,0 +1,7 @@
+PUPTOO-ARCHIVE-PROCESSING:
+  priority: critical
+  summary: Puptoo can process Insights archives, extract data and send it to HBI
+  description: >-
+    When an insights archive is uploaded using Ingress API
+    it must be processed by Puptoo where data is extracted and sent
+    to Inventory.
