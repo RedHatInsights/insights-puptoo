@@ -1,48 +1,45 @@
-[project]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Framework :: Pytest",
-    "Intended Audience :: Developers",
-    "Topic :: Software Development :: Testing",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Operating System :: OS Independent",
-    "Private :: Do Not Upload",
-]
-dynamic = ["version"]
-keywords = ["pytest", "plugin", "iqe"]
-maintainers = [
-    { name = "Kunxin Huang", email = "kuhuang@redhat.com" }
-]
-name = "iqe-puptoo-plugin"
-readme = "README.md"
-dependencies = [
-    "iqe-core",
-    "iqe-bindings",
-    "pytest-lazy-fixtures",
-    "wait_for"
-]
-
-[project.entry-points."iqe.application_plugins"]
-"puptoo" = "iqe_puptoo:ApplicationPuptoo"
-
-[project.entry-points.pytest11]
-"iqe_puptoo_plugin" = "iqe_puptoo.pytest_plugin"
-
 [build-system]
 build-backend = "hatchling.build"
-requires = ["hatchling", "hatch-vcs"]
+requires = [
+  "hatchling",
+]
 
-[tool.hatch.build.targets.wheel]
-# plugin and API directories must be part of package.
-packages = ["iqe_puptoo"]
+[project]
+name = "iqe-puptoo-plugin"
+version = "25.99.1.dev1"
+readme = "README.md"
+requires-python = ">=3.12"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Framework :: Pytest",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Private :: Do Not Upload",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Topic :: Software Development :: Testing",
+]
+keywords = ["pytest", "plugin", "iqe"]
+maintainers = [
+  { name = "Kunxin Huang", email = "kuhuang@redhat.com" },
+]
+dependencies = [
+  "iqe-bindings",
+  "iqe-core",
+  "pytest-lazy-fixtures",
+  "wait-for",
+]
+entry-points."iqe.application_plugins".puptoo = "iqe_puptoo:ApplicationPuptoo"
+entry-points.pytest11.iqe_puptoo_plugin = "iqe_puptoo.pytest_plugin"
 
-[tool.hatch.version]
-raw-options.version_scheme = "calver-by-date"
-source = "vcs"
+[tool.hatch]
+build.targets.wheel.packages = ["iqe_puptoo"]
+envs.default.env-vars.PIP_INDEX = "https://nexus.corp.redhat.com/repository/cqt-pypi/pypi"
+envs.default.env-vars.PIP_INDEX_URL = "https://nexus.corp.redhat.com/repository/cqt-pypi/simple"
+envs.default.env-vars.REQUESTS_CA_BUNDLE = "/etc/pki/tls/certs/ca-bundle.crt"
 
 [tool.ruff]
 line-length = 100
@@ -50,7 +47,6 @@ line-length = 100
 [tool.ruff.lint]
 extend-select = ["D", "F", "I", "UP", "RUF"]
 extend-ignore = [
-  # missing docstring rules - not enforced project-wide
   "D100", "D101", "D102", "D103", "D104", "D105", "D106", "D107",
 ]
 extend-safe-fixes = [
@@ -66,9 +62,25 @@ convention = "google"
 
 [[tool.mypy.overrides]]
 module = [
-    "wait_for",
-    "iqe.*",
-    "iqe_bindings.*",
-    "pytest_lazy_fixtures.*",
+  "wait_for",
+  "iqe.*",
+  "iqe_bindings.*",
+  "pytest_lazy_fixtures.*",
 ]
 ignore_missing_imports = true
+
+[dependency-groups]
+dev = [
+  "crc-bonfire",
+]
+
+[tool.uv]
+package = true
+default-groups = "all"
+required-version = ">=0.11.8"
+system-certs = true
+
+[[tool.uv.index]]
+name = "rhnexus"
+url = "https://nexus.corp.redhat.com/repository/cqt-pypi/simple"
+default = true
