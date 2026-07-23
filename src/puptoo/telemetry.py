@@ -16,6 +16,8 @@ import logging
 import os
 from urllib.parse import urlparse
 
+from opentelemetry.propagate import extract as otel_extract
+
 from .utils import config
 from .utils.puptoo_logging import threadctx
 
@@ -151,6 +153,25 @@ def init_otel(service_name, service_version="unknown"):
         OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT,
         OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT,
     )
+
+
+def extract_context_from_kafka_message(msg):
+    if not OTEL_ENABLED or not OTEL_MQ_ENABLED:
+        return None
+
+    headers = msg.headers()
+    if not headers:
+        return None
+
+    carrier = {}
+    for key, value in headers:
+        if key in ("traceparent", "tracestate"):
+            carrier[key] = value.decode("utf-8") if isinstance(value, bytes) else value
+
+    if not carrier:
+        return None
+
+    return otel_extract(carrier=carrier)
 
 
 def instrument_kafka_consumer(consumer):

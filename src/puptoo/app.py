@@ -15,6 +15,7 @@ from .mq.produce import init_producer, send_message
 from opentelemetry import trace
 
 from .telemetry import (
+    extract_context_from_kafka_message,
     get_tracer,
     init_otel,
     instrument_kafka_consumer,
@@ -129,6 +130,7 @@ def main():
                     service = service.decode("utf-8")
                     handler = get_handler(service)
                     if handler:
+                        parent_ctx = extract_context_from_kafka_message(msg)
                         msg = json.loads(msg.value().decode("utf-8"))
                         extra = get_extra(
                             msg.get("account"), msg.get("org_id"), msg.get("request_id")
@@ -136,6 +138,7 @@ def main():
                         threadctx.service = service
                         with tracer.start_as_current_span(
                             "puptoo.handle_message",
+                            context=parent_ctx,
                             attributes={"messaging.system": "kafka"},
                         ) as span:
                             try:
