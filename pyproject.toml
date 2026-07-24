@@ -24,6 +24,7 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-http~=1.42.1",
     "opentelemetry-instrumentation-confluent-kafka~=0.53b",
     "opentelemetry-instrumentation-requests==0.63b1",
+    "unleashclient==6.7.0",
 ]
 
 [project.scripts]

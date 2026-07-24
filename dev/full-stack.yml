@@ -200,6 +200,9 @@ services:
       DISABLE_REDIS: "False"
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
+      BYPASS_UNLEASH: ${BYPASS_UNLEASH:-true}
+      UNLEASH_URL: http://unleash:4242/api
+      UNLEASH_TOKEN: ${UNLEASH_TOKEN:-*:*.dbffffc83b1f92eeaf133a7eb878d4c58231acc159b5e1478ce53cfc}
     healthcheck:
       test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/')\""]
       interval: 5s
@@ -240,6 +243,33 @@ services:
       start_period: 10s
     volumes:
       - db-data:/var/lib/postgresql/data
+      - ../.unleash/create_unleashdb.sql:/docker-entrypoint-initdb.d/create_unleashdb.sql
+
+  # ---------------------------------------------------------------------------
+  # Unleash (Feature Flags)
+  # ---------------------------------------------------------------------------
+  unleash:
+    image: docker.io/unleashorg/unleash-server:5.11.3
+    container_name: puptoo-unleash
+    hostname: unleash
+    environment:
+      INIT_ADMIN_API_TOKENS: ${UNLEASH_TOKEN:-*:*.dbffffc83b1f92eeaf133a7eb878d4c58231acc159b5e1478ce53cfc}
+      CHECK_VERSION: "false"
+      DATABASE_HOST: db-host-inventory
+      DATABASE_NAME: unleash
+      DATABASE_USERNAME: insights
+      DATABASE_PASSWORD: insights
+      DATABASE_SSL: "false"
+      IMPORT_FILE: /.unleash/flags.json
+      IMPORT_DROP_BEFORE_IMPORT: "true"
+      LOG_LEVEL: INFO
+    ports:
+      - "4242:4242"
+    volumes:
+      - '../.unleash:/.unleash'
+    depends_on:
+      db-host-inventory:
+        condition: service_healthy
 
   insights-inventory-mq:
     image: quay.io/cloudservices/insights-inventory:latest

@@ -317,3 +317,9 @@ dev-minio:
 .PHONY: dev-grafana
 dev-grafana:
 	$(OPEN) http://localhost:3000
+
+# Open Unleash admin console to manage feature flags
+# Usage: make dev-unleash
+.PHONY: dev-unleash
+dev-unleash:
+	$(OPEN) http://localhost:4242
