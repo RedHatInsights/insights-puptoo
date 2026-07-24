@@ -1,0 +1,43 @@
+files: ^iqe-insights-upload-processor/
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: debug-statements
+- repo: https://github.com/tox-dev/pyproject-fmt
+  rev: v2.25.3
+  hooks:
+  - id: pyproject-fmt
+# align with root level mypy config or remove
+# - repo: https://github.com/pre-commit/mirrors-mypy
+#   rev: 'v2.1.0'
+#   hooks:
+#   - id: mypy
+#     additional_dependencies:
+#     - attrs
+#     - pytest
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.21.2
+  hooks:
+  - id: pyupgrade
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.15.22
+  hooks:
+  - id: ruff-check
+    args: [--fix, --exit-non-zero-on-fix]
+  - id: ruff-format
+
+- repo: https://gitlab.cee.redhat.com/infosec-public/developer-workbench/tools
+  rev: rh-pre-commit-2.3.2
+  hooks:
+  - id: rh-pre-commit
+  - id: rh-pre-commit.commit-msg # Optional for commit-msg attestation
+- repo: https://gitlab.cee.redhat.com/insights-qe/iqe-pre-commit-hooks
+  rev: v26.04.07.0
+  hooks:
+  - id: iqe-checks
+  - id: iqe-tests-metadata
+    args: [--iqe-plugin-root=iqe-insights-upload-processor]

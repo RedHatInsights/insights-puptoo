@@ -10,3 +10,14 @@ lib64
 .envs
 .ruff_cache
 .venv/
+
+# IQE test suite
+iqe-insights-upload-processor/venv/
+iqe-insights-upload-processor/.venv/
+iqe-insights-upload-processor/__pycache__/
+iqe-insights-upload-processor/**/__pycache__/
+iqe-insights-upload-processor/*.egg-info/
+iqe-insights-upload-processor/.pytest_cache/
+iqe-insights-upload-processor/htmlcov/
+iqe-insights-upload-processor/.coverage
+iqe-insights-upload-processor/**/puptoo.local.yaml

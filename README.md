@@ -253,6 +253,10 @@ inside a real archive, and the test itself should be written and provided in the
 uv run pytest tests/
 ```
 
+## IQE Integration Tests
+
+The IQE puptoo plugin is embedded under `iqe-insights-upload-processor/`. See [docs/IQE.md](docs/IQE.md) for setup and usage instructions.
+
 ## Versioning
 
 New functionality that may effect other services should increment by `1`. Minor features and bugfixes can increment by `0.0.1`
