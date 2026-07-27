@@ -13,8 +13,10 @@ from .mq import produce as produce_mod
 from .mq.auth import write_kafka_cert
 from .mq.produce import init_producer, send_message
 from opentelemetry import trace
+from opentelemetry.trace import SpanKind
 
 from .telemetry import (
+    extract_context_from_kafka_message,
     get_tracer,
     init_otel,
     instrument_kafka_consumer,
@@ -129,6 +131,7 @@ def main():
                     service = service.decode("utf-8")
                     handler = get_handler(service)
                     if handler:
+                        parent_ctx = extract_context_from_kafka_message(msg)
                         msg = json.loads(msg.value().decode("utf-8"))
                         extra = get_extra(
                             msg.get("account"), msg.get("org_id"), msg.get("request_id")
@@ -136,7 +139,13 @@ def main():
                         threadctx.service = service
                         with tracer.start_as_current_span(
                             "puptoo.handle_message",
-                            attributes={"messaging.system": "kafka"},
+                            kind=SpanKind.CONSUMER,
+                            context=parent_ctx,
+                            attributes={
+                                "messaging.system": "kafka",
+                                "messaging.destination.name": "platform.upload.announce",
+                                "messaging.operation": "process",
+                            },
                         ) as span:
                             try:
                                 with tracer.start_as_current_span(

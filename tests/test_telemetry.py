@@ -503,3 +503,127 @@ def test_contextual_filter_trace_id_without_active_span():
 
     assert record.trace_id == ""
     assert record.span_id == ""
+
+
+# --- extract_context_from_kafka_message ---
+
+
+def test_extract_context_returns_none_when_otel_disabled(monkeypatch):
+    telemetry_mod = _reload_telemetry(monkeypatch, {"OTEL_ENABLED": "false"})
+    msg = MagicMock()
+    assert telemetry_mod.extract_context_from_kafka_message(msg) is None
+    msg.headers.assert_not_called()
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_returns_none_when_mq_disabled(monkeypatch):
+    telemetry_mod = _reload_telemetry(
+        monkeypatch, {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "false"}
+    )
+    msg = MagicMock()
+    assert telemetry_mod.extract_context_from_kafka_message(msg) is None
+    msg.headers.assert_not_called()
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_returns_none_when_no_headers(monkeypatch):
+    telemetry_mod = _reload_telemetry(
+        monkeypatch,
+        {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"},
+    )
+    msg = MagicMock()
+    msg.headers.return_value = None
+    assert telemetry_mod.extract_context_from_kafka_message(msg) is None
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_returns_none_when_empty_headers(monkeypatch):
+    telemetry_mod = _reload_telemetry(
+        monkeypatch,
+        {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"},
+    )
+    msg = MagicMock()
+    msg.headers.return_value = []
+    assert telemetry_mod.extract_context_from_kafka_message(msg) is None
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_returns_none_when_no_trace_headers(monkeypatch):
+    telemetry_mod = _reload_telemetry(
+        monkeypatch,
+        {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"},
+    )
+    msg = MagicMock()
+    msg.headers.return_value = [("service", b"advisor")]
+    assert telemetry_mod.extract_context_from_kafka_message(msg) is None
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_returns_valid_context_with_traceparent(monkeypatch):
+    from opentelemetry import trace
+
+    telemetry_mod = _reload_telemetry(
+        monkeypatch,
+        {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"},
+    )
+    msg = MagicMock()
+    msg.headers.return_value = [
+        ("service", b"advisor"),
+        (
+            "traceparent",
+            b"00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01",
+        ),
+    ]
+    ctx = telemetry_mod.extract_context_from_kafka_message(msg)
+    assert ctx is not None
+
+    span = trace.get_current_span(ctx)
+    span_ctx = span.get_span_context()
+    assert span_ctx.trace_id == int("0af7651916cd43dd8448eb211c80319c", 16)
+    assert span_ctx.span_id == int("b7ad6b7169203331", 16)
+    assert span_ctx.is_remote is True
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_with_traceparent_and_tracestate(monkeypatch):
+    from opentelemetry import trace
+
+    telemetry_mod = _reload_telemetry(
+        monkeypatch,
+        {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"},
+    )
+    msg = MagicMock()
+    msg.headers.return_value = [
+        (
+            "traceparent",
+            b"00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01",
+        ),
+        ("tracestate", b"rojo=00f067aa0ba902b7"),
+    ]
+    ctx = telemetry_mod.extract_context_from_kafka_message(msg)
+    assert ctx is not None
+
+    span = trace.get_current_span(ctx)
+    span_ctx = span.get_span_context()
+    assert span_ctx.trace_state.get("rojo") == "00f067aa0ba902b7"
+    _cleanup_telemetry(monkeypatch)
+
+
+def test_extract_context_invalid_traceparent_returns_context_with_invalid_span(
+    monkeypatch,
+):
+    from opentelemetry import trace
+
+    telemetry_mod = _reload_telemetry(
+        monkeypatch,
+        {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"},
+    )
+    msg = MagicMock()
+    msg.headers.return_value = [
+        ("traceparent", b"not-a-valid-traceparent"),
+    ]
+    ctx = telemetry_mod.extract_context_from_kafka_message(msg)
+    assert ctx is not None
+    span = trace.get_current_span(ctx)
+    assert not span.get_span_context().is_valid
+    _cleanup_telemetry(monkeypatch)
