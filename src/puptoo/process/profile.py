@@ -338,8 +338,16 @@ def system_profile(
         try:
             if satellite_version:
                 profile["workloads"]["satellite"]["type"] = "server"
+                if satellite_version.version:
+                    profile["workloads"]["satellite"]["version"] = (
+                        satellite_version.version
+                    )
             elif capsule_version:
                 profile["workloads"]["satellite"]["type"] = "capsule"
+                if capsule_version.version:
+                    profile["workloads"]["satellite"]["version"] = (
+                        capsule_version.version
+                    )
         except Exception as e:
             catch_error("satellite_version", e)
             raise

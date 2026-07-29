@@ -19,13 +19,13 @@ bash-5.1.8-6.el9.x86_64  Tue 14 Jul 2025 09:25:38 AEST   1398536494
 def test_satellite_server():
     input_data = InputData().add(Specs.installed_rpms, SATELLITE_SERVER_RPMS)
     result = run_test(system_profile, input_data)
-    assert result["workloads"]["satellite"] == {"type": "server"}
+    assert result["workloads"]["satellite"] == {"type": "server", "version": "6.19.0"}
 
 
 def test_satellite_capsule():
     input_data = InputData().add(Specs.installed_rpms, SATELLITE_CAPSULE_RPMS)
     result = run_test(system_profile, input_data)
-    assert result["workloads"]["satellite"] == {"type": "capsule"}
+    assert result["workloads"]["satellite"] == {"type": "capsule", "version": "6.19.0"}
 
 
 def test_no_satellite():
