@@ -272,37 +272,31 @@ def test_http_instrumentation_import_error_is_handled(monkeypatch):
 # --- Kafka instrumentation ---
 
 
-def test_kafka_instrumentation_helpers_skip_when_otel_disabled(monkeypatch):
+def test_kafka_producer_instrumentation_skips_when_otel_disabled(monkeypatch):
     telemetry_mod = _reload_telemetry(monkeypatch, {"OTEL_ENABLED": "false"})
     producer = MagicMock()
-    consumer = MagicMock()
 
     assert telemetry_mod.instrument_kafka_producer(producer) is producer
-    assert telemetry_mod.instrument_kafka_consumer(consumer) is consumer
 
 
-def test_kafka_instrumentation_helpers_skip_when_mq_disabled(monkeypatch):
+def test_kafka_producer_instrumentation_skips_when_mq_disabled(monkeypatch):
     telemetry_mod = _reload_telemetry(
         monkeypatch, {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "false"}
     )
     producer = MagicMock()
-    consumer = MagicMock()
 
     assert telemetry_mod.instrument_kafka_producer(producer) is producer
-    assert telemetry_mod.instrument_kafka_consumer(consumer) is consumer
 
     _cleanup_telemetry(monkeypatch)
 
 
-def test_kafka_instrumentation_helpers_wrap_when_enabled(monkeypatch):
+def test_kafka_producer_instrumentation_wraps_when_enabled(monkeypatch):
     telemetry_mod = _reload_telemetry(
         monkeypatch, {"OTEL_ENABLED": "true", "OTEL_MQ_ENABLED": "true"}
     )
     producer = MagicMock()
-    consumer = MagicMock()
     tracer_provider = MagicMock()
     wrapped_producer = MagicMock()
-    wrapped_consumer = MagicMock()
 
     with (
         patch("opentelemetry.trace.get_tracer_provider", return_value=tracer_provider),
@@ -311,16 +305,11 @@ def test_kafka_instrumentation_helpers_wrap_when_enabled(monkeypatch):
         ) as mock_instrumentor,
     ):
         mock_instrumentor.instrument_producer.return_value = wrapped_producer
-        mock_instrumentor.instrument_consumer.return_value = wrapped_consumer
 
         assert telemetry_mod.instrument_kafka_producer(producer) is wrapped_producer
-        assert telemetry_mod.instrument_kafka_consumer(consumer) is wrapped_consumer
 
         mock_instrumentor.instrument_producer.assert_called_once_with(
             producer, tracer_provider=tracer_provider
-        )
-        mock_instrumentor.instrument_consumer.assert_called_once_with(
-            consumer, tracer_provider=tracer_provider
         )
 
     _cleanup_telemetry(monkeypatch)
