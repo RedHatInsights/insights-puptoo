@@ -10,3 +10,4 @@ lib64
 .envs
 .ruff_cache
 .venv/
+.python-version
