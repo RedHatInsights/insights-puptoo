@@ -9,6 +9,7 @@ from insights.combiners.lspci import LsPci
 from insights.combiners.os_release import OSRelease
 from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.sap import Sap
+from insights.combiners.satellite_version import CapsuleVersion, SatelliteVersion
 from insights.combiners.virt_what import VirtWhat
 from insights.core import dr
 from insights.parsers.aws_instance_id import (
@@ -169,6 +170,8 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
         LsMod,
         LsCPU,
         Sap,
+        SatelliteVersion,
+        CapsuleVersion,
         SEStatus,
         Tuned,
         GCPLicenseCodes,
@@ -236,6 +239,8 @@ def system_profile(
     lsmod,
     lscpu,
     sap,
+    satellite_version,
+    capsule_version,
     sestatus,
     tuned,
     gcp_license_codes,
@@ -326,6 +331,25 @@ def system_profile(
                 )
         except Exception as e:
             catch_error("ansible_info", e)
+            raise
+
+    if satellite_version or capsule_version:
+        profile["workloads"]["satellite"] = {}
+        try:
+            if satellite_version:
+                profile["workloads"]["satellite"]["type"] = "server"
+                if satellite_version.version:
+                    profile["workloads"]["satellite"]["version"] = (
+                        satellite_version.version
+                    )
+            elif capsule_version:
+                profile["workloads"]["satellite"]["type"] = "capsule"
+                if capsule_version.version:
+                    profile["workloads"]["satellite"]["version"] = (
+                        capsule_version.version
+                    )
+        except Exception as e:
+            catch_error("satellite_version", e)
             raise
 
     if aws_instance_id:
