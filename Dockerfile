@@ -5,7 +5,7 @@ RUN ./configure --prefix=/usr && \
     make && \
     make install
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal:9.8-1785214301
+FROM registry.access.redhat.com/ubi9/ubi-minimal:9.8-1785339117
 
 WORKDIR /app-root/
 
