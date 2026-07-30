@@ -174,26 +174,6 @@ def extract_context_from_kafka_message(msg):
     return otel_extract(carrier=carrier)
 
 
-def instrument_kafka_consumer(consumer):
-    if not OTEL_ENABLED or not OTEL_MQ_ENABLED:
-        return consumer
-
-    try:
-        from opentelemetry import trace
-        from opentelemetry.instrumentation.confluent_kafka import (
-            ConfluentKafkaInstrumentor,
-        )
-    except ImportError:
-        logger.warning(
-            "Kafka consumer instrumentation unavailable; continuing without consumer spans"
-        )
-        return consumer
-
-    return ConfluentKafkaInstrumentor.instrument_consumer(
-        consumer, tracer_provider=trace.get_tracer_provider()
-    )
-
-
 def instrument_kafka_producer(producer):
     if not OTEL_ENABLED or not OTEL_MQ_ENABLED:
         return producer

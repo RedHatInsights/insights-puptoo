@@ -19,7 +19,6 @@ from .telemetry import (
     extract_context_from_kafka_message,
     get_tracer,
     init_otel,
-    instrument_kafka_consumer,
     instrument_kafka_producer,
     instrument_outbound_http,
 )
@@ -95,7 +94,7 @@ def main():
 
         write_kafka_cert()
 
-        consumer = instrument_kafka_consumer(consume.init_consumer())
+        consumer = consume.init_consumer()
         producer = instrument_kafka_producer(init_producer())
         produce_mod.producer = producer
         if config.DISABLE_REDIS:
