@@ -329,6 +329,22 @@ def system_profile(
                 profile["workloads"]["ansible"]["hub_version"] = (
                     ansible_info.hub_version
                 )
+            if ansible_info.receptor_version:
+                profile["workloads"]["ansible"]["receptor_version"] = (
+                    ansible_info.receptor_version
+                )
+            if ansible_info.runner_version:
+                profile["workloads"]["ansible"]["runner_version"] = (
+                    ansible_info.runner_version
+                )
+            if ansible_info.eda_controller_version:
+                profile["workloads"]["ansible"]["eda_controller_version"] = (
+                    ansible_info.eda_controller_version
+                )
+            if ansible_info.gateway_version:
+                profile["workloads"]["ansible"]["gateway_version"] = (
+                    ansible_info.gateway_version
+                )
         except Exception as e:
             catch_error("ansible_info", e)
             raise

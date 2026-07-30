@@ -8,6 +8,10 @@ ansible-tower-1.0.0-1.x86_64  Tue 14 Jul 2015 09:25:38 AEST   1398536494
 catalog-worker-1.0.2-1.x86_64    Tue 14 Jul 2015 09:25:40 AEST   1390535634
 automation-hub-1.0.3-1.x86_64       Wed 09 Nov 2016 14:52:01 AEDT   1446193355
 automation-controller-1.0.1-1.x86_64   Wed 09 Nov 2016 14:52:01 AEDT   1446193355
+receptor-1.4.1-1.x86_64   Wed 09 Nov 2016 14:52:01 AEDT   1446193355
+ansible-runner-2.3.4-1.x86_64   Wed 09 Nov 2016 14:52:01 AEDT   1446193355
+automation-eda-controller-1.0.5-1.x86_64   Wed 09 Nov 2016 14:52:01 AEDT   1446193355
+automation-gateway-2.5.0-1.x86_64   Wed 09 Nov 2016 14:52:01 AEDT   1446193355
 """.strip()
 
 
@@ -18,4 +22,8 @@ def test_ansible_info():
         "hub_version": "1.0.3",
         "catalog_worker_version": "1.0.2",
         "controller_version": "1.0.0",
+        "receptor_version": "1.4.1",
+        "runner_version": "2.3.4",
+        "eda_controller_version": "1.0.5",
+        "gateway_version": "2.5.0",
     }
