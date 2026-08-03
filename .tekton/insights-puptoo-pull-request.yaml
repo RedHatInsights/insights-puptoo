@@ -36,8 +36,10 @@ spec:
     value: "true"
   - name: hermetic
     value: "true"
+  - name: enable-cache-proxy
+    value: "true"
   - name: prefetch-input
-    value: '[{"type": "pip", "path": ".", "requirements_files": ["requirements.txt", "requirements-build.txt", "requirements-extras.txt"]}, {"type": "rpm", "path": "."}]'
+    value: '[{"type": "pip", "path": ".", "requirements_files": ["requirements.txt", "requirements-build.txt", "requirements-extras.txt", "requirements-binary.txt"], "binary": {"packages": "yggdrasil-engine"}}, {"type": "rpm", "path": "."}]'
   - name: prefetch-dev-package-managers
     value: "true"
   pipelineRef:
