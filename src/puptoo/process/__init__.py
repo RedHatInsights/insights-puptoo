@@ -17,8 +17,17 @@ tracer = get_tracer(__name__)
 
 @metrics.GET_FILE.time()
 def get_archive(url):
-    archive = requests.get(url)
-    return archive.content
+    with tracer.start_as_current_span("puptoo.download_archive") as span:
+        try:
+            archive = requests.get(url)
+            span.set_attribute("file.size", len(archive.content))
+            archive.raise_for_status()
+            span.set_status(trace.StatusCode.OK)
+            return archive.content
+        except Exception as exc:
+            span.set_status(trace.StatusCode.ERROR, str(exc))
+            span.record_exception(exc)
+            raise
 
 
 def validate_size(path, extra):
@@ -56,8 +65,18 @@ def unpacked_archive(msg, remove=True):
         with NamedTemporaryFile(delete=remove) as tf:
             tf.write(get_archive(msg["url"]))
             tf.flush()
-            with extract_archive(tf.name) as ex:
-                yield ex, None
+            unpack_span = tracer.start_span("puptoo.unpack_archive")
+            try:
+                with extract_archive(tf.name) as ex:
+                    unpack_span.set_status(trace.StatusCode.OK)
+                    unpack_span.end()
+                    yield ex, None
+            except Exception as exc:
+                if unpack_span.is_recording():
+                    unpack_span.set_status(trace.StatusCode.ERROR, str(exc))
+                    unpack_span.record_exception(exc)
+                    unpack_span.end()
+                raise
     except Exception as err:
         metrics.unpacking_failure.inc()
         yield None, err
