@@ -8,7 +8,7 @@ COMPONENT_NAME="puptoo"  # name of app-sre "resourceTemplate" in deploy.yaml for
 IMAGE="quay.io/cloudservices/insights-puptoo"
 REF_ENV="insights-stage"
 
-IQE_PLUGINS="puptoo"
+IQE_PLUGINS="insights_upload_processor"
 IQE_MARKER_EXPRESSION="smoke"
 IQE_FILTER_EXPRESSION=""
 IQE_CJI_TIMEOUT="30m"
