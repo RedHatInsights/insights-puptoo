@@ -10,7 +10,7 @@ objects:
   spec:
     envName: ${ENV_NAME}
     testing:
-      iqePlugin: puptoo
+      iqePlugin: insights-upload-processor
     optionalDependencies:
     - ingress
     - storage-broker
