@@ -1,7 +1,7 @@
 from unittest.mock import patch
 
 from src.puptoo.modifiers.qpc.transform_installed_packages import (
-    TransfromInstalledPackages,
+    TransformInstalledPackages,
 )
 
 
@@ -16,7 +16,7 @@ def test_remove_installed_packages():
         ".KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE",
         0,
     ):
-        TransfromInstalledPackages().run(host, transformed_obj)
+        TransformInstalledPackages().run(host, transformed_obj)
     assert len(transformed_obj["modified"]) == 0
     assert len(transformed_obj["removed"]) == 1
     assert "installed_packages" in transformed_obj["removed"]
@@ -39,7 +39,7 @@ def test_modify_installed_packages():
         "tags": [],
     }
     transformed_obj = {"removed": [], "modified": [], "missing_data": []}
-    TransfromInstalledPackages().run(host, transformed_obj)
+    TransformInstalledPackages().run(host, transformed_obj)
     assert len(transformed_obj["removed"]) == 0
     assert len(transformed_obj["modified"]) == 1
     assert (
@@ -69,7 +69,7 @@ def test_modify_installed_packages():
         "tags": [],
     }
     transformed_obj = {"removed": [], "modified": [], "missing_data": []}
-    TransfromInstalledPackages().run(host, transformed_obj)
+    TransformInstalledPackages().run(host, transformed_obj)
     assert len(transformed_obj["modified"]) == 0
     assert len(transformed_obj["removed"]) == 1
     assert (

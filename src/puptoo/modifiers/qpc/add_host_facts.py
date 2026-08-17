@@ -1,9 +1,12 @@
 import json
+import logging
 import os
 from base64 import b64decode
 from datetime import datetime, timedelta
 
 from ..base import Modifier
+
+logger = logging.getLogger(__name__)
 
 SATELLITE_HOST_TTL = int(os.getenv("SATELLITE_HOST_TTL", "26280"))
 
@@ -27,11 +30,16 @@ class AddHostFacts(Modifier):
 
         b64_identity = request_obj.get("b64_identity")
         if b64_identity:
-            identity = json.loads(b64decode(b64_identity).decode("utf-8"))
-            system = identity.get("identity", {}).get("system", {})
-            owner_id = system.get("cn")
-            if owner_id and host.get("system_profile") is not None:
-                host["system_profile"]["owner_id"] = owner_id
+            try:
+                identity = json.loads(b64decode(b64_identity).decode("utf-8"))
+                system = identity.get("identity", {}).get("system", {})
+                owner_id = system.get("cn")
+                if owner_id and host.get("system_profile") is not None:
+                    host["system_profile"]["owner_id"] = owner_id
+            except Exception:
+                logger.debug(
+                    "Failed to decode b64_identity, skipping owner_id extraction"
+                )
 
         yupana_host_id = host.get("yupana_host_id")
         if yupana_host_id:

@@ -40,3 +40,31 @@ def test_get_stale_time():
     request_obj = {"source": "satellite"}
     actual = AddHostFacts().get_stale_time(request_obj)
     assert expected[:-13] == actual[:-13]
+
+
+def test_get_stale_time_non_satellite():
+    current_time = datetime.utcnow()
+    stale_time = current_time + timedelta(hours=26)
+    expected = stale_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    request_obj = {"source": "yupana"}
+    actual = AddHostFacts().get_stale_time(request_obj)
+    assert expected[:-13] == actual[:-13]
+
+
+def test_run_without_system_profile():
+    host = {
+        "yupana_host_id": "abc",
+        "report_slice_id": "def",
+    }
+    transformed_obj = {"removed": [], "modified": [], "missing_data": []}
+    request_obj = {
+        "account": "123",
+        "org_id": "456",
+        "source": "yupana",
+        "report_platform_id": "789",
+    }
+    AddHostFacts().run(host, transformed_obj, request_obj=request_obj)
+    assert host["reporter"] == "yupana"
+    assert host["org_id"] == "456"
+    assert "owner_id" not in host.get("system_profile", {})
+    assert "facts" in transformed_obj["modified"]

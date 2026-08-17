@@ -7,7 +7,9 @@ class TransformIPAddress(Modifier):
         if ip_addresses is None:
             return
 
-        cleaned = [ip.strip() for ip in ip_addresses if ip.strip()]
+        cleaned = [
+            ip.strip() for ip in ip_addresses if isinstance(ip, str) and ip.strip()
+        ]
 
         seen = set()
         unique = []

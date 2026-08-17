@@ -5,7 +5,7 @@ from ..base import Modifier
 _KERNEL_VERSION_RE = re.compile(r"^(\d+\.\d+\.\d+)")
 
 
-class TransformOsKernalVersion(Modifier):
+class TransformOsKernelVersion(Modifier):
     def run(self, host, transformed_obj, **kwargs):
         sp = host.get("system_profile", {})
         kernel = sp.get("os_kernel_version")

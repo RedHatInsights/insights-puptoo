@@ -20,6 +20,17 @@ def test_do_not_remove_set_mac_addresses():
     )
 
 
+def test_deduplicate_mac_addresses():
+    host = {"mac_addresses": ["aa:bb:00:11:22:33", "aa:bb:00:11:22:33"]}
+    transformed_obj = {"modified": []}
+    TransformMacAddresses().run(host, transformed_obj)
+    assert host["mac_addresses"] == ["aa:bb:00:11:22:33"]
+    assert (
+        "transformed mac_addresses to store unique values"
+        in transformed_obj["modified"]
+    )
+
+
 def test_remove_empty_mac_addresses():
     host = {}
     transformed_obj = {"removed": []}

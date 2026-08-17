@@ -14,7 +14,7 @@ KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE = int(
 )
 
 
-class TransfromInstalledPackages(Modifier):
+class TransformInstalledPackages(Modifier):
     def run(self, host, transformed_obj, **kwargs):
         sp = host.get("system_profile", {})
         installed_packages = sp.get("installed_packages")
