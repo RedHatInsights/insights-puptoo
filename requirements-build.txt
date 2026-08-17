@@ -250,9 +250,9 @@ typing-extensions==4.16.0 \
     --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8 \
     --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5
     # via setuptools-scm
-vcs-versioning==2.2.3 \
-    --hash=sha256:4f7873af76f5cc24e701608354f376f5eb70b317d663787ace57a7edd7a27506 \
-    --hash=sha256:c21e284aa98c8269996791a19d6173baf953cf9996ef42ec3ebcbdc151e18b9b
+vcs-versioning==2.2.4 \
+    --hash=sha256:48ffea8a6a175c37a718c7ee2e5f508d0e500c2cf3371791f7948bccb2b44628 \
+    --hash=sha256:ed718fdee42170e128a8add6f23f53aa64dc7d9ab2de87d3083a691df881a809
     # via setuptools-scm
 wheel==0.47.0 \
     --hash=sha256:212281cab4dff978f6cedd499cd893e1f620791ca6ff7107cf270781e587eced \
