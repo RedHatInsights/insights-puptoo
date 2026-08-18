@@ -1,5 +1,7 @@
 # Platform Upload Processor II
 
+todo(gchamoul): adding line here to tests new pipelines
+
 The Platform Upload Processor II (PUPTOO) is designed to receive payloads for the `advisor` service
 via the message queue, extract facts from the payload, forward the information to the inventory
 service.
