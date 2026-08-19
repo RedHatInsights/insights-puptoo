@@ -130,6 +130,19 @@ services:
       - "4318:4318"
       - "3200:3200"
 
+  prometheus:
+    image: prom/prometheus:v3.4.1
+    container_name: puptoo-prometheus
+    hostname: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      puptoo:
+        condition: service_healthy
+
   grafana:
     image: grafana/grafana:11.5.2
     container_name: puptoo-grafana
@@ -140,9 +153,13 @@ services:
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
     volumes:
-      - ../.otel/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+      - ../.otel/grafana-datasources.yaml:/etc/grafana/provisioning/datasources/otel.yaml
+      - ./grafana/datasources.yaml:/etc/grafana/provisioning/datasources/dev.yaml
+      - ./grafana/dashboard-provisioning.yaml:/etc/grafana/provisioning/dashboards/default.yaml
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - tempo
+      - prometheus
 
   # ---------------------------------------------------------------------------
   # Ingress
@@ -201,7 +218,7 @@ services:
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     healthcheck:
-      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/')\""]
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/')\""]
       interval: 5s
       timeout: 5s
       retries: 10
