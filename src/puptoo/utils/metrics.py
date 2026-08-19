@@ -73,3 +73,38 @@ send_time = Histogram(
 )
 
 msg_extraction_size = Histogram("puptoo_extraction_sizes", "Extracted archive sizes")
+
+# QPC-specific metrics (migrated from yuptoo)
+qpc_archive_downloaded_success = Counter(
+    "puptoo_qpc_archive_downloaded_success",
+    "Total number of QPC archives downloaded successfully",
+)
+qpc_archive_failed_to_download = Counter(
+    "puptoo_qpc_archive_failed_to_download",
+    "Total number of QPC archives that failed to download",
+)
+qpc_extract_report_slices_failures = Counter(
+    "puptoo_qpc_extract_report_slices_failures",
+    "Total number of failures while extracting QPC report slice",
+)
+qpc_report_processing_exceptions = Counter(
+    "puptoo_qpc_report_processing_exceptions",
+    "Total number of exceptions while processing QPC report",
+)
+qpc_host_uploaded = Counter(
+    "puptoo_qpc_host_uploaded",
+    "Total number of QPC hosts uploaded to inventory",
+)
+qpc_host_upload_failures = Counter(
+    "puptoo_qpc_host_upload_failures",
+    "Total number of QPC hosts that failed to upload",
+)
+qpc_kafka_failures = Counter(
+    "puptoo_qpc_kafka_failures",
+    "Total number of kafka failures while processing QPC messages",
+)
+qpc_incoming_hosts_counter = Counter(
+    "puptoo_qpc_incoming_hosts_counter",
+    "Total number of QPC hosts in report as per source",
+    ["source"],
+)
