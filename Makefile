@@ -13,6 +13,11 @@ AWK = gawk
 OPEN = open
 endif
 
+# Packages that only ship binary wheels (no sdist on PyPI) must be
+# separated from the main requirements.txt so hermeto can fetch them
+# with allow_binary while source-fetching everything else.
+WHEEL_ONLY_PACKAGES = yggdrasil-engine
+
 ensure_image = \
 	@if ! podman image exists $(BASE_IMAGE); then \
 		echo "--- Image '$(BASE_IMAGE)' not found. Pulling..."; \
@@ -91,7 +96,11 @@ generate-rpm-lockfile: rpms.in.yaml
 .PHONY: generate-requirements-txt
 generate-requirements-txt:
 	@if [ -f uv.lock ]; then \
-		uv export --format requirements-txt --no-dev --no-emit-project -o requirements.txt; \
+		no_emit_args=""; \
+		for pkg in $(WHEEL_ONLY_PACKAGES); do \
+			no_emit_args="$$no_emit_args --no-emit-package $$pkg"; \
+		done; \
+		uv export --format requirements-txt --no-dev --no-emit-project $$no_emit_args -o requirements.txt; \
 	elif [ -f poetry.lock ]; then \
 		poetry export --format requirements.txt --output requirements.txt; \
 	elif [ -f Pipfile.lock ]; then \
@@ -105,6 +114,27 @@ generate-requirements-txt:
 	@if [ ! -f requirements.txt ]; then \
 		echo "Error: requirements.txt was not generated"; \
 		exit 1; \
+	fi
+
+# Generate requirements-binary.txt for wheel-only packages (no sdist on PyPI)
+# These are split from requirements.txt so hermeto can fetch them with allow_binary
+# while source-fetching everything else.
+# Usage: make generate-requirements-binary-txt
+.PHONY: generate-requirements-binary-txt
+generate-requirements-binary-txt:
+	@if [ ! -f uv.lock ]; then \
+		echo "Error: uv.lock not found"; \
+		exit 1; \
+	fi
+	@uv export --format requirements-txt --no-dev --no-emit-project -o /tmp/requirements-full.txt
+	@> requirements-binary.txt
+	@for pkg in $(WHEEL_ONLY_PACKAGES); do \
+		$(AWK) -v pkg="$$pkg" \
+			'BEGIN{p=0} /^[^ \t#]/{p=0} $$0 ~ "^"pkg"=="{p=1} p{print}' \
+			/tmp/requirements-full.txt >> requirements-binary.txt; \
+	done
+	@if [ ! -s requirements-binary.txt ]; then \
+		echo "Warning: requirements-binary.txt is empty (no wheel-only packages found)"; \
 	fi
 
 # Generate requirements-dev.txt from uv, Poetry, or Pipenv lock files
@@ -188,11 +218,26 @@ generate-requirements-build-txt:
 		echo "Error: Missing scripts in .hermetic_builds directory"; \
 		exit 1; \
 	fi
-	@podman run --arch $(IMAGE_ARCH) -it -v "$$(pwd)":/var/tmp:rw --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
+	@podman run --arch $(IMAGE_ARCH) -v "$$(pwd)":/var/tmp:rw --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
 	@if [ ! -f requirements-build.txt ]; then \
 		echo "Error: requirements-build.txt was not generated"; \
 		exit 1; \
 	fi
+
+# Add a Python dependency, update uv.lock, and regenerate all requirement files
+# Usage: make add-dep PKG="unleashclient==6.7.0"
+#        make add-dep PKG="requests>=2.32,<3"
+.PHONY: add-dep
+add-dep:
+ifndef PKG
+	$(error PKG is required. Usage: make add-dep PKG="package==version")
+endif
+	uv add "$(PKG)"
+	$(MAKE) generate-requirements-txt
+	$(MAKE) generate-requirements-binary-txt
+	$(MAKE) generate-requirements-build-in
+	$(MAKE) generate-requirements-build-txt
+	$(MAKE) generate-requirements-dev-txt
 
 # Build development container and run interactively
 # Usage: make build-dev
@@ -317,3 +362,9 @@ dev-minio:
 .PHONY: dev-grafana
 dev-grafana:
 	$(OPEN) http://localhost:3000
+
+# Open Unleash admin console to manage feature flags
+# Usage: make dev-unleash
+.PHONY: dev-unleash
+dev-unleash:
+	$(OPEN) http://localhost:4242
