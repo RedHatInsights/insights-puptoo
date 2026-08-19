@@ -228,10 +228,16 @@ ARCHIVE_DIR  := dev/test-archives
 
 B64_IDENTITY := eyJpZGVudGl0eSI6eyJvcmdfaWQiOiIwMDAwMDEiLCJhdXRoX3R5cGUiOiJiYXNpYy1hdXRoIiwidHlwZSI6IlVzZXIiLCJpbnRlcm5hbCI6eyJvcmdfaWQiOiIwMDAwMDEifSwidXNlciI6eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpc19vcmdfYWRtaW4iOnRydWV9LCJzeXN0ZW0iOnsiY24iOiIxYjM2YjIwZi03ZmEwLTQ1NzEtYTEwOC04ZWI4MDYyMDRkYzAifX19
 
+# Extract Grafana dashboard JSON from the ConfigMap for local dev
+# Usage: make dev-dashboard
+.PHONY: dev-dashboard
+dev-dashboard:
+	@python dev/extract-dashboard.py
+
 # Start the full dev stack (Kafka, MinIO, Redis, Ingress, Puptoo, Host Inventory)
 # Usage: make dev-up
 .PHONY: dev-up
-dev-up:
+dev-up: dev-dashboard
 	$(COMPOSE) up --build -d
 	@echo "Stack is starting. Use 'make dev-status' to check health and 'make dev-logs' to follow puptoo logs."
 

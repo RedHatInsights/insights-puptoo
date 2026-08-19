@@ -51,6 +51,33 @@ podman compose -f full-stack.yml up --build
 > **Note:** The Ingress and Inventory images are pulled from `quay.io`.  See
 > those projects for details on building custom images.
 
+## Grafana Dashboard
+
+The puptoo Grafana dashboard is maintained as a ConfigMap in
+`dashboards/grafana-dashboard-insights-puptoo-general.configmap.yaml` (the
+source of truth deployed to OpenShift).  For local development, the dashboard
+JSON is extracted from this ConfigMap and placed in
+`dev/grafana/dashboards/puptoo.json`.
+
+`make dev-up` runs this extraction automatically before starting the stack, so
+the local dashboard always stays in sync with the ConfigMap.
+
+You can also regenerate the dashboard file on its own:
+
+```sh
+make dev-dashboard
+```
+
+This runs `dev/extract-dashboard.py`, which:
+1. Parses the ConfigMap YAML and extracts the embedded dashboard JSON.
+2. Replaces template-variable datasource UIDs (`${datasource}`,
+   `${datasource_aws}`) with the local `prometheus` datasource.
+3. Writes the result to `dev/grafana/dashboards/puptoo.json`.
+
+Once the stack is running, open Grafana at
+[http://localhost:3000](http://localhost:3000) and navigate to
+**Dashboards > Insights > Puptoo (local)** to view the dashboard.
+
 ## Viewing Traces
 
 Open Grafana at [http://localhost:3000](http://localhost:3000) → **Explore** →
@@ -82,8 +109,9 @@ MINIO_SECRET_KEY=mysecret
 | MinIO | 9000 (API) / 9001 (Console) | Object store |
 | Redis | 6379 | In-memory cache |
 | Puptoo | 8000 | Prometheus metrics |
+| Prometheus | 9090 | Metrics backend |
 | Tempo | 4318 (OTLP) / 3200 (API) | Trace backend |
-| Grafana | 3000 | Trace UI |
+| Grafana | 3000 | Dashboards & Traces UI |
 | Ingress | 8080 | Upload API (full-stack only) |
 | Inventory MQ | 8081 | Inventory MQ service (full-stack only) |
 | Inventory Web | 8082 | Inventory Web API (full-stack only) |
