@@ -152,3 +152,28 @@ DISABLE_S3_UPLOAD = os.getenv("DISABLE_S3_UPLOAD", "").lower() in (
     "y",
 )
 IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
+
+# QPC config variables (RHINENG-27919 / 2.2)
+MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
+HOSTS_TRANSFORMATION_ENABLED = os.getenv("HOSTS_TRANSFORMATION_ENABLED", "true").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+DISCOVERY_HOST_TTL = os.getenv("DISCOVERY_HOST_TTL", "29")
+SATELLITE_HOST_TTL = os.getenv("SATELLITE_HOST_TTL", "29")
+BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+# Comma-separated service headers this pod accepts (e.g. "advisor,compliance").
+# Unset means accept all handlers, fail-open by design for backward compatibility.
+_enabled_handlers_env = os.getenv("ENABLED_HANDLERS")
+ENABLED_HANDLERS = (
+    [handler.strip() for handler in _enabled_handlers_env.split(",")]
+    if _enabled_handlers_env
+    else None
+)
