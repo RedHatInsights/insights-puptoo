@@ -172,10 +172,16 @@ BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() i
     "y",
 )
 # Comma-separated service headers this pod accepts (e.g. "advisor,compliance").
-# Unset means accept all handlers, fail-open by design for backward compatibility.
+# Unset, empty, whitespace-only, or a value with no valid entries after
+# stripping (e.g. "advisor,,  ,") all fail open to None (accept all handlers),
+# consistent with the unset case, rather than yielding an empty/malformed list.
 _enabled_handlers_env = os.getenv("ENABLED_HANDLERS")
-ENABLED_HANDLERS = (
-    [handler.strip() for handler in _enabled_handlers_env.split(",")]
-    if _enabled_handlers_env
-    else None
-)
+if _enabled_handlers_env:
+    _enabled_handlers_parsed = [
+        handler.strip()
+        for handler in _enabled_handlers_env.split(",")
+        if handler.strip()
+    ]
+    ENABLED_HANDLERS = _enabled_handlers_parsed or None
+else:
+    ENABLED_HANDLERS = None
