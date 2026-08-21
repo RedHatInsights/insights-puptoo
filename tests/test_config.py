@@ -105,7 +105,9 @@ def test_max_hosts_per_rep_override(monkeypatch):
 )
 def test_hosts_transformation_enabled_override(monkeypatch, env_value, expected):
     _reset_env(monkeypatch)
-    config_mod = _reload_config(monkeypatch, {"HOSTS_TRANSFORMATION_ENABLED": env_value})
+    config_mod = _reload_config(
+        monkeypatch, {"HOSTS_TRANSFORMATION_ENABLED": env_value}
+    )
     assert config_mod.HOSTS_TRANSFORMATION_ENABLED is expected
     _cleanup_config(monkeypatch)
 
@@ -153,7 +155,9 @@ def test_enabled_handlers_parses_comma_separated_list(monkeypatch):
 
 def test_enabled_handlers_strips_whitespace(monkeypatch):
     _reset_env(monkeypatch)
-    config_mod = _reload_config(monkeypatch, {"ENABLED_HANDLERS": "advisor, compliance , qpc"})
+    config_mod = _reload_config(
+        monkeypatch, {"ENABLED_HANDLERS": "advisor, compliance , qpc"}
+    )
     assert config_mod.ENABLED_HANDLERS == ["advisor", "compliance", "qpc"]
     _cleanup_config(monkeypatch)
 
@@ -170,7 +174,9 @@ def test_enabled_handlers_single_value(monkeypatch):
 
 def test_log_config_logs_new_variables(monkeypatch, caplog):
     _reset_env(monkeypatch)
-    config_mod = _reload_config(monkeypatch, {"ENABLED_HANDLERS": "qpc", "MAX_HOSTS_PER_REP": "5"})
+    config_mod = _reload_config(
+        monkeypatch, {"ENABLED_HANDLERS": "qpc", "MAX_HOSTS_PER_REP": "5"}
+    )
 
     with caplog.at_level("INFO", logger=config_mod.APP_NAME):
         config_mod.log_config()
