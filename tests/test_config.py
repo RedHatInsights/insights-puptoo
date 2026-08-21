@@ -40,41 +40,47 @@ def _cleanup_config(monkeypatch):
     importlib.reload(config_mod)
 
 
+@pytest.fixture(autouse=True)
+def _clean_config_env(monkeypatch):
+    """Reset config env vars before every test and restore module state after,
+    so cleanup can't be missed by a future test that forgets to call
+    `_cleanup_config` explicitly. Applies uniformly regardless of whether the
+    test actually overrides anything.
+    """
+    _reset_env(monkeypatch)
+    yield
+    _cleanup_config(monkeypatch)
+
+
 # --- Defaults (no env vars set) ---
 
 
 def test_max_hosts_per_rep_default(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.MAX_HOSTS_PER_REP == 10000
 
 
 def test_hosts_transformation_enabled_default_true(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.HOSTS_TRANSFORMATION_ENABLED is True
 
 
 def test_discovery_host_ttl_default(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.DISCOVERY_HOST_TTL == "29"
 
 
 def test_satellite_host_ttl_default(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.SATELLITE_HOST_TTL == "29"
 
 
 def test_bypass_payload_expiration_default_false(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.BYPASS_PAYLOAD_EXPIRATION is False
 
 
 def test_enabled_handlers_default_none_accepts_all(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.ENABLED_HANDLERS is None
 
@@ -83,11 +89,9 @@ def test_enabled_handlers_default_none_accepts_all(monkeypatch):
 
 
 def test_max_hosts_per_rep_override(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {"MAX_HOSTS_PER_REP": "500"})
     assert config_mod.MAX_HOSTS_PER_REP == 500
     assert isinstance(config_mod.MAX_HOSTS_PER_REP, int)
-    _cleanup_config(monkeypatch)
 
 
 @pytest.mark.parametrize(
@@ -104,26 +108,20 @@ def test_max_hosts_per_rep_override(monkeypatch):
     ],
 )
 def test_hosts_transformation_enabled_override(monkeypatch, env_value, expected):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(
         monkeypatch, {"HOSTS_TRANSFORMATION_ENABLED": env_value}
     )
     assert config_mod.HOSTS_TRANSFORMATION_ENABLED is expected
-    _cleanup_config(monkeypatch)
 
 
 def test_discovery_host_ttl_override(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {"DISCOVERY_HOST_TTL": "45"})
     assert config_mod.DISCOVERY_HOST_TTL == "45"
-    _cleanup_config(monkeypatch)
 
 
 def test_satellite_host_ttl_override(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {"SATELLITE_HOST_TTL": "60"})
     assert config_mod.SATELLITE_HOST_TTL == "60"
-    _cleanup_config(monkeypatch)
 
 
 @pytest.mark.parametrize(
@@ -138,42 +136,50 @@ def test_satellite_host_ttl_override(monkeypatch):
     ],
 )
 def test_bypass_payload_expiration_override(monkeypatch, env_value, expected):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {"BYPASS_PAYLOAD_EXPIRATION": env_value})
     assert config_mod.BYPASS_PAYLOAD_EXPIRATION is expected
-    _cleanup_config(monkeypatch)
 
 
 def test_enabled_handlers_parses_comma_separated_list(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(
         monkeypatch, {"ENABLED_HANDLERS": "advisor,compliance,malware-detection"}
     )
     assert config_mod.ENABLED_HANDLERS == ["advisor", "compliance", "malware-detection"]
-    _cleanup_config(monkeypatch)
 
 
 def test_enabled_handlers_strips_whitespace(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(
         monkeypatch, {"ENABLED_HANDLERS": "advisor, compliance , qpc"}
     )
     assert config_mod.ENABLED_HANDLERS == ["advisor", "compliance", "qpc"]
-    _cleanup_config(monkeypatch)
 
 
 def test_enabled_handlers_single_value(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {"ENABLED_HANDLERS": "qpc"})
     assert config_mod.ENABLED_HANDLERS == ["qpc"]
-    _cleanup_config(monkeypatch)
+
+
+def test_enabled_handlers_filters_empty_entries(monkeypatch):
+    config_mod = _reload_config(
+        monkeypatch, {"ENABLED_HANDLERS": "advisor,,compliance,  ,"}
+    )
+    assert config_mod.ENABLED_HANDLERS == ["advisor", "compliance"]
+
+
+def test_enabled_handlers_empty_string_is_none(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {"ENABLED_HANDLERS": ""})
+    assert config_mod.ENABLED_HANDLERS is None
+
+
+def test_enabled_handlers_whitespace_only_is_none(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {"ENABLED_HANDLERS": "   "})
+    assert config_mod.ENABLED_HANDLERS is None
 
 
 # --- log_config() picks up the new vars (AC: "Logged by log_config() when puptoo starts") ---
 
 
 def test_log_config_logs_new_variables(monkeypatch, caplog):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(
         monkeypatch, {"ENABLED_HANDLERS": "qpc", "MAX_HOSTS_PER_REP": "5"}
     )
@@ -192,14 +198,11 @@ def test_log_config_logs_new_variables(monkeypatch, caplog):
     ]:
         assert var_name in messages
 
-    _cleanup_config(monkeypatch)
-
 
 # --- No impact on existing config variables (AC) ---
 
 
 def test_existing_config_variables_unaffected(monkeypatch):
-    _reset_env(monkeypatch)
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.APP_NAME == "insights-puptoo"
     assert config_mod.GROUP_ID == "insights-puptoo"
