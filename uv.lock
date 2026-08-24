@@ -250,7 +250,7 @@ wheels = [
 
 [[package]]
 name = "insights-core"
-version = "3.7.7"
+version = "3.8.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cachecontrol", extra = ["filecache", "redis"] },
@@ -262,9 +262,9 @@ dependencies = [
     { name = "requests" },
     { name = "rpm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d0/95/67dd615b9b06fe257a17bca1d406c694ab9a13064dc08e47766be924949d/insights_core-3.7.7.tar.gz", hash = "sha256:ed3e72d4b6e3249cd9e1d02116eb3825ca54a6fb9e0a0846fd9bd359888990b2", size = 1960240, upload-time = "2026-06-17T02:18:45.434Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/65/26c5c1b477e5cf453e6a0547dc1c4907572531db8bedfa8bd22c79836fe2/insights_core-3.8.0.tar.gz", hash = "sha256:71a352b8c175f14eaf03496270d92f62118289710cdd5ea69061304303cda20a", size = 1965823, upload-time = "2026-07-30T05:37:53.062Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/86/d0/3b28400bc11b6f39984b584e1410338a019f45f194257cd023787a0e0862/insights_core-3.7.7-py3-none-any.whl", hash = "sha256:3d3610945f824e988cb13a0ea479000e6fb45b703491c7628ccb352d4f4229b3", size = 2547154, upload-time = "2026-06-17T02:18:02.212Z" },
+    { url = "https://files.pythonhosted.org/packages/af/b8/613c9c8e9154c2f8134c168b0b3074dfbd206c294c842c112096aeaa69b1/insights_core-3.8.0-py3-none-any.whl", hash = "sha256:d276d13e40a4f583cc129c305f7b7972421ab9367c3a451fe1e2fbd81011bd62", size = 2551183, upload-time = "2026-07-30T05:37:06.671Z" },
 ]
 
 [[package]]
@@ -304,7 +304,7 @@ requires-dist = [
     { name = "app-common-python", specifier = "==0.2.9" },
     { name = "cachecontrol", specifier = "<0.14.4" },
     { name = "confluent-kafka", specifier = "==2.14.2" },
-    { name = "insights-core", specifier = "==3.7.7" },
+    { name = "insights-core", specifier = "==3.8.0" },
     { name = "logstash-formatter", specifier = ">=0.5.17,<0.6.0" },
     { name = "minio", specifier = ">=7.2.15,<8.0.0" },
     { name = "opentelemetry-api", specifier = "~=1.44.0" },
