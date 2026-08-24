@@ -52,7 +52,8 @@ def test_qpc_message_without_topic():
         "b64_identity": B64_IDENTITY,
     }
     with patch("src.puptoo.qpc.validators.LOG.error") as mock:
-        validate_qpc_message(qpc_msg)
+        result = validate_qpc_message(qpc_msg)
+    assert result is None
     mock.assert_called_once_with("Message not found on topic: %s", ANNOUNCE_TOPIC)
 
 
@@ -74,8 +75,9 @@ def test_check_if_url_expired_bypass():
         "url": url,
         "request_id": "123456",
         "b64_identity": B64_IDENTITY,
+        "org_id": "123",
+        "topic": ANNOUNCE_TOPIC,
     }
-    with patch("src.puptoo.qpc.validators.LOG.error") as mock:
-        with patch("src.puptoo.qpc.validators.BYPASS_PAYLOAD_EXPIRATION", True):
-            validate_qpc_message(qpc_msg)
-    mock.assert_called_once_with("Message not found on topic: %s", ANNOUNCE_TOPIC)
+    with patch("src.puptoo.qpc.validators.BYPASS_PAYLOAD_EXPIRATION", True):
+        result = validate_qpc_message(qpc_msg)
+    assert result is not None
