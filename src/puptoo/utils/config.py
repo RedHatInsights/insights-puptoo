@@ -152,3 +152,36 @@ DISABLE_S3_UPLOAD = os.getenv("DISABLE_S3_UPLOAD", "").lower() in (
     "y",
 )
 IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
+
+# QPC config variables (RHINENG-27919 / 2.2)
+MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
+HOSTS_TRANSFORMATION_ENABLED = os.getenv(
+    "HOSTS_TRANSFORMATION_ENABLED", "true"
+).lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+DISCOVERY_HOST_TTL = os.getenv("DISCOVERY_HOST_TTL", "29")
+SATELLITE_HOST_TTL = os.getenv("SATELLITE_HOST_TTL", "29")
+BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+# Comma-separated service headers this pod accepts (e.g. "advisor,compliance").
+# Unset, empty, whitespace-only, or a value with no valid entries after
+# stripping (e.g. "advisor,,  ,") all fail open to None (accept all handlers),
+# consistent with the unset case, rather than yielding an empty/malformed list.
+_enabled_handlers_env = os.getenv("ENABLED_HANDLERS")
+if _enabled_handlers_env:
+    _enabled_handlers_parsed = [
+        handler.strip()
+        for handler in _enabled_handlers_env.split(",")
+        if handler.strip()
+    ]
+    ENABLED_HANDLERS = _enabled_handlers_parsed or None
+else:
+    ENABLED_HANDLERS = None
