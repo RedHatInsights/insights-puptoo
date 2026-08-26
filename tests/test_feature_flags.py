@@ -175,3 +175,79 @@ def test_get_flag_value_raises_on_unregistered_flag():
 
     with pytest.raises(KeyError):
         ff_mod.get_flag_value("puptoo.not-registered", "org-1")
+
+
+# --- QPC feature flags (RHINENG-29362) ---
+
+
+def test_qpc_flag_fallback_values_registered():
+    from src.puptoo.feature_flags import FLAG_FALLBACK_VALUES
+
+    assert FLAG_FALLBACK_VALUES["puptoo.qpc-processing-enabled"] is True
+    assert FLAG_FALLBACK_VALUES["puptoo.qpc-org-migration"] is False
+    assert FLAG_FALLBACK_VALUES["puptoo.qpc-hosts-transformation"] is False
+
+
+def test_qpc_processing_enabled_fallback_when_client_is_none():
+    import src.puptoo.feature_flags as ff_mod
+
+    ff_mod._client = None
+    value, using_fallback = ff_mod.get_flag_value_and_fallback(
+        "puptoo.qpc-processing-enabled", {}
+    )
+    assert value is True
+    assert using_fallback is True
+
+
+def test_qpc_org_migration_fallback_when_client_is_none():
+    import src.puptoo.feature_flags as ff_mod
+
+    ff_mod._client = None
+    value, using_fallback = ff_mod.get_flag_value_and_fallback(
+        "puptoo.qpc-org-migration", {}
+    )
+    assert value is False
+    assert using_fallback is True
+
+
+def test_qpc_hosts_transformation_fallback_when_client_is_none():
+    import src.puptoo.feature_flags as ff_mod
+
+    ff_mod._client = None
+    value, using_fallback = ff_mod.get_flag_value_and_fallback(
+        "puptoo.qpc-hosts-transformation", {}
+    )
+    assert value is False
+    assert using_fallback is True
+
+
+def test_qpc_processing_enabled_uses_org_id_context():
+    import src.puptoo.feature_flags as ff_mod
+
+    mock_client = MagicMock()
+    mock_client.is_enabled.return_value = False
+    ff_mod._client = mock_client
+
+    result = ff_mod.get_flag_value("puptoo.qpc-processing-enabled", "org-99")
+    assert result is False
+
+    call_args = mock_client.is_enabled.call_args
+    assert call_args[1]["context"] == {"orgId": "org-99"}
+
+    ff_mod._client = None
+
+
+def test_qpc_org_migration_fallback_on_connection_error():
+    import src.puptoo.feature_flags as ff_mod
+
+    mock_client = MagicMock()
+    mock_client.is_enabled.side_effect = ConnectionError("unreachable")
+    ff_mod._client = mock_client
+
+    value, using_fallback = ff_mod.get_flag_value_and_fallback(
+        "puptoo.qpc-org-migration", {}
+    )
+    assert value is False
+    assert using_fallback is True
+
+    ff_mod._client = None
