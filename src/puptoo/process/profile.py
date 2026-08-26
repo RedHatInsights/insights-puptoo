@@ -145,6 +145,20 @@ RHEL_AI_GPU_MODEL_IDENTIFIERS = {
 #   * Required for any new facts.
 BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
 
+# HBI system_profile.workloads.ansible keys that AnsibleInfo can populate.
+# sso_version is not collected. Extra combiner properties (receptor, runner,
+# eda, gateway) are included when present so a later insights-core upgrade
+# starts deleting stale nested versions. Do not emit containers (RHINENG-29753).
+ANSIBLE_WORKLOAD_VERSION_ATTRS = (
+    "controller_version",
+    "hub_version",
+    "catalog_worker_version",
+    "receptor_version",
+    "runner_version",
+    "eda_controller_version",
+    "gateway_version",
+)
+
 
 @rule(
     optional=[
@@ -288,8 +302,11 @@ def system_profile(
     This method applies parsers to a host and returns a system profile that can
     be sent to inventory service.
 
-    Note that we strip all keys with the value of "None". Inventory service
-    ignores any key with None as the value.
+    After RHINENG-29896, inventory applies RFC 7396 JSON Merge Patch: omitted
+    keys are left unchanged, and JSON null deletes a field. Top-level None
+    values are still stripped so facts this archive did not collect are not
+    deleted. Nested None on an object whose combiner or parser ran is kept so
+    inventory can clear stale nested keys (RHINENG-30320).
     """
     profile = {
         "tags": {"insights-client": {}},
@@ -314,40 +331,31 @@ def system_profile(
             catch_error("dmidecode", e)
             raise
 
-    if ansible_info:
-        profile["workloads"]["ansible"] = {}
+    if ansible_info is not None:
         try:
-            if ansible_info.catalog_worker_version:
-                profile["workloads"]["ansible"]["catalog_worker_version"] = (
-                    ansible_info.catalog_worker_version
+            if ansible_info:
+                profile["workloads"]["ansible"] = _ansible_workload_from_info(
+                    ansible_info
                 )
-            if ansible_info.controller_version:
-                profile["workloads"]["ansible"]["controller_version"] = (
-                    ansible_info.controller_version
-                )
-            if ansible_info.hub_version:
-                profile["workloads"]["ansible"]["hub_version"] = (
-                    ansible_info.hub_version
-                )
+            else:
+                # InstalledRpms was collected and no Ansible packages are present.
+                profile["workloads"]["ansible"] = None
         except Exception as e:
             catch_error("ansible_info", e)
             raise
 
     if satellite_version or capsule_version:
-        profile["workloads"]["satellite"] = {}
         try:
             if satellite_version:
-                profile["workloads"]["satellite"]["type"] = "server"
-                if satellite_version.version:
-                    profile["workloads"]["satellite"]["version"] = (
-                        satellite_version.version
-                    )
+                profile["workloads"]["satellite"] = {
+                    "type": "server",
+                    "version": satellite_version.version or None,
+                }
             elif capsule_version:
-                profile["workloads"]["satellite"]["type"] = "capsule"
-                if capsule_version.version:
-                    profile["workloads"]["satellite"]["version"] = (
-                        capsule_version.version
-                    )
+                profile["workloads"]["satellite"] = {
+                    "type": "capsule",
+                    "version": capsule_version.version or None,
+                }
         except Exception as e:
             catch_error("satellite_version", e)
             raise
@@ -453,15 +461,16 @@ def system_profile(
     if sap:
         try:
             instances = sap.instances
-            profile["workloads"]["sap"] = {}
+            sap_profile = {"sap_system": bool(instances), "version": None}
             if instances:
-                profile["workloads"]["sap"]["sap_system"] = True
                 sids = {sap.sid(instance) for instance in instances}
-                profile["workloads"]["sap"]["sids"] = sorted(list(sids))
+                sap_profile["sids"] = sorted(list(sids))
                 inst = instances[0]
-                profile["workloads"]["sap"]["instance_number"] = sap[inst].number
+                sap_profile["instance_number"] = sap[inst].number
             else:
-                profile["workloads"]["sap"]["sap_system"] = False
+                sap_profile["sids"] = []
+                sap_profile["instance_number"] = None
+            profile["workloads"]["sap"] = sap_profile
         except Exception as e:
             catch_error("sap", e)
             raise
@@ -528,6 +537,8 @@ def system_profile(
             mssql_server = _get_mssql_server_package(latest)
             if mssql_server:
                 profile["workloads"]["mssql"] = {"version": mssql_server.version}
+            else:
+                profile["workloads"]["mssql"] = None
         except Exception as e:
             catch_error("installed_packages", e)
             raise
@@ -637,13 +648,15 @@ def system_profile(
     if ps_auxcww:
         try:
             profile["running_processes"] = sorted(list(ps_auxcww.running))
-            if any(p.startswith("db2sysc") for p in ps_auxcww.cmd_names):
-                profile["workloads"]["ibm_db2"] = {"is_running": True}
-            if any(
-                ORACLE_PROCESS_REGEX1.search(p) or ORACLE_PROCESS_REGEX2.search(p)
-                for p in ps_auxcww.cmd_names
-            ):
-                profile["workloads"]["oracle_db"] = {"is_running": True}
+            profile["workloads"]["ibm_db2"] = {
+                "is_running": any(p.startswith("db2sysc") for p in ps_auxcww.cmd_names)
+            }
+            profile["workloads"]["oracle_db"] = {
+                "is_running": any(
+                    ORACLE_PROCESS_REGEX1.search(p) or ORACLE_PROCESS_REGEX2.search(p)
+                    for p in ps_auxcww.cmd_names
+                )
+            }
         except Exception as e:
             catch_error("ps_auxcww", e)
             raise
@@ -959,7 +972,8 @@ def system_profile(
                                 intersystems_profile["running_instances"].append(
                                     instance_info
                                 )
-            profile["workloads"]["intersystems"] = _remove_empties(intersystems_profile)
+            # Keep running_instances: [] so RFC 7396 replaces stale instances.
+            profile["workloads"]["intersystems"] = intersystems_profile
         except Exception as e:
             catch_error("intersystems", e)
             raise
@@ -1090,8 +1104,9 @@ def system_profile(
     if crowdstrike_facts:
         profile["workloads"]["crowdstrike"] = crowdstrike_facts
 
-    # Clean up empty workloads
-    profile["workloads"] = _remove_empties(profile["workloads"])
+    # Drop empty workload objects, but keep JSON null so inventory can delete
+    # workloads this archive collected and found absent (RHINENG-30320).
+    profile["workloads"] = _remove_empties(profile["workloads"], keep_none=True)
 
     metadata_response = make_metadata()
     # Note:
@@ -1138,12 +1153,27 @@ def _to_bool(value):
         return None
 
 
-def _remove_empties(d, bypass_keys=None):
+def _ansible_workload_from_info(ansible_info):
     """
-    small helper method to remove keys with value of None, [], {} or ''. These
-    are not accepted by inventory service.
+    Emit every Ansible version key the combiner exposes. Missing versions are
+    None so inventory deletes stale nested values under RFC 7396.
     """
-    empty_values = [None, "", [], {}]
+    return {
+        key: getattr(ansible_info, key) or None
+        for key in ANSIBLE_WORKLOAD_VERSION_ATTRS
+        if hasattr(ansible_info, key)
+    }
+
+
+def _remove_empties(d, bypass_keys=None, keep_none=False):
+    """
+    Remove keys with value of None, [], {} or ''. Inventory jsonschema
+    describes the stored system profile, which must not contain these.
+
+    Nested RFC 7396 deletions use Python None (JSON null). Pass keep_none=True
+    so those keys are not stripped from an object this archive collected.
+    """
+    empty_values = ["", [], {}] if keep_none else [None, "", [], {}]
     if bypass_keys:
         return {x: d[x] for x in d if x in bypass_keys or d[x] not in empty_values}
     else:

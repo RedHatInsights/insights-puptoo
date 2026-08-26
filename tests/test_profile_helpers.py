@@ -19,6 +19,12 @@ def test_remove_empties_bypass_keys_preserves_none():
     assert result == {"dnf_modules": None}
 
 
+def test_remove_empties_keep_none():
+    d = {"ansible": None, "sap": {}, "ok": {"a": 1}, "empty_list": [], "blank": ""}
+    result = _remove_empties(d, keep_none=True)
+    assert result == {"ansible": None, "ok": {"a": 1}}
+
+
 def test_remove_empty_string():
     assert _remove_empty_string(["a", "", "b", ""]) == ["a", "b"]
     assert _remove_empty_string([]) == []

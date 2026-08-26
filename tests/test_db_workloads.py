@@ -36,13 +36,16 @@ def test_db_workloads():
     input_data.add(Specs.ps_auxcww, PS_AUXCWW_IBM_DB2)
     result = run_test(system_profile, input_data)
     assert result["workloads"]["ibm_db2"] == {"is_running": True}
+    assert result["workloads"]["oracle_db"] == {"is_running": False}
 
     input_data = InputData()
     input_data.add(Specs.ps_auxcww, PS_AUXCWW_ORACLE_DB)
     result = run_test(system_profile, input_data)
     assert result["workloads"]["oracle_db"] == {"is_running": True}
+    assert result["workloads"]["ibm_db2"] == {"is_running": False}
 
     input_data = InputData()
     input_data.add(Specs.ps_auxcww, PS_AUXCWW_NO_DB)
     result = run_test(system_profile, input_data)
-    assert "workloads" not in result
+    assert result["workloads"]["ibm_db2"] == {"is_running": False}
+    assert result["workloads"]["oracle_db"] == {"is_running": False}

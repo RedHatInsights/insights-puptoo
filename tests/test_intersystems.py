@@ -84,14 +84,20 @@ def test_intersystems():
     input_data.add(Specs.iris_list, IRIS_LIST)
     input_data.add(Specs.iris_cpf, IRIS_CPF_2, path="/intersystems3/iris.cpf")
     result = run_test(system_profile, input_data)
-    assert result["workloads"]["intersystems"] == {"is_intersystems": True}
+    assert result["workloads"]["intersystems"] == {
+        "is_intersystems": True,
+        "running_instances": [],
+    }
 
     # As a valid Intersystems system, but no running instance - 2
     input_data = InputData()
     input_data.add(Specs.iris_list, IRIS_LIST)
     input_data.add(Specs.iris_cpf, IRIS_CPF_3, path="/intersystems2/iris.cpf")
     result = run_test(system_profile, input_data)
-    assert result["workloads"]["intersystems"] == {"is_intersystems": True}
+    assert result["workloads"]["intersystems"] == {
+        "is_intersystems": True,
+        "running_instances": [],
+    }
 
     # Not as a valid Intersystems system
     input_data = InputData()

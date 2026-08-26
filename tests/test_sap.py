@@ -112,6 +112,7 @@ def test_sap():
         "instance_number": "88",
         "sap_system": True,
         "sids": ["D89", "D90"],
+        "version": None,
     }
     assert result["workloads"]["sap"] == expected_sap_object
 
@@ -120,7 +121,12 @@ def test_sap():
     input_data.add(Specs.hostname, HOSTNAME)
     result = run_test(system_profile, input_data)
 
-    expected_sap_object = {"instance_number": "90", "sap_system": True, "sids": ["D90"]}
+    expected_sap_object = {
+        "instance_number": "90",
+        "sap_system": True,
+        "sids": ["D90"],
+        "version": None,
+    }
     assert result["workloads"]["sap"] == expected_sap_object
 
     input_data = InputData()
@@ -128,7 +134,12 @@ def test_sap():
     input_data.add(Specs.hostname, HOSTNAME_3)
     result = run_test(system_profile, input_data)
 
-    expected_sap_object = {"sap_system": False}
+    expected_sap_object = {
+        "sap_system": False,
+        "sids": [],
+        "instance_number": None,
+        "version": None,
+    }
     assert result["workloads"]["sap"] == expected_sap_object
 
     input_data = InputData()
@@ -140,5 +151,6 @@ def test_sap():
         "instance_number": "12",
         "sap_system": True,
         "sids": ["R4D", "WDX"],
+        "version": None,
     }
     assert result["workloads"]["sap"] == expected_sap_object
