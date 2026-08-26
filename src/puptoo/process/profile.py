@@ -3,12 +3,14 @@ import logging
 import os
 import re
 from insights import make_metadata, rule, run
+from insights.combiners.ansible_containerized import AnsibleContainerized
 from insights.combiners.ansible_info import AnsibleInfo
 from insights.combiners.cloud_provider import CloudProvider
 from insights.combiners.lspci import LsPci
 from insights.combiners.os_release import OSRelease
 from insights.combiners.redhat_release import RedHatRelease
 from insights.combiners.sap import Sap
+from insights.combiners.satellite_containerized import SatelliteContainerized
 from insights.combiners.satellite_version import CapsuleVersion, SatelliteVersion
 from insights.combiners.virt_what import VirtWhat
 from insights.core import dr
@@ -148,6 +150,7 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
 
 @rule(
     optional=[
+        AnsibleContainerized,
         AnsibleInfo,
         AWSInstanceIdDoc,
         AWSPublicHostnames,
@@ -170,6 +173,7 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
         LsMod,
         LsCPU,
         Sap,
+        SatelliteContainerized,
         SatelliteVersion,
         CapsuleVersion,
         SEStatus,
@@ -217,6 +221,7 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
     ]
 )
 def system_profile(
+    ansible_containerized,
     ansible_info,
     aws_instance_id,
     aws_public_hostnames,
@@ -239,6 +244,7 @@ def system_profile(
     lsmod,
     lscpu,
     sap,
+    satellite_containerized,
     satellite_version,
     capsule_version,
     sestatus,
@@ -333,7 +339,16 @@ def system_profile(
             catch_error("ansible_info", e)
             raise
 
-    if satellite_version or capsule_version:
+    if ansible_containerized:
+        try:
+            profile["workloads"].setdefault("ansible", {})["containers"] = [
+                _container_facts(c) for c in ansible_containerized.containers
+            ]
+        except Exception as e:
+            catch_error("ansible_containerized", e)
+            raise
+
+    if satellite_version or capsule_version or satellite_containerized:
         profile["workloads"]["satellite"] = {}
         try:
             if satellite_version:
@@ -351,6 +366,36 @@ def system_profile(
         except Exception as e:
             catch_error("satellite_version", e)
             raise
+
+        if satellite_containerized:
+            try:
+                # When a host runs both RPM-based and containerized Satellite,
+                # the type is determined by the containerized workload: a
+                # foreman container means a Server, foreman-proxy alone means a
+                # Capsule.
+                if satellite_containerized.foreman_container:
+                    profile["workloads"]["satellite"]["type"] = "server"
+                elif satellite_containerized.foreman_proxy_container:
+                    profile["workloads"]["satellite"]["type"] = "capsule"
+
+                if satellite_containerized.foremanctl_version:
+                    profile["workloads"]["satellite"]["foremanctl_version"] = (
+                        satellite_containerized.foremanctl_version
+                    )
+
+                containers = [
+                    _container_facts(c)
+                    for c in (
+                        satellite_containerized.foreman_container,
+                        satellite_containerized.foreman_proxy_container,
+                    )
+                    if c
+                ]
+                if containers:
+                    profile["workloads"]["satellite"]["containers"] = containers
+            except Exception as e:
+                catch_error("satellite_containerized", e)
+                raise
 
     if aws_instance_id:
         if aws_instance_id.get("marketplaceProductCodes"):
@@ -1155,6 +1200,22 @@ def _remove_empty_string(arr):
     small helper method to remove empty string from an array.
     """
     return [i for i in arr if i != ""]
+
+
+def _container_facts(raw: dict) -> dict:
+    """
+    Map a raw podman container json (as returned by the insights-core
+    containerized combiners) to the inventory Container schema
+    (name/image/state), dropping any empty values.
+    """
+    names = raw.get("Names") or []
+    return _remove_empties(
+        {
+            "name": names[0] if names else "",
+            "image": raw.get("Image", ""),
+            "state": raw.get("State", ""),
+        }
+    )
 
 
 def _get_deployments(rpm_ostree_status):
