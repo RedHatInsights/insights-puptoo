@@ -232,7 +232,7 @@ B64_IDENTITY := eyJpZGVudGl0eSI6eyJvcmdfaWQiOiIwMDAwMDEiLCJhdXRoX3R5cGUiOiJiYXNp
 # Usage: make dev-dashboard
 .PHONY: dev-dashboard
 dev-dashboard:
-	@python dev/extract-dashboard.py
+	@uv run python dev/extract-dashboard.py
 
 # Start the full dev stack (Kafka, MinIO, Redis, Ingress, Puptoo, Host Inventory)
 # Usage: make dev-up

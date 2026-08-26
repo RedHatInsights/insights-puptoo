@@ -218,7 +218,7 @@ services:
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     healthcheck:
-      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/')\""]
+      test: ["CMD-SHELL", "$(command -v python3 || command -v python) -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/')\""]
       interval: 5s
       timeout: 5s
       retries: 10
