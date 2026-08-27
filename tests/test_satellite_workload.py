@@ -31,7 +31,7 @@ def test_satellite_capsule():
 def test_no_satellite():
     input_data = InputData().add(Specs.installed_rpms, NO_SATELLITE_RPMS)
     result = run_test(system_profile, input_data)
-    assert "satellite" not in result.get("workloads", {})
+    assert result["workloads"]["satellite"] is None
 
 
 def test_satellite_omitted_when_rpms_not_collected():

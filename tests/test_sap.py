@@ -112,7 +112,6 @@ def test_sap():
         "instance_number": "88",
         "sap_system": True,
         "sids": ["D89", "D90"],
-        "version": None,
     }
     assert result["workloads"]["sap"] == expected_sap_object
 
@@ -125,7 +124,6 @@ def test_sap():
         "instance_number": "90",
         "sap_system": True,
         "sids": ["D90"],
-        "version": None,
     }
     assert result["workloads"]["sap"] == expected_sap_object
 
@@ -138,7 +136,6 @@ def test_sap():
         "sap_system": False,
         "sids": [],
         "instance_number": None,
-        "version": None,
     }
     assert result["workloads"]["sap"] == expected_sap_object
 
@@ -151,6 +148,22 @@ def test_sap():
         "instance_number": "12",
         "sap_system": True,
         "sids": ["R4D", "WDX"],
-        "version": None,
     }
     assert result["workloads"]["sap"] == expected_sap_object
+
+
+HDB_VERSION = """
+HDB version info:
+  version:             2.00.030.00.1522210459
+  branch:              hanaws
+  machine config:      linuxx86_64
+""".strip()
+
+
+def test_sap_version_set_when_hdb_collected():
+    input_data = InputData()
+    input_data.add(Specs.saphostctl_getcimobject_sapinstance, SAP_DATA)
+    input_data.add(Specs.hostname, HOSTNAME)
+    input_data.add(Specs.sap_hdb_version, HDB_VERSION)
+    result = run_test(system_profile, input_data)
+    assert result["workloads"]["sap"]["version"] == "2.00.030.00.1522210459"

@@ -338,7 +338,9 @@ def system_profile(
                     ansible_info
                 )
             else:
-                # InstalledRpms was collected and no Ansible packages are present.
+                # InstalledRpms ran and no Ansible RPMs. insights-puptoo#915
+                # must not keep this parent null: it would wipe containerized-only
+                # AAP when podman was not collected.
                 profile["workloads"]["ansible"] = None
         except Exception as e:
             catch_error("ansible_info", e)
@@ -359,6 +361,10 @@ def system_profile(
         except Exception as e:
             catch_error("satellite_version", e)
             raise
+    elif installed_rpms:
+        # RPMs collected and neither combiner ran. Same #915 caveat as ansible:
+        # do not send satellite null when only containers exist.
+        profile["workloads"]["satellite"] = None
 
     if aws_instance_id:
         if aws_instance_id.get("marketplaceProductCodes"):
@@ -461,7 +467,7 @@ def system_profile(
     if sap:
         try:
             instances = sap.instances
-            sap_profile = {"sap_system": bool(instances), "version": None}
+            sap_profile = {"sap_system": bool(instances)}
             if instances:
                 sids = {sap.sid(instance) for instance in instances}
                 sap_profile["sids"] = sorted(list(sids))

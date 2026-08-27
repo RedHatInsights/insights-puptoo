@@ -49,3 +49,10 @@ def test_db_workloads():
     result = run_test(system_profile, input_data)
     assert result["workloads"]["ibm_db2"] == {"is_running": False}
     assert result["workloads"]["oracle_db"] == {"is_running": False}
+
+
+def test_db_workloads_omitted_when_ps_not_collected():
+    result = run_test(system_profile, InputData())
+    workloads = result.get("workloads", {})
+    assert "ibm_db2" not in workloads
+    assert "oracle_db" not in workloads
