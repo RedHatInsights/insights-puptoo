@@ -25,9 +25,9 @@ async-timeout==5.0.1 ; python_full_version < '3.11.3' \
     --hash=sha256:39e3809566ff85354557ec2398b55e096c8364bacac9405a7a1fa429e77fe76c \
     --hash=sha256:d9321a7a3d5a6a5e187e824d2fa0793ce379a202935782d555d6e9d2735677d3
     # via redis
-boto3==1.43.50 \
-    --hash=sha256:779eb5cfa8bd1d615f36051465f8182860219eef78b4ab8ca2c666bb56702325 \
-    --hash=sha256:a6865b9cd1d15511f6aad89cef964105acecff2160a3e29ae53c10d9821416af
+boto3==1.43.82 \
+    --hash=sha256:65319e8bba6e30f74a6e2727a5688725222da2ab71c6069bc484ce5bfd101c73 \
+    --hash=sha256:bc5a7824568c117110bac8fe7ccfac63f0a946f253953d42e73a8c1fb65162e0
     # via watchtower
 botocore==1.43.50 \
     --hash=sha256:4a57a1e0dd4a8be855c29183fc0e029c18e9ec84cd4ac172869f3e800f972528 \
