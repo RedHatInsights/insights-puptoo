@@ -53,6 +53,7 @@ from insights.parsers.meminfo import MemInfo
 from insights.parsers.nvidia import NvidiaSmiQueryGPU
 from insights.parsers.os_release import OsRelease
 from insights.parsers.pmlog_summary import PmLogSummary, PmLogSummaryPcpZeroConf
+from insights.parsers.podman import PodmanPsAllJson
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.redhat_release import RedhatRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
@@ -145,6 +146,14 @@ RHEL_AI_GPU_MODEL_IDENTIFIERS = {
 #   * Required for any new facts.
 BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
 
+# Containerized workloads: identifiers used to locate a containerized Satellite
+# (foremanctl RPM + foreman / foreman-proxy containers) and a containerized
+# Ansible Automation Platform (any container whose image carries the marker).
+FOREMANCTL_PKG = "foremanctl"
+FOREMAN_CONTAINER_NAME = "foreman"
+FOREMAN_PROXY_CONTAINER_NAME = "foreman-proxy"
+AAP_IMAGE_MARKER = "ansible-automation-platform"
+
 
 @rule(
     optional=[
@@ -214,6 +223,7 @@ BYPASS_PROFILE_SANS_NONE_FACTS = set(["dnf_modules"])
         EAPJSONReports,
         ImageBuilderFacts,
         IlabModuleList,
+        PodmanPsAllJson,
     ]
 )
 def system_profile(
@@ -283,6 +293,7 @@ def system_profile(
     eap_json_reports,
     image_builder_facts,
     ilab_model_list,
+    podman_ps_all_json,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -314,43 +325,107 @@ def system_profile(
             catch_error("dmidecode", e)
             raise
 
+    ansible = {}
     if ansible_info:
-        profile["workloads"]["ansible"] = {}
         try:
             if ansible_info.catalog_worker_version:
-                profile["workloads"]["ansible"]["catalog_worker_version"] = (
-                    ansible_info.catalog_worker_version
-                )
+                ansible["catalog_worker_version"] = ansible_info.catalog_worker_version
             if ansible_info.controller_version:
-                profile["workloads"]["ansible"]["controller_version"] = (
-                    ansible_info.controller_version
-                )
+                ansible["controller_version"] = ansible_info.controller_version
             if ansible_info.hub_version:
-                profile["workloads"]["ansible"]["hub_version"] = (
-                    ansible_info.hub_version
-                )
+                ansible["hub_version"] = ansible_info.hub_version
         except Exception as e:
             catch_error("ansible_info", e)
             raise
 
-    if satellite_version or capsule_version:
-        profile["workloads"]["satellite"] = {}
+    if podman_ps_all_json is not None:
         try:
-            if satellite_version:
-                profile["workloads"]["satellite"]["type"] = "server"
-                if satellite_version.version:
-                    profile["workloads"]["satellite"]["version"] = (
-                        satellite_version.version
-                    )
-            elif capsule_version:
-                profile["workloads"]["satellite"]["type"] = "capsule"
-                if capsule_version.version:
-                    profile["workloads"]["satellite"]["version"] = (
-                        capsule_version.version
-                    )
+            # AAP containers are matched by image: any container whose image
+            # contains "ansible-automation-platform". This captures the whole
+            # AAP stack (gateway, controller, receptor, eda, hub, ...).
+            aap_containers = podman_ps_all_json.search_by_image(
+                AAP_IMAGE_MARKER, partial=True
+            )
+            if aap_containers:
+                ansible["containers"] = [_container_facts(c) for c in aap_containers]
+            elif ansible:
+                # Podman was collected but no AAP containers were found; keep an
+                # empty list to distinguish "collected, none found" from "not
+                # collected", but only when there is other ansible data.
+                ansible["containers"] = []
         except Exception as e:
-            catch_error("satellite_version", e)
+            catch_error("ansible_containers", e)
             raise
+
+    if ansible:
+        profile["workloads"]["ansible"] = ansible
+
+    satellite = {}
+
+    sat_rpm_type = None
+    sat_rpm_version = None
+    try:
+        if satellite_version:
+            sat_rpm_type = "server"
+            sat_rpm_version = satellite_version.version
+        elif capsule_version:
+            sat_rpm_type = "capsule"
+            sat_rpm_version = capsule_version.version
+    except Exception as e:
+        catch_error("satellite_rpm", e)
+        raise
+
+    foremanctl_version = None
+    foreman_containers = None
+    foreman_proxy_containers = None
+    try:
+        # Containerized Satellite: newest foremanctl RPM version.
+        if installed_rpms:
+            foremanctl = installed_rpms.get_max(FOREMANCTL_PKG)
+            if foremanctl:
+                foremanctl_version = foremanctl.version
+        # foreman / foreman-proxy containers, matched by exact name.
+        # All matches are kept because container names are only unique per user,
+        # so rootless deployments may expose several containers with the same name.
+        if podman_ps_all_json is not None:
+            foreman_containers = podman_ps_all_json.search_by_name(
+                FOREMAN_CONTAINER_NAME
+            )
+            foreman_proxy_containers = podman_ps_all_json.search_by_name(
+                FOREMAN_PROXY_CONTAINER_NAME
+            )
+    except Exception as e:
+        catch_error("satellite_containers", e)
+        raise
+
+    container_matches = (foreman_containers or []) + (foreman_proxy_containers or [])
+
+    if satellite_version or capsule_version or foremanctl_version or container_matches:
+        # The type is taken from the containers when present (a foreman container
+        # means a Server, foreman-proxy alone means a Capsule), otherwise from
+        # the RPMs.
+        if container_matches:
+            satellite["type"] = "server" if foreman_containers else "capsule"
+        elif sat_rpm_type:
+            satellite["type"] = sat_rpm_type
+
+        if sat_rpm_version:
+            satellite["version"] = sat_rpm_version
+        if foremanctl_version:
+            satellite["foremanctl_version"] = foremanctl_version
+
+        if container_matches:
+            satellite["containers"] = [_container_facts(c) for c in container_matches]
+        elif podman_ps_all_json is not None and (
+            satellite_version or capsule_version or foremanctl_version
+        ):
+            # Podman was collected but no foreman/foreman-proxy containers were
+            # found; keep an empty list to distinguish "collected, none found"
+            # from "not collected", but only when there is other satellite data.
+            satellite["containers"] = []
+
+    if satellite:
+        profile["workloads"]["satellite"] = satellite
 
     if aws_instance_id:
         if aws_instance_id.get("marketplaceProductCodes"):
@@ -1155,6 +1230,22 @@ def _remove_empty_string(arr):
     small helper method to remove empty string from an array.
     """
     return [i for i in arr if i != ""]
+
+
+def _container_facts(raw: dict) -> dict:
+    """
+    Map a raw podman container json (as returned by the PodmanPsAllJson parser)
+    to the inventory Container schema (name/image/state), dropping any empty
+    values.
+    """
+    names = raw.get("Names") or []
+    return _remove_empties(
+        {
+            "name": names[0] if names else "",
+            "image": raw.get("Image", ""),
+            "state": raw.get("State", ""),
+        }
+    )
 
 
 def _get_deployments(rpm_ostree_status):
