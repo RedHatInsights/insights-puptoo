@@ -9,6 +9,7 @@ from src.puptoo.qpc.report_processor import (
     download_report,
     has_canonical_facts,
     process_report,
+    process_report_slice,
 )
 from tests.qpc.conftest import create_tar_buffer
 
@@ -154,6 +155,22 @@ class TestProcessReport:
         ]
         assert len(validation_calls) == 1
 
+    def test_skips_when_processing_disabled(self):
+        consumed_message = _make_consumed_message()
+        request_obj = {
+            "request_id": consumed_message["request_id"],
+            "org_id": consumed_message["org_id"],
+        }
+        with patch(
+            "src.puptoo.qpc.report_processor.get_flag_value",
+            side_effect=lambda flag, _org_id: flag != "puptoo.qpc-processing-enabled",
+        ):
+            with patch(
+                "src.puptoo.qpc.report_processor.download_report"
+            ) as mock_download:
+                process_report(consumed_message, request_obj)
+                mock_download.assert_not_called()
+
     def test_uses_inventory_topic_from_config(self):
         uuid1 = uuid.uuid4()
         report_files = _make_report_files(uuid1)
@@ -176,3 +193,52 @@ class TestProcessReport:
             c for c in mock_send.call_args_list if c.args[0] == "custom.inventory.topic"
         ]
         assert len(inventory_calls) == 1
+
+
+class TestProcessReportSliceFlags:
+    def _make_slice_and_request(self):
+        slice_id = str(uuid.uuid4())
+        report_slice = {
+            "report_slice_id": slice_id,
+            "hosts": [{"ip_addresses": "10.0.0.1"}],
+        }
+        request_obj = {
+            "org_id": "456",
+            "request_id": "test-req",
+            "total_host_count": 0,
+            "candidate_hosts": 0,
+            "hosts_without_facts": [],
+            "host_inventory_upload_count": 0,
+        }
+        return report_slice, request_obj
+
+    def test_skips_modifiers_when_transformation_disabled(self):
+        report_slice, request_obj = self._make_slice_and_request()
+        with patch(
+            "src.puptoo.qpc.report_processor.get_flag_value",
+            return_value=False,
+        ):
+            with patch(
+                "src.puptoo.qpc.report_processor.get_modifiers"
+            ) as mock_get_modifiers:
+                with patch(
+                    "src.puptoo.qpc.report_processor._upload_to_host_inventory_via_kafka"
+                ):
+                    process_report_slice(report_slice, request_obj)
+                    mock_get_modifiers.assert_not_called()
+
+    def test_runs_modifiers_when_transformation_enabled(self):
+        report_slice, request_obj = self._make_slice_and_request()
+        with patch(
+            "src.puptoo.qpc.report_processor.get_flag_value",
+            return_value=True,
+        ):
+            with patch(
+                "src.puptoo.qpc.report_processor.get_modifiers",
+                return_value=[],
+            ) as mock_get_modifiers:
+                with patch(
+                    "src.puptoo.qpc.report_processor._upload_to_host_inventory_via_kafka"
+                ):
+                    process_report_slice(report_slice, request_obj)
+                    mock_get_modifiers.assert_called_once()

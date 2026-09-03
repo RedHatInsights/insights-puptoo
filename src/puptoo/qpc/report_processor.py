@@ -7,6 +7,7 @@ from io import BytesIO
 import requests
 
 from ..exceptions import FailDownloadException, FailExtractException, QPCReportException
+from ..feature_flags import get_flag_value
 from ..modifiers import get_modifiers
 from ..mq.produce import send_message
 from ..utils import config, metrics
@@ -101,6 +102,7 @@ def process_report_slice(report_slice, request_obj):
         report_slice.get("report_slice_id"),
     )
     hosts = report_slice.get("hosts", [])
+    org_id = request_obj.get("org_id", "")
     request_obj["total_host_count"] += len(hosts)
     for host in hosts:
         yupana_host_id = str(uuid.uuid4())
@@ -109,7 +111,7 @@ def process_report_slice(report_slice, request_obj):
             host["report_slice_id"] = report_slice.get("report_slice_id")
             request_obj["candidate_hosts"] += 1
             transformed_obj = {"removed": [], "modified": [], "missing_data": []}
-            if config.HOSTS_TRANSFORMATION_ENABLED:
+            if get_flag_value("puptoo.qpc-hosts-transformation", org_id):
                 for modifier in get_modifiers():
                     modifier.run(host, transformed_obj, request_obj=request_obj)
             _print_transformed_info(yupana_host_id, transformed_obj)
@@ -149,6 +151,14 @@ def _log_report_summary(request_obj):
 
 
 def process_report(consumed_message, request_obj):
+    org_id = request_obj.get("org_id", "")
+    if not get_flag_value("puptoo.qpc-processing-enabled", org_id):
+        LOG.info(
+            "QPC processing disabled by feature flag for org_id=%s; skipping report",
+            org_id,
+        )
+        return
+
     request_obj.update(
         {
             "candidate_hosts": 0,
