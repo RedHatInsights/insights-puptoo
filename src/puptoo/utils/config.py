@@ -8,12 +8,19 @@ logger = logging.getLogger(APP_NAME)
 CLOWDER_ENABLED = os.getenv("CLOWDER_ENABLED", "").lower() in ("true", "t", "yes", "y")
 
 
+#  RHINENG-30160: names carrying any of these tokens hold a credential and must
+#  never be logged verbatim, regardless of which subsystem they belong to.
+_SENSITIVE_NAME_TOKENS = ("PASSWORD", "SECRET", "TOKEN", "KEY")
+
+
 def log_config():
     import sys
 
     for k, v in sys.modules[__name__].__dict__.items():
         if k == k.upper():
-            if "AWS" in k.split("_"):
+            if k == "KAFKA_BROKER":
+                continue
+            if any(token in k.split("_") for token in _SENSITIVE_NAME_TOKENS):
                 continue
             logger.info("Using %s: %s", k, v)
 
