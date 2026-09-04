@@ -31,6 +31,21 @@ def test_get_url_returns_url_on_success(mock_config, mock_get_client):
 
 @patch("src.puptoo.upload._get_client")
 @patch("src.puptoo.upload.config")
+def test_get_url_does_not_log_full_presigned_url(mock_config, mock_get_client, caplog):
+    """RHINENG-30160: the presigned URL is a bearer credential, must not be logged."""
+    mock_config.BUCKET_NAME = "test-bucket"
+    client = mock_get_client.return_value
+    secret_url = "https://s3/obj?X-Amz-Signature=super-secret-signature"
+    client.presigned_get_object.return_value = secret_url
+
+    with caplog.at_level("INFO"):
+        get_url("obj-1")
+
+    assert secret_url not in " ".join(caplog.messages)
+
+
+@patch("src.puptoo.upload._get_client")
+@patch("src.puptoo.upload.config")
 def test_get_url_raises_fail_upload_on_error(mock_config, mock_get_client):
     mock_config.BUCKET_NAME = "test-bucket"
     client = MagicMock()

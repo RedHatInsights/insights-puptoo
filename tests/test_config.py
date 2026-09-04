@@ -208,3 +208,43 @@ def test_existing_config_variables_unaffected(monkeypatch):
     assert config_mod.GROUP_ID == "insights-puptoo"
     assert config_mod.INVENTORY_TOPIC == "platform.inventory.host-ingress"
     assert config_mod.KAFKA_PRODUCER_OVERRIDE_MAX_REQUEST_SIZE == 2097152
+
+
+# --- RHINENG-30160: log_config() must not leak secrets at INFO ---
+
+
+def test_log_config_redacts_redis_password(monkeypatch, caplog):
+    config_mod = _reload_config(monkeypatch, {"REDIS_PASSWORD": "super-secret-pw"})
+
+    with caplog.at_level("INFO", logger=config_mod.APP_NAME):
+        config_mod.log_config()
+
+    messages = " ".join(caplog.messages)
+    assert "super-secret-pw" not in messages
+
+
+def test_log_config_still_redacts_aws_credentials(monkeypatch, caplog):
+    config_mod = _reload_config(
+        monkeypatch,
+        {
+            "STORAGE_ACCESS_KEY": "aki-real-value",
+            "STORAGE_SECRET_KEY": "sak-real-value",
+        },
+    )
+
+    with caplog.at_level("INFO", logger=config_mod.APP_NAME):
+        config_mod.log_config()
+
+    messages = " ".join(caplog.messages)
+    assert "aki-real-value" not in messages
+    assert "sak-real-value" not in messages
+
+
+def test_log_config_never_logs_raw_kafka_broker_via_generic_loop(monkeypatch, caplog):
+    config_mod = _reload_config(monkeypatch, {})
+
+    with caplog.at_level("INFO", logger=config_mod.APP_NAME):
+        config_mod.log_config()
+
+    for record in caplog.records:
+        assert record.args != ("KAFKA_BROKER", config_mod.KAFKA_BROKER)
