@@ -15,6 +15,7 @@ from .mq.produce import init_producer, send_message
 from opentelemetry import trace
 from opentelemetry.trace import SpanKind
 
+from .feature_flags import init_unleash
 from .telemetry import (
     extract_context_from_kafka_message,
     get_tracer,
@@ -89,6 +90,8 @@ def main():
             service_version=config.IMAGE_TAG,
         )
         instrument_outbound_http()
+
+        init_unleash()
 
         config.log_config()
 

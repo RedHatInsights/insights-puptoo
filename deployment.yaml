@@ -83,6 +83,19 @@ objects:
             value: ${OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT}
           - name: OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT
             value: ${OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT}
+          # Unleash Feature Flags
+          - name: BYPASS_UNLEASH
+            value: ${BYPASS_UNLEASH}
+          - name: UNLEASH_URL
+            value: ${UNLEASH_URL}
+          - name: UNLEASH_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: ${UNLEASH_SECRET_NAME}
+                key: CLIENT_ACCESS_TOKEN
+                optional: true
+          - name: UNLEASH_REFRESH_INTERVAL
+            value: ${UNLEASH_REFRESH_INTERVAL}
         resources:
           limits:
             cpu: ${CPU_LIMIT}
@@ -92,6 +105,7 @@ objects:
             memory: ${MEMORY_REQUEST}
     objectStore:
       - ${PUPTOO_BUCKET}
+    featureFlags: true
     inMemoryDb: true
     kafkaTopics:
       - replicas: 3
@@ -209,3 +223,15 @@ parameters:
 - description: Secret key for the object storage endpoint
   name: STORAGE_SECRET_KEY
   value: $STORAGE_SECRET_KEY
+# Unleash Feature Flags Configuration
+- description: Kubernetes secret name for Unleash client access token
+  name: UNLEASH_SECRET_NAME
+  value: bypass
+- description: Unleash API url
+  name: UNLEASH_URL
+- description: Whether to bypass the Unleash feature flag server
+  name: BYPASS_UNLEASH
+  value: 'false'
+- description: How frequently the Unleash client refreshes data from the server (in seconds)
+  name: UNLEASH_REFRESH_INTERVAL
+  value: "15"
