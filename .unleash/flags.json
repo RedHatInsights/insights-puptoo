@@ -1,5 +1,24 @@
 {
     "version": 1,
-    "features": [],
+    "features": [
+        {
+            "name": "puptoo.qpc-processing-enabled",
+            "description": "Kill switch to disable QPC processing at runtime",
+            "enabled": true,
+            "strategies": [{"name": "default"}]
+        },
+        {
+            "name": "puptoo.qpc-org-migration",
+            "description": "Gradual per-org rollout from standalone yuptoo to puptoo-based QPC",
+            "enabled": false,
+            "strategies": [{"name": "default"}]
+        },
+        {
+            "name": "puptoo.qpc-hosts-transformation",
+            "description": "Toggle host transformation logic per-org, replaces yuptoo QPC_HOST_TRANSFORMATION_ENABLED env var",
+            "enabled": false,
+            "strategies": [{"name": "default"}]
+        }
+    ],
     "strategies": []
 }

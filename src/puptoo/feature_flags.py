@@ -25,7 +25,11 @@ logger = logging.getLogger(config.APP_NAME)
 
 _client = None
 
-FLAG_FALLBACK_VALUES: dict[str, bool] = {}
+FLAG_FALLBACK_VALUES: dict[str, bool] = {
+    "puptoo.qpc-processing-enabled": True,
+    "puptoo.qpc-org-migration": False,
+    "puptoo.qpc-hosts-transformation": False,
+}
 
 
 def custom_fallback(feature_name: str, context: dict) -> bool:
