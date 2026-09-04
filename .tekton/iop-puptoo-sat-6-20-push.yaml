@@ -44,7 +44,7 @@ spec:
       - 'summary="A new satellite/iop-puptoo-rhel9 container image is now generally available in the Red Hat container registry."'
       - 'cpe=cpe:/a:redhat:satellite:6.20::el9'
       - 'com.redhat.component="iop-puptoo"'
-      - 'io.k8s.display-name="IoP Puptoo'
+      - 'io.k8s.display-name="IoP Puptoo"'
       - 'io.k8s.description="This adds the satellite/iop-puptoo-rhel9 image to the Red Hat container registry. To pull this container image, run the following command: podman pull registry.redhat.io/satellite/iop-puptoo-rhel9"'
       - 'io.openshift.tags="insights satellite iop puptoo"'
   pipelineRef:
