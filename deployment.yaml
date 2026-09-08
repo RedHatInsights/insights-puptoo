@@ -165,6 +165,12 @@ objects:
             value: ${QPC_APP_NAME}
           - name: ENABLED_HANDLERS
             value: ${QPC_ENABLED_HANDLERS}
+          - name: QPC_PROCESSING_ENABLED
+            value: ${QPC_PROCESSING_ENABLED}
+          - name: QPC_ORG_MIGRATION_ENABLED
+            value: ${QPC_ORG_MIGRATION_ENABLED}
+          - name: QPC_HOSTS_TRANSFORMATION_ENABLED
+            value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
         resources:
           limits:
             cpu: ${CPU_LIMIT}
@@ -308,3 +314,13 @@ parameters:
 - description: Handler list for QPC deployment
   name: QPC_ENABLED_HANDLERS
   value: "qpc"
+# QPC feature flags (default false = dormant until explicitly enabled)
+- description: Master switch for QPC processing
+  name: QPC_PROCESSING_ENABLED
+  value: "false"
+- description: Enable QPC org ID migration logic
+  name: QPC_ORG_MIGRATION_ENABLED
+  value: "false"
+- description: Enable QPC hosts transformation logic
+  name: QPC_HOSTS_TRANSFORMATION_ENABLED
+  value: "false"
