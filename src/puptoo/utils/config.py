@@ -162,8 +162,20 @@ IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
 
 # QPC config variables (RHINENG-27919 / 2.2)
 MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
-HOSTS_TRANSFORMATION_ENABLED = os.getenv(
-    "HOSTS_TRANSFORMATION_ENABLED", "true"
+QPC_PROCESSING_ENABLED = os.getenv("QPC_PROCESSING_ENABLED", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+QPC_ORG_MIGRATION_ENABLED = os.getenv("QPC_ORG_MIGRATION_ENABLED", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+QPC_HOSTS_TRANSFORMATION_ENABLED = os.getenv(
+    "QPC_HOSTS_TRANSFORMATION_ENABLED", ""
 ).lower() in (
     "true",
     "t",

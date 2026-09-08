@@ -20,7 +20,9 @@ def _reload_config(monkeypatch, env_overrides):
 def _reset_env(monkeypatch):
     for var in [
         "MAX_HOSTS_PER_REP",
-        "HOSTS_TRANSFORMATION_ENABLED",
+        "QPC_PROCESSING_ENABLED",
+        "QPC_ORG_MIGRATION_ENABLED",
+        "QPC_HOSTS_TRANSFORMATION_ENABLED",
         "DISCOVERY_HOST_TTL",
         "SATELLITE_HOST_TTL",
         "BYPASS_PAYLOAD_EXPIRATION",
@@ -60,9 +62,19 @@ def test_max_hosts_per_rep_default(monkeypatch):
     assert config_mod.MAX_HOSTS_PER_REP == 10000
 
 
-def test_hosts_transformation_enabled_default_true(monkeypatch):
+def test_qpc_processing_enabled_default_false(monkeypatch):
     config_mod = _reload_config(monkeypatch, {})
-    assert config_mod.HOSTS_TRANSFORMATION_ENABLED is True
+    assert config_mod.QPC_PROCESSING_ENABLED is False
+
+
+def test_qpc_org_migration_enabled_default_false(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {})
+    assert config_mod.QPC_ORG_MIGRATION_ENABLED is False
+
+
+def test_qpc_hosts_transformation_enabled_default_false(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {})
+    assert config_mod.QPC_HOSTS_TRANSFORMATION_ENABLED is False
 
 
 def test_discovery_host_ttl_default(monkeypatch):
@@ -107,11 +119,43 @@ def test_max_hosts_per_rep_override(monkeypatch):
         ("y", True),
     ],
 )
-def test_hosts_transformation_enabled_override(monkeypatch, env_value, expected):
+def test_qpc_processing_enabled_override(monkeypatch, env_value, expected):
+    config_mod = _reload_config(monkeypatch, {"QPC_PROCESSING_ENABLED": env_value})
+    assert config_mod.QPC_PROCESSING_ENABLED is expected
+
+
+@pytest.mark.parametrize(
+    "env_value,expected",
+    [
+        ("false", False),
+        ("true", True),
+        ("yes", True),
+        ("y", True),
+    ],
+)
+def test_qpc_org_migration_enabled_override(monkeypatch, env_value, expected):
+    config_mod = _reload_config(monkeypatch, {"QPC_ORG_MIGRATION_ENABLED": env_value})
+    assert config_mod.QPC_ORG_MIGRATION_ENABLED is expected
+
+
+@pytest.mark.parametrize(
+    "env_value,expected",
+    [
+        ("false", False),
+        ("False", False),
+        ("no", False),
+        ("true", True),
+        ("yes", True),
+        ("t", True),
+        ("T", True),
+        ("y", True),
+    ],
+)
+def test_qpc_hosts_transformation_enabled_override(monkeypatch, env_value, expected):
     config_mod = _reload_config(
-        monkeypatch, {"HOSTS_TRANSFORMATION_ENABLED": env_value}
+        monkeypatch, {"QPC_HOSTS_TRANSFORMATION_ENABLED": env_value}
     )
-    assert config_mod.HOSTS_TRANSFORMATION_ENABLED is expected
+    assert config_mod.QPC_HOSTS_TRANSFORMATION_ENABLED is expected
 
 
 def test_discovery_host_ttl_override(monkeypatch):
@@ -190,7 +234,9 @@ def test_log_config_logs_new_variables(monkeypatch, caplog):
     messages = " ".join(caplog.messages)
     for var_name in [
         "MAX_HOSTS_PER_REP",
-        "HOSTS_TRANSFORMATION_ENABLED",
+        "QPC_PROCESSING_ENABLED",
+        "QPC_ORG_MIGRATION_ENABLED",
+        "QPC_HOSTS_TRANSFORMATION_ENABLED",
         "DISCOVERY_HOST_TTL",
         "SATELLITE_HOST_TTL",
         "BYPASS_PAYLOAD_EXPIRATION",
