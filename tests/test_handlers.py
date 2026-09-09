@@ -4,10 +4,10 @@ import pytest
 
 from src.puptoo.exceptions import FailExtractException, FailUploadException
 from src.puptoo.handlers import get_handler, handler, register, _REGISTRY
-from src.puptoo.handlers.base import BaseHandler
+from src.puptoo.handlers.base import BaseHandler, FactsHandler
 
 
-class DummyHandler(BaseHandler):
+class DummyHandler(FactsHandler):
     def process(self, msg: dict, extra: dict) -> dict:  # noqa: ARG002
         return {"dummy": True}
 
@@ -15,7 +15,7 @@ class DummyHandler(BaseHandler):
         return [{"operation": "add_host", "data": facts}]
 
 
-class FailingHandler(BaseHandler):
+class FailingHandler(FactsHandler):
     def process(self, msg: dict, extra: dict) -> dict:  # noqa: ARG002
         raise FailExtractException("extraction failed")
 
@@ -23,7 +23,7 @@ class FailingHandler(BaseHandler):
         return []
 
 
-class YumHandler(BaseHandler):
+class YumHandler(FactsHandler):
     def process(self, msg: dict, extra: dict) -> dict:  # noqa: ARG002
         return {
             "insights_id": "abc",
@@ -74,7 +74,7 @@ def test_get_handler_returns_new_instance_each_call():
 
 def test_handler_decorator_registers():
     @handler("my-service")
-    class MyHandler(BaseHandler):
+    class MyHandler(FactsHandler):
         def process(self, msg: dict, extra: dict) -> dict:
             return {}
 
@@ -88,7 +88,7 @@ def test_handler_decorator_registers():
 
 def test_handler_decorator_returns_class_unchanged():
     @handler("svc")
-    class H(BaseHandler):
+    class H(FactsHandler):
         def process(self, msg: dict, extra: dict) -> dict:
             return {}
 
@@ -258,7 +258,7 @@ def test_handle_empty_facts_triggers_error_path(
     mock_config.TRACKER_TOPIC = "tracker"
     mock_config.VALIDATION_TOPIC = "validation"
 
-    class EmptyHandler(BaseHandler):
+    class EmptyHandler(FactsHandler):
         def process(self, msg: dict, extra: dict) -> dict:
             return {}
 
@@ -331,3 +331,63 @@ def test_handle_catches_fail_upload_and_continues(
     mock_metrics.msg_processed_success.labels.assert_called_with("test")
     topics = [call.args[0] for call in send.call_args_list]
     assert "inventory" in topics
+
+
+# --- ENABLED_HANDLERS gating ---
+
+
+@pytest.fixture()
+def all_four_registered():
+    """Register all four handlers (advisor, compliance, malware-detection, qpc)."""
+    from src.puptoo.handlers.advisor import AdvisorHandler
+    from src.puptoo.handlers.compliance import ComplianceHandler, MalwareDetectionHandler
+
+    register("advisor", AdvisorHandler)
+    register("compliance", ComplianceHandler)
+    register("malware-detection", MalwareDetectionHandler)
+    register("qpc", DummyHandler)
+
+
+@patch("src.puptoo.handlers.config")
+def test_gating_none_serves_all(mock_config, all_four_registered):
+    """ENABLED_HANDLERS=None (unset) → all four handlers available."""
+    mock_config.ENABLED_HANDLERS = None
+    for svc in ("advisor", "compliance", "malware-detection", "qpc"):
+        assert get_handler(svc) is not None, f"{svc} should be served when unset"
+
+
+@patch("src.puptoo.handlers.config")
+def test_gating_filters_to_listed_handlers(mock_config, all_four_registered):
+    """ENABLED_HANDLERS=["advisor", "qpc"] → only those two served."""
+    mock_config.ENABLED_HANDLERS = ["advisor", "qpc"]
+    assert get_handler("advisor") is not None
+    assert get_handler("qpc") is not None
+    assert get_handler("compliance") is None
+    assert get_handler("malware-detection") is None
+
+
+@patch("src.puptoo.handlers.config")
+def test_gating_single_handler(mock_config, all_four_registered):
+    """ENABLED_HANDLERS=["qpc"] → only qpc served."""
+    mock_config.ENABLED_HANDLERS = ["qpc"]
+    assert get_handler("qpc") is not None
+    assert get_handler("advisor") is None
+    assert get_handler("compliance") is None
+    assert get_handler("malware-detection") is None
+
+
+@patch("src.puptoo.handlers.config")
+def test_gating_unknown_service_still_returns_none(mock_config, all_four_registered):
+    """Unknown service returns None regardless of gating config."""
+    mock_config.ENABLED_HANDLERS = ["advisor", "qpc"]
+    assert get_handler("unknown") is None
+
+
+@patch("src.puptoo.handlers.config")
+def test_gating_does_not_mutate_registry(mock_config, all_four_registered):
+    """Filtering happens at dispatch time, not by removing from _REGISTRY."""
+    mock_config.ENABLED_HANDLERS = ["qpc"]
+    assert get_handler("advisor") is None
+    # Switch back to unset: advisor should reappear
+    mock_config.ENABLED_HANDLERS = None
+    assert get_handler("advisor") is not None

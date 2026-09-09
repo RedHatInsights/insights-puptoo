@@ -1,4 +1,5 @@
 from .base import BaseHandler
+from ..utils import config
 
 _REGISTRY: dict[str, type[BaseHandler]] = {}
 
@@ -18,6 +19,8 @@ def register(service: str, handler_cls: type[BaseHandler]) -> None:
 
 
 def get_handler(service: str) -> BaseHandler | None:
+    if config.ENABLED_HANDLERS is not None and service not in config.ENABLED_HANDLERS:
+        return None
     handler_cls = _REGISTRY.get(service)
     if handler_cls is None:
         return None
