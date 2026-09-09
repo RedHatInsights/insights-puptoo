@@ -83,6 +83,100 @@ objects:
             value: ${OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT}
           - name: OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT
             value: ${OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT}
+          - name: APP_NAME
+            value: ${APP_NAME}
+          - name: ENABLED_HANDLERS
+            value: ${ENABLED_HANDLERS}
+          - name: QPC_PROCESSING_ENABLED
+            value: ${QPC_PROCESSING_ENABLED}
+          - name: QPC_ORG_MIGRATION_ENABLED
+            value: ${QPC_ORG_MIGRATION_ENABLED}
+          - name: QPC_HOSTS_TRANSFORMATION_ENABLED
+            value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
+        resources:
+          limits:
+            cpu: ${CPU_LIMIT}
+            memory: ${MEMORY_LIMIT}
+          requests:
+            cpu: ${CPU_REQUEST}
+            memory: ${MEMORY_REQUEST}
+    - name: qpc-processor
+      minReplicas: ${{QPC_MIN_REPLICAS}}
+      podSpec:
+        image: ${IMAGE}:${IMAGE_TAG}
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /metrics
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /metrics
+            port: 9000
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          successThreshold: 1
+          timeoutSeconds: 1
+        env:
+          - name: LOG_LEVEL
+            value: ${LOG_LEVEL}
+          - name: KAFKA_LOGGER
+            value: ${KAFKA_LOGGER}
+          - name: CLOWDER_ENABLED
+            value: ${CLOWDER_ENABLED}
+          - name: HABERDASHER_EMITTER
+            value: ${HABERDASHER_EMITTER}
+          - name: HABERDASHER_KAFKA_BOOTSTRAP
+            value: ${HABERDASHER_KAFKA_BOOTSTRAP}
+          - name: HABERDASHER_KAFKA_TOPIC
+            value: ${HABERDASHER_KAFKA_TOPIC}
+          - name: HABERDASHER_LABELS
+            value: ${HABERDASHER_LABELS}
+          - name: HABERDASHER_TAGS
+            value: ${HABERDASHER_TAGS}
+          - name: IMAGE_TAG
+            value: ${IMAGE_TAG}
+          - name: OTEL_ENABLED
+            value: ${OTEL_ENABLED}
+          - name: OTEL_EXPORTER_OTLP_ENDPOINT
+            value: ${OTEL_EXPORTER_OTLP_ENDPOINT}
+          - name: OTEL_HTTP_OUTBOUND_ENABLED
+            value: ${OTEL_HTTP_OUTBOUND_ENABLED}
+          - name: OTEL_MQ_ENABLED
+            value: ${OTEL_MQ_ENABLED}
+          - name: OTEL_SAMPLING_RATE
+            value: ${OTEL_SAMPLING_RATE}
+          - name: OTEL_BSP_MAX_QUEUE_SIZE
+            value: ${OTEL_BSP_MAX_QUEUE_SIZE}
+          - name: OTEL_BSP_MAX_EXPORT_BATCH_SIZE
+            value: ${OTEL_BSP_MAX_EXPORT_BATCH_SIZE}
+          - name: OTEL_BSP_SCHEDULE_DELAY
+            value: ${OTEL_BSP_SCHEDULE_DELAY}
+          - name: OTEL_BSP_EXPORT_TIMEOUT
+            value: ${OTEL_BSP_EXPORT_TIMEOUT}
+          - name: OTEL_EXPORTER_OTLP_COMPRESSION
+            value: ${OTEL_EXPORTER_OTLP_COMPRESSION}
+          - name: OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT
+            value: ${OTEL_SPAN_ATTRIBUTE_COUNT_LIMIT}
+          - name: OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT
+            value: ${OTEL_SPAN_ATTRIBUTE_VALUE_LENGTH_LIMIT}
+          - name: APP_NAME
+            value: ${QPC_APP_NAME}
+          - name: ENABLED_HANDLERS
+            value: ${QPC_ENABLED_HANDLERS}
+          - name: QPC_PROCESSING_ENABLED
+            value: ${QPC_PROCESSING_ENABLED}
+          - name: QPC_ORG_MIGRATION_ENABLED
+            value: ${QPC_ORG_MIGRATION_ENABLED}
+          - name: QPC_HOSTS_TRANSFORMATION_ENABLED
+            value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
         resources:
           limits:
             cpu: ${CPU_LIMIT}
@@ -209,3 +303,30 @@ parameters:
 - description: Secret key for the object storage endpoint
   name: STORAGE_SECRET_KEY
   value: $STORAGE_SECRET_KEY
+# Handler and consumer group configuration
+- description: Kafka consumer group identity for existing processor deployment
+  name: APP_NAME
+  value: "insights-puptoo"
+- description: Comma-separated handler list for existing processor (empty = all)
+  name: ENABLED_HANDLERS
+  value: ""
+# QPC deployment configuration
+- description: Min replicas for QPC processor deployment (0 = dormant)
+  name: QPC_MIN_REPLICAS
+  value: "0"
+- description: Kafka consumer group identity for QPC deployment
+  name: QPC_APP_NAME
+  value: "puptoo-qpc"
+- description: Handler list for QPC deployment
+  name: QPC_ENABLED_HANDLERS
+  value: "qpc"
+# QPC feature flags (default false = dormant until explicitly enabled)
+- description: Master switch for QPC processing
+  name: QPC_PROCESSING_ENABLED
+  value: "false"
+- description: Enable QPC org ID migration logic
+  name: QPC_ORG_MIGRATION_ENABLED
+  value: "false"
+- description: Enable QPC hosts transformation logic
+  name: QPC_HOSTS_TRANSFORMATION_ENABLED
+  value: "false"
