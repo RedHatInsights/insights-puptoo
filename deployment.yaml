@@ -87,6 +87,12 @@ objects:
             value: ${APP_NAME}
           - name: ENABLED_HANDLERS
             value: ${ENABLED_HANDLERS}
+          - name: QPC_PROCESSING_ENABLED
+            value: ${QPC_PROCESSING_ENABLED}
+          - name: QPC_ORG_MIGRATION_ENABLED
+            value: ${QPC_ORG_MIGRATION_ENABLED}
+          - name: QPC_HOSTS_TRANSFORMATION_ENABLED
+            value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
         resources:
           limits:
             cpu: ${CPU_LIMIT}
