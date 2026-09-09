@@ -127,10 +127,12 @@ def test_base_handler_cannot_be_instantiated():
 @pytest.fixture()
 def populated_registry():
     from src.puptoo.handlers import advisor, compliance  # noqa: F401
+    from src.puptoo.handlers.qpc import QPCHandler
 
     register("advisor", advisor.AdvisorHandler)
     register("compliance", compliance.ComplianceHandler)
     register("malware-detection", compliance.MalwareDetectionHandler)
+    register("qpc", QPCHandler)
 
 
 def test_dispatch_advisor(populated_registry):
@@ -154,8 +156,11 @@ def test_dispatch_malware_detection(populated_registry):
     assert isinstance(h, MalwareDetectionHandler)
 
 
-def test_dispatch_qpc_returns_none(populated_registry):
-    assert get_handler("qpc") is None
+def test_dispatch_qpc_returns_handler(populated_registry):
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    h = get_handler("qpc")
+    assert isinstance(h, QPCHandler)
 
 
 def test_dispatch_unknown_returns_none(populated_registry):
@@ -340,12 +345,16 @@ def test_handle_catches_fail_upload_and_continues(
 def all_four_registered():
     """Register all four handlers (advisor, compliance, malware-detection, qpc)."""
     from src.puptoo.handlers.advisor import AdvisorHandler
-    from src.puptoo.handlers.compliance import ComplianceHandler, MalwareDetectionHandler
+    from src.puptoo.handlers.compliance import (
+        ComplianceHandler,
+        MalwareDetectionHandler,
+    )
+    from src.puptoo.handlers.qpc import QPCHandler
 
     register("advisor", AdvisorHandler)
     register("compliance", ComplianceHandler)
     register("malware-detection", MalwareDetectionHandler)
-    register("qpc", DummyHandler)
+    register("qpc", QPCHandler)
 
 
 @patch("src.puptoo.handlers.config")
@@ -391,3 +400,49 @@ def test_gating_does_not_mutate_registry(mock_config, all_four_registered):
     # Switch back to unset: advisor should reappear
     mock_config.ENABLED_HANDLERS = None
     assert get_handler("advisor") is not None
+
+
+# --- QPCHandler ---
+
+
+@pytest.fixture()
+def qpc_registered():
+    """Register the QPCHandler via its module import."""
+    from src.puptoo.handlers import qpc  # noqa: F401
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    register("qpc", QPCHandler)
+
+
+def test_dispatch_qpc(qpc_registered):
+    h = get_handler("qpc")
+    assert h is not None
+
+
+def test_qpc_handler_is_base_handler(qpc_registered):
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    h = get_handler("qpc")
+    assert isinstance(h, BaseHandler)
+    assert isinstance(h, QPCHandler)
+    assert not isinstance(h, FactsHandler)
+
+
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_calls_validate_and_process(
+    mock_validate, mock_process, qpc_registered
+):
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    request_obj = {"request_id": "req-1", "org_id": "org-1"}
+    mock_validate.return_value = request_obj
+
+    h = QPCHandler()
+    msg = {"topic": "announce", "org_id": "org-1"}
+    send = MagicMock()
+
+    h.handle(msg, "qpc", {}, send_message=send)
+
+    mock_validate.assert_called_once_with(msg)
+    mock_process.assert_called_once_with(msg, request_obj)

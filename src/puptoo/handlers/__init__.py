@@ -19,7 +19,10 @@ def register(service: str, handler_cls: type[BaseHandler]) -> None:
 
 
 def get_handler(service: str) -> BaseHandler | None:
-    if config.ENABLED_HANDLERS is not None and service not in config.ENABLED_HANDLERS:
+    if (
+        getattr(config, "ENABLED_HANDLERS", None) is not None
+        and service not in config.ENABLED_HANDLERS
+    ):
         return None
     handler_cls = _REGISTRY.get(service)
     if handler_cls is None:
@@ -27,4 +30,4 @@ def get_handler(service: str) -> BaseHandler | None:
     return handler_cls()
 
 
-from . import advisor, compliance  # noqa: E402, F401
+from . import advisor, compliance, qpc  # noqa: E402, F401
