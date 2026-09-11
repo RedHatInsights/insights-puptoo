@@ -148,31 +148,36 @@ uv run puptoo
 
 Several compose files are available in the `dev/` directory for standing up a local dev environment. See [`dev/README.md`](dev/README.md) for full details.
 
-Stand up the minimal stack (Kafka, MinIO, Puptoo):
+Both compose files run **two puptoo instances** side by side: `puptoo` (advisor, compliance,
+malware-detection → `platform.inventory.host-ingress-p1`) and `puptoo-qpc` (qpc →
+`platform.inventory.host-ingress`). QPC processing is disabled by default via feature flags.
+
+Stand up the full pipeline (Ingress, Host Inventory, PostgreSQL, both puptoo instances):
 
 ```sh
-cd dev
-podman compose up --build
+make dev-up
 ```
 
-Stand up the full pipeline (adds Ingress, Host Inventory, PostgreSQL):
+Stand up the minimal stack (Kafka, MinIO, Redis, both puptoo instances — no Ingress/Inventory):
 
 ```sh
-cd dev
-podman compose -f full-stack.yml up --build
+make dev-up-minimal
 ```
 
-Stand up the test harness (Kafka, MinIO, Puptoo, test producer/consumer):
+Inject archives and query results:
 
 ```sh
-cd dev
-podman compose -f test-stack.yml up --build
+make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz   # advisor archive
+make inject-all                                                      # all advisor archives
+make inject-qpc ARCHIVE=dev/test-archives/qpc/report_sat_6_7_5.tar.gz  # QPC archive
+make inject-all-qpc                                                  # all QPC archives
+make dev-hosts                                                       # query ingested hosts
 ```
 
 Tear down (including named volumes):
 
 ```sh
-podman compose down -v
+make dev-down
 ```
 
 > **Note:** The Ingress and Inventory images are pulled from `quay.io`. See those projects for details on building custom images.
