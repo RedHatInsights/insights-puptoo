@@ -5,7 +5,6 @@ from urllib.parse import parse_qs, urlparse
 
 from ..exceptions import FailExtractException, QPCKafkaMsgException
 from ..utils.config import (
-    ANNOUNCE_TOPIC,
     BYPASS_PAYLOAD_EXPIRATION,
     MAX_HOSTS_PER_REP,
 )
@@ -15,33 +14,30 @@ LOG = logging.getLogger(__name__)
 
 
 def validate_qpc_message(upload_message):
-    if upload_message.get("topic") == ANNOUNCE_TOPIC:
-        org_id = upload_message.get("org_id")
-        LOG.info("Received record on %s topic for org_id %s.", ANNOUNCE_TOPIC, org_id)
-        missing_fields = []
-        request_id = upload_message.get("request_id")
-        url = upload_message.get("url")
-        if not org_id:
-            missing_fields.append("org_id")
-        if not request_id:
-            missing_fields.append("request_id")
-        if not url:
-            missing_fields.append("url")
-        if missing_fields:
-            raise QPCKafkaMsgException(
-                f"Message missing required field(s): {', '.join(missing_fields)}."
-            )
+    org_id = upload_message.get("org_id")
+    LOG.info("Received QPC record for org_id %s.", org_id)
+    missing_fields = []
+    request_id = upload_message.get("request_id")
+    url = upload_message.get("url")
+    if not org_id:
+        missing_fields.append("org_id")
+    if not request_id:
+        missing_fields.append("request_id")
+    if not url:
+        missing_fields.append("url")
+    if missing_fields:
+        raise QPCKafkaMsgException(
+            f"Message missing required field(s): {', '.join(missing_fields)}."
+        )
 
-        if not BYPASS_PAYLOAD_EXPIRATION:
-            check_if_url_expired(url, request_id)
-        return {
-            "request_id": request_id,
-            "account": upload_message.get("account"),
-            "org_id": org_id,
-            "b64_identity": upload_message.get("b64_identity"),
-        }
-    else:
-        LOG.error("Message not found on topic: %s", ANNOUNCE_TOPIC)
+    if not BYPASS_PAYLOAD_EXPIRATION:
+        check_if_url_expired(url, request_id)
+    return {
+        "request_id": request_id,
+        "account": upload_message.get("account"),
+        "org_id": org_id,
+        "b64_identity": upload_message.get("b64_identity"),
+    }
 
 
 def check_if_url_expired(url, request_id):

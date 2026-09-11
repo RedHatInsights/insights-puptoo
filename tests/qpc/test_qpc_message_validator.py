@@ -5,7 +5,6 @@ import pytest
 
 from src.puptoo.exceptions import QPCKafkaMsgException
 from src.puptoo.qpc.validators import check_if_url_expired, validate_qpc_message
-from src.puptoo.utils.config import ANNOUNCE_TOPIC
 
 PAYLOAD_URL = (
     "http://minio:9000/insights-upload-perma"
@@ -27,7 +26,6 @@ def test_validate_qpc_message():
         "org_id": "123",
         "request_id": "234332",
         "b64_identity": B64_IDENTITY,
-        "topic": ANNOUNCE_TOPIC,
     }
     result = validate_qpc_message(qpc_msg)
     assert result.items() <= qpc_msg.items()
@@ -39,22 +37,9 @@ def test_validate_qpc_message_without_org_id():
         "request_id": "234332",
         "account": "123",
         "b64_identity": B64_IDENTITY,
-        "topic": ANNOUNCE_TOPIC,
     }
     with pytest.raises(QPCKafkaMsgException):
         validate_qpc_message(qpc_msg)
-
-
-def test_qpc_message_without_topic():
-    qpc_msg = {
-        "url": PAYLOAD_URL,
-        "request_id": "234332",
-        "b64_identity": B64_IDENTITY,
-    }
-    with patch("src.puptoo.qpc.validators.LOG.error") as mock:
-        result = validate_qpc_message(qpc_msg)
-    assert result is None
-    mock.assert_called_once_with("Message not found on topic: %s", ANNOUNCE_TOPIC)
 
 
 def test_check_if_url_expired():
@@ -76,7 +61,6 @@ def test_check_if_url_expired_bypass():
         "request_id": "123456",
         "b64_identity": B64_IDENTITY,
         "org_id": "123",
-        "topic": ANNOUNCE_TOPIC,
     }
     with patch("src.puptoo.qpc.validators.BYPASS_PAYLOAD_EXPIRATION", True):
         result = validate_qpc_message(qpc_msg)
