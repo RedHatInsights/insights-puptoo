@@ -1,6 +1,10 @@
 # Full local stack: Kafka (KRaft), MinIO, Redis, Ingress, Puptoo, and
 # Host Inventory (MQ + Web + PostgreSQL).
 #
+# Two puptoo instances run side by side, each scoped to a handler set:
+#   puptoo      — advisor, compliance, malware-detection → platform.inventory.host-ingress-p1 (port 8000)
+#   puptoo-qpc  — qpc → platform.inventory.host-ingress (port 8001)
+#
 # Prerequisites:
 #   The ingress and inventory images must be available locally or pullable
 #   from quay.io.  See those projects for build instructions.
@@ -42,6 +46,8 @@ services:
             --topic platform.upload.advisor --replication-factor 1 --partitions 1 && \
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
             --topic platform.upload.announce --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.inventory.host-ingress-p1 --replication-factor 1 --partitions 1 && \
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
             --topic platform.inventory.host-ingress --replication-factor 1 --partitions 1 && \
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
@@ -176,7 +182,7 @@ services:
       INGRESS_STAGEBUCKET: insights-upload-perma
       INGRESS_REJECTBUCKET: insights-upload-rejected
       INGRESS_INVENTORYURL: http://insights-inventory-web:8080/api/inventory/v1/hosts
-      INGRESS_VALIDTOPICS: testareno,advisor
+      INGRESS_VALIDTOPICS: testareno,advisor,qpc
       INGRESS_VALID_UPLOAD_TYPES: advisor,compliance,hccm,qpc,rhv,tower,leapp-reporting,xavier,mkt,playbook,playbook-sat,resource-optimization,malware-detection,pinakes,assisted-installer,runtimes-java-general,openshift,tasks,automation-hub,aap-billing-controller
       OPENSHIFT_BUILD_COMMIT: local-dev
       INGRESS_MINIODEV: "true"
@@ -215,6 +221,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       DISABLE_REDIS: "False"
+      ENABLED_HANDLERS: "advisor,compliance,malware-detection"
+      INVENTORY_TOPIC: platform.inventory.host-ingress-p1
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     healthcheck:
@@ -223,6 +231,47 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    depends_on:
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      createbuckets:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      tempo:
+        condition: service_started
+
+  puptoo-qpc:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: puptoo-qpc
+    hostname: puptoo-qpc
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      LOG_LEVEL: DEBUG
+      CLOWDER_ENABLED: "False"
+      BOOTSTRAP_SERVERS: kafka:29092
+      S3_ENDPOINT: minio:9000
+      PUPTOO_BUCKET: insights-upload-puptoo
+      STORAGE_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
+      STORAGE_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      USE_SSL: "False"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DISABLE_REDIS: "False"
+      APP_NAME: puptoo-qpc
+      ENABLED_HANDLERS: "qpc"
+      INVENTORY_TOPIC: platform.inventory.host-ingress
+      QPC_PROCESSING_ENABLED: "false"
+      QPC_ORG_MIGRATION_ENABLED: "false"
+      QPC_HOSTS_TRANSFORMATION_ENABLED: "false"
+      OTEL_ENABLED: ${OTEL_ENABLED:-true}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     depends_on:
       kafka:
         condition: service_healthy
