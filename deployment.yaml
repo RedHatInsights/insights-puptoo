@@ -59,6 +59,8 @@ objects:
             value: ${HABERDASHER_TAGS}
           - name: IMAGE_TAG
             value: ${IMAGE_TAG}
+          - name: INVENTORY_TOPIC
+            value: ${INVENTORY_TOPIC}
           - name: OTEL_ENABLED
             value: ${OTEL_ENABLED}
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
@@ -171,6 +173,8 @@ objects:
             value: ${QPC_APP_NAME}
           - name: ENABLED_HANDLERS
             value: ${QPC_ENABLED_HANDLERS}
+          - name: INVENTORY_TOPIC
+            value: ${QPC_INVENTORY_TOPIC}
           - name: QPC_PROCESSING_ENABLED
             value: ${QPC_PROCESSING_ENABLED}
           - name: QPC_ORG_MIGRATION_ENABLED
@@ -191,6 +195,12 @@ objects:
       - replicas: 3
         partitions: 20
         topicName: ${INVENTORY_TOPIC}
+        config:
+          retention.ms: "86400000"
+          retention.bytes: "2684354560"
+      - replicas: 3
+        partitions: 20
+        topicName: ${QPC_INVENTORY_TOPIC}
         config:
           retention.ms: "86400000"
           retention.bytes: "2684354560"
@@ -320,6 +330,9 @@ parameters:
 - description: Handler list for QPC deployment
   name: QPC_ENABLED_HANDLERS
   value: "qpc"
+- description: Inventory topic for QPC processor (standard priority, not p1)
+  name: QPC_INVENTORY_TOPIC
+  value: platform.inventory.host-ingress
 # QPC feature flags (default false = dormant until explicitly enabled)
 - description: Master switch for QPC processing
   name: QPC_PROCESSING_ENABLED
