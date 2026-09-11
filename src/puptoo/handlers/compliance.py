@@ -1,10 +1,10 @@
 from . import handler
-from .base import BaseHandler
+from .base import FactsHandler
 from ..mq import msgs
 
 
 @handler("compliance")
-class ComplianceHandler(BaseHandler):
+class ComplianceHandler(FactsHandler):
     def process(self, msg: dict, extra: dict) -> dict:
         return msg.get("metadata") or {}
 

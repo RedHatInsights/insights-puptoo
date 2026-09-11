@@ -1,7 +1,7 @@
 import logging
 
 from . import handler
-from .base import BaseHandler
+from .base import FactsHandler
 from ..exceptions import FailExtractException
 from ..mq import msgs
 from ..process import extract
@@ -11,7 +11,7 @@ logger = logging.getLogger("puptoo")
 
 
 @handler("advisor")
-class AdvisorHandler(BaseHandler):
+class AdvisorHandler(FactsHandler):
     def process(self, msg: dict, extra: dict) -> dict:
         metrics.extraction_count.inc()
         facts = extract(msg, extra)

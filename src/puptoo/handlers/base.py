@@ -28,6 +28,12 @@ def _get_owner(ident):
 
 class BaseHandler(ABC):
     @abstractmethod
+    def handle(self, msg, service, extra, *, send_message):
+        """Process an incoming message for the given service."""
+
+
+class FactsHandler(BaseHandler):
+    @abstractmethod
     def process(self, msg: dict, extra: dict) -> dict:
         """Extract facts from the incoming message. Returns a facts dict."""
 
