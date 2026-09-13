@@ -1,4 +1,6 @@
 import datetime
+import glob
+import json
 import logging
 import os
 import re
@@ -1399,6 +1401,67 @@ def run_profile():
         sys.exit(1)
 
 
+def _read_java_purls(path):
+    """
+    Lightwell: read third-party Java library purls collected on the host.
+
+    In production these are produced by an insights-core datasource + parser (the Lightwell
+    Java library detector). Until that datasource is wired into the ``system_profile`` rule,
+    puptoo reads the collector's output directly from the unpacked archive so per-host purls
+    flow end-to-end through HBI to vulnerability-engine.
+
+    Accepts either a plain JSON array of purl strings or the detector's list-of-objects shape
+    (each object carrying a ``"purl"`` key). Returns a sorted, de-duplicated list of purl
+    strings, or ``None`` when nothing usable is found. Never raises: a missing or malformed
+    file must not fail the whole system profile.
+    """
+    if not path:
+        return None
+
+    candidates = [
+        os.path.join(path, "data", "insights_commands", "lightwell_java_purls"),
+        os.path.join(path, "data", "insights_commands", "lightwell_java_purls.json"),
+        os.path.join(path, "data", "lightwell", "java_purls.json"),
+    ]
+    # Fallback for archives that place the file elsewhere; sorted for deterministic selection.
+    candidates += sorted(glob.glob(os.path.join(path, "**", "lightwell_java_purls*"), recursive=True))
+
+    for candidate in candidates:
+        if not os.path.isfile(candidate):
+            continue
+        try:
+            with open(candidate, encoding="utf-8") as fh:
+                raw = json.load(fh)
+        except (OSError, ValueError) as e:
+            # Unreadable file or invalid JSON (JSONDecodeError/UnicodeDecodeError are ValueErrors).
+            catch_error("java_purls", e)
+            return None
+
+        return _extract_purls(raw)
+
+    return None
+
+
+def _extract_purls(raw):
+    """
+    Pull purl strings out of the collector output.
+
+    Accepts a plain list of purl strings or a list of objects each carrying a ``"purl"``
+    key; anything else (wrong top-level shape, non-string or empty items) is ignored.
+    Returns a sorted, de-duplicated list, or ``None`` when nothing usable is present.
+    """
+    if not isinstance(raw, list):
+        # Unexpected shape (e.g. a bare object or scalar); treat as no data.
+        return None
+
+    purls = set()
+    for item in raw:
+        purl = item.get("purl") if isinstance(item, dict) else item
+        if isinstance(purl, str) and purl:
+            purls.add(purl)
+    return sorted(purls) or None
+
+
 @metrics.SYSTEM_PROFILE.time()
 def get_system_profile(path=None):
     # Compatiable for the insights-archives with legacy collection structures
@@ -1410,6 +1473,10 @@ def get_system_profile(path=None):
     del facts["type"]
     facts["system_profile"] = broker[system_profile]
     del facts["system_profile"]["type"]
+    # Lightwell: attach detected third-party Java libraries collected in the archive.
+    java_purls = _read_java_purls(path)
+    if java_purls:
+        facts["system_profile"]["java_purls"] = java_purls
     return facts
 
 
