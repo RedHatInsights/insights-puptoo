@@ -177,15 +177,15 @@ wheels = [
 
 [[package]]
 name = "confluent-kafka"
-version = "2.14.2"
+version = "2.15.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ff/e5/58ac277094b03a51d9725798d0e53a60c1be69dc4330ae9cedc2d9efa430/confluent_kafka-2.14.2.tar.gz", hash = "sha256:fc827265571a778b1ff560ab2f3ec5dce3c573c29eb4cf6ded9718d55a5e4262", size = 289180, upload-time = "2026-06-03T09:53:37.63Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/44/fd/e8204b211ce0f32d4d03f9c3423b1244c2dc7fae45babbf98979c00a9e11/confluent_kafka-2.15.1.tar.gz", hash = "sha256:99d1223020e27854e75981333983c5120d64762268f8afcc805fbd62e7de49aa", size = 325065, upload-time = "2026-09-10T15:27:59.367Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/29/00/b2ceee24d353fd06186be2f6cdd9835926eca5266de3358530c5d11c4af4/confluent_kafka-2.14.2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:b3470171eb52dc149e3abf7cbcc485f388c0dbd1dd7516e5fd18a35baa39271f", size = 4181908, upload-time = "2026-06-03T09:50:38.285Z" },
-    { url = "https://files.pythonhosted.org/packages/98/78/daf09df7bd45c82c300ab7df0eb4a49bee7609e0b71254e4b9e44f068fb0/confluent_kafka-2.14.2-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:3bcd5dc82ee4b921e1a54e6b9130a0d43de99dd3021ddf3a2557fbf505df8d62", size = 4178406, upload-time = "2026-06-03T09:50:42.843Z" },
-    { url = "https://files.pythonhosted.org/packages/1f/a2/c3c94d893133ad31a2cb8a0444ba5dfe77d066a9d66687775c33068684c9/confluent_kafka-2.14.2-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:c6abedb91fd8fcd0dcea8491f71efd37d136c12c4afa2216fd8d85585f53c4ea", size = 4798777, upload-time = "2026-06-03T09:50:48.276Z" },
-    { url = "https://files.pythonhosted.org/packages/37/86/6e7f2ccb44a069a0789fea9e0ec2d440146dcbe6128be60efda72cfe5de2/confluent_kafka-2.14.2-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:6e4abff7d6c1a27787ece44f3e56bcda9b0fa0a141c9b651a6cd13fbc7f943f9", size = 4594242, upload-time = "2026-06-03T09:50:55.355Z" },
-    { url = "https://files.pythonhosted.org/packages/dd/90/46032c39848155de5f82eb00fde8de290b2808c160eea1caead2cdcb6b62/confluent_kafka-2.14.2-cp311-cp311-win_amd64.whl", hash = "sha256:01399706d1fe314b85b62f86d045fc8696f482bf625064aa7c0ccb7149e629b2", size = 4391698, upload-time = "2026-06-03T09:51:05.432Z" },
+    { url = "https://files.pythonhosted.org/packages/6d/19/b74eab7df53c28dda7440abe3d9e2898b806cd14055fceae68cbb9d1808f/confluent_kafka-2.15.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:19e94f063c1d2f6a46ee56b4a33a2990bbaa879c66622c4a872e7832b26339ca", size = 4375956, upload-time = "2026-09-10T15:27:10.933Z" },
+    { url = "https://files.pythonhosted.org/packages/d3/1c/ca5f19b968d115ac082a3ddd2ac1fdc5219a4789c337074404e82b53afc6/confluent_kafka-2.15.1-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:84fd9868b825ceec3b027dabc9e40e62951eab20dc72a6b53fbfca0a584df074", size = 4346051, upload-time = "2026-09-10T15:27:12.432Z" },
+    { url = "https://files.pythonhosted.org/packages/6f/d5/b01aad0c4938822b5697648e0ae5ab87729138a59fdc078b00a983aac90c/confluent_kafka-2.15.1-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:3a6a11c4d19eecdf51990adfa9e05e238f500b9888253230b158370c482a60cc", size = 4989151, upload-time = "2026-09-10T15:27:13.823Z" },
+    { url = "https://files.pythonhosted.org/packages/22/43/de7ba18948792e128a86236ed5c5d6e4bab6c5bfc2be1b003880afa6dcbb/confluent_kafka-2.15.1-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:44b849e0b375ff4c7a2e5e7af27a48d808933b53f3a8bf8e84b5c81eef9463ec", size = 4801449, upload-time = "2026-09-10T15:27:15.443Z" },
+    { url = "https://files.pythonhosted.org/packages/3d/ca/0eb8d48ecf3b241a62fba10a3ad83a95248ba53058b272a63a5be75e9c23/confluent_kafka-2.15.1-cp311-cp311-win_amd64.whl", hash = "sha256:80251e20c52e469b9bb066eca9b885d787b4be13356950a880198889cd215bfc", size = 4564958, upload-time = "2026-09-10T15:27:17.069Z" },
 ]
 
 [[package]]
@@ -303,7 +303,7 @@ dev = [
 requires-dist = [
     { name = "app-common-python", specifier = "==0.2.9" },
     { name = "cachecontrol", specifier = "<0.14.4" },
-    { name = "confluent-kafka", specifier = "==2.14.2" },
+    { name = "confluent-kafka", specifier = "==2.15.1" },
     { name = "insights-core", specifier = "==3.8.1" },
     { name = "logstash-formatter", specifier = ">=0.5.17,<0.6.0" },
     { name = "minio", specifier = ">=7.2.15,<8.0.0" },
