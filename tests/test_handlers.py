@@ -1,3 +1,4 @@
+import json
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -446,3 +447,80 @@ def test_qpc_handle_calls_validate_and_process(
 
     mock_validate.assert_called_once_with(msg)
     mock_process.assert_called_once_with(msg, request_obj)
+
+
+# ---------- 2.9: QPCHandler exception→metric wiring ----------
+
+
+@patch("src.puptoo.handlers.qpc.metrics")
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_json_decode_error_no_metric(
+    mock_validate, mock_process, mock_metrics, qpc_registered
+):
+    """JSONDecodeError is caught and logged, but no metric is incremented."""
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    mock_validate.side_effect = json.JSONDecodeError("bad", "doc", 0)
+
+    h = QPCHandler()
+    h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
+
+    mock_metrics.qpc_kafka_failures.inc.assert_not_called()
+    mock_metrics.qpc_extract_report_slices_failures.inc.assert_not_called()
+    mock_metrics.qpc_report_processing_exceptions.inc.assert_not_called()
+
+
+@patch("src.puptoo.handlers.qpc.metrics")
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_kafka_msg_exception_increments_metric(
+    mock_validate, mock_process, mock_metrics, qpc_registered
+):
+    """QPCKafkaMsgException increments qpc_kafka_failures."""
+    from src.puptoo.exceptions import QPCKafkaMsgException
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    mock_validate.side_effect = QPCKafkaMsgException("bad msg")
+
+    h = QPCHandler()
+    h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
+
+    mock_metrics.qpc_kafka_failures.inc.assert_called_once()
+
+
+@patch("src.puptoo.handlers.qpc.metrics")
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_fail_extract_exception_increments_metric(
+    mock_validate, mock_process, mock_metrics, qpc_registered
+):
+    """FailExtractException increments qpc_extract_report_slices_failures."""
+    from src.puptoo.exceptions import FailExtractException
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    mock_process.side_effect = FailExtractException("extract fail")
+    mock_validate.return_value = {"request_id": "r1", "org_id": "o1"}
+
+    h = QPCHandler()
+    h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
+
+    mock_metrics.qpc_extract_report_slices_failures.inc.assert_called_once()
+
+
+@patch("src.puptoo.handlers.qpc.metrics")
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_unexpected_exception_increments_metric(
+    mock_validate, mock_process, mock_metrics, qpc_registered
+):
+    """Catch-all Exception increments qpc_report_processing_exceptions."""
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    mock_process.side_effect = RuntimeError("something broke")
+    mock_validate.return_value = {"request_id": "r1", "org_id": "o1"}
+
+    h = QPCHandler()
+    h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
+
+    mock_metrics.qpc_report_processing_exceptions.inc.assert_called_once()
