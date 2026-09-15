@@ -11,7 +11,7 @@ def _write(tmp_path, relpath, data, raw=None):
     return str(tmp_path)
 
 
-DEFAULT_REL = "data/insights_commands/lightwell_java_purls"
+DEFAULT_REL = "data/insights_datasources/java_purls.json"
 
 
 def test_reads_detector_object_shape(tmp_path):
@@ -36,16 +36,16 @@ def test_reads_plain_string_array_shape(tmp_path):
 
 
 def test_json_suffix_candidate(tmp_path):
-    """The .json variant of the collector filename is discovered."""
+    """The no-suffix insights_commands/java_purls candidate is discovered."""
     data = ["pkg:maven/a/a@1"]
-    root = _write(tmp_path, "data/insights_commands/lightwell_java_purls.json", data)
+    root = _write(tmp_path, "data/insights_commands/java_purls", data)
     assert _read_java_purls(root) == ["pkg:maven/a/a@1"]
 
 
 def test_recursive_glob_fallback(tmp_path):
     """A file placed in a non-standard archive location is still found via the glob fallback."""
     data = ["pkg:maven/a/a@1"]
-    root = _write(tmp_path, "some/unexpected/dir/lightwell_java_purls_v2.json", data)
+    root = _write(tmp_path, "some/unexpected/dir/java_purls.json", data)
     assert _read_java_purls(root) == ["pkg:maven/a/a@1"]
 
 

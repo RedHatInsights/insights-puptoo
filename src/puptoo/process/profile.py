@@ -1403,14 +1403,14 @@ def run_profile():
 
 def _read_java_purls(path):
     """
-    Lightwell: read third-party Java library purls collected on the host.
+    Read third-party Java library purls collected on the host.
 
-    In production these are produced by an insights-core datasource + parser (the Lightwell
-    Java library detector). Until that datasource is wired into the ``system_profile`` rule,
-    puptoo reads the collector's output directly from the unpacked archive so per-host purls
-    flow end-to-end through HBI to vulnerability-engine.
+    In production these are produced by the insights-core ``java_purls`` datasource + parser.
+    Until that datasource is mapped into ``system_profile`` via the parser/rule, puptoo reads
+    the collector's output directly from the unpacked archive so per-host purls flow end-to-end
+    through HBI to vulnerability-engine.
 
-    Accepts either a plain JSON array of purl strings or the detector's list-of-objects shape
+    Accepts either a plain JSON array of purl strings or the datasource's list-of-objects shape
     (each object carrying a ``"purl"`` key). Returns a sorted, de-duplicated list of purl
     strings, or ``None`` when nothing usable is found. Never raises: a missing or malformed
     file must not fail the whole system profile.
@@ -1419,12 +1419,12 @@ def _read_java_purls(path):
         return None
 
     candidates = [
-        os.path.join(path, "data", "insights_commands", "lightwell_java_purls"),
-        os.path.join(path, "data", "insights_commands", "lightwell_java_purls.json"),
-        os.path.join(path, "data", "lightwell", "java_purls.json"),
+        # The datasource's DatasourceProvider relative_path ("insights_datasources/java_purls.json").
+        os.path.join(path, "data", "insights_datasources", "java_purls.json"),
+        os.path.join(path, "data", "insights_commands", "java_purls"),
     ]
     # Fallback for archives that place the file elsewhere; sorted for deterministic selection.
-    candidates += sorted(glob.glob(os.path.join(path, "**", "lightwell_java_purls*"), recursive=True))
+    candidates += sorted(glob.glob(os.path.join(path, "**", "java_purls.json"), recursive=True))
 
     for candidate in candidates:
         if not os.path.isfile(candidate):
