@@ -1,6 +1,10 @@
 # Full local stack: Kafka (KRaft), MinIO, Redis, Ingress, Puptoo, and
 # Host Inventory (MQ + Web + PostgreSQL).
 #
+# Two puptoo instances run side by side, each scoped to a handler set:
+#   puptoo      — advisor, compliance, malware-detection → platform.inventory.host-ingress (port 8000)
+#   puptoo-qpc  — qpc → platform.inventory.host-ingress (port 8001)
+#
 # Prerequisites:
 #   The ingress and inventory images must be available locally or pullable
 #   from quay.io.  See those projects for build instructions.
@@ -43,24 +47,24 @@ services:
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
             --topic platform.upload.announce --replication-factor 1 --partitions 1 && \
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
+            --topic platform.inventory.host-ingress-p1 --replication-factor 1 --partitions 1 && \
+          kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
             --topic platform.inventory.host-ingress --replication-factor 1 --partitions 1 && \
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
             --topic platform.upload.validation --replication-factor 1 --partitions 1 && \
           kafka-topics --bootstrap-server localhost:29092 --create --if-not-exists \
             --topic platform.payload-status --replication-factor 1 --partitions 1 && \
-          kafka-broker-api-versions --bootstrap-server localhost:29092
-      interval: 10s
-      timeout: 10s
+          kafka-broker-api-versions --bootstrap-server localhost:29092 > /dev/null 2>&1
+      interval: 15s
+      timeout: 30s
       retries: 10
       start_period: 30s
-    volumes:
-      - kafka-data:/var/lib/kafka/data
 
   # ---------------------------------------------------------------------------
   # Object Storage (MinIO)
   # ---------------------------------------------------------------------------
   minio:
-    image: docker.io/minio/minio
+    image: quay.io/minio/minio:latest
     container_name: puptoo-minio
     hostname: minio
     restart: unless-stopped
@@ -81,7 +85,7 @@ services:
       - minio-data:/data
 
   createbuckets:
-    image: docker.io/minio/mc
+    image: quay.io/minio/mc:latest
     depends_on:
       minio:
         condition: service_healthy
@@ -131,7 +135,7 @@ services:
       - "3200:3200"
 
   prometheus:
-    image: prom/prometheus:v3.4.1
+    image: quay.io/prometheus/prometheus:v3.4.1
     container_name: puptoo-prometheus
     hostname: prometheus
     restart: unless-stopped
@@ -165,7 +169,7 @@ services:
   # Ingress
   # ---------------------------------------------------------------------------
   ingress:
-    image: quay.io/cloudservices/insights-ingress
+    image: quay.io/redhat-services-prod/hcc-integrations-tenant/insights-ingress-go:latest
     container_name: puptoo-ingress
     ports:
       - "8080:3000"
@@ -176,7 +180,7 @@ services:
       INGRESS_STAGEBUCKET: insights-upload-perma
       INGRESS_REJECTBUCKET: insights-upload-rejected
       INGRESS_INVENTORYURL: http://insights-inventory-web:8080/api/inventory/v1/hosts
-      INGRESS_VALIDTOPICS: testareno,advisor
+      INGRESS_VALIDTOPICS: testareno,advisor,qpc
       INGRESS_VALID_UPLOAD_TYPES: advisor,compliance,hccm,qpc,rhv,tower,leapp-reporting,xavier,mkt,playbook,playbook-sat,resource-optimization,malware-detection,pinakes,assisted-installer,runtimes-java-general,openshift,tasks,automation-hub,aap-billing-controller
       OPENSHIFT_BUILD_COMMIT: local-dev
       INGRESS_MINIODEV: "true"
@@ -215,6 +219,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       DISABLE_REDIS: "False"
+      ENABLED_HANDLERS: "advisor,compliance,malware-detection"
+      INVENTORY_TOPIC: platform.inventory.host-ingress
       OTEL_ENABLED: ${OTEL_ENABLED:-true}
       OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     healthcheck:
@@ -223,6 +229,48 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
+    depends_on:
+      kafka:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      createbuckets:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      tempo:
+        condition: service_started
+
+  puptoo-qpc:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: puptoo-qpc
+    hostname: puptoo-qpc
+    restart: unless-stopped
+    ports:
+      - "8001:8000"
+    environment:
+      LOG_LEVEL: DEBUG
+      CLOWDER_ENABLED: "False"
+      BOOTSTRAP_SERVERS: kafka:29092
+      S3_ENDPOINT: minio:9000
+      PUPTOO_BUCKET: insights-upload-puptoo
+      STORAGE_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
+      STORAGE_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      USE_SSL: "False"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DISABLE_REDIS: "False"
+      APP_NAME: puptoo-qpc
+      ENABLED_HANDLERS: "qpc"
+      INVENTORY_TOPIC: platform.inventory.host-ingress
+      QPC_PROCESSING_ENABLED: ${QPC_PROCESSING_ENABLED:-false}
+      QPC_ORG_MIGRATION_ENABLED: ${QPC_ORG_MIGRATION_ENABLED:-false}
+      QPC_HOSTS_TRANSFORMATION_ENABLED: ${QPC_HOSTS_TRANSFORMATION_ENABLED:-false}
+      QPC_ORG_MIGRATION_LIST: ${QPC_ORG_MIGRATION_LIST:-}
+      OTEL_ENABLED: ${OTEL_ENABLED:-true}
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4318
     depends_on:
       kafka:
         condition: service_healthy
@@ -259,7 +307,7 @@ services:
       - db-data:/var/lib/postgresql/data
 
   insights-inventory-mq:
-    image: quay.io/cloudservices/insights-inventory:latest
+    image: quay.io/redhat-services-prod/insights-management-tenant/insights-host-inventory/insights-host-inventory:latest
     container_name: puptoo-inventory-mq
     command: >
       sh -c "make upgrade_db && touch /tmp/.db-migrated && exec make run_inv_mq_service"
@@ -272,6 +320,7 @@ services:
       INVENTORY_DB_HOST: db-host-inventory
       INVENTORY_DB_NAME: insights
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      KAFKA_ADDITIONAL_VALIDATION_TOPIC: platform.inventory.host-ingress-p1
       PAYLOAD_TRACKER_ENABLED: "false"
       PROMETHEUS_MULTIPROC_DIR: /tmp
       BYPASS_RBAC: "true"
@@ -298,7 +347,7 @@ services:
       - "8081:8080"
 
   insights-inventory-web:
-    image: quay.io/cloudservices/insights-inventory:latest
+    image: quay.io/redhat-services-prod/insights-management-tenant/insights-host-inventory/insights-host-inventory:latest
     container_name: puptoo-inventory-web
     command: >
       sh -c "gunicorn -b :8080 -k uvicorn.workers.UvicornWorker run:app"
