@@ -197,6 +197,9 @@ services:
 
   # ---------------------------------------------------------------------------
   # Puptoo
+  # In production (Clowder), puptoo targets the high-priority topic
+  # platform.inventory.host-ingress-p1.  Locally we use the standard topic
+  # because inventory-mq only subscribes to host-ingress outside Clowder.
   # ---------------------------------------------------------------------------
   puptoo:
     build:
