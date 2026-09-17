@@ -197,6 +197,7 @@ BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() i
 # Unset, empty, whitespace-only, or a value with no valid entries after
 # stripping (e.g. "advisor,,  ,") all fail open to None (accept all handlers),
 # consistent with the unset case, rather than yielding an empty/malformed list.
+ENABLED_HANDLERS = None
 _enabled_handlers_env = os.getenv("ENABLED_HANDLERS")
 if _enabled_handlers_env:
     _enabled_handlers_parsed = [
