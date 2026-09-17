@@ -1,6 +1,5 @@
 import json
 
-import pytest
 from insights.specs import Specs
 from insights.tests import InputData, run_test
 
@@ -84,8 +83,14 @@ EXPECTED_AAP_CONTAINERS: list[dict] = [
 ]
 
 
-def _add_containers(input_data: InputData, containers: list[dict]) -> InputData:
+def _add_root_containers(input_data: InputData, containers: list[dict]) -> InputData:
     return input_data.add(Specs.podman_ps_all_json, json.dumps(containers))
+
+
+def _add_rootless_containers(
+    input_data: InputData, containers: list[dict]
+) -> InputData:
+    return input_data.add(Specs.podman_ps_all_json_rootless, json.dumps(containers))
 
 
 def test_ansible_info():
@@ -145,13 +150,30 @@ def test_ansible_info_gateway_only():
 
 
 def test_ansible_containers():
-    input_data = _add_containers(InputData(), AAP_CONTAINERS)
+    input_data = _add_root_containers(InputData(), AAP_CONTAINERS)
     result = run_test(system_profile, input_data)
     assert result["workloads"]["ansible"]["containers"] == EXPECTED_AAP_CONTAINERS
 
 
+def test_ansible_rootless_containers():
+    input_data = _add_rootless_containers(InputData(), AAP_CONTAINERS)
+    result = run_test(system_profile, input_data)
+    assert result["workloads"]["ansible"]["containers"] == EXPECTED_AAP_CONTAINERS
+
+
+def test_ansible_root_and_rootless_containers():
+    input_data = _add_rootless_containers(
+        _add_root_containers(InputData(), AAP_CONTAINERS), AAP_CONTAINERS
+    )
+    result = run_test(system_profile, input_data)
+    assert (
+        result["workloads"]["ansible"]["containers"]
+        == EXPECTED_AAP_CONTAINERS + EXPECTED_AAP_CONTAINERS
+    )
+
+
 def test_ansible_info_and_containers():
-    input_data = _add_containers(
+    input_data = _add_rootless_containers(
         InputData().add(Specs.installed_rpms, RPMS), AAP_CONTAINERS
     )
     result = run_test(system_profile, input_data)
@@ -160,13 +182,11 @@ def test_ansible_info_and_containers():
     assert ansible["containers"] == EXPECTED_AAP_CONTAINERS
 
 
-@pytest.mark.parametrize("containers", [NO_AAP_CONTAINERS, []])
-def test_ansible_info_and_no_containers_collected(containers):
+def test_ansible_info_and_no_containers_collected():
     # RPM data present, podman collected but no AAP containers found -> the empty
-    # "containers" list is kept to signal "collected, none found". An empty
-    # podman list behaves the same as a list without AAP containers.
-    input_data = _add_containers(
-        InputData().add(Specs.installed_rpms, RPMS), containers
+    # "containers" list is kept to signal "collected, none found".
+    input_data = _add_rootless_containers(
+        InputData().add(Specs.installed_rpms, RPMS), NO_AAP_CONTAINERS
     )
     result = run_test(system_profile, input_data)
     ansible = result["workloads"]["ansible"]
@@ -177,6 +197,6 @@ def test_ansible_info_and_no_containers_collected(containers):
 def test_no_ansible_containers():
     # podman collected but no AAP containers, and no ansible RPM data -> the
     # whole ansible workload is absent.
-    input_data = _add_containers(InputData(), NO_AAP_CONTAINERS)
+    input_data = _add_rootless_containers(InputData(), NO_AAP_CONTAINERS)
     result = run_test(system_profile, input_data)
     assert "ansible" not in result.get("workloads", {})
