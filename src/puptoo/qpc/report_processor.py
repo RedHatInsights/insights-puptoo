@@ -78,6 +78,8 @@ def _print_transformed_info(host_id, transformed_obj):
 
 def _upload_to_host_inventory_via_kafka(host, request_obj):
     extra = {"request_id": request_obj.get("request_id")}
+    host["account"] = request_obj.get("account")
+    host["org_id"] = request_obj.get("org_id")
     upload_msg = {
         "operation": "add_host",
         "data": host,
