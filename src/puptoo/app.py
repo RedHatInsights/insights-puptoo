@@ -95,17 +95,24 @@ def main():
         write_kafka_cert()
 
         consumer = consume.init_consumer()
+        logger.info("Kafka consumer initialized")
         producer = instrument_kafka_producer(init_producer())
         produce_mod.producer = producer
+        logger.info("Kafka producer initialized")
         if config.DISABLE_REDIS:
+            logger.info("Redis is disabled; retry tracking will be skipped")
             redis = None
         else:
             redis = redis_client()
+            logger.info(
+                "Redis client connected to %s:%s", config.REDIS_HOST, config.REDIS_PORT
+            )
 
         if not config.DISABLE_PROMETHEUS:
             logger.info("Starting Puptoo Prometheus Server")
             start_prometheus()
 
+        logger.info("Entering main consumer loop")
         start = time()
         while running:
             msg = consumer.poll(1.0)
@@ -128,12 +135,25 @@ def main():
                 service = dict(msg.headers() or []).get("service")
                 if service:
                     service = service.decode("utf-8")
+                    logger.info("Received message with service header: %s", service)
                     handler = get_handler(service)
                     if handler:
+                        logger.info(
+                            "Handler found for service '%s': %s",
+                            service,
+                            type(handler).__name__,
+                        )
                         parent_ctx = extract_context_from_kafka_message(msg)
                         msg = json.loads(msg.value().decode("utf-8"))
                         extra = get_extra(
                             msg.get("account"), msg.get("org_id"), msg.get("request_id")
+                        )
+                        logger.info(
+                            "Processing message [request_id=%s org_id=%s account=%s service=%s]",
+                            extra["request_id"],
+                            extra["org_id"],
+                            extra["account"],
+                            service,
                         )
                         threadctx.service = service
                         with tracer.start_as_current_span(
@@ -150,15 +170,31 @@ def main():
                                 with tracer.start_as_current_span(
                                     "puptoo.redis_retry_check",
                                 ):
+                                    logger.info(
+                                        "Checking retry count for request_id=%s",
+                                        extra["request_id"],
+                                    )
                                     handle_retries(redis, extra["request_id"])
                                 handler.handle(
                                     msg, service, extra, send_message=send_message
+                                )
+                                logger.info(
+                                    "Message processed successfully [request_id=%s service=%s]",
+                                    extra["request_id"],
+                                    service,
                                 )
                                 span.set_status(trace.StatusCode.OK)
                             except Exception as exc:
                                 span.set_status(trace.StatusCode.ERROR, str(exc))
                                 span.record_exception(exc)
                                 raise
+                    else:
+                        logger.info(
+                            "No handler registered for service '%s'; skipping message",
+                            service,
+                        )
+                else:
+                    logger.info("Received message with no 'service' header; skipping")
             except Exception:
                 consumer.commit()
                 logger.exception("An error occurred during message processing")
@@ -167,6 +203,7 @@ def main():
                 if not config.KAFKA_AUTO_COMMIT:
                     consumer.commit()
 
+        logger.info("Shutdown signal received; closing consumer and flushing producer")
         consumer.close()
         producer.flush()
     except Exception:
