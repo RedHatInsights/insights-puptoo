@@ -19,6 +19,7 @@ make inject-all KIND=qpc       # Inject all QPC test archives
 make dev-hosts                 # Query ingested hosts from Inventory API
 make dev-logs                  # Follow puptoo logs (advisor/compliance/malware-detection)
 make dev-logs-qpc              # Follow puptoo-qpc logs (QPC)
+make dev-restart-qpc           # Stop, remove, and rebuild puptoo-qpc
 make dev-down                  # Tear down everything (including volumes)
 ```
 
@@ -35,15 +36,22 @@ make dev-down-minimal          # Tear down minimal stack
 
 ## Two-Container Setup
 
-Both compose files run two puptoo instances side by side, each scoped to a handler set and
-its own Kafka inventory topic:
+Both compose files run two puptoo instances side by side, each scoped to a handler set:
 
-| Container | Handlers | Inventory topic | Port |
-|-----------|----------|----------------|------|
-| `puptoo` | `advisor`, `compliance`, `malware-detection` | `platform.inventory.host-ingress-p1` (high priority) | 8000 |
-| `puptoo-qpc` | `qpc` | `platform.inventory.host-ingress` (standard priority) | 8001 |
+| Container | Handlers | Port |
+|-----------|----------|------|
+| `puptoo` | `advisor`, `compliance`, `malware-detection` | 8000 |
+| `puptoo-qpc` | `qpc` | 8001 |
 
 Both containers share the same image, MinIO bucket, Redis instance, and Kafka broker.
+
+**Kafka topic routing:** In production (via Clowder), `puptoo` sends to the
+high-priority topic `platform.inventory.host-ingress-p1` and `puptoo-qpc`
+sends to the standard topic `platform.inventory.host-ingress`. Locally, both
+containers send to `platform.inventory.host-ingress` because the Host
+Inventory MQ consumer only subscribes to that single topic outside of the
+Clowder environment. The minimal stack (`docker-compose.yml`) preserves the
+split (`puptoo` → `host-ingress-p1`) since there is no inventory consumer.
 
 ### QPC feature flags
 
@@ -55,9 +63,20 @@ the compose files until the QPC handler is fully wired up:
 | `QPC_PROCESSING_ENABLED` | `false` | Master switch — enables `process_report()` |
 | `QPC_ORG_MIGRATION_ENABLED` | `false` | Enables org ID migration logic |
 | `QPC_HOSTS_TRANSFORMATION_ENABLED` | `false` | Enables host transformation modifiers |
+| `QPC_ORG_MIGRATION_LIST` | _(empty)_ | Comma-separated list of allowed org IDs (requires `QPC_ORG_MIGRATION_ENABLED=true`) |
 
-To enable QPC processing locally, override in the compose env or set
-`QPC_PROCESSING_ENABLED=true` before starting the stack.
+To enable QPC processing locally, set the flags in `dev/.env`:
+
+```
+QPC_PROCESSING_ENABLED=true
+QPC_HOSTS_TRANSFORMATION_ENABLED=true
+```
+
+Then restart puptoo-qpc to pick up the changes:
+
+```sh
+make dev-restart-qpc
+```
 
 ## Compose Files
 
@@ -110,6 +129,78 @@ make inject-all KIND=qpc
 QPC archives are accepted by Ingress and routed to `puptoo-qpc`. With
 `QPC_PROCESSING_ENABLED=false` (the default), the container logs a skip message and
 returns without further processing — useful for validating routing before enabling the handler.
+
+## Integration Tests
+
+### Local
+
+The `dev/integration-test.sh` script validates the full pipeline end-to-end:
+it waits for all services to be healthy, injects advisor and QPC archives, and
+verifies the expected behavior based on the QPC feature flags configured in
+`dev/.env`.
+
+```sh
+make dev-up
+./dev/integration-test.sh
+```
+
+The script reads `dev/.env` automatically to determine the expected scenario.
+To test a different scenario, edit `dev/.env`, restart puptoo-qpc, and re-run:
+
+```sh
+# Edit dev/.env to change QPC flags, then:
+make dev-restart-qpc
+./dev/integration-test.sh
+```
+
+At the end of each run the script prints a summary grouped by section:
+
+```
+============================================================
+  Scenario: QPC enabled (processing + transformation)
+============================================================
+
+  Services
+    ✓  puptoo is healthy
+    ✓  puptoo-qpc is healthy
+    ✓  ingress is healthy
+    ✓  kafka is healthy
+    ✓  db-host-inventory is healthy
+    ✓  inventory-mq is healthy
+    ✓  inventory-mq consumer group is healthy
+    ✓  inventory-web is healthy
+
+  Advisor pipeline
+    ✓  advisor archive accepted by ingress
+    ✓  advisor hosts ingested into inventory (count: 1)
+    ✓  no duplicate advisor hosts on re-injection (count: 1)
+
+  QPC pipeline
+    ✓  QPC archive accepted by ingress
+    ✓  QPC hosts ingested into inventory (qpc: 1, advisor: 1)
+    ✓  no duplicate QPC hosts on re-injection (count: 1)
+
+============================================================
+  Result: 14 passed, 0 failed
+============================================================
+```
+
+### CI (GitHub Actions)
+
+The `.github/workflows/integration.yaml` workflow runs the integration test
+script across four scenarios, restarting puptoo-qpc with different env vars
+between each:
+
+| Scenario | QPC Processing | Org Migration | Org List | Expected |
+|----------|---------------|---------------|----------|----------|
+| 1 | `false` | `false` | — | QPC archive skipped |
+| 2 | `true` | `false` | — | QPC hosts created |
+| 3 | `true` | `true` | `000001` | QPC hosts created (org matches) |
+| 4 | `true` | `true` | `000002` | QPC archive skipped (org filtered) |
+
+The workflow triggers on pushes and PRs to `master`/`main`, manual dispatch,
+and a weekly schedule. It requires `QUAY_USERNAME` and `QUAY_PASSWORD` secrets
+to pull the Ingress and Inventory images from `quay.io`.
 
 ## Grafana Dashboard
 

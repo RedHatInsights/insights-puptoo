@@ -281,6 +281,14 @@ dev-down-minimal:
 dev-logs:
 	$(COMPOSE) logs -f puptoo
 
+# Rebuild puptoo-qpc container (stop, remove, rebuild, start)
+# Usage: make dev-restart-qpc
+.PHONY: dev-restart-qpc
+dev-restart-qpc:
+	$(COMPOSE) stop puptoo-qpc
+	$(COMPOSE) rm -f puptoo-qpc
+	$(COMPOSE) up --build -d puptoo-qpc
+
 # Follow puptoo-qpc logs
 # Usage: make dev-logs-qpc
 .PHONY: dev-logs-qpc
