@@ -9,6 +9,13 @@
         "schedule": ["at any time"]
     },
     "ignorePaths": [
-        ".pre-commit-config.yaml"
-    ]
+        "requirements-build.txt"
+    ],
+    "pip_requirements": {
+        "postUpgradeTasks": {
+            "commands": ["uv lock"],
+            "fileFilters": ["uv.lock"],
+            "executionMode": "branch"
+        }
+    }
 }
