@@ -158,9 +158,9 @@ flit-core==3.12.0 \
     #   cachecontrol
     #   jinja2
     #   typing-extensions
-flit-core==4.0.2 \
-    --hash=sha256:8d80717e28d982b41594ed5b14d4e89fbc5bad55473fde27994a3101db18a94e \
-    --hash=sha256:b6929defd93884b584d7c87829e0e7b5c26ed6be17b0b873979019314aa841c8
+flit-core==4.1.0 \
+    --hash=sha256:17398cdd2c38b24047a5a9c93089ec5c0bf12ec3d1469bbf69c27ed7965299db \
+    --hash=sha256:62e12b63ead8335b37f59fabb977c7167fe476dafb5e41785dfa8c9aff843bc6
     # via
     #   idna
     #   packaging
@@ -178,9 +178,9 @@ hatch-vcs==0.5.0 \
     #   filelock
     #   urllib3
     #   watchtower
-hatchling==1.32.0 \
-    --hash=sha256:0bdbde4a52b06c37e3eca395f85a762bf0ef06fe374fd8ae429dc6be10230f5f \
-    --hash=sha256:0e17c9c3b9aa7c625acc8d0f5b622f107d5049af9ecf5ada4de1aada5be7cdbc
+hatchling==1.32.3 \
+    --hash=sha256:acdd4436d84d829c6e7ae6df723241d8f0bca9c5bad5a6148bd41f2ea6b8a792 \
+    --hash=sha256:d05b350af5d9aa5bf7b34b434a45a742b99e67d0b48ea67d240cfeab98e13945
     # via
     #   argon2-cffi
     #   filelock
@@ -223,7 +223,7 @@ poetry-core==2.4.1 \
     --hash=sha256:89dceb6c10e9c6d8650a16183400e3c9ff9ddee13b0a81023b5575334a2b3744 \
     --hash=sha256:acf06f9537cd2625bdaec926d95d90b557ba15353bc71d27a3a8a441042b5316
     # via tomlkit
-pycparser==3.0 ; implementation_name != "PyPy" \
+pycparser==3.0 \
     --hash=sha256:600f49d217304a5902ac3c37e1281c9fe94e4d0489de643a9504c5cdfdfc6b29 \
     --hash=sha256:b727414169a36b7d524c1c3e31839a521725078d7b2ff038656844266160a992
     # via cffi
@@ -258,9 +258,9 @@ typing-extensions==4.16.0 \
     --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8 \
     --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5
     # via setuptools-scm
-vcs-versioning==2.3.4 \
-    --hash=sha256:076afa0e12a42a23faba92bcb62cb016c1ce38051ceee1f302de1e2676a68bbc \
-    --hash=sha256:f3443da15a34a32755b04324e33c6166add300c7661f45902225190c9337f711
+vcs-versioning==2.4.1 \
+    --hash=sha256:b7089ec9bef67b2cad82148366e8eac4d63173f440ec62628282b59eb96bbcb0 \
+    --hash=sha256:d4575de3115ec9434393c87c80ffb0eb98a16056bfe2b11ce0f3a97aff67fe0a
     # via setuptools-scm
 wheel==0.48.0 \
     --hash=sha256:3217dcc807155e45db462d7ef2431f5ddda0d7273b700d05a67b271ceb1287ab \
@@ -273,31 +273,3 @@ wheel==0.48.0 \
     #   wrapt
 
 # The following packages are considered to be unsafe in a requirements file:
-setuptools==81.0.0 \
-    --hash=sha256:487b53915f52501f0a79ccfd0c02c165ffe06631443a886740b91af4b7a5845a \
-    --hash=sha256:fdd925d5c5d9f62e4b74b30d6dd7828ce236fd6ed998a08d81de62ce5a6310d6
-    # via
-    #   app-common-python
-    #   argon2-cffi-bindings
-    #   async-timeout
-    #   calver
-    #   certifi
-    #   cffi
-    #   charset-normalizer
-    #   confluent-kafka
-    #   googleapis-common-protos
-    #   markupsafe
-    #   msgpack
-    #   pathspec
-    #   pbr
-    #   pluggy
-    #   prometheus-client
-    #   pycparser
-    #   pycryptodome
-    #   pyyaml
-    #   requests
-    #   rpm
-    #   setuptools-scm
-    #   trove-classifiers
-    #   vcs-versioning
-    #   wrapt

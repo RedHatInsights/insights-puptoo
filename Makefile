@@ -177,7 +177,10 @@ generate-requirements-build-in:
 		exit 1; \
 	fi
 
-# Generate requirements-build.txt using pip-tools and pybuild-deps
+# Generate requirements-build.txt using pybuild-deps.
+# Runs locally when pybuild-deps is available (overrides pip index to
+# avoid leaking local pip.conf into the output), otherwise falls back
+# to the container build (requires Red Hat CDN access).
 # Usage: make generate-requirements-build-txt [BASE_IMAGE=<image>]
 # Example: make generate-requirements-build-txt BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
 .PHONY: generate-requirements-build-txt
@@ -186,11 +189,33 @@ generate-requirements-build-txt:
 		echo "Error: requirements.txt not found"; \
 		exit 1; \
 	fi
-	@if [ ! -f .hermetic_builds/prep_python_build_container_dependencies.sh ] || [ ! -f .hermetic_builds/generate_requirements_build.sh ]; then \
-		echo "Error: Missing scripts in .hermetic_builds directory"; \
-		exit 1; \
+	@if command -v uv >/dev/null 2>&1 && uv python find '>=3.11,<3.12' >/dev/null 2>&1; then \
+		echo "--- Running locally (uv + Python 3.11 detected)"; \
+		rm -rf "$${HOME}/.cache/pybuild-deps" && \
+		PIP_INDEX_URL=https://pypi.org/simple \
+		uv tool run --python 3.11 --with "pip-tools<7.6.1" --with "pip==26.1.2" --with "pybuild-deps==0.5.0" \
+			pybuild-deps compile --generate-hashes requirements.txt -o requirements-build.txt && \
+		awk ' \
+			BEGIN { skip=0 } \
+			{ \
+				if (skip) { if ($$0 ~ /^[[:space:]]/) { next } skip=0 } \
+				if ($$0 ~ /^setuptools==/) { \
+					v=$$0; sub(/^setuptools==/,"",v); sub(/[^0-9].*/,"",v); \
+					if (v+0 >= 82) { skip=1; next } \
+				} \
+				print \
+			} \
+		' requirements-build.txt > requirements-build.txt.tmp && \
+		mv -f requirements-build.txt.tmp requirements-build.txt && \
+		uv pip compile requirements-build.in --generate-hashes --python-version 3.11 -o requirements-extras.txt; \
+	else \
+		echo "--- Falling back to container build (pybuild-deps not found)"; \
+		if [ ! -f .hermetic_builds/prep_python_build_container_dependencies.sh ] || [ ! -f .hermetic_builds/generate_requirements_build.sh ]; then \
+			echo "Error: Missing scripts in .hermetic_builds directory"; \
+			exit 1; \
+		fi; \
+		podman run --arch $(IMAGE_ARCH) -it -v "$$(pwd)":/var/tmp:rw,Z --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"; \
 	fi
-	@podman run --arch $(IMAGE_ARCH) -it -v "$$(pwd)":/var/tmp:rw,Z --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
 	@if [ ! -f requirements-build.txt ]; then \
 		echo "Error: requirements-build.txt was not generated"; \
 		exit 1; \
@@ -203,12 +228,23 @@ build-dev:
 	podman build -t puptoo-dev -f Dockerfile.dev .
 	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash
 
-# Generate uv.lock and requirements files in container
+# Generate uv.lock and requirements files.
+# Runs locally when uv and the required Python are available, otherwise
+# falls back to building a dev container (requires Red Hat CDN access).
 # Usage: make generate-uv-lock
 .PHONY: generate-uv-lock
 generate-uv-lock:
-	podman build -t puptoo-dev -f Dockerfile.dev .
-	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
+	@if command -v uv >/dev/null 2>&1 && uv python find '>=3.11,<3.12' >/dev/null 2>&1; then \
+		echo "--- Running locally (uv + Python 3.11 detected)"; \
+		uv sync && \
+		uv lock && \
+		$(MAKE) generate-requirements-txt && \
+		$(MAKE) generate-requirements-dev-txt; \
+	else \
+		echo "--- Falling back to container build (uv or Python 3.11 not found)"; \
+		podman build -t puptoo-dev -f Dockerfile.dev . && \
+		podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh; \
+	fi
 
 .PHONY: generate-py-pkg-lock
 generate-py-pkg-lock: generate-uv-lock

@@ -21,8 +21,10 @@ pybuild-deps compile --generate-hashes requirements.txt -o requirements-build.tx
 # Strip setuptools>=82 build-dep stanzas. pybuild-deps resolves unbounded
 # `setuptools>=45` build requirements to the latest release, but setuptools 82+
 # removed pkg_resources, which breaks building older packages (e.g. rpm's
-# setuptools_scm_git_archive) in the hermetic env. Runtime is pinned <82; keep
-# the prefetched build setuptools consistent so isolation can't pick 82+.
+# setuptools_scm_git_archive) in the hermetic env. The runtime setuptools
+# (in requirements.txt) is >=83 — this filter only affects build-time deps
+# prefetched for package compilation, keeping them below the pkg_resources
+# removal boundary.
 awk '
 BEGIN { skip=0 }
 {
