@@ -27,7 +27,7 @@ log_error() {
 
 # Generate timestamp and define files to track
 timestamp=$(date +%Y%m%d_%H%M%S)
-PY_PKG_DEPS_FILES=(pyproject.toml uv.lock requirements.txt requirements-dev.txt requirements-build.in requirements-build.txt)
+PY_PKG_DEPS_FILES=(pyproject.toml uv.lock requirements.txt requirements-dev.txt requirements-build.in requirements-build.txt requirements-extras.txt)
 
 log_info "Starting Python package dependencies bump-up process..."
 echo "=========================================="

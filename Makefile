@@ -85,13 +85,14 @@ generate-rpm-lockfile: rpms.in.yaml
 		exit 1; \
 	fi
 
-# Generate requirements.txt from uv, Poetry, or Pipenv lock files
+# Generate requirements.txt using uv pip compile so Konflux/MintMaker can
+# detect the tool from the header and use `uv pip compile` for updates.
 # Usage: make generate-requirements-txt
 # Example: make generate-requirements-txt
 .PHONY: generate-requirements-txt
 generate-requirements-txt:
-	@if [ -f uv.lock ]; then \
-		uv export --format requirements-txt --no-dev --no-emit-project -o requirements.txt; \
+	@if [ -f pyproject.toml ] && command -v uv >/dev/null 2>&1; then \
+		uv pip compile pyproject.toml --generate-hashes --python-version 3.11 -o requirements.txt; \
 	elif [ -f poetry.lock ]; then \
 		poetry export --format requirements.txt --output requirements.txt; \
 	elif [ -f Pipfile.lock ]; then \
@@ -107,13 +108,14 @@ generate-requirements-txt:
 		exit 1; \
 	fi
 
-# Generate requirements-dev.txt from uv, Poetry, or Pipenv lock files
+# Generate requirements-dev.txt using uv pip compile so Konflux/MintMaker can
+# detect the tool from the header and use `uv pip compile` for updates.
 # Usage: make generate-requirements-dev-txt
 # Example: make generate-requirements-dev-txt
 .PHONY: generate-requirements-dev-txt
 generate-requirements-dev-txt:
-	@if [ -f uv.lock ]; then \
-		uv export --format requirements-txt --no-emit-project --only-group dev -o requirements-dev.txt; \
+	@if [ -f pyproject.toml ] && command -v uv >/dev/null 2>&1; then \
+		uv pip compile --group dev --generate-hashes --python-version 3.11 -o requirements-dev.txt; \
 	elif [ -f poetry.lock ]; then \
 		poetry export --only dev -o requirements-dev.txt; \
 	elif [ -f Pipfile.lock ]; then \
