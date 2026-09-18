@@ -8,12 +8,19 @@ logger = logging.getLogger(APP_NAME)
 CLOWDER_ENABLED = os.getenv("CLOWDER_ENABLED", "").lower() in ("true", "t", "yes", "y")
 
 
+#  RHINENG-30160: names carrying any of these tokens hold a credential and must
+#  never be logged verbatim, regardless of which subsystem they belong to.
+_SENSITIVE_NAME_TOKENS = ("PASSWORD", "SECRET", "TOKEN", "KEY")
+
+
 def log_config():
     import sys
 
     for k, v in sys.modules[__name__].__dict__.items():
         if k == k.upper():
-            if "AWS" in k.split("_"):
+            if k == "KAFKA_BROKER":
+                continue
+            if any(token in k.split("_") for token in _SENSITIVE_NAME_TOKENS):
                 continue
             logger.info("Using %s: %s", k, v)
 
@@ -155,8 +162,20 @@ IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
 
 # QPC config variables (RHINENG-27919 / 2.2)
 MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
-HOSTS_TRANSFORMATION_ENABLED = os.getenv(
-    "HOSTS_TRANSFORMATION_ENABLED", "true"
+QPC_PROCESSING_ENABLED = os.getenv("QPC_PROCESSING_ENABLED", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+QPC_ORG_MIGRATION_ENABLED = os.getenv("QPC_ORG_MIGRATION_ENABLED", "").lower() in (
+    "true",
+    "t",
+    "yes",
+    "y",
+)
+QPC_HOSTS_TRANSFORMATION_ENABLED = os.getenv(
+    "QPC_HOSTS_TRANSFORMATION_ENABLED", ""
 ).lower() in (
     "true",
     "t",

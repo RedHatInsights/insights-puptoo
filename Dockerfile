@@ -30,7 +30,7 @@ COPY --chown=1001:0 dev dev
 COPY --chown=1001:0 tests tests
 COPY --chown=1001:0 src src
 
-RUN pip3.11 install --upgrade pip>=26.1.2 && \
+RUN pip3.11 install --upgrade "pip>=26.1.2" && \
     pip3.11 install . --ignore-installed
 
 RUN microdnf remove -y which gcc python3.11-devel libffi-devel gcc-c++ make zlib-devel openssl-devel libzstd-devel && \

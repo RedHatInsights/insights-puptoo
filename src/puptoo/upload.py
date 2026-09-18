@@ -68,7 +68,8 @@ def get_url(object_name):
     client = _get_client()
     try:
         url = client.presigned_get_object(config.BUCKET_NAME, object_name)
-        logger.info("Successfully fetched object (%s) url - %s", object_name, url)
+        # RHINENG-30160: the presigned URL is itself a bearer credential, never log it.
+        logger.info("Successfully fetched presigned url for object (%s)", object_name)
     except Exception as exc:
         raise FailUploadException(
             f"Failed to fetch presigned URL for object {object_name}"

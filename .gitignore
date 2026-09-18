@@ -10,6 +10,7 @@ lib64
 .envs
 .ruff_cache
 .venv/
+.python-version
 
 # Generated from the dashboard ConfigMap by dev/extract-dashboard.py
 dev/grafana/dashboards/puptoo.json

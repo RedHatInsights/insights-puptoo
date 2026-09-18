@@ -85,13 +85,14 @@ generate-rpm-lockfile: rpms.in.yaml
 		exit 1; \
 	fi
 
-# Generate requirements.txt from uv, Poetry, or Pipenv lock files
+# Generate requirements.txt using uv pip compile so Konflux/MintMaker can
+# detect the tool from the header and use `uv pip compile` for updates.
 # Usage: make generate-requirements-txt
 # Example: make generate-requirements-txt
 .PHONY: generate-requirements-txt
 generate-requirements-txt:
-	@if [ -f uv.lock ]; then \
-		uv export --format requirements-txt --no-dev --no-emit-project -o requirements.txt; \
+	@if [ -f pyproject.toml ] && command -v uv >/dev/null 2>&1; then \
+		uv pip compile pyproject.toml --generate-hashes --python-version 3.11 -o requirements.txt; \
 	elif [ -f poetry.lock ]; then \
 		poetry export --format requirements.txt --output requirements.txt; \
 	elif [ -f Pipfile.lock ]; then \
@@ -107,13 +108,14 @@ generate-requirements-txt:
 		exit 1; \
 	fi
 
-# Generate requirements-dev.txt from uv, Poetry, or Pipenv lock files
+# Generate requirements-dev.txt using uv pip compile so Konflux/MintMaker can
+# detect the tool from the header and use `uv pip compile` for updates.
 # Usage: make generate-requirements-dev-txt
 # Example: make generate-requirements-dev-txt
 .PHONY: generate-requirements-dev-txt
 generate-requirements-dev-txt:
-	@if [ -f uv.lock ]; then \
-		uv export --format requirements-txt --no-emit-project --only-group dev -o requirements-dev.txt; \
+	@if [ -f pyproject.toml ] && command -v uv >/dev/null 2>&1; then \
+		uv pip compile --group dev --generate-hashes --python-version 3.11 -o requirements-dev.txt; \
 	elif [ -f poetry.lock ]; then \
 		poetry export --only dev -o requirements-dev.txt; \
 	elif [ -f Pipfile.lock ]; then \
@@ -188,7 +190,7 @@ generate-requirements-build-txt:
 		echo "Error: Missing scripts in .hermetic_builds directory"; \
 		exit 1; \
 	fi
-	@podman run --arch $(IMAGE_ARCH) -it -v "$$(pwd)":/var/tmp:rw --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
+	@podman run --arch $(IMAGE_ARCH) -it -v "$$(pwd)":/var/tmp:rw,Z --user 0:0 $(BASE_IMAGE) bash -c "/var/tmp/.hermetic_builds/prep_python_build_container_dependencies.sh && /var/tmp/.hermetic_builds/generate_requirements_build.sh"
 	@if [ ! -f requirements-build.txt ]; then \
 		echo "Error: requirements-build.txt was not generated"; \
 		exit 1; \
@@ -199,14 +201,14 @@ generate-requirements-build-txt:
 .PHONY: build-dev
 build-dev:
 	podman build -t puptoo-dev -f Dockerfile.dev .
-	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash
+	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash
 
 # Generate uv.lock and requirements files in container
 # Usage: make generate-uv-lock
 .PHONY: generate-uv-lock
 generate-uv-lock:
 	podman build -t puptoo-dev -f Dockerfile.dev .
-	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
+	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
 
 .PHONY: generate-py-pkg-lock
 generate-py-pkg-lock: generate-uv-lock
