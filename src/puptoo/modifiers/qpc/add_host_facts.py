@@ -41,9 +41,10 @@ class AddHostFacts(Modifier):
                     "Failed to decode b64_identity, skipping owner_id extraction"
                 )
 
-        yupana_host_id = host.get("yupana_host_id")
-        if yupana_host_id:
-            host["subscription_manager_id"] = yupana_host_id
+        if not host.get("subscription_manager_id"):
+            yupana_host_id = host.get("yupana_host_id")
+            if yupana_host_id:
+                host["subscription_manager_id"] = yupana_host_id
 
         facts = {
             "namespace": "yupana",
