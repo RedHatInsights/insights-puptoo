@@ -51,6 +51,43 @@ def test_get_stale_time_non_satellite():
     assert expected[:-13] == actual[:-13]
 
 
+def test_preserves_original_subscription_manager_id():
+    original_sub_id = "b027bc22-b0da-47d3-b8b7-821d1a63feb5"
+    host = {
+        "subscription_manager_id": original_sub_id,
+        "yupana_host_id": str(uuid.uuid4()),
+        "report_slice_id": str(uuid.uuid4()),
+        "system_profile": {},
+    }
+    transformed_obj = {"removed": [], "modified": [], "missing_data": []}
+    request_obj = {
+        "account": "123",
+        "org_id": "456",
+        "source": "satellite",
+        "report_platform_id": "789",
+    }
+    AddHostFacts().run(host, transformed_obj, request_obj=request_obj)
+    assert host["subscription_manager_id"] == original_sub_id
+
+
+def test_falls_back_to_yupana_host_id_when_no_subscription_manager_id():
+    yupana_id = str(uuid.uuid4())
+    host = {
+        "yupana_host_id": yupana_id,
+        "report_slice_id": str(uuid.uuid4()),
+        "system_profile": {},
+    }
+    transformed_obj = {"removed": [], "modified": [], "missing_data": []}
+    request_obj = {
+        "account": "123",
+        "org_id": "456",
+        "source": "discovery",
+        "report_platform_id": "789",
+    }
+    AddHostFacts().run(host, transformed_obj, request_obj=request_obj)
+    assert host["subscription_manager_id"] == yupana_id
+
+
 def test_run_without_system_profile():
     host = {
         "yupana_host_id": "abc",
