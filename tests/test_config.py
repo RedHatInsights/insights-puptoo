@@ -22,6 +22,7 @@ def _reset_env(monkeypatch):
         "MAX_HOSTS_PER_REP",
         "QPC_PROCESSING_ENABLED",
         "QPC_ORG_MIGRATION_ENABLED",
+        "QPC_ORG_MIGRATION_LIST",
         "QPC_HOSTS_TRANSFORMATION_ENABLED",
         "DISCOVERY_HOST_TTL",
         "SATELLITE_HOST_TTL",
@@ -70,6 +71,11 @@ def test_qpc_processing_enabled_default_false(monkeypatch):
 def test_qpc_org_migration_enabled_default_false(monkeypatch):
     config_mod = _reload_config(monkeypatch, {})
     assert config_mod.QPC_ORG_MIGRATION_ENABLED is False
+
+
+def test_qpc_org_migration_list_default_none(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {})
+    assert config_mod.QPC_ORG_MIGRATION_LIST is None
 
 
 def test_qpc_hosts_transformation_enabled_default_false(monkeypatch):
@@ -136,6 +142,37 @@ def test_qpc_processing_enabled_override(monkeypatch, env_value, expected):
 def test_qpc_org_migration_enabled_override(monkeypatch, env_value, expected):
     config_mod = _reload_config(monkeypatch, {"QPC_ORG_MIGRATION_ENABLED": env_value})
     assert config_mod.QPC_ORG_MIGRATION_ENABLED is expected
+
+
+def test_qpc_org_migration_list_single_value(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {"QPC_ORG_MIGRATION_LIST": "000001"})
+    assert config_mod.QPC_ORG_MIGRATION_LIST == frozenset({"000001"})
+
+
+def test_qpc_org_migration_list_comma_separated(monkeypatch):
+    config_mod = _reload_config(
+        monkeypatch, {"QPC_ORG_MIGRATION_LIST": "000001,000042,000099"}
+    )
+    assert config_mod.QPC_ORG_MIGRATION_LIST == frozenset(
+        {"000001", "000042", "000099"}
+    )
+
+
+def test_qpc_org_migration_list_strips_whitespace(monkeypatch):
+    config_mod = _reload_config(
+        monkeypatch, {"QPC_ORG_MIGRATION_LIST": " 000001 , 000042 "}
+    )
+    assert config_mod.QPC_ORG_MIGRATION_LIST == frozenset({"000001", "000042"})
+
+
+def test_qpc_org_migration_list_empty_string_is_none(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {"QPC_ORG_MIGRATION_LIST": ""})
+    assert config_mod.QPC_ORG_MIGRATION_LIST is None
+
+
+def test_qpc_org_migration_list_whitespace_only_is_none(monkeypatch):
+    config_mod = _reload_config(monkeypatch, {"QPC_ORG_MIGRATION_LIST": " , "})
+    assert config_mod.QPC_ORG_MIGRATION_LIST is None
 
 
 @pytest.mark.parametrize(
@@ -236,6 +273,7 @@ def test_log_config_logs_new_variables(monkeypatch, caplog):
         "MAX_HOSTS_PER_REP",
         "QPC_PROCESSING_ENABLED",
         "QPC_ORG_MIGRATION_ENABLED",
+        "QPC_ORG_MIGRATION_LIST",
         "QPC_HOSTS_TRANSFORMATION_ENABLED",
         "DISCOVERY_HOST_TTL",
         "SATELLITE_HOST_TTL",

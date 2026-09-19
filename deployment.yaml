@@ -93,6 +93,8 @@ objects:
             value: ${QPC_PROCESSING_ENABLED}
           - name: QPC_ORG_MIGRATION_ENABLED
             value: ${QPC_ORG_MIGRATION_ENABLED}
+          - name: QPC_ORG_MIGRATION_LIST
+            value: ${QPC_ORG_MIGRATION_LIST}
           - name: QPC_HOSTS_TRANSFORMATION_ENABLED
             value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
         resources:
@@ -179,6 +181,8 @@ objects:
             value: ${QPC_PROCESSING_ENABLED}
           - name: QPC_ORG_MIGRATION_ENABLED
             value: ${QPC_ORG_MIGRATION_ENABLED}
+          - name: QPC_ORG_MIGRATION_LIST
+            value: ${QPC_ORG_MIGRATION_LIST}
           - name: QPC_HOSTS_TRANSFORMATION_ENABLED
             value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
         resources:
@@ -340,6 +344,9 @@ parameters:
 - description: Enable QPC org ID migration logic
   name: QPC_ORG_MIGRATION_ENABLED
   value: "false"
+- description: Comma-separated list of org IDs allowed for QPC migration
+  name: QPC_ORG_MIGRATION_LIST
+  value: ""
 - description: Enable QPC hosts transformation logic
   name: QPC_HOSTS_TRANSFORMATION_ENABLED
   value: "false"
