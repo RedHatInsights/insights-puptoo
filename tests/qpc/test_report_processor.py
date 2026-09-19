@@ -6,6 +6,7 @@ import pytest
 
 from src.puptoo.exceptions import FailDownloadException, QPCReportException
 from src.puptoo.qpc.report_processor import (
+    _upload_to_host_inventory_via_kafka,
     download_report,
     has_canonical_facts,
     process_report,
@@ -246,3 +247,64 @@ class TestProcessReportSliceFlags:
                 ):
                     process_report_slice(report_slice, request_obj)
                     mock_get_modifiers.assert_called_once()
+
+
+class TestUploadToHostInventoryViaKafka:
+    def _make_host_and_request(self):
+        host = {
+            "fqdn": "test.example.com",
+            "ip_addresses": ["10.0.0.1"],
+            "subscription_manager_id": "abc-123",
+            "system_unique_id": "sys-unique-001",
+        }
+        request_obj = {
+            "request_id": "req-001",
+            "account": "12345",
+            "org_id": "000001",
+            "b64_identity": "dGVzdA==",
+            "host_inventory_upload_count": 0,
+        }
+        return host, request_obj
+
+    def test_sets_org_id_on_host_data(self):
+        host, request_obj = self._make_host_and_request()
+        with patch("src.puptoo.qpc.report_processor.send_message"):
+            _upload_to_host_inventory_via_kafka(host, request_obj)
+        assert host["org_id"] == "000001"
+
+    def test_sets_account_on_host_data(self):
+        host, request_obj = self._make_host_and_request()
+        with patch("src.puptoo.qpc.report_processor.send_message"):
+            _upload_to_host_inventory_via_kafka(host, request_obj)
+        assert host["account"] == "12345"
+
+    def test_message_data_contains_org_id_and_account(self):
+        host, request_obj = self._make_host_and_request()
+        with patch("src.puptoo.qpc.report_processor.send_message") as mock_send:
+            _upload_to_host_inventory_via_kafka(host, request_obj)
+        msg = mock_send.call_args.args[1]
+        assert msg["data"]["org_id"] == "000001"
+        assert msg["data"]["account"] == "12345"
+
+    def test_platform_metadata_contains_org_id(self):
+        host, request_obj = self._make_host_and_request()
+        with patch("src.puptoo.qpc.report_processor.send_message") as mock_send:
+            _upload_to_host_inventory_via_kafka(host, request_obj)
+        msg = mock_send.call_args.args[1]
+        assert msg["platform_metadata"]["org_id"] == "000001"
+        assert msg["platform_metadata"]["b64_identity"] == "dGVzdA=="
+
+    def test_increments_upload_count(self):
+        host, request_obj = self._make_host_and_request()
+        with patch("src.puptoo.qpc.report_processor.send_message"):
+            _upload_to_host_inventory_via_kafka(host, request_obj)
+        assert request_obj["host_inventory_upload_count"] == 1
+
+    def test_handles_missing_account_gracefully(self):
+        host, request_obj = self._make_host_and_request()
+        del request_obj["account"]
+        with patch("src.puptoo.qpc.report_processor.send_message") as mock_send:
+            _upload_to_host_inventory_via_kafka(host, request_obj)
+        msg = mock_send.call_args.args[1]
+        assert msg["data"]["account"] is None
+        assert msg["data"]["org_id"] == "000001"
