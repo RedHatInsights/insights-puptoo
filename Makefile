@@ -222,11 +222,22 @@ bump-up-py-pkg-deps:
 # =============================================================================
 # Local Development
 # =============================================================================
-COMPOSE_FILE := dev/full-stack.yml
-COMPOSE      := podman compose -f $(COMPOSE_FILE)
-INGRESS_URL  := http://localhost:8080/api/ingress/v1/upload
-INVENTORY_URL := http://localhost:8082/api/inventory/v1/hosts
-ARCHIVE_DIR  := dev/test-archives
+COMPOSE_FILE     := dev/full-stack.yml
+COMPOSE          := podman compose -f $(COMPOSE_FILE)
+COMPOSE_MIN_FILE := dev/docker-compose.yml
+COMPOSE_MIN      := podman compose -f $(COMPOSE_MIN_FILE)
+INGRESS_URL      := http://localhost:8080/api/ingress/v1/upload
+INVENTORY_URL    := http://localhost:8082/api/inventory/v1/hosts
+ARCHIVE_DIR      := dev/test-archives
+
+# KIND selects the archive type: advisor (default) or qpc.
+# It controls the MIME type sent to Ingress and the archive directory for inject-all.
+KIND             ?= advisor
+CONTENT_TYPES    := advisor=application/vnd.redhat.advisor.collection+tgz \
+                    qpc=application/vnd.redhat.qpc.collection+tgz
+ARCHIVE_DIRS     := advisor=$(ARCHIVE_DIR) qpc=$(ARCHIVE_DIR)/qpc
+CONTENT_TYPE     = $(patsubst $(KIND)=%,%,$(filter $(KIND)=%,$(CONTENT_TYPES)))
+KIND_ARCHIVE_DIR = $(patsubst $(KIND)=%,%,$(filter $(KIND)=%,$(ARCHIVE_DIRS)))
 
 B64_IDENTITY := eyJpZGVudGl0eSI6eyJvcmdfaWQiOiIwMDAwMDEiLCJhdXRoX3R5cGUiOiJiYXNpYy1hdXRoIiwidHlwZSI6IlVzZXIiLCJpbnRlcm5hbCI6eyJvcmdfaWQiOiIwMDAwMDEifSwidXNlciI6eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJpc19vcmdfYWRtaW4iOnRydWV9LCJzeXN0ZW0iOnsiY24iOiIxYjM2YjIwZi03ZmEwLTQ1NzEtYTEwOC04ZWI4MDYyMDRkYzAifX19
 
@@ -236,24 +247,53 @@ B64_IDENTITY := eyJpZGVudGl0eSI6eyJvcmdfaWQiOiIwMDAwMDEiLCJhdXRoX3R5cGUiOiJiYXNp
 dev-dashboard:
 	@uv run python dev/extract-dashboard.py
 
-# Start the full dev stack (Kafka, MinIO, Redis, Ingress, Puptoo, Host Inventory)
+# Start the full dev stack (Kafka, MinIO, Redis, Ingress, Puptoo + Puptoo-QPC, Host Inventory)
 # Usage: make dev-up
 .PHONY: dev-up
 dev-up: dev-dashboard
 	$(COMPOSE) up --build -d
-	@echo "Stack is starting. Use 'make dev-status' to check health and 'make dev-logs' to follow puptoo logs."
+	@echo "Stack is starting. Use 'make dev-status' to check health."
+	@echo "  puptoo     (advisor/compliance/malware-detection) -> http://localhost:8000"
+	@echo "  puptoo-qpc (qpc)                                 -> http://localhost:8001"
 
-# Tear down the stack and remove volumes
+# Tear down the full stack and remove volumes
 # Usage: make dev-down
 .PHONY: dev-down
 dev-down:
 	$(COMPOSE) down -v
 
-# Follow puptoo logs
+# Start the minimal stack (Kafka, MinIO, Redis, Puptoo + Puptoo-QPC — no Ingress/Inventory)
+# Usage: make dev-up-minimal
+.PHONY: dev-up-minimal
+dev-up-minimal:
+	$(COMPOSE_MIN) up --build -d
+	@echo "Minimal stack is starting (no Ingress or Inventory)."
+
+# Tear down the minimal stack and remove volumes
+# Usage: make dev-down-minimal
+.PHONY: dev-down-minimal
+dev-down-minimal:
+	$(COMPOSE_MIN) down -v
+
+# Follow puptoo logs (advisor/compliance/malware-detection)
 # Usage: make dev-logs
 .PHONY: dev-logs
 dev-logs:
 	$(COMPOSE) logs -f puptoo
+
+# Rebuild puptoo-qpc container (stop, remove, rebuild, start)
+# Usage: make dev-restart-qpc
+.PHONY: dev-restart-qpc
+dev-restart-qpc:
+	$(COMPOSE) stop puptoo-qpc
+	$(COMPOSE) rm -f puptoo-qpc
+	$(COMPOSE) up --build -d puptoo-qpc
+
+# Follow puptoo-qpc logs
+# Usage: make dev-logs-qpc
+.PHONY: dev-logs-qpc
+dev-logs-qpc:
+	$(COMPOSE) logs -f puptoo-qpc
 
 # Show service status
 # Usage: make dev-status
@@ -263,14 +303,18 @@ dev-status:
 
 # Inject a single archive into the pipeline via Ingress
 # Usage: make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz
+#        make inject KIND=qpc ARCHIVE=dev/test-archives/qpc/report_sat_6_7_5.tar.gz
 .PHONY: inject
 inject:
 ifndef ARCHIVE
-	$(error ARCHIVE is required. Usage: make inject ARCHIVE=path/to/archive.tar.gz)
+	$(error ARCHIVE is required. Usage: make inject ARCHIVE=path/to/archive.tar.gz [KIND=advisor|qpc])
 endif
-	@echo "Injecting $(ARCHIVE) ..."
+ifeq ($(CONTENT_TYPE),)
+	$(error Unknown KIND "$(KIND)". Supported values: advisor, qpc)
+endif
+	@echo "Injecting $(KIND) archive $(ARCHIVE) ..."
 	@status=$$(curl -sS -o /dev/null -w "%{http_code}" \
-		-F "file=@$(ARCHIVE);type=application/vnd.redhat.advisor.collection+tgz" \
+		-F "file=@$(ARCHIVE);type=$(CONTENT_TYPE)" \
 		-H "x-rh-identity: $(B64_IDENTITY)" \
 		$(INGRESS_URL)); \
 	if [ "$$status" = "201" ] || [ "$$status" = "202" ]; then \
@@ -280,21 +324,24 @@ endif
 		exit 1; \
 	fi
 
-# Inject all test archives from ARCHIVE_DIR
-# Usage: make inject-all
-#        make inject-all ARCHIVE_DIR=path/to/archives
+# Inject all archives of a given kind
+# Usage: make inject-all              # all advisor archives
+#        make inject-all KIND=qpc     # all QPC archives
 .PHONY: inject-all
 inject-all:
-	@if ! ls $(ARCHIVE_DIR)/*.tar.gz >/dev/null 2>&1; then \
-		echo "No archives found in $(ARCHIVE_DIR) (expected *.tar.gz)"; \
+ifeq ($(CONTENT_TYPE),)
+	$(error Unknown KIND "$(KIND)". Supported values: advisor, qpc)
+endif
+	@if ! ls $(KIND_ARCHIVE_DIR)/*.tar.gz >/dev/null 2>&1; then \
+		echo "No archives found in $(KIND_ARCHIVE_DIR) (expected *.tar.gz)"; \
 		exit 1; \
 	fi; \
 	total=0; failed=0; \
-	for archive in $(ARCHIVE_DIR)/*.tar.gz; do \
+	for archive in $(KIND_ARCHIVE_DIR)/*.tar.gz; do \
 		total=$$((total + 1)); \
 		echo "Injecting $$archive ..."; \
 		status=$$(curl -sS -o /dev/null -w "%{http_code}" \
-			-F "file=@$$archive;type=application/vnd.redhat.advisor.collection+tgz" \
+			-F "file=@$$archive;type=$(CONTENT_TYPE)" \
 			-H "x-rh-identity: $(B64_IDENTITY)" \
 			$(INGRESS_URL)); \
 		if [ "$$status" = "201" ] || [ "$$status" = "202" ]; then \
@@ -305,7 +352,7 @@ inject-all:
 		fi; \
 	done; \
 	echo ""; \
-	echo "Injected $$((total - failed))/$$total archives successfully."; \
+	echo "Injected $$((total - failed))/$$total $(KIND) archives successfully."; \
 	if [ "$$failed" -gt 0 ]; then exit 1; fi
 
 # Query Host Inventory for ingested hosts
