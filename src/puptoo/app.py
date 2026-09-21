@@ -85,8 +85,8 @@ def main():
         logger.info("Starting Puptoo Service")
 
         init_otel(
-            service_name="insights-puptoo",
-            service_version=config.IMAGE_TAG,
+            service_name=config.APP_NAME,
+            service_version=config.get_build_version(),
         )
         instrument_outbound_http()
 

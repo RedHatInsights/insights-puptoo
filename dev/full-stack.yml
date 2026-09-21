@@ -265,7 +265,8 @@ services:
       REDIS_HOST: redis
       REDIS_PORT: 6379
       DISABLE_REDIS: "False"
-      APP_NAME: puptoo-qpc
+      APP_NAME: insights-puptoo-qpc
+      GROUP_ID: puptoo-qpc
       ENABLED_HANDLERS: "qpc"
       INVENTORY_TOPIC: platform.inventory.host-ingress
       QPC_PROCESSING_ENABLED: ${QPC_PROCESSING_ENABLED:-false}
