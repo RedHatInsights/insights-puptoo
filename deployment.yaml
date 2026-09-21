@@ -88,15 +88,15 @@ objects:
           - name: APP_NAME
             value: ${APP_NAME}
           - name: ENABLED_HANDLERS
-            value: ${ENABLED_HANDLERS}
+            value: ${PUPTOO_ENABLED_HANDLERS}
           - name: QPC_PROCESSING_ENABLED
-            value: ${QPC_PROCESSING_ENABLED}
+            value: ${PUPTOO_QPC_PROCESSING_ENABLED}
           - name: QPC_ORG_MIGRATION_ENABLED
-            value: ${QPC_ORG_MIGRATION_ENABLED}
+            value: ${PUPTOO_QPC_ORG_MIGRATION_ENABLED}
           - name: QPC_ORG_MIGRATION_LIST
-            value: ${QPC_ORG_MIGRATION_LIST}
+            value: ${PUPTOO_QPC_ORG_MIGRATION_LIST}
           - name: QPC_HOSTS_TRANSFORMATION_ENABLED
-            value: ${QPC_HOSTS_TRANSFORMATION_ENABLED}
+            value: ${PUPTOO_QPC_HOSTS_TRANSFORMATION_ENABLED}
         resources:
           limits:
             cpu: ${CPU_LIMIT}
@@ -324,6 +324,22 @@ parameters:
 - description: Comma-separated handler list for existing processor (empty = all)
   name: ENABLED_HANDLERS
   value: ""
+# Puptoo processor pod QPC feature flags (default false = QPC disabled on main processor)
+- description: Comma-separated handler list for puptoo processor
+  name: PUPTOO_ENABLED_HANDLERS
+  value: "advisor,compliance,malware-detection"
+- description: Master switch for QPC processing on the puptoo processor pod
+  name: PUPTOO_QPC_PROCESSING_ENABLED
+  value: "false"
+- description: Enable QPC org ID migration logic on the puptoo processor pod
+  name: PUPTOO_QPC_ORG_MIGRATION_ENABLED
+  value: "false"
+- description: Comma-separated list of org IDs allowed for QPC migration on the puptoo processor pod
+  name: PUPTOO_QPC_ORG_MIGRATION_LIST
+  value: ""
+- description: Enable QPC hosts transformation logic on the puptoo processor pod
+  name: PUPTOO_QPC_HOSTS_TRANSFORMATION_ENABLED
+  value: "false"
 # QPC deployment configuration
 - description: Min replicas for QPC processor deployment (0 = dormant)
   name: QPC_MIN_REPLICAS
@@ -337,7 +353,7 @@ parameters:
 - description: Inventory topic for QPC processor (standard priority, not p1)
   name: QPC_INVENTORY_TOPIC
   value: platform.inventory.host-ingress
-# QPC feature flags (default false = dormant until explicitly enabled)
+# Puptoo QPC processor - QPC feature flags (default false = dormant until explicitly enabled)
 - description: Master switch for QPC processing
   name: QPC_PROCESSING_ENABLED
   value: "false"
