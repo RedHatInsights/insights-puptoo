@@ -1,0 +1,163 @@
+name: Integration Test (Full Stack)
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+concurrency:
+  group: "integration-${{ github.ref }}"
+  cancel-in-progress: true
+
+env:
+  COMPOSE_FILE: dev/full-stack.yml
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    if: >-
+      github.event_name != 'pull_request' ||
+      !github.event.pull_request.head.repo.fork
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: true
+
+      - name: Ensure required tools are installed
+        run: |
+          missing=()
+          for cmd in podman make curl jq; do
+            if ! command -v "$cmd" >/dev/null 2>&1; then
+              missing+=("$cmd")
+            fi
+          done
+          if ! command -v podman-compose >/dev/null 2>&1; then
+            missing+=("podman-compose")
+          fi
+          if [ ${#missing[@]} -gt 0 ]; then
+            echo "Installing missing tools: ${missing[*]}"
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq "${missing[@]}"
+          fi
+          echo "--- Installed versions ---"
+          for cmd in podman podman-compose make curl jq; do
+            echo "$cmd: $($cmd --version 2>&1 | head -1)"
+          done
+
+      - name: Start Podman socket
+        run: |
+          systemctl --user enable --now podman.socket
+          echo "DOCKER_HOST=unix://$(podman info --format '{{.Host.RemoteSocket.Path}}')" >> "$GITHUB_ENV"
+
+      - name: Log in to quay.io
+        run: >-
+          podman login quay.io
+          -u "${{ secrets.QUAY_USERNAME }}"
+          -p "${{ secrets.QUAY_PASSWORD }}"
+
+      - name: Start full-stack compose environment
+        run: podman compose -f ${{ env.COMPOSE_FILE }} up --build -d
+
+      # ---------------------------------------------------------------
+      # Scenario 1: All QPC flags disabled (default)
+      # Advisor pipeline works; QPC archives are skipped by puptoo-qpc
+      # ---------------------------------------------------------------
+      - name: "Scenario 1: QPC disabled"
+        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
+        env:
+          QPC_PROCESSING_ENABLED: "false"
+
+      # ---------------------------------------------------------------
+      # Scenario 2: QPC processing + transformation enabled
+      # QPC hosts flow through to inventory
+      # ---------------------------------------------------------------
+      - name: Restart puptoo-qpc for scenario 2
+        run: |
+          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
+          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
+          QPC_PROCESSING_ENABLED=true \
+          QPC_HOSTS_TRANSFORMATION_ENABLED=true \
+            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
+          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
+
+      - name: "Scenario 2: QPC enabled, hosts processed"
+        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
+        env:
+          QPC_PROCESSING_ENABLED: "true"
+          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
+
+      # ---------------------------------------------------------------
+      # Scenario 3: QPC + org migration with matching org (000001)
+      # Archives from org_id 000001 are processed
+      # ---------------------------------------------------------------
+      - name: Restart puptoo-qpc for scenario 3
+        run: |
+          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
+          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
+          QPC_PROCESSING_ENABLED=true \
+          QPC_HOSTS_TRANSFORMATION_ENABLED=true \
+          QPC_ORG_MIGRATION_ENABLED=true \
+          QPC_ORG_MIGRATION_LIST=000001 \
+            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
+          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
+
+      - name: "Scenario 3: QPC + org migration (matching org)"
+        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
+        env:
+          QPC_PROCESSING_ENABLED: "true"
+          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
+          QPC_ORG_MIGRATION_ENABLED: "true"
+          QPC_ORG_MIGRATION_LIST: "000001"
+
+      # ---------------------------------------------------------------
+      # Scenario 4: QPC + org migration with non-matching org (000002)
+      # Archives from org_id 000001 are skipped
+      # ---------------------------------------------------------------
+      - name: Restart puptoo-qpc for scenario 4
+        run: |
+          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
+          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
+          QPC_PROCESSING_ENABLED=true \
+          QPC_HOSTS_TRANSFORMATION_ENABLED=true \
+          QPC_ORG_MIGRATION_ENABLED=true \
+          QPC_ORG_MIGRATION_LIST=000002 \
+            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
+          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
+
+      - name: "Scenario 4: QPC + org migration (non-matching org)"
+        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
+        env:
+          QPC_PROCESSING_ENABLED: "true"
+          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
+          QPC_ORG_MIGRATION_ENABLED: "true"
+          QPC_ORG_MIGRATION_LIST: "000002"
+
+      # ---------------------------------------------------------------
+      # Failure diagnostics and teardown
+      # ---------------------------------------------------------------
+      - name: Collect compose logs
+        if: failure()
+        run: |
+          podman compose -f ${{ env.COMPOSE_FILE }} logs --no-color > compose-logs.txt 2>&1
+          podman compose -f ${{ env.COMPOSE_FILE }} ps --all > compose-status.txt 2>&1
+
+      - name: Upload failure logs
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: integration-failure-logs
+          path: |
+            compose-logs.txt
+            compose-status.txt
+          retention-days: 7
+
+      - name: Tear down compose stack
+        if: always()
+        run: podman compose -f ${{ env.COMPOSE_FILE }} down -v --remove-orphans
