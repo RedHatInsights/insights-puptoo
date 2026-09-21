@@ -161,6 +161,18 @@ def process_report(consumed_message, request_obj):
         )
         return
 
+    if (
+        get_flag_value("puptoo.qpc-org-migration", org_id)
+        and config.QPC_ORG_MIGRATION_LIST is not None
+        and org_id not in config.QPC_ORG_MIGRATION_LIST
+    ):
+        LOG.info(
+            "QPC org migration active but org_id=%s is not in the allowed list; "
+            "skipping report",
+            org_id,
+        )
+        return
+
     request_obj.update(
         {
             "candidate_hosts": 0,

@@ -182,6 +182,9 @@ QPC_HOSTS_TRANSFORMATION_ENABLED = os.getenv(
     "yes",
     "y",
 )
+_qpc_org_list_raw = os.getenv("QPC_ORG_MIGRATION_LIST", "")
+_qpc_org_list = frozenset(o.strip() for o in _qpc_org_list_raw.split(",") if o.strip())
+QPC_ORG_MIGRATION_LIST = _qpc_org_list or None
 DISCOVERY_HOST_TTL = os.getenv("DISCOVERY_HOST_TTL", "29")
 SATELLITE_HOST_TTL = os.getenv("SATELLITE_HOST_TTL", "29")
 BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() in (
