@@ -160,6 +160,11 @@ DISABLE_S3_UPLOAD = os.getenv("DISABLE_S3_UPLOAD", "").lower() in (
 )
 IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
 
+
+def get_build_version():
+    return os.getenv("OPENSHIFT_BUILD_COMMIT", "unknown")
+
+
 # QPC config variables (RHINENG-27919 / 2.2)
 MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
 QPC_PROCESSING_ENABLED = os.getenv("QPC_PROCESSING_ENABLED", "").lower() in (

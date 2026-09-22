@@ -397,7 +397,7 @@ def test_platform_attribute_span_processor_stamps_threadctx(monkeypatch):
 
             span.set_attribute.assert_any_call("rh.org_id", "123456")
             span.set_attribute.assert_any_call("rh.request_id", "req-abc")
-            span.set_attribute.assert_any_call("rh.service", "puptoo")
+            span.set_attribute.assert_any_call("rh.service", "test")
 
     del threadctx.org_id
     del threadctx.request_id
@@ -432,10 +432,10 @@ def test_platform_attribute_span_processor_skips_when_not_recording(monkeypatch)
     _cleanup_telemetry(monkeypatch)
 
 
-# --- service.version from IMAGE_TAG ---
+# --- service.version from OPENSHIFT_BUILD_COMMIT ---
 
 
-def test_service_version_from_image_tag(monkeypatch):
+def test_service_version_from_build_commit(monkeypatch):
     telemetry_mod = _reload_telemetry(monkeypatch, {"OTEL_ENABLED": "true"})
 
     with patch.object(telemetry_mod, "_otel_initialized", False):
