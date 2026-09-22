@@ -15,14 +15,14 @@ uv lock
 ret=$?
 echo "<<< Return value of 'uv lock': $ret"
 
-### Compile requirements.txt & requirements-dev.txt (uv pip compile so
-### MintMaker detects the tool from the header and uses uv pip compile)
-echo ">>> Running: uv pip compile pyproject.toml --generate-hashes --python-version 3.11 -o requirements.txt"
-uv pip compile pyproject.toml --generate-hashes --python-version 3.11 -o requirements.txt
+### Export requirements.txt & requirements-dev.txt (uv export so
+### MintMaker/Renovate detects the tool from the header and uses uv export)
+echo ">>> Running: uv export --frozen --no-dev --no-emit-project -o requirements.txt"
+uv export --frozen --no-dev --no-emit-project -o requirements.txt
 ret=$?
-echo "<<< Return value of 'uv pip compile ... requirements.txt': $ret"
+echo "<<< Return value of 'uv export ... requirements.txt': $ret"
 
-echo ">>> Running: uv pip compile --group dev --generate-hashes --python-version 3.11 -o requirements-dev.txt"
-uv pip compile --group dev --generate-hashes --python-version 3.11 -o requirements-dev.txt
+echo ">>> Running: uv export --frozen --only-group dev --no-emit-project -o requirements-dev.txt"
+uv export --frozen --only-group dev --no-emit-project -o requirements-dev.txt
 ret=$?
-echo "<<< Return value of 'uv pip compile ... requirements-dev.txt': $ret"
+echo "<<< Return value of 'uv export ... requirements-dev.txt': $ret"
