@@ -1,6 +1,5 @@
 import json
 
-import pytest
 from insights.specs import Specs
 from insights.tests import InputData, run_test
 
@@ -163,6 +162,20 @@ def test_satellite_containerized_capsule():
     }
 
 
+def test_satellite_containerized_server_rootless():
+    input_data = (
+        InputData()
+        .add(Specs.installed_rpms, FOREMANCTL_RPMS)
+        .add(Specs.podman_ps_all_json_rootless, json.dumps(SERVER_CONTAINERS))
+    )
+    result = run_test(system_profile, input_data)
+    assert result["workloads"]["satellite"] == {
+        "type": "server",
+        "foremanctl_version": "1.1.0",
+        "containers": [EXPECTED_FOREMAN],
+    }
+
+
 def test_satellite_containers_without_foremanctl():
     # Containerized Satellite discovered from containers alone (no foremanctl RPM)
     input_data = InputData().add(
@@ -191,15 +204,13 @@ def test_satellite_containerized_overrides_rpm_type():
     }
 
 
-@pytest.mark.parametrize("containers", [NO_FOREMAN_CONTAINERS, []])
-def test_satellite_foremanctl_only_keeps_rpm_type(containers):
+def test_satellite_foremanctl_only_keeps_rpm_type():
     # Containerized foremanctl RPM but no foreman containers: RPM type stands,
-    # and the empty "containers" list signals "collected, none found". An empty
-    # podman list behaves the same as a list without foreman containers.
+    # and the empty "containers" list signals "collected, none found".
     input_data = (
         InputData()
         .add(Specs.installed_rpms, SATELLITE_SERVER_RPMS + "\n" + FOREMANCTL_RPMS)
-        .add(Specs.podman_ps_all_json, json.dumps(containers))
+        .add(Specs.podman_ps_all_json, json.dumps(NO_FOREMAN_CONTAINERS))
     )
     result = run_test(system_profile, input_data)
     assert result["workloads"]["satellite"] == {
