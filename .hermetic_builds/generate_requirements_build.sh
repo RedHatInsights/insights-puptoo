@@ -6,7 +6,7 @@ set -euo pipefail
 
 # Cap pip-tools to <7.6.1: 7.6.1 removed the `generate_hashes` arg from
 # OutputWriter, which pybuild-deps 0.5.0 (latest) still passes -> TypeError.
-pip3 install "pip-tools<7.6.1" pybuild-deps==0.5.0 uv
+pip3 install "pip-tools<7.6.1" pybuild-deps==0.5.0
 # Pin pip to exactly 26.1.2: it is the CVE-2026-8643 floor AND the last pip
 # compatible with pip-tools 7.6.0. pip 26.2 removed `stdlib_pkgs` and made
 # `allow_editables` a required arg of make_requirement_preparer, breaking
@@ -39,4 +39,4 @@ BEGIN { skip=0 }
 ' requirements-build.txt > requirements-build.txt.tmp
 mv requirements-build.txt.tmp requirements-build.txt
 
-uv pip compile requirements-build.in --generate-hashes --python-version 3.11 -o requirements-extras.txt
+pip-compile --allow-unsafe --generate-hashes --output-file requirements-extras.txt requirements-build.in

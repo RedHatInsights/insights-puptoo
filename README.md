@@ -216,12 +216,12 @@ $ tar -zcvf insights-puptoo-test-archive.tar.gz ./core-base
 
 ## Konflux Hermetic Build
 
-Konflux Hermetic Build had been enabled for Puptoo repo.
+Konflux Hermetic Build has been enabled for the Puptoo repo.
 
 A hermetic build is a secure, self-contained build process that doesn’t depend on anything outside of the build environment.
 Konflux can prefetch dependencies for your hermetic builds using Cachi2 by generating a software bill of materials (SBOM) where all dependencies are properly declared and pinned to specific versions.
 
-For any dependencies update introduced in [pyproject.toml](pyproject.toml) and [uv.lock](uv.lock), please update the following required files referring to this [Hermetic Build Process](.hermetic_builds/README.md):
+For any dependency update introduced in [pyproject.toml](pyproject.toml) and [uv.lock](uv.lock), the following lockfiles must be regenerated:
 
   - Enabling prefetch builds for rpm
     - [rpms.in.yaml](rpms.in.yaml)
@@ -237,7 +237,54 @@ For any dependencies update introduced in [pyproject.toml](pyproject.toml) and [
   - Enabling prefetch builds for generic fetcher
     - [artifacts.lock.yaml](artifacts.lock.yaml)
 
-More Konflux Hermetic Build resources:
+See the [Hermetic Build Process](.hermetic_builds/README.md) for step-by-step details on each Makefile target.
+
+### Regenerating all lockfiles with `rebuild-hermetic.sh`
+
+The `rebuild-hermetic.sh` script runs every regeneration step in the correct order with a single command. It was created to simplify the dependency bump-up workflow, which otherwise requires running multiple Makefile targets manually and in the right sequence.
+
+```sh
+# Default: use ubi9-minimal (x86_64)
+./rebuild-hermetic.sh
+
+# Custom base image and architecture
+./rebuild-hermetic.sh registry.access.redhat.com/ubi9/ubi:latest x86_64
+```
+
+The script:
+
+1. Pulls the base image for the specified architecture (default: `x86_64`)
+2. Runs the RPM lockfile targets: `generate-repo-file`, `generate-rpms-in-yaml`, `generate-rpm-lockfile`
+3. Runs the Python lockfile targets: `generate-py-pkg-lock`, `generate-requirements-build-in`, `generate-requirements-build-txt`
+
+Each step is validated and the script exits immediately on failure.
+
+### Bumping Python dependencies with `py-pkg-deps-bump-up.sh`
+
+For routine Python dependency bumps, the `py-pkg-deps-bump-up.sh` script automates the full workflow end-to-end:
+
+```sh
+# Or via the Makefile target:
+make bump-up-py-pkg-deps
+```
+
+This script:
+
+1. Creates a timestamped branch (`bump-up-py-pkg-deps-YYYYMMDD_HHMMSS`)
+2. Runs `make generate-uv-lock` to regenerate `uv.lock`, `requirements.txt`, and `requirements-dev.txt`
+3. Runs `make generate-requirements-build-in` and `make generate-requirements-build-txt` to regenerate build dependencies
+4. Commits, pushes, and prints instructions for creating a PR
+
+### Apple Silicon (ARM Mac) support
+
+The RPM lockfile targets run inside an `x86_64` container to match the production architecture. On Apple Silicon Macs, Podman uses QEMU user-space emulation for these containers.
+
+The dev container targets (`make build-dev`, `make generate-uv-lock`) auto-detect the host architecture and pass `--platform linux/arm64` to Podman, avoiding QEMU entirely. This is safe because Python dependency resolution is architecture-independent.
+
+The hermetic build script (`.hermetic_builds/generate_requirements_build.sh`) uses `pip-compile` (pure Python) instead of `uv` for the final compilation step, since `uv` is a Rust binary that segfaults under QEMU emulation.
+
+### More resources
+
   - https://konflux-ci.dev/docs/building/hermetic-builds/
   - https://konflux-ci.dev/docs/building/prefetching-dependencies/
 

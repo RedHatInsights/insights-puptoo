@@ -13,6 +13,17 @@ AWK = gawk
 OPEN = open
 endif
 
+# Map host architecture to container platform so Podman avoids QEMU
+# emulation (e.g. uv segfaults under qemu-x86_64 on Apple Silicon).
+HOST_ARCH := $(shell uname -m)
+ifeq ($(HOST_ARCH),arm64)
+  CONTAINER_PLATFORM := linux/arm64
+else ifeq ($(HOST_ARCH),aarch64)
+  CONTAINER_PLATFORM := linux/arm64
+else
+  CONTAINER_PLATFORM := linux/amd64
+endif
+
 ensure_image = \
 	@if ! podman image exists $(BASE_IMAGE); then \
 		echo "--- Image '$(BASE_IMAGE)' not found. Pulling..."; \
@@ -200,15 +211,15 @@ generate-requirements-build-txt:
 # Usage: make build-dev
 .PHONY: build-dev
 build-dev:
-	podman build -t puptoo-dev -f Dockerfile.dev .
-	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash
+	podman build --platform $(CONTAINER_PLATFORM) -t puptoo-dev -f Dockerfile.dev .
+	podman run --platform $(CONTAINER_PLATFORM) -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash
 
 # Generate uv.lock and requirements files in container
 # Usage: make generate-uv-lock
 .PHONY: generate-uv-lock
 generate-uv-lock:
-	podman build -t puptoo-dev -f Dockerfile.dev .
-	podman run -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
+	podman build --platform $(CONTAINER_PLATFORM) -t puptoo-dev -f Dockerfile.dev .
+	podman run --platform $(CONTAINER_PLATFORM) -it --rm -v $$(pwd):/app-root/insights-puptoo:Z puptoo-dev bash /app-root/insights-puptoo/py-pkg-deps-in-container.sh
 
 .PHONY: generate-py-pkg-lock
 generate-py-pkg-lock: generate-uv-lock
