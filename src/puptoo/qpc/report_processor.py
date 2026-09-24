@@ -78,6 +78,8 @@ def _print_transformed_info(host_id, transformed_obj):
 
 def _upload_to_host_inventory_via_kafka(host, request_obj):
     extra = {"request_id": request_obj.get("request_id")}
+    host["account"] = request_obj.get("account")
+    host["org_id"] = request_obj.get("org_id")
     upload_msg = {
         "operation": "add_host",
         "data": host,
@@ -159,6 +161,18 @@ def process_report(consumed_message, request_obj):
         )
         return
 
+    if (
+        get_flag_value("puptoo.qpc-org-migration", org_id)
+        and config.QPC_ORG_MIGRATION_LIST is not None
+        and org_id not in config.QPC_ORG_MIGRATION_LIST
+    ):
+        LOG.info(
+            "QPC org migration active but org_id=%s is not in the allowed list; "
+            "skipping report",
+            org_id,
+        )
+        return
+
     request_obj.update(
         {
             "candidate_hosts": 0,
@@ -184,6 +198,19 @@ def process_report(consumed_message, request_obj):
                 metadata_file = file
             elif ".json" in file.name:
                 json_files.append(file)
+        LOG.debug("TAR contents: %s", [f.name for f in files])
+        if not metadata_file:
+            LOG.error(
+                "No metadata.json found in archive for request_id=%s; "
+                "files in archive: %s",
+                request_obj.get("request_id"),
+                [f.name for f in files],
+            )
+        if not json_files:
+            LOG.error(
+                "No JSON slice files found in archive for request_id=%s",
+                request_obj.get("request_id"),
+            )
         if json_files and metadata_file:
             try:
                 valid_slice_ids = validate_metadata_file(

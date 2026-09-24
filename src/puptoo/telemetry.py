@@ -6,9 +6,10 @@ via environment variables so stage and prod can run independent
 configurations without code changes.
 
 Usage:
+    from .utils import config
     from .telemetry import init_otel, instrument_outbound_http
 
-    init_otel(service_name="insights-puptoo")
+    init_otel(service_name=config.APP_NAME, service_version=config.get_build_version())
     instrument_outbound_http()
 """
 
@@ -111,7 +112,7 @@ def init_otel(service_name, service_version="unknown"):
         def on_start(self, span, parent_context=None):
             if not span.is_recording():
                 return
-            span.set_attribute("rh.service", "puptoo")
+            span.set_attribute("rh.service", service_name)
             for attr, field in (
                 ("rh.org_id", "org_id"),
                 ("rh.request_id", "request_id"),

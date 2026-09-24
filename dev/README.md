@@ -13,21 +13,76 @@ from the **repo root**:
 make dev-up                    # Start the full pipeline (detached)
 make dev-status                # Check service health
 make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz
-make inject-all                # Inject all test archives
+make inject-all                # Inject all advisor test archives
+make inject KIND=qpc ARCHIVE=dev/test-archives/qpc/report_sat_6_7_5.tar.gz
+make inject-all KIND=qpc       # Inject all QPC test archives
 make dev-hosts                 # Query ingested hosts from Inventory API
-make dev-logs                  # Follow puptoo logs
+make dev-logs                  # Follow puptoo logs (advisor/compliance/malware-detection)
+make dev-logs-qpc              # Follow puptoo-qpc logs (QPC)
+make dev-restart-qpc           # Stop, remove, and rebuild puptoo-qpc
 make dev-down                  # Tear down everything (including volumes)
 ```
 
-`make inject` uploads a single archive to the Ingress API on `localhost:8080`.
-`make inject-all` loops over all `*.tar.gz` files in `dev/test-archives/`.
+`make inject` / `make inject-all` upload archives to the Ingress API on `localhost:8080`.
+Pass `KIND=qpc` to inject QPC archives instead of the default advisor type.
 `make dev-hosts` queries the Host Inventory REST API on `localhost:8082`.
+
+For a lightweight setup without Ingress or Inventory:
+
+```sh
+make dev-up-minimal            # Start minimal stack (Kafka, MinIO, Redis, Puptoo)
+make dev-down-minimal          # Tear down minimal stack
+```
+
+## Two-Container Setup
+
+Both compose files run two puptoo instances side by side, each scoped to a handler set:
+
+| Container | Handlers | Port |
+|-----------|----------|------|
+| `puptoo` | `advisor`, `compliance`, `malware-detection` | 8000 |
+| `puptoo-qpc` | `qpc` | 8001 |
+
+Both containers share the same image, MinIO bucket, Redis instance, and Kafka broker.
+
+**Kafka topic routing:** In production (via Clowder), `puptoo` sends to the
+high-priority topic `platform.inventory.host-ingress-p1` and `puptoo-qpc`
+sends to the standard topic `platform.inventory.host-ingress`. Locally, both
+containers send to `platform.inventory.host-ingress` because the Host
+Inventory MQ consumer only subscribes to that single topic outside of the
+Clowder environment. The minimal stack (`docker-compose.yml`) preserves the
+split (`puptoo` → `host-ingress-p1`) since there is no inventory consumer.
+
+### QPC feature flags
+
+QPC processing is **disabled by default** — all three feature flags are set to `false` in
+the compose files until the QPC handler is fully wired up:
+
+| Env var | Default | Purpose |
+|---------|---------|---------|
+| `QPC_PROCESSING_ENABLED` | `false` | Master switch — enables `process_report()` |
+| `QPC_ORG_MIGRATION_ENABLED` | `false` | Enables org ID migration logic |
+| `QPC_HOSTS_TRANSFORMATION_ENABLED` | `false` | Enables host transformation modifiers |
+| `QPC_ORG_MIGRATION_LIST` | _(empty)_ | Comma-separated list of allowed org IDs (requires `QPC_ORG_MIGRATION_ENABLED=true`) |
+
+To enable QPC processing locally, set the flags in `dev/.env`:
+
+```
+QPC_PROCESSING_ENABLED=true
+QPC_HOSTS_TRANSFORMATION_ENABLED=true
+```
+
+Then restart puptoo-qpc to pick up the changes:
+
+```sh
+make dev-restart-qpc
+```
 
 ## Compose Files
 
 | File | Description |
 |------|-------------|
-| `docker-compose.yml` | Minimal stack: Kafka, MinIO, Redis, and Puptoo |
+| `docker-compose.yml` | Minimal stack: Kafka, MinIO, Redis, Puptoo + Puptoo-QPC |
 | `full-stack.yml` | Full pipeline: adds Ingress, Host Inventory (MQ + Web), and PostgreSQL |
 
 Both compose files use **KRaft-mode Kafka** (no Zookeeper) with healthchecks and
@@ -35,27 +90,123 @@ proper `depends_on` conditions, so services start in the correct order
 automatically.
 
 Both compose files include **Tempo** and **Grafana** for local distributed
-tracing.  Puptoo starts with `OTEL_ENABLED=true` by default in the dev stacks
+tracing. Puptoo starts with `OTEL_ENABLED=true` by default in the dev stacks
 so traces are collected automatically.
 
 ## Launching the Full Stack
 
-The full stack stands up Ingress, Kafka, MinIO, Redis, Puptoo, and Host
+The full stack stands up Ingress, Kafka, MinIO, Redis, Puptoo, Puptoo-QPC, and Host
 Inventory so the entire first segment of the platform pipeline can be tested.
 
 ```sh
-cd dev
-podman compose -f full-stack.yml up --build
+make dev-up
 ```
 
-> **Note:** The Ingress and Inventory images are pulled from `quay.io`.  See
+> **Note:** The Ingress and Inventory images are pulled from `quay.io`. See
 > those projects for details on building custom images.
+
+## Test Archives
+
+### Advisor / Compliance / Malware Detection
+
+Archives in `dev/test-archives/*.tar.gz` are advisor-type archives:
+
+```sh
+make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz
+make inject-all
+```
+
+### QPC
+
+Archives in `dev/test-archives/qpc/*.tar.gz` are real QPC reports (satellite, discovery,
+AWS, virtual/physical, virtwho):
+
+```sh
+make inject KIND=qpc ARCHIVE=dev/test-archives/qpc/report_sat_6_7_5.tar.gz
+make inject-all KIND=qpc
+```
+
+QPC archives are accepted by Ingress and routed to `puptoo-qpc`. With
+`QPC_PROCESSING_ENABLED=false` (the default), the container logs a skip message and
+returns without further processing — useful for validating routing before enabling the handler.
+
+## Integration Tests
+
+### Local
+
+The `dev/integration-test.sh` script validates the full pipeline end-to-end:
+it waits for all services to be healthy, injects advisor and QPC archives, and
+verifies the expected behavior based on the QPC feature flags configured in
+`dev/.env`.
+
+```sh
+make dev-up
+./dev/integration-test.sh
+```
+
+The script reads `dev/.env` automatically to determine the expected scenario.
+To test a different scenario, edit `dev/.env`, restart puptoo-qpc, and re-run:
+
+```sh
+# Edit dev/.env to change QPC flags, then:
+make dev-restart-qpc
+./dev/integration-test.sh
+```
+
+At the end of each run the script prints a summary grouped by section:
+
+```
+============================================================
+  Scenario: QPC enabled (processing + transformation)
+============================================================
+
+  Services
+    ✓  puptoo is healthy
+    ✓  puptoo-qpc is healthy
+    ✓  ingress is healthy
+    ✓  kafka is healthy
+    ✓  db-host-inventory is healthy
+    ✓  inventory-mq is healthy
+    ✓  inventory-mq consumer group is healthy
+    ✓  inventory-web is healthy
+
+  Advisor pipeline
+    ✓  advisor archive accepted by ingress
+    ✓  advisor hosts ingested into inventory (count: 1)
+    ✓  no duplicate advisor hosts on re-injection (count: 1)
+
+  QPC pipeline
+    ✓  QPC archive accepted by ingress
+    ✓  QPC hosts ingested into inventory (qpc: 1, advisor: 1)
+    ✓  no duplicate QPC hosts on re-injection (count: 1)
+
+============================================================
+  Result: 14 passed, 0 failed
+============================================================
+```
+
+### CI (GitHub Actions)
+
+The `.github/workflows/integration.yaml` workflow runs the integration test
+script across four scenarios, restarting puptoo-qpc with different env vars
+between each:
+
+| Scenario | QPC Processing | Org Migration | Org List | Expected |
+|----------|---------------|---------------|----------|----------|
+| 1 | `false` | `false` | — | QPC archive skipped |
+| 2 | `true` | `false` | — | QPC hosts created |
+| 3 | `true` | `true` | `000001` | QPC hosts created (org matches) |
+| 4 | `true` | `true` | `000002` | QPC archive skipped (org filtered) |
+
+The workflow triggers on pushes and PRs to `master`/`main`, manual dispatch,
+and a weekly schedule. It requires `QUAY_USERNAME` and `QUAY_PASSWORD` secrets
+to pull the Ingress and Inventory images from `quay.io`.
 
 ## Grafana Dashboard
 
 The puptoo Grafana dashboard is maintained as a ConfigMap in
 `dashboards/grafana-dashboard-insights-puptoo-general.configmap.yaml` (the
-source of truth deployed to OpenShift).  For local development, the dashboard
+source of truth deployed to OpenShift). For local development, the dashboard
 JSON is extracted from this ConfigMap and placed in
 `dev/grafana/dashboards/puptoo.json`.
 
@@ -81,19 +232,19 @@ Once the stack is running, open Grafana at
 ## Viewing Traces
 
 Open Grafana at [http://localhost:3000](http://localhost:3000) → **Explore** →
-select the **Tempo** datasource.  Traces show the full span tree:
+select the **Tempo** datasource. Traces show the full span tree:
 `puptoo.handle_message` → HTTP archive download → `puptoo.extract_facts` →
 Kafka produce.
 
 To disable tracing locally, set `OTEL_ENABLED=false` before starting the stack:
 
 ```sh
-OTEL_ENABLED=false podman compose -f full-stack.yml up --build
+OTEL_ENABLED=false make dev-up
 ```
 
 ## Configuration
 
-MinIO credentials default to `minioaccess` / `miniosecret`.  Override via
+MinIO credentials default to `minioaccess` / `miniosecret`. Override via
 environment variables or by editing `dev/.env`:
 
 ```
@@ -108,7 +259,8 @@ MINIO_SECRET_KEY=mysecret
 | Kafka | 29092 (container) / 9092 (localhost) | Broker |
 | MinIO | 9000 (API) / 9001 (Console) | Object store |
 | Redis | 6379 | In-memory cache |
-| Puptoo | 8000 | Prometheus metrics |
+| Puptoo | 8000 | Prometheus metrics (advisor/compliance/malware-detection) |
+| Puptoo-QPC | 8001 | Prometheus metrics (qpc) |
 | Prometheus | 9090 | Metrics backend |
 | Tempo | 4318 (OTLP) / 3200 (API) | Trace backend |
 | Grafana | 3000 | Dashboards & Traces UI |

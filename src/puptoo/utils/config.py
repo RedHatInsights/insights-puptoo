@@ -160,6 +160,11 @@ DISABLE_S3_UPLOAD = os.getenv("DISABLE_S3_UPLOAD", "").lower() in (
 )
 IMAGE_TAG = os.getenv("IMAGE_TAG", "unknown")
 
+
+def get_build_version():
+    return os.getenv("OPENSHIFT_BUILD_COMMIT", "unknown")
+
+
 # QPC config variables (RHINENG-27919 / 2.2)
 MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
 QPC_PROCESSING_ENABLED = os.getenv("QPC_PROCESSING_ENABLED", "").lower() in (
@@ -182,6 +187,9 @@ QPC_HOSTS_TRANSFORMATION_ENABLED = os.getenv(
     "yes",
     "y",
 )
+_qpc_org_list_raw = os.getenv("QPC_ORG_MIGRATION_LIST", "")
+_qpc_org_list = frozenset(o.strip() for o in _qpc_org_list_raw.split(",") if o.strip())
+QPC_ORG_MIGRATION_LIST = _qpc_org_list or None
 DISCOVERY_HOST_TTL = os.getenv("DISCOVERY_HOST_TTL", "29")
 SATELLITE_HOST_TTL = os.getenv("SATELLITE_HOST_TTL", "29")
 BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() in (
@@ -194,6 +202,7 @@ BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() i
 # Unset, empty, whitespace-only, or a value with no valid entries after
 # stripping (e.g. "advisor,,  ,") all fail open to None (accept all handlers),
 # consistent with the unset case, rather than yielding an empty/malformed list.
+ENABLED_HANDLERS = None
 _enabled_handlers_env = os.getenv("ENABLED_HANDLERS")
 if _enabled_handlers_env:
     _enabled_handlers_parsed = [
