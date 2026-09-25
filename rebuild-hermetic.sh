@@ -119,6 +119,93 @@ for cmd in "${RPM_COMMANDS[@]}"; do
   run_command $cmd BASE_IMAGE=$BASE_IMAGE
 done
 
+# rpm-lockfile-prototype skips packages already in the base image, but
+# Cachi2's hermetic solver cannot see installed packages and needs them
+# prefetched. Re-inject any such packages after lockfile generation.
+# This function queries the base image for the installed version and
+# fetches the RPM metadata from the CDN dynamically.
+inject_base_image_rpm_if_missing() {
+  local pkg_name="$1"
+  local lockfile="rpms.lock.yaml"
+
+  if grep -q "name: ${pkg_name}$" "$lockfile"; then
+    echo "  ℹ️  ${pkg_name} already in ${lockfile}, skipping injection"
+    return
+  fi
+
+  echo "  ⚠️  ${pkg_name} missing from ${lockfile}, querying base image..."
+
+  # Query the base image for the installed package details
+  local rpm_info
+  rpm_info=$(podman run --rm --arch "$IMAGE_ARCH" "$BASE_IMAGE" \
+    rpm -q --qf '%{NAME} %{EPOCH} %{VERSION} %{RELEASE} %{ARCH} %{SOURCERPM}\n' "$pkg_name" 2>/dev/null)
+
+  if [ -z "$rpm_info" ]; then
+    echo "  ❌ ${pkg_name} not found in base image, skipping"
+    return
+  fi
+
+  local name epoch version release arch sourcerpm
+  read -r name epoch version release arch sourcerpm <<< "$rpm_info"
+
+  # Build EVR (epoch:version-release) — omit epoch if "(none)"
+  local evr
+  if [ "$epoch" = "(none)" ]; then
+    evr="${version}-${release}"
+  else
+    evr="${epoch}:${version}-${release}"
+  fi
+
+  # Derive CDN URL from package metadata
+  local first_letter="${name:0:1}"
+  local rpm_filename="${name}-${version}-${release}.${arch}.rpm"
+  local cdn_base="https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/${arch}/baseos/os/Packages"
+  local url="${cdn_base}/${first_letter}/${rpm_filename}"
+  local repoid="ubi-9-for-${arch}-baseos-rpms"
+
+  # Fetch RPM to compute size and checksum
+  local tmp_rpm
+  tmp_rpm=$(mktemp)
+  echo "  📥 Fetching ${rpm_filename} for checksum..."
+  if ! curl -sSfL -o "$tmp_rpm" "$url"; then
+    echo "  ❌ Failed to download ${url}, skipping"
+    rm -f "$tmp_rpm"
+    return
+  fi
+
+  local size checksum
+  size=$(stat -f%z "$tmp_rpm" 2>/dev/null || stat -c%s "$tmp_rpm" 2>/dev/null)
+  checksum="sha256:$(sha256sum "$tmp_rpm" | awk '{print $1}')"
+  rm -f "$tmp_rpm"
+
+  echo "  📦 Injecting ${pkg_name} (${evr}) into ${lockfile}"
+
+  local entry
+  entry=$(cat <<ENTRY
+  - url: ${url}
+    repoid: ${repoid}
+    size: ${size}
+    checksum: ${checksum}
+    name: ${name}
+    evr: ${evr}
+    sourcerpm: ${sourcerpm}
+ENTRY
+)
+
+  # Insert after the 'openssl' binary package entry (before next package)
+  local anchor="sourcerpm: openssl-.*\.src\.rpm"
+  local tmp="${lockfile}.tmp"
+  awk -v entry="$entry" -v anchor="$anchor" '
+    { print }
+    !injected && $0 ~ anchor && $0 !~ /source\/SRPMS/ {
+      print entry
+      injected = 1
+    }
+  ' "$lockfile" > "$tmp" && mv "$tmp" "$lockfile"
+}
+
+inject_base_image_rpm_if_missing "openssl-libs"
+
 echo "--- Processing Python Requirements ---"
 echo
 
