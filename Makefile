@@ -29,12 +29,12 @@ ensure_image = \
 generate-repo-file:
 	$(ensure_image)
 	podman run --arch $(IMAGE_ARCH) -it $(BASE_IMAGE) cat /etc/yum.repos.d/ubi.repo > ubi.repo
-	sed -i '' 's/ubi-9-appstream-source-rpms/ubi-9-for-x86_64-appstream-source-rpms/' ubi.repo
-	sed -i '' 's/ubi-9-appstream-rpms/ubi-9-for-x86_64-appstream-rpms/' ubi.repo
-	sed -i '' 's/ubi-9-baseos-source-rpms/ubi-9-for-x86_64-baseos-source-rpms/' ubi.repo
-	sed -i '' 's/ubi-9-baseos-rpms/ubi-9-for-x86_64-baseos-rpms/' ubi.repo
-	sed -i '' 's/\r$$//' ubi.repo
-	sed -i '' '/\[.*x86_64.*\]/,/^\[/ s/enabled[[:space:]]*=[[:space:]]*0/enabled = 1/g' ubi.repo
+	sed -i'' 's/ubi-9-appstream-source-rpms/ubi-9-for-x86_64-appstream-source-rpms/' ubi.repo
+	sed -i'' 's/ubi-9-appstream-rpms/ubi-9-for-x86_64-appstream-rpms/' ubi.repo
+	sed -i'' 's/ubi-9-baseos-source-rpms/ubi-9-for-x86_64-baseos-source-rpms/' ubi.repo
+	sed -i'' 's/ubi-9-baseos-rpms/ubi-9-for-x86_64-baseos-rpms/' ubi.repo
+	sed -i'' 's/\r$$//' ubi.repo
+	sed -i'' '/\[.*x86_64.*\]/,/^\[/ s/enabled[[:space:]]*=[[:space:]]*0/enabled = 1/g' ubi.repo
 
 # Generate rpms.in.yaml listing RPM packages installed via yum, dnf, or microdnf from CONTAINERFILE
 # Usage: make generate-rpms-in-yaml [CONTAINERFILE=<path>]
@@ -79,7 +79,7 @@ generate-rpm-lockfile: rpms.in.yaml
 	@curl -s https://raw.githubusercontent.com/konflux-ci/rpm-lockfile-prototype/refs/heads/main/Containerfile | \
 	podman build --arch $(IMAGE_ARCH) -t localhost/rpm-lockfile-prototype -
 	@container_dir=/work; \
-	podman run --arch $(IMAGE_ARCH) --rm -v $${PWD}:$${container_dir} localhost/rpm-lockfile-prototype:latest --outfile=$${container_dir}/rpms.lock.yaml --image $(BASE_IMAGE) $${container_dir}/rpms.in.yaml
+		podman run --arch $(IMAGE_ARCH) --rm -v $${PWD}:$${container_dir}:Z localhost/rpm-lockfile-prototype:latest --outfile=$${container_dir}/rpms.lock.yaml --image $(BASE_IMAGE) $${container_dir}/rpms.in.yaml
 	@if [ ! -f rpms.lock.yaml ]; then \
 		echo "Error: rpms.lock.yaml was not generated"; \
 		exit 1; \
