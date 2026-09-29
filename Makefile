@@ -247,7 +247,7 @@ B64_IDENTITY := eyJpZGVudGl0eSI6eyJvcmdfaWQiOiIwMDAwMDEiLCJhdXRoX3R5cGUiOiJiYXNp
 dev-dashboard:
 	@uv run python dev/extract-dashboard.py
 
-# Start the full dev stack (Kafka, MinIO, Redis, Ingress, Puptoo + Puptoo-QPC, Host Inventory)
+# Start the full dev stack (Kafka, RustFS, Redis, Ingress, Puptoo + Puptoo-QPC, Host Inventory)
 # Usage: make dev-up
 .PHONY: dev-up
 dev-up: dev-dashboard
@@ -262,7 +262,7 @@ dev-up: dev-dashboard
 dev-down:
 	$(COMPOSE) down -v
 
-# Start the minimal stack (Kafka, MinIO, Redis, Puptoo + Puptoo-QPC — no Ingress/Inventory)
+# Start the minimal stack (Kafka, RustFS, Redis, Puptoo + Puptoo-QPC — no Ingress/Inventory)
 # Usage: make dev-up-minimal
 .PHONY: dev-up-minimal
 dev-up-minimal:
@@ -361,10 +361,10 @@ endif
 dev-hosts:
 	@curl -sS -f -H "x-rh-identity: $(B64_IDENTITY)" $(INVENTORY_URL) 2>/dev/null | jq . 2>/dev/null || echo "No hosts found (inventory may still be starting)."
 
-# Open MinIO admin console in the default browser
-# Usage: make dev-minio
-.PHONY: dev-minio
-dev-minio:
+# Open RustFS admin console in the default browser
+# Usage: make dev-rustfs
+.PHONY: dev-rustfs
+dev-rustfs:
 	$(OPEN) http://localhost:9001
 
 # Open Grafana dashboard to view OTel traces

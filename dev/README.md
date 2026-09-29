@@ -30,7 +30,7 @@ Pass `KIND=qpc` to inject QPC archives instead of the default advisor type.
 For a lightweight setup without Ingress or Inventory:
 
 ```sh
-make dev-up-minimal            # Start minimal stack (Kafka, MinIO, Redis, Puptoo)
+make dev-up-minimal            # Start minimal stack (Kafka, RustFS, Redis, Puptoo)
 make dev-down-minimal          # Tear down minimal stack
 ```
 
@@ -43,7 +43,7 @@ Both compose files run two puptoo instances side by side, each scoped to a handl
 | `puptoo` | `advisor`, `compliance`, `malware-detection` | 8000 |
 | `puptoo-qpc` | `qpc` | 8001 |
 
-Both containers share the same image, MinIO bucket, Redis instance, and Kafka broker.
+Both containers share the same image, RustFS bucket, Redis instance, and Kafka broker.
 
 **Kafka topic routing:** In production (via Clowder), `puptoo` sends to the
 high-priority topic `platform.inventory.host-ingress-p1` and `puptoo-qpc`
@@ -82,7 +82,7 @@ make dev-restart-qpc
 
 | File | Description |
 |------|-------------|
-| `docker-compose.yml` | Minimal stack: Kafka, MinIO, Redis, Puptoo + Puptoo-QPC |
+| `docker-compose.yml` | Minimal stack: Kafka, RustFS, Redis, Puptoo + Puptoo-QPC |
 | `full-stack.yml` | Full pipeline: adds Ingress, Host Inventory (MQ + Web), and PostgreSQL |
 
 Both compose files use **KRaft-mode Kafka** (no Zookeeper) with healthchecks and
@@ -95,7 +95,7 @@ so traces are collected automatically.
 
 ## Launching the Full Stack
 
-The full stack stands up Ingress, Kafka, MinIO, Redis, Puptoo, Puptoo-QPC, and Host
+The full stack stands up Ingress, Kafka, RustFS, Redis, Puptoo, Puptoo-QPC, and Host
 Inventory so the entire first segment of the platform pipeline can be tested.
 
 ```sh
@@ -244,12 +244,12 @@ OTEL_ENABLED=false make dev-up
 
 ## Configuration
 
-MinIO credentials default to `minioaccess` / `miniosecret`. Override via
+RustFS credentials default to `minioaccess` / `miniosecret`. Override via
 environment variables or by editing `dev/.env`:
 
 ```
-MINIO_ACCESS_KEY=mykey
-MINIO_SECRET_KEY=mysecret
+RUSTFS_ACCESS_KEY=mykey
+RUSTFS_SECRET_KEY=mysecret
 ```
 
 ## Exposed Ports
@@ -257,7 +257,7 @@ MINIO_SECRET_KEY=mysecret
 | Service | Port | Purpose |
 |---------|------|---------|
 | Kafka | 29092 (container) / 9092 (localhost) | Broker |
-| MinIO | 9000 (API) / 9001 (Console) | Object store |
+| RustFS | 9000 (API) / 9001 (Console) | Object store |
 | Redis | 6379 | In-memory cache |
 | Puptoo | 8000 | Prometheus metrics (advisor/compliance/malware-detection) |
 | Puptoo-QPC | 8001 | Prometheus metrics (qpc) |

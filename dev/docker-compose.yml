@@ -1,4 +1,4 @@
-# Minimal local stack for Puptoo: Kafka (KRaft), MinIO, Redis.
+# Minimal local stack for Puptoo: Kafka (KRaft), RustFS, Redis.
 # Nothing is stood up for uploads or to consume the inventory messages.
 #
 # Two puptoo instances run side by side, each scoped to a handler set:
@@ -51,42 +51,42 @@ services:
       retries: 10
       start_period: 30s
 
-  minio:
-    image: docker.io/minio/minio
-    container_name: puptoo-minio
-    hostname: minio
+  rustfs:
+    image: docker.io/rustfs/rustfs:1.0.0
+    container_name: puptoo-rustfs
+    hostname: rustfs
     restart: unless-stopped
     command: "server --address 0.0.0.0:9000 --console-address 0.0.0.0:9001 /data"
     ports:
       - "9000:9000"
       - "9001:9001"
     environment:
-      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioaccess}
-      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-miniosecret}
+      RUSTFS_ROOT_USER: ${RUSTFS_ACCESS_KEY:-minioaccess}
+      RUSTFS_ROOT_PASSWORD: ${RUSTFS_SECRET_KEY:-miniosecret}
     healthcheck:
-      test: ["CMD-SHELL", "mc ready local"]
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:9000/minio/health/live"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 10s
     volumes:
-      - minio-data:/data
+      - rustfs-data:/data
 
   createbuckets:
-    image: docker.io/minio/mc
+    image: docker.io/rustfs/rc:latest
     depends_on:
-      minio:
+      rustfs:
         condition: service_healthy
     restart: on-failure
     entrypoint: >
       /bin/sh -c "
-      mc alias set myminio http://minio:9000 ${MINIO_ACCESS_KEY:-minioaccess} ${MINIO_SECRET_KEY:-miniosecret};
-      mc mb --ignore-existing myminio/insights-upload-perma;
-      mc mb --ignore-existing myminio/insights-upload-rejected;
-      mc mb --ignore-existing myminio/insights-upload-puptoo;
-      mc anonymous set public myminio/insights-upload-perma;
-      mc anonymous set public myminio/insights-upload-rejected;
-      mc anonymous set public myminio/insights-upload-puptoo;
+      rc alias set myrustfs http://rustfs:9000 ${RUSTFS_ACCESS_KEY:-minioaccess} ${RUSTFS_SECRET_KEY:-miniosecret};
+      rc mb --ignore-existing myrustfs/insights-upload-perma;
+      rc mb --ignore-existing myrustfs/insights-upload-rejected;
+      rc mb --ignore-existing myrustfs/insights-upload-puptoo;
+      rc anonymous set public myrustfs/insights-upload-perma;
+      rc anonymous set public myrustfs/insights-upload-rejected;
+      rc anonymous set public myrustfs/insights-upload-puptoo;
       exit 0;
       "
 
@@ -143,10 +143,10 @@ services:
       LOG_LEVEL: DEBUG
       CLOWDER_ENABLED: "False"
       BOOTSTRAP_SERVERS: kafka:29092
-      S3_ENDPOINT: minio:9000
+      S3_ENDPOINT: rustfs:9000
       PUPTOO_BUCKET: insights-upload-puptoo
-      STORAGE_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
-      STORAGE_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      STORAGE_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-minioaccess}
+      STORAGE_SECRET_KEY: ${RUSTFS_SECRET_KEY:-miniosecret}
       USE_SSL: "False"
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -158,7 +158,7 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
-      minio:
+      rustfs:
         condition: service_healthy
       createbuckets:
         condition: service_completed_successfully
@@ -180,10 +180,10 @@ services:
       LOG_LEVEL: DEBUG
       CLOWDER_ENABLED: "False"
       BOOTSTRAP_SERVERS: kafka:29092
-      S3_ENDPOINT: minio:9000
+      S3_ENDPOINT: rustfs:9000
       PUPTOO_BUCKET: insights-upload-puptoo
-      STORAGE_ACCESS_KEY: ${MINIO_ACCESS_KEY:-minioaccess}
-      STORAGE_SECRET_KEY: ${MINIO_SECRET_KEY:-miniosecret}
+      STORAGE_ACCESS_KEY: ${RUSTFS_ACCESS_KEY:-minioaccess}
+      STORAGE_SECRET_KEY: ${RUSTFS_SECRET_KEY:-miniosecret}
       USE_SSL: "False"
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -200,7 +200,7 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
-      minio:
+      rustfs:
         condition: service_healthy
       createbuckets:
         condition: service_completed_successfully
@@ -211,5 +211,5 @@ services:
 
 volumes:
   kafka-data:
-  minio-data:
+  rustfs-data:
   redis-data:

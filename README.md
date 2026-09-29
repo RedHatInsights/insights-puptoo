@@ -158,7 +158,7 @@ Stand up the full pipeline (Ingress, Host Inventory, PostgreSQL, both puptoo ins
 make dev-up
 ```
 
-Stand up the minimal stack (Kafka, MinIO, Redis, both puptoo instances — no Ingress/Inventory):
+Stand up the minimal stack (Kafka, RustFS, Redis, both puptoo instances — no Ingress/Inventory):
 
 ```sh
 make dev-up-minimal
