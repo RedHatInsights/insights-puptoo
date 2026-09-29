@@ -125,9 +125,9 @@ idna==3.20 \
     --hash=sha256:a7db850025b95ded1eae8a46181a1a6c56c92c96f0e2b005d9ff8dc0210cab44 \
     --hash=sha256:ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c
     # via requests
-insights-core==3.8.1 \
-    --hash=sha256:493a3b85135bb5ab25eaeb84b4a87cd7a3810a3a05401940d541c8b2936f4e0e \
-    --hash=sha256:cdc9c891e8e7157c7b2da2e2f656a6e0eb57d17d97c6f8dd7c6da751c647bbdd
+insights-core==3.8.2 \
+    --hash=sha256:260219117e918b8f310eae5d9d62a8855b7a018ad5064043e9a8798f88fd8e9d \
+    --hash=sha256:e0d2b5680d2a6259e7f58e4d10d3238ba9694ccd833d3a9e885df4a1b6581050
     # via insights-puptoo
 jinja2==3.1.6 \
     --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
