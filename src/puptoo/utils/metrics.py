@@ -16,15 +16,16 @@ kafka_consume_msg_failure_count = Counter(
     "puptoo_messages_consume_failure_total", "Total messages that failed to be consumed"
 )
 
-# For messages processed for advisor services only
+# For advisor archive extractions only (compliance/malware pass through metadata)
 extraction_count = Counter(
-    "puptoo_extractions_total", "Total archive extractions attempted"
+    "puptoo_extractions_total", "Total advisor archive extractions attempted"
 )
 extract_failure = Counter(
-    "puptoo_failed_extractions_total", "Total archives that failed to extract"
+    "puptoo_failed_extractions_total", "Total advisor archives that failed to extract"
 )
 extract_success = Counter(
-    "puptoo_successful_extractions_total", "Total archives successfully extracted"
+    "puptoo_successful_extractions_total",
+    "Total advisor archives successfully extracted",
 )
 
 # For messages processed for all services
@@ -97,7 +98,11 @@ qpc_host_uploaded = Counter(
 )
 qpc_host_upload_failures = Counter(
     "puptoo_qpc_host_upload_failures",
-    "Total number of QPC hosts that failed to upload",
+    "Total number of QPC hosts that failed to upload to inventory via Kafka",
+)
+qpc_hosts_without_canonical_facts = Counter(
+    "puptoo_qpc_hosts_without_canonical_facts",
+    "Total number of QPC hosts skipped due to missing canonical facts",
 )
 qpc_kafka_failures = Counter(
     "puptoo_qpc_kafka_failures",
