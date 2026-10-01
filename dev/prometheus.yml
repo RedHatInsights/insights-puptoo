@@ -5,3 +5,6 @@ scrape_configs:
   - job_name: puptoo
     static_configs:
       - targets: ["puptoo:8000"]
+  - job_name: puptoo-qpc
+    static_configs:
+      - targets: ["puptoo-qpc:8000"]

@@ -14,17 +14,25 @@ logger = logging.getLogger(__name__)
 @handler("qpc")
 class QPCHandler(BaseHandler):
     def handle(self, msg: dict, service: str, extra: dict, *, send_message) -> None:
+        metrics.msg_processed_count.labels(service).inc()
         try:
             request_obj = validate_qpc_message(msg)
             process_report(msg, request_obj)
         except json.JSONDecodeError:
+            metrics.qpc_kafka_failures.inc()
+            metrics.msg_processed_failure.labels(service).inc()
             logger.exception("QPC message is not valid JSON")
         except QPCKafkaMsgException:
             metrics.qpc_kafka_failures.inc()
+            metrics.msg_processed_failure.labels(service).inc()
             logger.exception("Invalid QPC Kafka message")
         except FailExtractException:
             metrics.qpc_extract_report_slices_failures.inc()
+            metrics.msg_processed_failure.labels(service).inc()
             logger.exception("Failed to extract QPC report")
         except Exception:
             metrics.qpc_report_processing_exceptions.inc()
+            metrics.msg_processed_failure.labels(service).inc()
             logger.exception("Unexpected error processing QPC message")
+        else:
+            metrics.msg_processed_success.labels(service).inc()

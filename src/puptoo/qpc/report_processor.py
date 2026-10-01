@@ -33,6 +33,13 @@ def download_report(consumed_message):
         raise FailDownloadException(
             f"Unexpected error for URL {report_url}. Error: {err}"
         ) from err
+    try:
+        download_response.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        metrics.qpc_archive_failed_to_download.inc()
+        raise FailDownloadException(
+            f"HTTP {download_response.status_code} for URL {report_url}. Error: {err}"
+        ) from err
     metrics.qpc_archive_downloaded_success.inc()
     LOG.info("Successfully downloaded TAR from %s", report_url)
     return download_response.content
@@ -122,7 +129,7 @@ def process_report_slice(report_slice, request_obj):
             request_obj["hosts_without_facts"].append(
                 {report_slice.get("report_slice_id"): host.get("fqdn")}
             )
-            metrics.qpc_host_upload_failures.inc()
+            metrics.qpc_hosts_without_canonical_facts.inc()
 
 
 def _log_report_summary(request_obj):

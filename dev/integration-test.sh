@@ -80,6 +80,49 @@ get_topic_offset() {
         | awk -F: '{print $NF}'
 }
 
+# Fetch the value of a Prometheus metric from a puptoo metrics endpoint.
+# Usage: get_metric <port> <metric_name> [label_filter]
+get_metric() {
+    local port="$1" metric="$2" label_filter="${3:-}"
+    local value
+    value=$(curl -sS "http://localhost:${port}/metrics" 2>/dev/null \
+        | grep -E "^${metric}(\{|[[:space:]])" \
+        | if [ -n "${label_filter}" ]; then grep "${label_filter}"; else cat; fi \
+        | grep -v "^#" \
+        | awk '{print $2}' \
+        | head -1)
+    echo "${value:-0}"
+}
+
+# Assert that a metric increased between a saved "before" value and the
+# current value. Works correctly across scenarios where counters accumulate.
+# Usage: assert_metric_increased <port> <metric> <label_filter> <before_value> <description>
+assert_metric_increased() {
+    local port="$1" metric="$2" label_filter="$3" before="$4" description="$5"
+    local after
+    after=$(get_metric "${port}" "${metric}" "${label_filter}")
+    local before_int="${before%.*}" after_int="${after%.*}"
+    if [ "${after_int}" -gt "${before_int}" ] 2>/dev/null; then
+        ok "${description} (${before} -> ${after})"
+    else
+        fail "${description} (${before} -> ${after}, expected increase)"
+    fi
+}
+
+# Assert that a metric did NOT change between a saved "before" value and now.
+# Usage: assert_metric_unchanged <port> <metric> <label_filter> <before_value> <description>
+assert_metric_unchanged() {
+    local port="$1" metric="$2" label_filter="$3" before="$4" description="$5"
+    local after
+    after=$(get_metric "${port}" "${metric}" "${label_filter}")
+    local before_int="${before%.*}" after_int="${after%.*}"
+    if [ "${after_int}" -eq "${before_int}" ] 2>/dev/null; then
+        ok "${description} (unchanged at ${after})"
+    else
+        fail "${description} (${before} -> ${after}, expected no change)"
+    fi
+}
+
 delete_all_hosts() {
     local host_ids=""
     local filter
@@ -244,6 +287,10 @@ delete_all_hosts
 # ---------------------------------------------------------------------------
 section "Advisor pipeline"
 advisor_offset_before=$(get_topic_offset "${PUPTOO_TOPIC}")
+adv_consumed_before=$(get_metric 8000 puptoo_messages_consumed_total "")
+adv_processed_before=$(get_metric 8000 puptoo_messages_processed_total 'service="advisor"')
+adv_success_before=$(get_metric 8000 puptoo_messages_processed_success_total 'service="advisor"')
+adv_failure_before=$(get_metric 8000 puptoo_messages_processed_failure_total 'service="advisor"')
 log "Injecting advisor archive ..."
 if make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz; then
     ok "advisor archive accepted by ingress"
@@ -271,6 +318,16 @@ if timeout 120 bash -c '
     else
         fail "no new messages on ${PUPTOO_TOPIC} after advisor injection (offset: ${advisor_offset_before})"
     fi
+
+    section "Advisor metrics"
+    assert_metric_increased 8000 puptoo_messages_consumed_total "" \
+        "${adv_consumed_before}" "puptoo consumed messages from kafka"
+    assert_metric_increased 8000 puptoo_messages_processed_total 'service="advisor"' \
+        "${adv_processed_before}" "puptoo processed advisor messages"
+    assert_metric_increased 8000 puptoo_messages_processed_success_total 'service="advisor"' \
+        "${adv_success_before}" "puptoo advisor messages succeeded"
+    assert_metric_unchanged 8000 puptoo_messages_processed_failure_total 'service="advisor"' \
+        "${adv_failure_before}" "puptoo advisor messages had no new failures"
 
     log "Re-injecting same advisor archive to check for duplicates ..."
     make inject ARCHIVE=dev/test-archives/rhel94_core_collect.tar.gz >/dev/null 2>&1
@@ -318,6 +375,15 @@ log "QPC_ORG_MIGRATION_ENABLED=${QPC_ORG_MIG}"
 log "QPC_ORG_MIGRATION_LIST=${QPC_ORG_LIST}"
 
 qpc_offset_before=$(get_topic_offset "${QPC_TOPIC}")
+qpc_consumed_before=$(get_metric 8001 puptoo_messages_consumed_total "")
+qpc_processed_before=$(get_metric 8001 puptoo_messages_processed_total 'service="qpc"')
+qpc_success_before=$(get_metric 8001 puptoo_messages_processed_success_total 'service="qpc"')
+qpc_failure_before=$(get_metric 8001 puptoo_messages_processed_failure_total 'service="qpc"')
+qpc_downloaded_before=$(get_metric 8001 puptoo_qpc_archive_downloaded_success_total "")
+qpc_dl_fail_before=$(get_metric 8001 puptoo_qpc_archive_failed_to_download_total "")
+qpc_uploaded_before=$(get_metric 8001 puptoo_qpc_host_uploaded_total "")
+qpc_upload_fail_before=$(get_metric 8001 puptoo_qpc_host_upload_failures_total "")
+qpc_kafka_fail_before=$(get_metric 8001 puptoo_qpc_kafka_failures_total "")
 log "Injecting QPC archive ..."
 if make inject KIND=qpc ARCHIVE=dev/test-archives/qpc/report_sat_6_7_5.tar.gz; then
     ok "QPC archive accepted by ingress"
@@ -368,6 +434,26 @@ if [ "${qpc_should_create_hosts}" = "true" ]; then
         fail "QPC hosts did not appear in inventory within 120s"
     fi
 
+    section "QPC metrics"
+    assert_metric_increased 8001 puptoo_messages_consumed_total "" \
+        "${qpc_consumed_before}" "puptoo-qpc consumed messages from kafka"
+    assert_metric_increased 8001 puptoo_messages_processed_total 'service="qpc"' \
+        "${qpc_processed_before}" "puptoo-qpc processed qpc messages"
+    assert_metric_increased 8001 puptoo_messages_processed_success_total 'service="qpc"' \
+        "${qpc_success_before}" "puptoo-qpc qpc messages succeeded"
+    assert_metric_unchanged 8001 puptoo_messages_processed_failure_total 'service="qpc"' \
+        "${qpc_failure_before}" "puptoo-qpc qpc messages had no new failures"
+    assert_metric_increased 8001 puptoo_qpc_archive_downloaded_success_total "" \
+        "${qpc_downloaded_before}" "puptoo-qpc downloaded QPC archive"
+    assert_metric_unchanged 8001 puptoo_qpc_archive_failed_to_download_total "" \
+        "${qpc_dl_fail_before}" "puptoo-qpc had no new download failures"
+    assert_metric_increased 8001 puptoo_qpc_host_uploaded_total "" \
+        "${qpc_uploaded_before}" "puptoo-qpc uploaded hosts to HBI"
+    assert_metric_unchanged 8001 puptoo_qpc_host_upload_failures_total "" \
+        "${qpc_upload_fail_before}" "puptoo-qpc had no new host upload failures"
+    assert_metric_unchanged 8001 puptoo_qpc_kafka_failures_total "" \
+        "${qpc_kafka_fail_before}" "puptoo-qpc had no new kafka failures"
+
     log "Re-injecting same QPC archive to check for duplicates ..."
     make inject KIND=qpc ARCHIVE=dev/test-archives/qpc/report_sat_6_7_5.tar.gz >/dev/null 2>&1
     sleep 10
@@ -400,6 +486,16 @@ elif [ "${QPC_ENABLED}" != "true" ]; then
         fail "QPC injection created hosts despite QPC_PROCESSING_ENABLED=false (qpc: ${pre_qpc_qpc_count} -> ${post_qpc_count})"
     fi
 
+    section "QPC metrics (disabled)"
+    assert_metric_increased 8001 puptoo_messages_consumed_total "" \
+        "${qpc_consumed_before}" "puptoo-qpc consumed messages from kafka"
+    assert_metric_increased 8001 puptoo_messages_processed_total 'service="qpc"' \
+        "${qpc_processed_before}" "puptoo-qpc processed qpc messages"
+    assert_metric_increased 8001 puptoo_messages_processed_success_total 'service="qpc"' \
+        "${qpc_success_before}" "puptoo-qpc qpc messages counted as success (flag skips, not errors)"
+    assert_metric_unchanged 8001 puptoo_qpc_host_uploaded_total "" \
+        "${qpc_uploaded_before}" "puptoo-qpc uploaded no hosts (processing disabled)"
+
 else
     # --- QPC enabled but org migration filters out the archive ---
     log "Checking puptoo-qpc logs for org migration skip message ..."
@@ -421,6 +517,16 @@ else
     else
         fail "QPC injection created hosts despite org not in migration list (qpc: ${pre_qpc_qpc_count} -> ${post_qpc_count})"
     fi
+
+    section "QPC metrics (org filtered)"
+    assert_metric_increased 8001 puptoo_messages_consumed_total "" \
+        "${qpc_consumed_before}" "puptoo-qpc consumed messages from kafka"
+    assert_metric_increased 8001 puptoo_messages_processed_total 'service="qpc"' \
+        "${qpc_processed_before}" "puptoo-qpc processed qpc messages"
+    assert_metric_increased 8001 puptoo_messages_processed_success_total 'service="qpc"' \
+        "${qpc_success_before}" "puptoo-qpc qpc messages counted as success (org skips, not errors)"
+    assert_metric_unchanged 8001 puptoo_qpc_host_uploaded_total "" \
+        "${qpc_uploaded_before}" "puptoo-qpc uploaded no hosts (org filtered)"
 fi
 
 # ---------------------------------------------------------------------------

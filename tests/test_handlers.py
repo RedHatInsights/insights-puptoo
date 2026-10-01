@@ -455,10 +455,10 @@ def test_qpc_handle_calls_validate_and_process(
 @patch("src.puptoo.handlers.qpc.metrics")
 @patch("src.puptoo.handlers.qpc.process_report")
 @patch("src.puptoo.handlers.qpc.validate_qpc_message")
-def test_qpc_handle_json_decode_error_no_metric(
+def test_qpc_handle_json_decode_error_increments_metric(
     mock_validate, mock_process, mock_metrics, qpc_registered
 ):
-    """JSONDecodeError is caught and logged, but no metric is incremented."""
+    """JSONDecodeError increments qpc_kafka_failures."""
     from src.puptoo.handlers.qpc import QPCHandler
 
     mock_validate.side_effect = json.JSONDecodeError("bad", "doc", 0)
@@ -466,7 +466,8 @@ def test_qpc_handle_json_decode_error_no_metric(
     h = QPCHandler()
     h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
 
-    mock_metrics.qpc_kafka_failures.inc.assert_not_called()
+    mock_metrics.qpc_kafka_failures.inc.assert_called_once()
+    mock_metrics.msg_processed_failure.labels.return_value.inc.assert_called_once()
     mock_metrics.qpc_extract_report_slices_failures.inc.assert_not_called()
     mock_metrics.qpc_report_processing_exceptions.inc.assert_not_called()
 
@@ -524,3 +525,24 @@ def test_qpc_handle_unexpected_exception_increments_metric(
     h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
 
     mock_metrics.qpc_report_processing_exceptions.inc.assert_called_once()
+
+
+@patch("src.puptoo.handlers.qpc.metrics")
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_success_increments_msg_processed(
+    mock_validate, mock_process, mock_metrics, qpc_registered
+):
+    """Successful QPC processing increments msg_processed_count and success."""
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    mock_validate.return_value = {"request_id": "r1", "org_id": "o1"}
+
+    h = QPCHandler()
+    h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
+
+    mock_metrics.msg_processed_count.labels.assert_called_with("qpc")
+    mock_metrics.msg_processed_count.labels.return_value.inc.assert_called_once()
+    mock_metrics.msg_processed_success.labels.assert_called_with("qpc")
+    mock_metrics.msg_processed_success.labels.return_value.inc.assert_called_once()
+    mock_metrics.msg_processed_failure.labels.return_value.inc.assert_not_called()
