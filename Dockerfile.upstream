@@ -21,4 +21,6 @@ COPY src src
 
 RUN pip3.11 install --upgrade pip && pip3.11 install . --ignore-installed
 
+USER 1001
+
 CMD ["puptoo"]
