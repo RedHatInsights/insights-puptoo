@@ -76,6 +76,22 @@ send_time = Histogram(
 msg_extraction_size = Histogram("puptoo_extraction_sizes", "Extracted archive sizes")
 
 # QPC-specific metrics (migrated from yuptoo)
+qpc_download_time = Histogram(
+    "puptoo_qpc_download_seconds",
+    "Time spent downloading a QPC report archive",
+    buckets=(0.1, 0.5, 1, 2, 5, 10, 30, 60, float("inf")),
+)
+qpc_slice_processing_time = Histogram(
+    "puptoo_qpc_slice_processing_seconds",
+    "Time spent processing a single QPC report slice",
+    buckets=(0.01, 0.05, 0.1, 0.5, 1, 2, 5, 10, float("inf")),
+)
+qpc_report_processing_time = Histogram(
+    "puptoo_qpc_report_processing_seconds",
+    "Total time spent processing a QPC report end-to-end",
+    buckets=(1, 5, 10, 30, 60, 120, 300, 600, float("inf")),
+)
+
 qpc_archive_downloaded_success = Counter(
     "puptoo_qpc_archive_downloaded_success",
     "Total number of QPC archives downloaded successfully",
