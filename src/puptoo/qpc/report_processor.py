@@ -19,6 +19,7 @@ SUCCESS_CONFIRM_STATUS = "success"
 FAILURE_CONFIRM_STATUS = "failure"
 
 
+@metrics.qpc_download_time.time()
 def download_report(consumed_message):
     report_url = consumed_message.get("url")
     if not report_url:
@@ -105,6 +106,7 @@ def _upload_to_host_inventory_via_kafka(host, request_obj):
         metrics.qpc_host_upload_failures.inc()
 
 
+@metrics.qpc_slice_processing_time.time()
 def process_report_slice(report_slice, request_obj):
     LOG.info(
         "Processing hosts in slice with id - %s",
@@ -159,6 +161,7 @@ def _log_report_summary(request_obj):
     )
 
 
+@metrics.qpc_report_processing_time.time()
 def process_report(consumed_message, request_obj):
     org_id = request_obj.get("org_id", "")
     if not get_flag_value("puptoo.qpc-processing-enabled", org_id):
