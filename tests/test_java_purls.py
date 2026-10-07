@@ -1,6 +1,8 @@
 import json
+import os
+import shutil
 
-from src.puptoo.process.profile import _read_java_purls
+from src.puptoo.process.profile import _read_java_purls, get_system_profile
 
 
 def _write(tmp_path, relpath, data, raw=None):
@@ -101,3 +103,17 @@ def test_skips_non_string_and_empty_items(tmp_path):
     data = ["pkg:maven/a/a@1", "", None, 123, {"nope": "x"}, {"purl": ""}, {"purl": "pkg:maven/b/b@2"}]
     root = _write(tmp_path, DEFAULT_REL, data)
     assert _read_java_purls(root) == ["pkg:maven/a/a@1", "pkg:maven/b/b@2"]
+
+
+def test_java_purls_flows_into_system_profile(tmp_path):
+    """End-to-end wiring: a java_purls datasource file in a real archive lands in system_profile.java_purls
+    through the actual puptoo profile pipeline (not just _read_java_purls in isolation)."""
+    src_archive = os.path.join(os.path.dirname(__file__), "..", "dev", "test-archives", "core-base")
+    dst = os.path.join(str(tmp_path), "archive")
+    shutil.copytree(src_archive, dst)
+    ds_dir = os.path.join(dst, "data", "insights_datasources")
+    os.makedirs(ds_dir, exist_ok=True)
+    with open(os.path.join(ds_dir, "java_purls.json"), "w") as fh:
+        fh.write('{"purl": "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1", "jar": "x.jar", "source": "pom.properties"}')
+    facts = get_system_profile(dst)
+    assert facts["system_profile"]["java_purls"] == ["pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1"]
