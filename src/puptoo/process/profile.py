@@ -1431,15 +1431,43 @@ def _read_java_purls(path):
             continue
         try:
             with open(candidate, encoding="utf-8") as fh:
-                raw = json.load(fh)
-        except (OSError, ValueError) as e:
-            # Unreadable file or invalid JSON (JSONDecodeError/UnicodeDecodeError are ValueErrors).
+                text = fh.read()
+        except OSError as e:
             catch_error("java_purls", e)
             return None
 
-        return _extract_purls(raw)
+        return _extract_purls(_parse_purls_content(text))
 
     return None
+
+
+def _parse_purls_content(text):
+    """
+    Parse the collector output into a list of records.
+
+    The datasource emits JSONL (one JSON object per line), which is redaction-resilient: a line dropped or
+    mangled by customer redaction costs a single record, not the whole inventory. A legacy single JSON array
+    is also accepted (version-skew safe). Never raises -- a malformed line/file yields fewer (or no) records.
+    """
+    text = (text or "").strip()
+    if not text:
+        return []
+    if text[0] == "[":
+        try:
+            data = json.loads(text)
+        except ValueError:
+            return []
+        return data if isinstance(data, list) else []
+    out = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            out.append(json.loads(line))
+        except ValueError:
+            continue  # a redaction-dropped/garbled record -> skip just this one
+    return out
 
 
 def _extract_purls(raw):

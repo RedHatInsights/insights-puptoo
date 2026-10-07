@@ -35,6 +35,28 @@ def test_reads_plain_string_array_shape(tmp_path):
     assert _read_java_purls(root) == ["pkg:maven/a/a@1", "pkg:maven/b/b@2"]
 
 
+def test_reads_jsonl_shape(tmp_path):
+    """The datasource's JSONL output (one JSON object per line) is parsed, sorted + deduped."""
+    jsonl = (
+        '{"purl": "pkg:maven/b/b@2", "jar": "b.jar"}\n'
+        '{"purl": "pkg:maven/a/a@1", "jar": "a.jar"}\n'
+        '{"purl": "pkg:maven/a/a@1", "jar": "a.jar"}'  # duplicate
+    )
+    root = _write(tmp_path, DEFAULT_REL, None, raw=jsonl)
+    assert _read_java_purls(root) == ["pkg:maven/a/a@1", "pkg:maven/b/b@2"]
+
+
+def test_jsonl_skips_mangled_line(tmp_path):
+    """The point of JSONL: a line dropped/mangled by redaction costs one record, not the inventory."""
+    jsonl = (
+        '{"purl": "pkg:maven/a/a@1"}\n'
+        '{"purl": "pkg:maven/REDACTED  <- not valid json\n'
+        '{"purl": "pkg:maven/b/b@2"}'
+    )
+    root = _write(tmp_path, DEFAULT_REL, None, raw=jsonl)
+    assert _read_java_purls(root) == ["pkg:maven/a/a@1", "pkg:maven/b/b@2"]
+
+
 def test_json_suffix_candidate(tmp_path):
     """The no-suffix insights_commands/java_purls candidate is discovered."""
     data = ["pkg:maven/a/a@1"]
@@ -63,10 +85,10 @@ def test_malformed_json_returns_none(tmp_path):
     assert _read_java_purls(root) is None
 
 
-def test_wrong_top_level_shape_returns_none(tmp_path):
-    """A JSON object (not a list) is an unexpected shape and yields None."""
-    root = _write(tmp_path, DEFAULT_REL, {"purl": "pkg:maven/a/a@1"})
-    assert _read_java_purls(root) is None
+def test_single_jsonl_object_is_one_record(tmp_path):
+    """Under JSONL a single JSON object on one line is a valid one-record inventory (not 'wrong shape')."""
+    root = _write(tmp_path, DEFAULT_REL, {"purl": "pkg:maven/a/a@1"})  # json.dumps(dict) -> one line
+    assert _read_java_purls(root) == ["pkg:maven/a/a@1"]
 
 
 def test_empty_array_returns_none(tmp_path):
