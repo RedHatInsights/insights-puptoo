@@ -53,7 +53,7 @@ from insights.parsers.meminfo import MemInfo
 from insights.parsers.nvidia import NvidiaSmiQueryGPU
 from insights.parsers.os_release import OsRelease
 from insights.parsers.pmlog_summary import PmLogSummary, PmLogSummaryPcpZeroConf
-from insights.parsers.podman import PodmanPsAllJson
+from insights.combiners.podman_containers import PodmanContainers
 from insights.parsers.ps import PsAuxcww
 from insights.parsers.redhat_release import RedhatRelease
 from insights.parsers.rhsm_releasever import RhsmReleaseVer
@@ -223,7 +223,7 @@ AAP_IMAGE_MARKER = "ansible-automation-platform"
         EAPJSONReports,
         ImageBuilderFacts,
         IlabModuleList,
-        PodmanPsAllJson,
+        PodmanContainers,
     ]
 )
 def system_profile(
@@ -293,7 +293,7 @@ def system_profile(
     eap_json_reports,
     image_builder_facts,
     ilab_model_list,
-    podman_ps_all_json,
+    podman_containers,
 ):
     """
     This method applies parsers to a host and returns a system profile that can
@@ -346,12 +346,12 @@ def system_profile(
             catch_error("ansible_info", e)
             raise
 
-    if podman_ps_all_json is not None:
+    if podman_containers is not None:
         try:
             # AAP containers are matched by image: any container whose image
             # contains "ansible-automation-platform". This captures the whole
             # AAP stack (gateway, controller, receptor, eda, hub, ...).
-            aap_containers = podman_ps_all_json.search_by_image(
+            aap_containers = podman_containers.search_by_image(
                 AAP_IMAGE_MARKER, partial=True
             )
             if aap_containers:
@@ -395,11 +395,11 @@ def system_profile(
         # foreman / foreman-proxy containers, matched by exact name.
         # All matches are kept because container names are only unique per user,
         # so rootless deployments may expose several containers with the same name.
-        if podman_ps_all_json is not None:
-            foreman_containers = podman_ps_all_json.search_by_name(
+        if podman_containers is not None:
+            foreman_containers = podman_containers.search_by_name(
                 FOREMAN_CONTAINER_NAME
             )
-            foreman_proxy_containers = podman_ps_all_json.search_by_name(
+            foreman_proxy_containers = podman_containers.search_by_name(
                 FOREMAN_PROXY_CONTAINER_NAME
             )
     except Exception as e:
@@ -424,7 +424,7 @@ def system_profile(
 
         if container_matches:
             satellite["containers"] = [_container_facts(c) for c in container_matches]
-        elif podman_ps_all_json is not None and (
+        elif podman_containers is not None and (
             satellite_version or capsule_version or foremanctl_version
         ):
             # Podman was collected but no foreman/foreman-proxy containers were
