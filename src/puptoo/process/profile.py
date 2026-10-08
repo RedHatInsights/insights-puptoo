@@ -1441,6 +1441,41 @@ def _read_java_purls(path):
     return None
 
 
+def _read_python_purls(path):
+    """
+    Read third-party Python package purls collected on the host.
+
+    Mirror of :func:`_read_java_purls` for the insights-core ``python_purls`` datasource (pypi
+    purls, ``pkg:pypi/<name>@<version>``). Reads the collector's output directly from the unpacked
+    archive so per-host purls flow end-to-end through HBI to vulnerability-engine. Accepts the
+    datasource's JSONL/list-of-objects shape or a plain array; returns a sorted, de-duplicated list
+    or ``None``. Never raises -- a missing or malformed file must not fail the system profile.
+    """
+    if not path:
+        return None
+
+    candidates = [
+        # The datasource's DatasourceProvider relative_path ("insights_datasources/python_purls.json").
+        os.path.join(path, "data", "insights_datasources", "python_purls.json"),
+        os.path.join(path, "data", "insights_commands", "python_purls"),
+    ]
+    candidates += sorted(glob.glob(os.path.join(path, "**", "python_purls.json"), recursive=True))
+
+    for candidate in candidates:
+        if not os.path.isfile(candidate):
+            continue
+        try:
+            with open(candidate, encoding="utf-8") as fh:
+                text = fh.read()
+        except OSError as e:
+            catch_error("python_purls", e)
+            return None
+
+        return _extract_purls(_parse_purls_content(text))
+
+    return None
+
+
 def _parse_purls_content(text):
     """
     Parse the collector output into a list of records.
@@ -1505,6 +1540,10 @@ def get_system_profile(path=None):
     java_purls = _read_java_purls(path)
     if java_purls:
         facts["system_profile"]["java_purls"] = java_purls
+    # Lightwell: attach detected third-party Python packages collected in the archive.
+    python_purls = _read_python_purls(path)
+    if python_purls:
+        facts["system_profile"]["python_purls"] = python_purls
     return facts
 
 
