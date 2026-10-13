@@ -89,7 +89,9 @@ def test_malformed_json_returns_none(tmp_path):
 
 def test_single_jsonl_object_is_one_record(tmp_path):
     """Under JSONL a single JSON object on one line is a valid one-record inventory (not 'wrong shape')."""
-    root = _write(tmp_path, DEFAULT_REL, {"purl": "pkg:pypi/a@1"})  # json.dumps(dict) -> one line
+    root = _write(
+        tmp_path, DEFAULT_REL, {"purl": "pkg:pypi/a@1"}
+    )  # json.dumps(dict) -> one line
     assert _read_python_purls(root) == ["pkg:pypi/a@1"]
 
 
@@ -100,7 +102,15 @@ def test_empty_array_returns_none(tmp_path):
 
 def test_skips_non_string_and_empty_items(tmp_path):
     """Non-string / empty / malformed items are dropped; valid purls survive."""
-    data = ["pkg:pypi/a@1", "", None, 123, {"nope": "x"}, {"purl": ""}, {"purl": "pkg:pypi/b@2"}]
+    data = [
+        "pkg:pypi/a@1",
+        "",
+        None,
+        123,
+        {"nope": "x"},
+        {"purl": ""},
+        {"purl": "pkg:pypi/b@2"},
+    ]
     root = _write(tmp_path, DEFAULT_REL, data)
     assert _read_python_purls(root) == ["pkg:pypi/a@1", "pkg:pypi/b@2"]
 
@@ -108,12 +118,16 @@ def test_skips_non_string_and_empty_items(tmp_path):
 def test_python_purls_flows_into_system_profile(tmp_path):
     """End-to-end wiring: a python_purls datasource file in a real archive lands in
     system_profile.python_purls through the actual puptoo profile pipeline."""
-    src_archive = os.path.join(os.path.dirname(__file__), "..", "dev", "test-archives", "core-base")
+    src_archive = os.path.join(
+        os.path.dirname(__file__), "..", "dev", "test-archives", "core-base"
+    )
     dst = os.path.join(str(tmp_path), "archive")
     shutil.copytree(src_archive, dst)
     ds_dir = os.path.join(dst, "data", "insights_datasources")
     os.makedirs(ds_dir, exist_ok=True)
     with open(os.path.join(ds_dir, "python_purls.json"), "w") as fh:
-        fh.write('{"purl": "pkg:pypi/requests@2.28.1", "dist": "requests", "source": "dist-info", "installer": "pip"}')
+        fh.write(
+            '{"purl": "pkg:pypi/requests@2.28.1", "dist": "requests", "source": "dist-info", "installer": "pip"}'
+        )
     facts = get_system_profile(dst)
     assert facts["system_profile"]["python_purls"] == ["pkg:pypi/requests@2.28.1"]

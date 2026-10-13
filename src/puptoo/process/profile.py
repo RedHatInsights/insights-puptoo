@@ -1424,7 +1424,9 @@ def _read_java_purls(path):
         os.path.join(path, "data", "insights_commands", "java_purls"),
     ]
     # Fallback for archives that place the file elsewhere; sorted for deterministic selection.
-    candidates += sorted(glob.glob(os.path.join(path, "**", "java_purls.json"), recursive=True))
+    candidates += sorted(
+        glob.glob(os.path.join(path, "**", "java_purls.json"), recursive=True)
+    )
 
     for candidate in candidates:
         if not os.path.isfile(candidate):
@@ -1459,7 +1461,9 @@ def _read_python_purls(path):
         os.path.join(path, "data", "insights_datasources", "python_purls.json"),
         os.path.join(path, "data", "insights_commands", "python_purls"),
     ]
-    candidates += sorted(glob.glob(os.path.join(path, "**", "python_purls.json"), recursive=True))
+    candidates += sorted(
+        glob.glob(os.path.join(path, "**", "python_purls.json"), recursive=True)
+    )
 
     for candidate in candidates:
         if not os.path.isfile(candidate):
@@ -1536,11 +1540,11 @@ def get_system_profile(path=None):
     del facts["type"]
     facts["system_profile"] = broker[system_profile]
     del facts["system_profile"]["type"]
-    # Lightwell: attach detected third-party Java libraries collected in the archive.
+    # Attach detected third-party Java libraries collected in the archive.
     java_purls = _read_java_purls(path)
     if java_purls:
         facts["system_profile"]["java_purls"] = java_purls
-    # Lightwell: attach detected third-party Python packages collected in the archive.
+    # Attach detected third-party Python packages collected in the archive.
     python_purls = _read_python_purls(path)
     if python_purls:
         facts["system_profile"]["python_purls"] = python_purls
