@@ -1423,10 +1423,13 @@ def _read_java_purls(path):
         os.path.join(path, "data", "insights_datasources", "java_purls.json"),
         os.path.join(path, "data", "insights_commands", "java_purls"),
     ]
-    # Fallback for archives that place the file elsewhere; sorted for deterministic selection.
-    candidates += sorted(
-        glob.glob(os.path.join(path, "**", "java_purls.json"), recursive=True)
-    )
+    # Only fall back to a recursive archive walk when the datasource's canonical output is absent, so the
+    # common case (collector present at the guaranteed relative_path) never pays for a full-tree glob on
+    # puptoo's hottest path. Sorted for deterministic selection.
+    if not any(os.path.isfile(c) for c in candidates):
+        candidates += sorted(
+            glob.glob(os.path.join(path, "**", "java_purls.json"), recursive=True)
+        )
 
     for candidate in candidates:
         if not os.path.isfile(candidate):
@@ -1461,9 +1464,13 @@ def _read_python_purls(path):
         os.path.join(path, "data", "insights_datasources", "python_purls.json"),
         os.path.join(path, "data", "insights_commands", "python_purls"),
     ]
-    candidates += sorted(
-        glob.glob(os.path.join(path, "**", "python_purls.json"), recursive=True)
-    )
+    # Only fall back to a recursive archive walk when the datasource's canonical output is absent, so the
+    # common case (collector present at the guaranteed relative_path) never pays for a full-tree glob on
+    # puptoo's hottest path. Sorted for deterministic selection.
+    if not any(os.path.isfile(c) for c in candidates):
+        candidates += sorted(
+            glob.glob(os.path.join(path, "**", "python_purls.json"), recursive=True)
+        )
 
     for candidate in candidates:
         if not os.path.isfile(candidate):
@@ -1509,13 +1516,23 @@ def _parse_purls_content(text):
     return out
 
 
+# These MUST match the caps on java_purls/python_purls in the HBI system_profile spec
+# (insights-host-inventory swagger/system_profile.spec.yaml: maxItems / items.maxLength). HBI validates the
+# whole system_profile against that schema and REJECTS the entire host check-in on any violation (it does
+# not truncate), so we conform here at the producer: drop any over-long purl and keep at most the first
+# PURL_MAX_ITEMS (deterministic, sorted) -- an oversized host then still checks in with a bounded list.
+PURL_MAX_ITEMS = 1024
+PURL_MAX_LENGTH = 256
+
+
 def _extract_purls(raw):
     """
     Pull purl strings out of the collector output.
 
     Accepts a plain list of purl strings or a list of objects each carrying a ``"purl"``
     key; anything else (wrong top-level shape, non-string or empty items) is ignored.
-    Returns a sorted, de-duplicated list, or ``None`` when nothing usable is present.
+    Returns a sorted, de-duplicated list capped to the HBI schema limits, or ``None`` when
+    nothing usable is present.
     """
     if not isinstance(raw, list):
         # Unexpected shape (e.g. a bare object or scalar); treat as no data.
@@ -1524,9 +1541,9 @@ def _extract_purls(raw):
     purls = set()
     for item in raw:
         purl = item.get("purl") if isinstance(item, dict) else item
-        if isinstance(purl, str) and purl:
+        if isinstance(purl, str) and purl and len(purl) <= PURL_MAX_LENGTH:
             purls.add(purl)
-    return sorted(purls) or None
+    return sorted(purls)[:PURL_MAX_ITEMS] or None
 
 
 @metrics.SYSTEM_PROFILE.time()

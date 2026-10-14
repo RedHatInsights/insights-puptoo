@@ -136,3 +136,18 @@ def test_java_purls_flows_into_system_profile(tmp_path):
     assert facts["system_profile"]["java_purls"] == [
         "pkg:maven/org.apache.logging.log4j/log4j-core@2.14.1"
     ]
+
+
+def test_caps_item_count_to_hbi_limit(tmp_path):
+    """More purls than the HBI maxItems (1024) are capped, so HBI does not reject the whole check-in."""
+    data = [{"purl": f"pkg:maven/g/a{i:04d}@1"} for i in range(1100)]
+    root = _write(tmp_path, DEFAULT_REL, data)
+    assert len(_read_java_purls(root)) == 1024
+
+
+def test_drops_over_long_purls(tmp_path):
+    """A purl longer than the HBI items.maxLength (256) is dropped (HBI would reject the whole host)."""
+    long_purl = "pkg:maven/g/a@" + ("x" * 300)
+    data = [{"purl": long_purl}, {"purl": "pkg:maven/g/a@1"}]
+    root = _write(tmp_path, DEFAULT_REL, data)
+    assert _read_java_purls(root) == ["pkg:maven/g/a@1"]
