@@ -94,25 +94,23 @@ def test_systemctl_status():
 
 
 def test_systemctl_status_missing_state_and_jobs():
-    """Test with only Failed field present (missing State and Jobs)"""
+    """Only Failed present (missing State and Jobs): HBI marks systemd.{state,jobs_queued,failed} required
+    and drops the WHOLE host for a partial object (RHINENG-32232), so puptoo must omit systemd entirely
+    rather than emit a partial {failed} object."""
     input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL_2)
     result = run_test(system_profile, input_data)
 
-    assert result["systemd"]["failed"] == 1
-    assert "jobs_queued" not in result["systemd"]
-    assert "state" not in result["systemd"]
+    assert "systemd" not in result
 
 
 def test_systemctl_status_missing_state():
-    """Test with Jobs and Failed present (missing State)"""
+    """Jobs and Failed present but State missing: state is required, so omit systemd entirely instead of
+    emitting a partial object HBI would reject (and drop the host) -- RHINENG-32232."""
     input_data = InputData().add(Specs.systemctl_status_all, SYSTEMCTLSTATUSALL_3)
     input_data.add(Specs.systemctl_list_units, LISTUNITS)
     result = run_test(system_profile, input_data)
 
-    assert result["systemd"]["failed"] == 1
-    assert result["systemd"]["jobs_queued"] == 0
-    assert "state" not in result["systemd"]
-    assert result["systemd"]["failed_services"] == ["chronyd.service"]
+    assert "systemd" not in result
 
 
 def test_systemctl_status_invalid_failed_value():
