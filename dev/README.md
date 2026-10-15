@@ -55,24 +55,15 @@ split (`puptoo` → `host-ingress-p1`) since there is no inventory consumer.
 
 ### QPC feature flags
 
-QPC processing is **disabled by default** — all three feature flags are set to `false` in
-the compose files until the QPC handler is fully wired up:
+QPC processing is **enabled by default** — both feature flags are set to `true` in
+the compose files:
 
 | Env var | Default | Purpose |
 |---------|---------|---------|
-| `QPC_PROCESSING_ENABLED` | `false` | Master switch — enables `process_report()` |
-| `QPC_ORG_MIGRATION_ENABLED` | `false` | Enables org ID migration logic |
-| `QPC_HOSTS_TRANSFORMATION_ENABLED` | `false` | Enables host transformation modifiers |
-| `QPC_ORG_MIGRATION_LIST` | _(empty)_ | Comma-separated list of allowed org IDs (requires `QPC_ORG_MIGRATION_ENABLED=true`) |
+| `QPC_PROCESSING_ENABLED` | `true` | Master switch — enables `process_report()` |
+| `QPC_HOSTS_TRANSFORMATION_ENABLED` | `true` | Enables host transformation modifiers |
 
-To enable QPC processing locally, set the flags in `dev/.env`:
-
-```
-QPC_PROCESSING_ENABLED=true
-QPC_HOSTS_TRANSFORMATION_ENABLED=true
-```
-
-Then restart puptoo-qpc to pick up the changes:
+To override these defaults locally, set the flags in `dev/.env` and restart puptoo-qpc:
 
 ```sh
 make dev-restart-qpc
@@ -188,15 +179,13 @@ At the end of each run the script prints a summary grouped by section:
 ### CI (GitHub Actions)
 
 The `.github/workflows/integration.yaml` workflow runs the integration test
-script across four scenarios, restarting puptoo-qpc with different env vars
+script across two scenarios, restarting puptoo-qpc with different env vars
 between each:
 
-| Scenario | QPC Processing | Org Migration | Org List | Expected |
-|----------|---------------|---------------|----------|----------|
-| 1 | `false` | `false` | — | QPC archive skipped |
-| 2 | `true` | `false` | — | QPC hosts created |
-| 3 | `true` | `true` | `000001` | QPC hosts created (org matches) |
-| 4 | `true` | `true` | `000002` | QPC archive skipped (org filtered) |
+| Scenario | QPC Processing | Expected |
+|----------|---------------|----------|
+| 1 | `true` (default) | QPC hosts created |
+| 2 | `false` (explicit) | QPC archive skipped |
 
 The workflow triggers on pushes and PRs to `master`/`main`, manual dispatch,
 and a weekly schedule. It requires `QUAY_USERNAME` and `QUAY_PASSWORD` secrets

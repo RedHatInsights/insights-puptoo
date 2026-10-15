@@ -13,30 +13,25 @@ Usage:
     init_unleash()
 
     # When checking a flag:
-    if get_flag_value("puptoo.some-flag", org_id):
+    if get_flag_value("puptoo.some-flag"):
         ...
 """
 
 import logging
 import os
-from collections.abc import Mapping
 
 from .utils import config
 
 logger = logging.getLogger(config.APP_NAME)
 
 FLAG_FALLBACK_VALUES: dict[str, bool] = {
-    "puptoo.qpc-processing-enabled": False,
-    "puptoo.qpc-org-migration": False,
-    "puptoo.qpc-hosts-transformation": False,
+    "puptoo.qpc-processing-enabled": True,
+    "puptoo.qpc-hosts-transformation": True,
 }
 
 # Maps each flag to the env var that overrides its hardcoded default.
-# org_id-based per-org routing is not available without Unleash —
-# all orgs share the same value. Restore the Unleash backend for per-org targeting.
 FLAG_ENV_VARS: dict[str, str] = {
     "puptoo.qpc-processing-enabled": "QPC_PROCESSING_ENABLED",
-    "puptoo.qpc-org-migration": "QPC_ORG_MIGRATION_ENABLED",
     "puptoo.qpc-hosts-transformation": "QPC_HOSTS_TRANSFORMATION_ENABLED",
 }
 
@@ -61,14 +56,12 @@ def _read_env_flag(flag_name: str) -> bool | None:
     return raw.lower() in _TRUTHY
 
 
-def get_flag_value_and_fallback(
-    flag_name: str, _context: Mapping[str, str]
-) -> tuple[bool, bool]:
+def get_flag_value_and_fallback(flag_name: str) -> tuple[bool, bool]:
     env_value = _read_env_flag(flag_name)
     if env_value is not None:
         return env_value, False
     return FLAG_FALLBACK_VALUES[flag_name], True
 
 
-def get_flag_value(flag_name: str, org_id: str) -> bool:
-    return get_flag_value_and_fallback(flag_name, {"orgId": org_id})[0]
+def get_flag_value(flag_name: str) -> bool:
+    return get_flag_value_and_fallback(flag_name)[0]

@@ -66,78 +66,32 @@ jobs:
         run: podman compose -f ${{ env.COMPOSE_FILE }} up --build -d
 
       # ---------------------------------------------------------------
-      # Scenario 1: All QPC flags disabled (default)
+      # Scenario 1: QPC enabled (default)
+      # Stack starts with QPC_PROCESSING_ENABLED=true by default;
+      # no restart needed — test the happy path immediately.
+      # ---------------------------------------------------------------
+      - name: "Scenario 1: QPC enabled (default), hosts processed"
+        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
+        env:
+          QPC_PROCESSING_ENABLED: "true"
+          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
+
+      # ---------------------------------------------------------------
+      # Scenario 2: QPC explicitly disabled
       # Advisor pipeline works; QPC archives are skipped by puptoo-qpc
       # ---------------------------------------------------------------
-      - name: "Scenario 1: QPC disabled"
+      - name: Restart puptoo-qpc for scenario 2 (QPC disabled)
+        run: |
+          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
+          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
+          QPC_PROCESSING_ENABLED=false \
+            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
+          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
+
+      - name: "Scenario 2: QPC disabled"
         run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
         env:
           QPC_PROCESSING_ENABLED: "false"
-
-      # ---------------------------------------------------------------
-      # Scenario 2: QPC processing + transformation enabled
-      # QPC hosts flow through to inventory
-      # ---------------------------------------------------------------
-      - name: Restart puptoo-qpc for scenario 2
-        run: |
-          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
-          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
-          QPC_PROCESSING_ENABLED=true \
-          QPC_HOSTS_TRANSFORMATION_ENABLED=true \
-            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
-          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
-
-      - name: "Scenario 2: QPC enabled, hosts processed"
-        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
-        env:
-          QPC_PROCESSING_ENABLED: "true"
-          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
-
-      # ---------------------------------------------------------------
-      # Scenario 3: QPC + org migration with matching org (000001)
-      # Archives from org_id 000001 are processed
-      # ---------------------------------------------------------------
-      - name: Restart puptoo-qpc for scenario 3
-        run: |
-          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
-          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
-          QPC_PROCESSING_ENABLED=true \
-          QPC_HOSTS_TRANSFORMATION_ENABLED=true \
-          QPC_ORG_MIGRATION_ENABLED=true \
-          QPC_ORG_MIGRATION_LIST=000001 \
-            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
-          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
-
-      - name: "Scenario 3: QPC + org migration (matching org)"
-        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
-        env:
-          QPC_PROCESSING_ENABLED: "true"
-          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
-          QPC_ORG_MIGRATION_ENABLED: "true"
-          QPC_ORG_MIGRATION_LIST: "000001"
-
-      # ---------------------------------------------------------------
-      # Scenario 4: QPC + org migration with non-matching org (000002)
-      # Archives from org_id 000001 are skipped
-      # ---------------------------------------------------------------
-      - name: Restart puptoo-qpc for scenario 4
-        run: |
-          podman compose -f ${{ env.COMPOSE_FILE }} stop puptoo-qpc
-          podman compose -f ${{ env.COMPOSE_FILE }} rm -f puptoo-qpc
-          QPC_PROCESSING_ENABLED=true \
-          QPC_HOSTS_TRANSFORMATION_ENABLED=true \
-          QPC_ORG_MIGRATION_ENABLED=true \
-          QPC_ORG_MIGRATION_LIST=000002 \
-            podman compose -f ${{ env.COMPOSE_FILE }} up -d puptoo-qpc
-          timeout 120 bash -c 'until curl -sf http://localhost:8001/ >/dev/null 2>&1; do sleep 5; done'
-
-      - name: "Scenario 4: QPC + org migration (non-matching org)"
-        run: ./dev/integration-test.sh ${{ env.COMPOSE_FILE }}
-        env:
-          QPC_PROCESSING_ENABLED: "true"
-          QPC_HOSTS_TRANSFORMATION_ENABLED: "true"
-          QPC_ORG_MIGRATION_ENABLED: "true"
-          QPC_ORG_MIGRATION_LIST: "000002"
 
       # ---------------------------------------------------------------
       # Failure diagnostics and teardown

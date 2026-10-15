@@ -8,8 +8,6 @@
 # Environment variables controlling QPC test behavior:
 #   QPC_PROCESSING_ENABLED        (default: false)
 #   QPC_HOSTS_TRANSFORMATION_ENABLED (default: false)
-#   QPC_ORG_MIGRATION_ENABLED     (default: false)
-#   QPC_ORG_MIGRATION_LIST        (default: empty)
 #
 # shellcheck disable=SC2016
 set -euo pipefail
@@ -348,18 +346,10 @@ fi
 section "QPC pipeline"
 QPC_ENABLED="${QPC_PROCESSING_ENABLED:-false}"
 QPC_TRANSFORM="${QPC_HOSTS_TRANSFORMATION_ENABLED:-false}"
-QPC_ORG_MIG="${QPC_ORG_MIGRATION_ENABLED:-false}"
-QPC_ORG_LIST="${QPC_ORG_MIGRATION_LIST:-}"
 
 # Determine scenario description from flags
 if [ "${QPC_ENABLED}" != "true" ]; then
-    SCENARIO="QPC disabled (all flags false)"
-elif [ "${QPC_ORG_MIG}" = "true" ] && [ -n "${QPC_ORG_LIST}" ]; then
-    if echo ",${QPC_ORG_LIST}," | grep -q ",000001,"; then
-        SCENARIO="QPC + org migration (matching org: ${QPC_ORG_LIST})"
-    else
-        SCENARIO="QPC + org migration (non-matching org: ${QPC_ORG_LIST})"
-    fi
+    SCENARIO="QPC disabled"
 else
     SCENARIO="QPC enabled (processing + transformation)"
 fi
@@ -371,8 +361,6 @@ pre_qpc_qpc_count=$(get_qpc_host_count)
 log "Host counts before QPC injection: advisor=${pre_qpc_advisor_count}, qpc=${pre_qpc_qpc_count}"
 log "QPC_PROCESSING_ENABLED=${QPC_ENABLED}"
 log "QPC_HOSTS_TRANSFORMATION_ENABLED=${QPC_TRANSFORM}"
-log "QPC_ORG_MIGRATION_ENABLED=${QPC_ORG_MIG}"
-log "QPC_ORG_MIGRATION_LIST=${QPC_ORG_LIST}"
 
 qpc_offset_before=$(get_topic_offset "${QPC_TOPIC}")
 qpc_consumed_before=$(get_metric 8001 puptoo_messages_consumed_total "")
@@ -398,13 +386,7 @@ fi
 #   - QPC enabled + org in migration list  -> hosts created
 qpc_should_create_hosts=false
 if [ "${QPC_ENABLED}" = "true" ]; then
-    if [ "${QPC_ORG_MIG}" = "true" ] && [ -n "${QPC_ORG_LIST}" ]; then
-        if echo ",${QPC_ORG_LIST}," | grep -q ",000001,"; then
-            qpc_should_create_hosts=true
-        fi
-    else
-        qpc_should_create_hosts=true
-    fi
+    qpc_should_create_hosts=true
 fi
 
 if [ "${qpc_should_create_hosts}" = "true" ]; then
