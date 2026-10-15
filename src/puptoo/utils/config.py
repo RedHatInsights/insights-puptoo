@@ -167,29 +167,20 @@ def get_build_version():
 
 # QPC config variables (RHINENG-27919 / 2.2)
 MAX_HOSTS_PER_REP = int(os.getenv("MAX_HOSTS_PER_REP", 10000))
-QPC_PROCESSING_ENABLED = os.getenv("QPC_PROCESSING_ENABLED", "").lower() in (
-    "true",
-    "t",
-    "yes",
-    "y",
-)
-QPC_ORG_MIGRATION_ENABLED = os.getenv("QPC_ORG_MIGRATION_ENABLED", "").lower() in (
+QPC_PROCESSING_ENABLED = os.getenv("QPC_PROCESSING_ENABLED", "true").lower() in (
     "true",
     "t",
     "yes",
     "y",
 )
 QPC_HOSTS_TRANSFORMATION_ENABLED = os.getenv(
-    "QPC_HOSTS_TRANSFORMATION_ENABLED", ""
+    "QPC_HOSTS_TRANSFORMATION_ENABLED", "true"
 ).lower() in (
     "true",
     "t",
     "yes",
     "y",
 )
-_qpc_org_list_raw = os.getenv("QPC_ORG_MIGRATION_LIST", "")
-_qpc_org_list = frozenset(o.strip() for o in _qpc_org_list_raw.split(",") if o.strip())
-QPC_ORG_MIGRATION_LIST = _qpc_org_list or None
 DISCOVERY_HOST_TTL = os.getenv("DISCOVERY_HOST_TTL", "29")
 SATELLITE_HOST_TTL = os.getenv("SATELLITE_HOST_TTL", "29")
 BYPASS_PAYLOAD_EXPIRATION = os.getenv("BYPASS_PAYLOAD_EXPIRATION", "").lower() in (

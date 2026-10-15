@@ -176,7 +176,7 @@ class TestProcessReport:
         }
         with patch(
             "src.puptoo.qpc.report_processor.get_flag_value",
-            side_effect=lambda flag, _org_id: flag != "puptoo.qpc-processing-enabled",
+            side_effect=lambda flag: flag != "puptoo.qpc-processing-enabled",
         ):
             with patch(
                 "src.puptoo.qpc.report_processor.download_report"
@@ -345,42 +345,6 @@ class TestOrgMigrationFiltering:
                 ):
                     process_report(consumed_message, request_obj)
         return mock_upload
-
-    def test_skips_when_org_not_in_migration_list(self, monkeypatch):
-        monkeypatch.setenv("QPC_ORG_MIGRATION_ENABLED", "true")
-        monkeypatch.setattr(
-            "src.puptoo.qpc.report_processor.config.QPC_ORG_MIGRATION_LIST",
-            frozenset(["999999"]),
-        )
-        mock_upload = self._run_process_report(org_id="000001")
-        mock_upload.assert_not_called()
-
-    def test_proceeds_when_org_in_migration_list(self, monkeypatch):
-        monkeypatch.setenv("QPC_ORG_MIGRATION_ENABLED", "true")
-        monkeypatch.setattr(
-            "src.puptoo.qpc.report_processor.config.QPC_ORG_MIGRATION_LIST",
-            frozenset(["000001"]),
-        )
-        mock_upload = self._run_process_report(org_id="000001")
-        mock_upload.assert_called_once()
-
-    def test_proceeds_when_migration_disabled(self, monkeypatch):
-        monkeypatch.setenv("QPC_ORG_MIGRATION_ENABLED", "false")
-        monkeypatch.setattr(
-            "src.puptoo.qpc.report_processor.config.QPC_ORG_MIGRATION_LIST",
-            frozenset(["999999"]),
-        )
-        mock_upload = self._run_process_report(org_id="000001")
-        mock_upload.assert_called_once()
-
-    def test_proceeds_when_migration_list_is_none(self, monkeypatch):
-        monkeypatch.setenv("QPC_ORG_MIGRATION_ENABLED", "true")
-        monkeypatch.setattr(
-            "src.puptoo.qpc.report_processor.config.QPC_ORG_MIGRATION_LIST",
-            None,
-        )
-        mock_upload = self._run_process_report(org_id="000001")
-        mock_upload.assert_called_once()
 
 
 class TestMultiSliceReport:
