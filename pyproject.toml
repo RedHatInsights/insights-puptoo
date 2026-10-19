@@ -24,7 +24,7 @@ dependencies = [
     "opentelemetry-exporter-otlp-proto-http~=1.44.0",
     "opentelemetry-instrumentation-confluent-kafka~=0.65b0",
     "opentelemetry-instrumentation-requests==0.65b0",
-    "argon2-cffi-bindings<26",  #26.1.0 uses scikit-build-core that fails to build from SDST in konflux hermatic build
+    "argon2-cffi-bindings<27",  #26.1.0 uses scikit-build-core that fails to build from SDST in konflux hermatic build
 ]
 
 [project.scripts]
