@@ -65,6 +65,8 @@ objects:
             value: ${INVENTORY_TOPIC}
           - name: OTEL_ENABLED
             value: ${OTEL_ENABLED}
+          - name: OTEL_SERVICE_NAME
+            value: ${APP_NAME}
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
             value: ${OTEL_EXPORTER_OTLP_ENDPOINT}
           - name: OTEL_HTTP_OUTBOUND_ENABLED
@@ -153,6 +155,8 @@ objects:
             value: ${IMAGE_TAG}
           - name: OTEL_ENABLED
             value: ${OTEL_ENABLED}
+          - name: OTEL_SERVICE_NAME
+            value: ${QPC_APP_NAME}
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
             value: ${OTEL_EXPORTER_OTLP_ENDPOINT}
           - name: OTEL_HTTP_OUTBOUND_ENABLED
