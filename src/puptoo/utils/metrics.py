@@ -10,10 +10,14 @@ SYSTEM_PROFILE = Summary(
 
 # For message consumed from kafka
 kafka_consume_msg_count = Counter(
-    "puptoo_messages_consumed_total", "Total messages consumed from the kafka topic"
+    "puptoo_messages_consumed_total",
+    "Total messages consumed from the kafka topic",
+    ["service"],
 )
 kafka_consume_msg_failure_count = Counter(
-    "puptoo_messages_consume_failure_total", "Total messages that failed to be consumed"
+    "puptoo_messages_consume_failure_total",
+    "Total messages that failed to be consumed",
+    ["service"],
 )
 
 # For advisor archive extractions only (compliance/malware pass through metadata)
@@ -41,7 +45,7 @@ msg_processed_success = Counter(
 )
 msg_processed_failure = Counter(
     "puptoo_messages_processed_failure_total",
-    "Total messages processed faliure for all services",
+    "Total messages processed failure for all services",
     ["service"],
 )
 
@@ -57,12 +61,12 @@ unpacking_success = Counter(
 )
 
 msg_produced = Counter(
-    "puptoo_messages_produced_total", "Total messages produced", ["topic"]
+    "puptoo_messages_produced_total", "Total messages produced", ["service", "topic"]
 )
 msg_send_failure = Counter(
     "puptoo_messages_produced_failure_total",
     "Total messages that failed to send",
-    ["topic"],
+    ["service", "topic"],
 )
 msg_size_exceeded = Counter(
     "puptoo_max_extracted_size_exceeded_total",
@@ -128,4 +132,10 @@ qpc_incoming_hosts_counter = Counter(
     "puptoo_qpc_incoming_hosts_counter",
     "Total number of QPC hosts in report as per source",
     ["source"],
+)
+
+qpc_messages_skipped = Counter(
+    "puptoo_qpc_messages_skipped_total",
+    "Total number of QPC messages skipped due to feature flags or org restrictions",
+    ["reason"],
 )

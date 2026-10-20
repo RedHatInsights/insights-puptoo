@@ -95,10 +95,15 @@ def test_send_message_handles_kafka_error(mock_metrics, mock_config):
     msg = {"platform_metadata": {}}
     extra = {"request_id": "req-1"}
 
+    failure_series = MagicMock()
+    mock_metrics.msg_send_failure.labels.return_value = failure_series
+
     send_message("some-topic", msg, extra)
 
-    mock_metrics.msg_send_failure.labels.assert_called_with("some-topic")
-    mock_metrics.msg_send_failure.labels("some-topic").inc.assert_called()
+    mock_metrics.msg_send_failure.labels.assert_called_once_with(
+        "unknown", "some-topic"
+    )
+    failure_series.inc.assert_called_once()
 
 
 @patch("src.puptoo.mq.produce.config")
@@ -128,10 +133,13 @@ def test_delivery_report_success(mock_metrics):
     mock_msg.partition.return_value = 0
     extra = {"request_id": "req-1"}
 
+    produced_series = MagicMock()
+    mock_metrics.msg_produced.labels.return_value = produced_series
+
     delivery_report(None, msg=mock_msg, extra=extra)
 
-    mock_metrics.msg_produced.labels.assert_called_with("inventory")
-    mock_metrics.msg_produced.labels("inventory").inc.assert_called()
+    mock_metrics.msg_produced.labels.assert_called_once_with("unknown", "inventory")
+    produced_series.inc.assert_called_once()
 
 
 @patch("src.puptoo.mq.produce.metrics")
@@ -141,10 +149,13 @@ def test_delivery_report_failure(mock_metrics):
     extra = {"request_id": "req-1"}
     err = KafkaError(KafkaError._MSG_TIMED_OUT)
 
+    failure_series = MagicMock()
+    mock_metrics.msg_send_failure.labels.return_value = failure_series
+
     delivery_report(err, msg=mock_msg, extra=extra)
 
-    mock_metrics.msg_send_failure.labels.assert_called_with("inventory")
-    mock_metrics.msg_send_failure.labels("inventory").inc.assert_called()
+    mock_metrics.msg_send_failure.labels.assert_called_once_with("unknown", "inventory")
+    failure_series.inc.assert_called_once()
 
 
 @patch("src.puptoo.mq.produce.logger")

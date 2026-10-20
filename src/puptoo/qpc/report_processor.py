@@ -85,7 +85,7 @@ def _print_transformed_info(host_id, transformed_obj):
 
 
 def _upload_to_host_inventory_via_kafka(host, request_obj):
-    extra = {"request_id": request_obj.get("request_id")}
+    extra = {"request_id": request_obj.get("request_id"), "service": "qpc"}
     host["account"] = request_obj.get("account")
     host["org_id"] = request_obj.get("org_id")
     upload_msg = {
@@ -152,7 +152,7 @@ def _log_report_summary(request_obj):
     if total_fingerprints == 0:
         LOG.error("Report does not contain any valid hosts.")
         raise QPCReportException()
-    extra = {"request_id": request_obj.get("request_id")}
+    extra = {"request_id": request_obj.get("request_id"), "service": "qpc"}
     send_message(
         config.TRACKER_TOPIC,
         _tracker_message(request_obj, "success", host_upload_msg),
@@ -160,14 +160,15 @@ def _log_report_summary(request_obj):
     )
 
 
-def process_report(consumed_message, request_obj):
+def process_report(consumed_message, request_obj) -> bool:
     org_id = request_obj.get("org_id", "")
     if not get_flag_value("puptoo.qpc-processing-enabled"):
         LOG.info(
             "QPC processing disabled by feature flag for org_id=%s; skipping report",
             org_id,
         )
-        return
+        metrics.qpc_messages_skipped.labels(reason="processing_disabled").inc()
+        return False
 
     with metrics.qpc_report_processing_time.time():
         request_obj.update(
@@ -178,7 +179,7 @@ def process_report(consumed_message, request_obj):
                 "host_inventory_upload_count": 0,
             }
         )
-        extra = {"request_id": request_obj.get("request_id")}
+        extra = {"request_id": request_obj.get("request_id"), "service": "qpc"}
         report_tar = download_report(consumed_message)
         send_message(
             config.TRACKER_TOPIC,
@@ -281,3 +282,4 @@ def process_report(consumed_message, request_obj):
             raise FailExtractException(
                 f"Unexpected error reading tar file: {err}"
             ) from err
+    return True

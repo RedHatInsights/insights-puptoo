@@ -3,7 +3,11 @@ import logging
 
 from . import handler
 from .base import BaseHandler
-from ..exceptions import FailExtractException, QPCKafkaMsgException
+from ..exceptions import (
+    FailDownloadException,
+    FailExtractException,
+    QPCKafkaMsgException,
+)
 from ..qpc.report_processor import process_report
 from ..qpc.validators import validate_qpc_message
 from ..utils import metrics
@@ -17,7 +21,7 @@ class QPCHandler(BaseHandler):
         metrics.msg_processed_count.labels(service).inc()
         try:
             request_obj = validate_qpc_message(msg)
-            process_report(msg, request_obj)
+            processed = process_report(msg, request_obj)
         except json.JSONDecodeError:
             metrics.qpc_kafka_failures.inc()
             metrics.msg_processed_failure.labels(service).inc()
@@ -26,6 +30,9 @@ class QPCHandler(BaseHandler):
             metrics.qpc_kafka_failures.inc()
             metrics.msg_processed_failure.labels(service).inc()
             logger.exception("Invalid QPC Kafka message")
+        except FailDownloadException:
+            metrics.msg_processed_failure.labels(service).inc()
+            logger.exception("Failed to download QPC report")
         except FailExtractException:
             metrics.qpc_extract_report_slices_failures.inc()
             metrics.msg_processed_failure.labels(service).inc()
@@ -35,4 +42,5 @@ class QPCHandler(BaseHandler):
             metrics.msg_processed_failure.labels(service).inc()
             logger.exception("Unexpected error processing QPC message")
         else:
-            metrics.msg_processed_success.labels(service).inc()
+            if processed:
+                metrics.msg_processed_success.labels(service).inc()
