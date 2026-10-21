@@ -12,12 +12,12 @@ SYSTEM_PROFILE = Summary(
 kafka_consume_msg_count = Counter(
     "puptoo_messages_consumed_total",
     "Total messages consumed from the kafka topic",
-    ["service"],
+    ["consumer_pod"],
 )
 kafka_consume_msg_failure_count = Counter(
     "puptoo_messages_consume_failure_total",
     "Total messages that failed to be consumed",
-    ["service"],
+    ["consumer_pod"],
 )
 
 # For advisor archive extractions only (compliance/malware pass through metadata)

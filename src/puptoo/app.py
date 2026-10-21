@@ -7,7 +7,7 @@ from prometheus_client import Summary, start_http_server
 from redis import Redis
 
 from .exceptions import RetryExhaustedException
-from .handlers import get_handler, is_known_service
+from .handlers import get_handler
 from .mq import consume
 from .mq import produce as produce_mod
 from .mq.auth import write_kafka_cert
@@ -120,7 +120,7 @@ def main():
                 continue
             if msg.error():
                 logger.error("Consumer error: %s", msg.error())
-                metrics.kafka_consume_msg_failure_count.labels("unknown").inc()
+                metrics.kafka_consume_msg_failure_count.labels(config.APP_NAME).inc()
                 # Known kafka msg error that pod exiting for: SESSTMOUT, MAXPOLL
                 logger.error(
                     "Puptoo exiting on kafka consumer poll error to let the pod be recreated!"
@@ -134,10 +134,7 @@ def main():
                 service = dict(msg.headers() or []).get("service")
                 if service:
                     service = service.decode("utf-8")
-                service_label = (
-                    service if service and is_known_service(service) else "unknown"
-                )
-                metrics.kafka_consume_msg_count.labels(service_label).inc()
+                metrics.kafka_consume_msg_count.labels(config.APP_NAME).inc()
                 if service:
                     logger.info("Received message with service header: %s", service)
                     handler = get_handler(service)
