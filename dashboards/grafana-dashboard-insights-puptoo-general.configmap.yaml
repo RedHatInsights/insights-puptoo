@@ -547,13 +547,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(label_replace(increase(puptoo_messages_consumed_total[$__range]), \"service\", \"unknown\", \"service\", \"^$\")) by (service)",
-              "legendFormat": "{{service}}",
+              "expr": "sum(increase(puptoo_messages_consumed_total[$__range])) by (consumer_pod)",
+              "legendFormat": "{{consumer_pod}}",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Total Consumed Messages",
+          "title": "Total Consumed Messages (by Deployment)",
           "type": "timeseries"
         },
         {
@@ -2013,8 +2013,8 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(label_replace(increase(puptoo_messages_consume_failure_total[$__range]), \"service\", \"unknown\", \"service\", \"^$\")) by (service)",
-              "legendFormat": "{{service}}",
+              "expr": "sum(increase(puptoo_messages_consume_failure_total[$__range])) by (consumer_pod)",
+              "legendFormat": "{{consumer_pod}}",
               "range": true,
               "refId": "A"
             }
