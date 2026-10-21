@@ -33,7 +33,9 @@ def delivery_report(err, msg=None, extra=None):
             extra["request_id"],
             err,
         )
-        metrics.msg_send_failure.labels(msg.topic()).inc()
+        metrics.msg_send_failure.labels(
+            extra.get("service", "unknown"), msg.topic()
+        ).inc()
     else:
         logger.info(
             "Message delivered to %s [%s] for request_id [%s]",
@@ -41,7 +43,7 @@ def delivery_report(err, msg=None, extra=None):
             msg.partition(),
             extra["request_id"],
         )
-        metrics.msg_produced.labels(msg.topic()).inc()
+        metrics.msg_produced.labels(extra.get("service", "unknown"), msg.topic()).inc()
 
 
 @metrics.send_time.time()
@@ -67,7 +69,7 @@ def send_message(topic, msg, extra):
             logger.info("Message sent to inventory: %s", msg)
 
     except KafkaException:
-        metrics.msg_send_failure.labels(topic).inc()
+        metrics.msg_send_failure.labels(extra.get("service", "unknown"), topic).inc()
         logger.exception(
             "Failed to produce message to [%s] topic: %s", topic, extra["request_id"]
         )

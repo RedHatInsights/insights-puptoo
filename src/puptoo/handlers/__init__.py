@@ -31,3 +31,7 @@ def get_handler(service: str) -> BaseHandler | None:
 
 
 from . import advisor, compliance, qpc  # noqa: E402, F401
+
+
+def is_known_service(service: str) -> bool:
+    return service in _REGISTRY
