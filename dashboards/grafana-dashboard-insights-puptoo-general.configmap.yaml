@@ -174,11 +174,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "red"
                   },
                   {
-                    "color": "red",
-                    "value": 95
+                    "color": "green",
+                    "value": 0.95
                   }
                 ]
               },
@@ -239,11 +239,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "red"
                   },
                   {
-                    "color": "red",
-                    "value": 95
+                    "color": "green",
+                    "value": 0.95
                   }
                 ]
               },
@@ -304,11 +304,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "red"
                   },
                   {
-                    "color": "red",
-                    "value": 95
+                    "color": "green",
+                    "value": 0.95
                   }
                 ]
               },
@@ -346,7 +346,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_messages_processed_success_total[$__range])) / sum(increase(puptoo_messages_processed_total[$__range]))",
+              "expr": "sum(increase(puptoo_messages_processed_success_total[$__range])) / (sum(increase(puptoo_messages_processed_success_total[$__range])) + sum(increase(puptoo_messages_processed_failure_total[$__range])))",
               "interval": "",
               "legendFormat": "",
               "range": true,
