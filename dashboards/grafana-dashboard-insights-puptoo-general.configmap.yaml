@@ -1027,8 +1027,8 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_qpc_incoming_hosts_counter_total[$__range]))",
-              "legendFormat": "__auto",
+              "expr": "sum by (source) (increase(puptoo_qpc_incoming_hosts_counter_total[$__range]))",
+              "legendFormat": "{{source}}",
               "range": true,
               "refId": "A"
             }
