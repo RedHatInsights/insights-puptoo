@@ -21,7 +21,7 @@ class QPCHandler(BaseHandler):
         metrics.msg_processed_count.labels(service).inc()
         try:
             request_obj = validate_qpc_message(msg)
-            processed = process_report(msg, request_obj)
+            process_report(msg, request_obj)
         except json.JSONDecodeError:
             metrics.qpc_kafka_failures.inc()
             metrics.msg_processed_failure.labels(service).inc()
@@ -42,5 +42,4 @@ class QPCHandler(BaseHandler):
             metrics.msg_processed_failure.labels(service).inc()
             logger.exception("Unexpected error processing QPC message")
         else:
-            if processed:
-                metrics.msg_processed_success.labels(service).inc()
+            metrics.msg_processed_success.labels(service).inc()
