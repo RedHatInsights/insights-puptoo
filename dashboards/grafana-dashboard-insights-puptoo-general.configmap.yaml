@@ -215,7 +215,7 @@ data:
                 "type": "prometheus",
                 "uid": "${datasource}"
               },
-              "expr": "sum(increase(puptoo_successful_extractions_total[$__range])) / sum(increase(puptoo_extractions_total[$__range]))",
+              "expr": "(sum(increase(puptoo_successful_extractions_total[$__range])) or vector(0)) / (sum(increase(puptoo_extractions_total[$__range])) > 0)",
               "interval": "",
               "legendFormat": "",
               "refId": "A"
@@ -280,7 +280,7 @@ data:
                 "type": "prometheus",
                 "uid": "${datasource}"
               },
-              "expr": "sum(increase(puptoo_messages_processed_success_total{service=\"qpc\"}[$__range])) / sum(increase(puptoo_messages_processed_total{service=\"qpc\"}[$__range]))",
+              "expr": "(sum(increase(puptoo_qpc_archive_downloaded_success_total[$__range])) or vector(0)) / ((sum(increase(puptoo_qpc_archive_downloaded_success_total[$__range])) + sum(increase(puptoo_qpc_archive_failed_to_download_total[$__range]))) > 0)",
               "interval": "",
               "legendFormat": "",
               "refId": "A"

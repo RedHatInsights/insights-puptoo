@@ -546,3 +546,23 @@ def test_qpc_handle_success_increments_msg_processed(
     mock_metrics.msg_processed_success.labels.assert_called_with("qpc")
     mock_metrics.msg_processed_success.labels.return_value.inc.assert_called_once()
     mock_metrics.msg_processed_failure.labels.return_value.inc.assert_not_called()
+
+
+@patch("src.puptoo.handlers.qpc.metrics")
+@patch("src.puptoo.handlers.qpc.process_report")
+@patch("src.puptoo.handlers.qpc.validate_qpc_message")
+def test_qpc_handle_skip_counts_as_success(
+    mock_validate, mock_process, mock_metrics, qpc_registered
+):
+    """process_report returning False (feature flag disabled) counts as success, not failure."""
+    from src.puptoo.handlers.qpc import QPCHandler
+
+    mock_validate.return_value = {"request_id": "r1", "org_id": "o1"}
+    mock_process.return_value = False
+
+    h = QPCHandler()
+    h.handle({"topic": "announce"}, "qpc", {}, send_message=MagicMock())
+
+    mock_metrics.msg_processed_success.labels.assert_called_with("qpc")
+    mock_metrics.msg_processed_success.labels.return_value.inc.assert_called_once()
+    mock_metrics.msg_processed_failure.labels.return_value.inc.assert_not_called()
