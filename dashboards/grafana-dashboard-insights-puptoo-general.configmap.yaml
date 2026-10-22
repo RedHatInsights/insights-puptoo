@@ -648,8 +648,8 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_failed_extractions_total[$__range]))",
-              "legendFormat": "{{pod}}",
+              "expr": "sum by (service) (increase(puptoo_messages_processed_failure_total[$__range]))",
+              "legendFormat": "{{service}}",
               "range": true,
               "refId": "A"
             }
