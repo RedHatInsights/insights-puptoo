@@ -174,11 +174,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "red"
                   },
                   {
-                    "color": "red",
-                    "value": 95
+                    "color": "green",
+                    "value": 0.95
                   }
                 ]
               },
@@ -239,11 +239,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "red"
                   },
                   {
-                    "color": "red",
-                    "value": 95
+                    "color": "green",
+                    "value": 0.95
                   }
                 ]
               },
@@ -304,11 +304,11 @@ data:
                 "mode": "absolute",
                 "steps": [
                   {
-                    "color": "green"
+                    "color": "red"
                   },
                   {
-                    "color": "red",
-                    "value": 95
+                    "color": "green",
+                    "value": 0.95
                   }
                 ]
               },
@@ -346,7 +346,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_messages_processed_success_total[$__range])) / sum(increase(puptoo_messages_processed_total[$__range]))",
+              "expr": "sum(increase(puptoo_messages_processed_success_total[$__range])) / (sum(increase(puptoo_messages_processed_success_total[$__range])) + (sum(increase(puptoo_messages_processed_failure_total[$__range])) or vector(0)))",
               "interval": "",
               "legendFormat": "",
               "range": true,
@@ -648,13 +648,13 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_failed_extractions_total[$__range]))",
-              "legendFormat": "{{pod}}",
+              "expr": "sum by (service) (increase(puptoo_messages_processed_failure_total[$__range]))",
+              "legendFormat": "{{service}}",
               "range": true,
               "refId": "A"
             }
           ],
-          "title": "Total Failed Extractions",
+          "title": "Total Failed Messages by Service",
           "type": "timeseries"
         },
         {
@@ -1027,8 +1027,8 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_qpc_incoming_hosts_counter_total[$__range]))",
-              "legendFormat": "__auto",
+              "expr": "sum by (source) (increase(puptoo_qpc_incoming_hosts_counter_total[$__range]))",
+              "legendFormat": "{{source}}",
               "range": true,
               "refId": "A"
             }
@@ -2221,6 +2221,296 @@ data:
           ],
           "title": "Messages Processed Failures by Service",
           "type": "timeseries"
+        },
+        {
+          "gridPos": { "h": 1, "w": 24, "x": 0, "y": 68 },
+          "id": 42,
+          "panels": [],
+          "title": "Advisor Pipeline Details",
+          "type": "row"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Average time spent retrieving the archive from S3",
+          "fieldConfig": {
+            "defaults": { "unit": "s" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 0, "y": 69 },
+          "id": 43,
+          "options": {
+            "legend": { "calcs": ["last"], "displayMode": "table", "placement": "right", "showLegend": true },
+            "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(rate(puptoo_get_file_seconds_sum[$__rate_interval])) / sum(rate(puptoo_get_file_seconds_count[$__rate_interval]))",
+              "legendFormat": "avg",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Advisor: File Fetch Time (avg)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Average time spent extracting facts from the advisor archive",
+          "fieldConfig": {
+            "defaults": { "unit": "s" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 8, "y": 69 },
+          "id": 44,
+          "options": {
+            "legend": { "calcs": ["last"], "displayMode": "table", "placement": "right", "showLegend": true },
+            "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(rate(puptoo_total_extraction_seconds_sum[$__rate_interval])) / sum(rate(puptoo_total_extraction_seconds_count[$__rate_interval]))",
+              "legendFormat": "avg",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Advisor: Extraction Time (avg)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Average time spent building the system profile",
+          "fieldConfig": {
+            "defaults": { "unit": "s" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 8, "x": 16, "y": 69 },
+          "id": 45,
+          "options": {
+            "legend": { "calcs": ["last"], "displayMode": "table", "placement": "right", "showLegend": true },
+            "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(rate(puptoo_system_profile_seconds_sum[$__rate_interval])) / sum(rate(puptoo_system_profile_seconds_count[$__rate_interval]))",
+              "legendFormat": "avg",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Advisor: System Profile Time (avg)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Distribution of extracted advisor archive sizes",
+          "fieldConfig": {
+            "defaults": { "unit": "bytes" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 77 },
+          "id": 46,
+          "options": {
+            "legend": { "calcs": ["last"], "displayMode": "table", "placement": "right", "showLegend": true },
+            "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "histogram_quantile(0.5, sum(rate(puptoo_extraction_sizes_bucket[$__rate_interval])) by (le))",
+              "legendFormat": "p50",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "histogram_quantile(0.9, sum(rate(puptoo_extraction_sizes_bucket[$__rate_interval])) by (le))",
+              "legendFormat": "p90",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "histogram_quantile(0.99, sum(rate(puptoo_extraction_sizes_bucket[$__rate_interval])) by (le))",
+              "legendFormat": "p99",
+              "range": true,
+              "refId": "C"
+            }
+          ],
+          "title": "Advisor: Extraction Sizes",
+          "type": "timeseries"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Time spent sending a message to Kafka (p50/p90/p99)",
+          "fieldConfig": {
+            "defaults": { "unit": "s" },
+            "overrides": []
+          },
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 77 },
+          "id": 47,
+          "options": {
+            "legend": { "calcs": ["last"], "displayMode": "table", "placement": "right", "showLegend": true },
+            "tooltip": { "hideZeros": false, "mode": "single", "sort": "none" }
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "histogram_quantile(0.5, sum(rate(puptoo_message_send_time_seconds_bucket[$__rate_interval])) by (le))",
+              "legendFormat": "p50",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "histogram_quantile(0.9, sum(rate(puptoo_message_send_time_seconds_bucket[$__rate_interval])) by (le))",
+              "legendFormat": "p90",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "histogram_quantile(0.99, sum(rate(puptoo_message_send_time_seconds_bucket[$__rate_interval])) by (le))",
+              "legendFormat": "p99",
+              "range": true,
+              "refId": "C"
+            }
+          ],
+          "title": "Advisor: Message Enqueue Time",
+          "type": "timeseries"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Total advisor archive unpacking attempts",
+          "fieldConfig": {
+            "defaults": { "color": { "mode": "thresholds" }, "decimals": 0, "mappings": [], "thresholds": { "mode": "absolute", "steps": [{ "color": "blue" }] }, "unit": "none" },
+            "overrides": []
+          },
+          "gridPos": { "h": 4, "w": 6, "x": 0, "y": 85 },
+          "id": 48,
+          "options": {
+            "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "showPercentChange": false, "textMode": "auto", "wideLayout": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(increase(puptoo_archive_unpacking_total[$__range]))",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Archive Unpacking Attempted",
+          "type": "stat"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Total advisor archives successfully unpacked",
+          "fieldConfig": {
+            "defaults": { "color": { "mode": "thresholds" }, "decimals": 0, "mappings": [], "thresholds": { "mode": "absolute", "steps": [{ "color": "green" }] }, "unit": "none" },
+            "overrides": []
+          },
+          "gridPos": { "h": 4, "w": 6, "x": 6, "y": 85 },
+          "id": 49,
+          "options": {
+            "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "showPercentChange": false, "textMode": "auto", "wideLayout": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(increase(puptoo_archive_unpacking_success_total[$__range]))",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Archive Unpacking Success",
+          "type": "stat"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Total advisor archives that failed to download or unpack",
+          "fieldConfig": {
+            "defaults": { "color": { "mode": "thresholds" }, "decimals": 0, "mappings": [], "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }] }, "unit": "none" },
+            "overrides": []
+          },
+          "gridPos": { "h": 4, "w": 6, "x": 12, "y": 85 },
+          "id": 50,
+          "options": {
+            "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "showPercentChange": false, "textMode": "auto", "wideLayout": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(increase(puptoo_archive_unpacking_failure_total[$__range]))",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Archive Download or Unpack Failures",
+          "type": "stat"
+        },
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "description": "Total archives where the extracted size exceeded the configured limit",
+          "fieldConfig": {
+            "defaults": { "color": { "mode": "thresholds" }, "decimals": 0, "mappings": [], "thresholds": { "mode": "absolute", "steps": [{ "color": "red" }] }, "unit": "none" },
+            "overrides": []
+          },
+          "gridPos": { "h": 4, "w": 6, "x": 18, "y": 85 },
+          "id": 51,
+          "options": {
+            "colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "showPercentChange": false, "textMode": "auto", "wideLayout": true
+          },
+          "pluginVersion": "11.6.3",
+          "targets": [
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "sum(increase(puptoo_max_extracted_size_exceeded_total[$__range]))",
+              "legendFormat": "__auto",
+              "range": true,
+              "refId": "A"
+            }
+          ],
+          "title": "Max Extracted Size Exceeded",
+          "type": "stat"
         }
       ],
       "preload": false,
