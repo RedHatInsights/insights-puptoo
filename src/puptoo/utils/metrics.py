@@ -77,7 +77,23 @@ send_time = Histogram(
     "puptoo_message_send_time_seconds", "Total time spent sending a message"
 )
 
-msg_extraction_size = Histogram("puptoo_extraction_sizes", "Extracted archive sizes")
+msg_extraction_size = Histogram(
+    "puptoo_extraction_sizes",
+    "Extracted archive sizes in bytes",
+    buckets=(
+        100_000,  # 100 KB
+        500_000,  # 500 KB
+        1_000_000,  # 1 MB
+        5_000_000,  # 5 MB
+        10_000_000,  # 10 MB
+        50_000_000,  # 50 MB
+        100_000_000,  # 100 MB
+        250_000_000,  # 250 MB
+        536_870_912,  # 512 MB (MAX_EXTRACTED_SIZE_L2)
+        1_000_000_000,  # 1 GB (MAX_EXTRACTED_SIZE)
+        float("inf"),
+    ),
+)
 
 # QPC-specific metrics (migrated from yuptoo)
 qpc_download_time = Histogram(
