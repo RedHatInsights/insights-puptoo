@@ -60,13 +60,13 @@ arches:
     name: glibc-headers
     evr: 2.34-283.el9_8
     sourcerpm: glibc-2.34-283.el9_8.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-687.59.1.el9_8.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/kernel-headers-5.14.0-687.60.1.el9_8.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
-    size: 2985513
-    checksum: sha256:fa019cf3b155923a773aacba0f5fc0f0e470480cc0c266cdff2be847d337f189
+    size: 2986597
+    checksum: sha256:02a07e8ee63bd1d2ed34b2bb5c7bd114860b0422832af1a5cc305dfdc2bc46f7
     name: kernel-headers
-    evr: 5.14.0-687.59.1.el9_8
-    sourcerpm: kernel-5.14.0-687.59.1.el9_8.src.rpm
+    evr: 5.14.0-687.60.1.el9_8
+    sourcerpm: kernel-5.14.0-687.60.1.el9_8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/appstream/os/Packages/k/keyutils-libs-devel-1.6.3-1.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-appstream-rpms
     size: 66082
@@ -781,13 +781,13 @@ arches:
     name: elfutils-libs
     evr: 0.194-1.el9
     sourcerpm: elfutils-0.194-1.el9.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/e/expat-2.5.0-6.el9_8.5.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/e/expat-2.5.0-6.el9_8.7.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
-    size: 129088
-    checksum: sha256:e6e7edd632fdd1dc4ad94b19b7ab88646f3ef8c1c7956bac58985c3e7118a362
+    size: 129370
+    checksum: sha256:289c8f4e65e7db02f5cc1c47caf5dcc0353660520ee4f840a3d27b0fa71680f7
     name: expat
-    evr: 2.5.0-6.el9_8.5
-    sourcerpm: expat-2.5.0-6.el9_8.5.src.rpm
+    evr: 2.5.0-6.el9_8.7
+    sourcerpm: expat-2.5.0-6.el9_8.7.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/os/Packages/g/groff-base-1.22.4-10.el9.x86_64.rpm
     repoid: ubi-9-for-x86_64-baseos-rpms
     size: 1133828
@@ -1346,12 +1346,12 @@ arches:
     checksum: sha256:643279e796ded16c5be5cdc2a91839c787e62e59757008675eb0580a4a42af21
     name: elfutils
     evr: 0.194-1.el9
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-6.el9_8.5.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/e/expat-2.5.0-6.el9_8.7.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
-    size: 8411609
-    checksum: sha256:38d7acfd1130c02c6a00010159a1350ca0f56cd7ed64f3d8394aa5b3d6512ddd
+    size: 8414665
+    checksum: sha256:c02441639a25646db44bb3e04f47b91131646ac0f1c87e3ff919dae4ec3de08c
     name: expat
-    evr: 2.5.0-6.el9_8.5
+    evr: 2.5.0-6.el9_8.7
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi9/9/x86_64/baseos/source/SRPMS/Packages/g/gcc-11.5.0-14.el9.src.rpm
     repoid: ubi-9-for-x86_64-baseos-source-rpms
     size: 81978017
