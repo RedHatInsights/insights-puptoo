@@ -19,7 +19,7 @@ dependencies = [
     "cachecontrol<0.14.4",
     # setuptools is required as a build dep by pluggy (>=65.0) and charset-normalizer (<84.1).
     # Removing it causes hermetic builds to fail; the ceiling comes from charset-normalizer.
-    "setuptools>=83.0.0,<84.1",
+    "setuptools>=83.0.0,<84.2",
     "wheel>=0.46.2",
     "opentelemetry-api~=1.44.0",
     "opentelemetry-sdk~=1.44.0",
