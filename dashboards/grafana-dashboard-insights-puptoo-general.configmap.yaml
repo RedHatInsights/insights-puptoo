@@ -547,7 +547,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_messages_consumed_total[$__range])) by (consumer_pod)",
+              "expr": "sum(increase(puptoo_messages_consumed_total{consumer_pod!=\"\"}[$__range])) by (consumer_pod)",
               "legendFormat": "{{consumer_pod}}",
               "range": true,
               "refId": "A"
@@ -831,7 +831,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_archive_downloaded_success_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -897,7 +898,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_archive_failed_to_download_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -963,7 +965,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_kafka_failures_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1029,7 +1032,8 @@ data:
               "editorMode": "code",
               "expr": "sum by (source) (increase(puptoo_qpc_incoming_hosts_counter_total[$__range]))",
               "legendFormat": "{{source}}",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1095,7 +1099,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_report_processing_exceptions_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1161,7 +1166,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_extract_report_slices_failures_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1227,7 +1233,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_host_uploaded_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1293,7 +1300,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_host_upload_failures_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1359,7 +1367,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_hosts_without_canonical_facts_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -1425,7 +1434,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_qpc_messages_skipped_total[$__range])) by (reason)",
               "legendFormat": "{{reason}}",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -2013,7 +2023,7 @@ data:
                 "uid": "${datasource}"
               },
               "editorMode": "code",
-              "expr": "sum(increase(puptoo_messages_consume_failure_total[$__range])) by (consumer_pod)",
+              "expr": "sum(increase(puptoo_messages_consume_failure_total{consumer_pod!=\"\"}[$__range])) by (consumer_pod)",
               "legendFormat": "{{consumer_pod}}",
               "range": true,
               "refId": "A"
@@ -2418,7 +2428,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_archive_unpacking_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -2447,7 +2458,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_archive_unpacking_success_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -2476,7 +2488,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_archive_unpacking_failure_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
@@ -2505,7 +2518,8 @@ data:
               "editorMode": "code",
               "expr": "sum(increase(puptoo_max_extracted_size_exceeded_total[$__range]))",
               "legendFormat": "__auto",
-              "range": true,
+              "instant": true,
+              "range": false,
               "refId": "A"
             }
           ],
