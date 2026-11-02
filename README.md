@@ -1,31 +1,79 @@
 # Platform Upload Processor II
 
-The Platform Upload Processor II (PUPTOO) is designed to receive payloads for the `advisor` service
-via the message queue, extract facts from the payload, forward the information to the inventory
-service.
+The Platform Upload Processor II (PUPTOO) is the unified upload processing service
+for the Insights Platform. It handles payloads from multiple service types:
+**advisor**, **compliance**, **malware-detection**, and **QPC** (Discovery/Satellite).
 
 ## Details
 
-The PUPTOO service is a component of the Insights Platform that validates the payloads uploaded
-to Red Hat by the insights-client. The service is engaged after an upload has been received and stored in
-cloud storage.
+PUPTOO is a component of the Insights Platform that validates payloads uploaded
+to Red Hat by the insights-client and other reporters (including QPC/Discovery).
+The service is engaged after an upload has been received and stored in cloud storage.
 
-PUPTOO retrieves payloads via URL in the message, processes it through
-insights-core to extract facts and guarantee integrity of the archive, and send the extracted info to the inventory service.
+PUPTOO retrieves payloads via URL in the message, processes them through
+service-specific handlers, and sends the results to the inventory service.
 
-The service runs in Openshift Dedicated.
+The service runs in OpenShift Dedicated as two deployments from a single
+container image (see [Architecture](#architecture) below).
+
+> **Note:** With QPC processing now consolidated into this codebase (formerly
+> handled by the standalone [yuptoo](https://github.com/RedHatInsights/yuptoo)
+> service), this project will transition to the name **insights-upload-processor**
+> to reflect its broader scope. References to "puptoo" in code, configuration,
+> and documentation will be migrated incrementally.
+
+## Architecture
+
+PUPTOO uses a **dual-deployment model**: one container image, two deployments,
+each restricted to specific service types via `ENABLED_HANDLERS`.
+
+| Deployment | Consumer Group | Handlers | Inventory Topic | Replicas (prod) |
+|---|---|---|---|---|
+| `processor` | `insights-puptoo` | `advisor`, `compliance`, `malware-detection` | `platform.inventory.host-ingress-p1` | 64 |
+| `qpc-processor` | `qpc-group` | `qpc` | `platform.inventory.host-ingress` | 8 |
+
+Both deployments consume from `platform.upload.announce`. The `ENABLED_HANDLERS`
+environment variable controls which message types each deployment accepts;
+unrecognized services are silently skipped. This consumer group isolation
+prevents the two deployments from stealing each other's messages.
+
+### Handler Registry
+
+Handlers are registered via the `@handler("service")` decorator in
+`src/puptoo/handlers/`. Currently registered:
+
+- **advisor**: extracts canonical facts and system profile via insights-core
+- **compliance**: extracts canonical facts, forwards to inventory (no system-profile processing)
+- **malware-detection**: identical to compliance (subclasses `ComplianceHandler`)
+- **qpc**: processes QPC/Discovery reports, transforming hosts for inventory ingestion
+
+### QPC Processing
+
+QPC (Quipucords/Discovery) report processing was consolidated from the former
+standalone `yuptoo` service. Key differences from advisor processing:
+
+- Reports can contain thousands of hosts (capped at `MAX_HOSTS_PER_REP`, default 10,000)
+- Host transformation logic controlled by `QPC_HOSTS_TRANSFORMATION_ENABLED`
+- Longer Kafka poll interval (`QPC_KAFKA_CONSUMER_MAXPOLL_INTERVAL`, default 1,800,000 ms)
+- Sends to `platform.inventory.host-ingress` (standard priority, not `-p1`)
 
 ## How it Works
 
 ![UML](https://www.plantuml.com/plantuml/png/VLDHRzem47xFhpXbZojPW81KX50VkacJfgbQrvUrLUGu1_7cs9bzfgCL_tss0m8s0G_8khllxllkljnOOePSAnCI917k7kxWpcYErWgrWazIloIeV6u3dMIqrARDN2SrgpEcb7QAuxdycabHCn9Q9PsV8RZec2BeN4TQ_mSIQkr3scooHbloiusdS09iAf7uVgnY5i6EEpGjKnwJd2CsMFIpPj3QLV9L4u8HguP0By-AcS5RoZZtRqfdCDyzGRcsGhEuUb8fPuGhpzEdKwwbH1uafZ6b5Q6YaZOTXZJhEYau2_aFQrLd1kk6KJQtQDQ2es8jBh93Z_UqUerzMYGMbAQUJPPjGyZWRuUMIb77nXMlXwDn4Qix8rHOaGo4kJC65SaDK8EWpGe-tqRQ_jc3v_qh1dT4GlIOKqo9rn0V3OjyE0a1P-A0XszVW3JK-aM5nSKnpF16h16MHhTmFuxuQbhuAVsL0ovSRLe0Agvhh66VYhKaMhJ4sYve6-MZqI2V38Rvz_nwDYncHPvDXkF9z3gV5Z_IRN9q-iTtbNJuV3ZqxOwMFU7qfEx7K3d-2odfAm-8Zt_8C4uMbk4_bk-nJ-f5K0D2sU0QE-3QOC8aWNMS1tU2_-txNJPoj62iFxLXZmwcqrvKT4gyRrsN0HtlktF2uriQAGPJRAzIkx64RTaPlHGIOt3x7ChtHCeZ5ysrdoWKawMdKVwqMYss2KgBNhMGpk2HbCDEptxF_wYHk3mLSycjXouXjHllhuggJYxlSB1eAj6Fll7LhfL_0G00 "PUPToo Processing Flow")
 
-The PUP service workflow is as follows:
+The advisor/compliance/malware-detection workflow:
 
-- Receive a message from `platform.upload.advisor` topic in the MQ
-- PUP downloads the archive from the url specified in the message
-- Insights Core is engaged to open the tar file and extract the facts as determined by the `get_canonical_facts` method in insights-core
-- During extraction it also runs a custom `system-profile` ruleset to extract more information about the system
-- PUP sends the result to inventory via the message queue
+- Receive a message from `platform.upload.announce` topic
+- Download the archive from the URL in the message
+- Insights Core extracts facts via `get_canonical_facts` and runs a custom `system-profile` ruleset
+- Send the extracted result to inventory via the message queue
+
+The QPC workflow:
+
+- Receive a QPC report message from `platform.upload.announce` (service: `qpc`)
+- Validate and decompress the report payload
+- Transform hosts per Discovery/Satellite schema into HBI-compatible format
+- Send each host to inventory via `platform.inventory.host-ingress`
 
 ### The Compliance Situation
 
@@ -96,7 +144,57 @@ Failure example:
     {"validation": "failure", "request_id": "23oikjonsdv329"}
 ```
 
-### Running
+## Environment Variables
+
+### Core Configuration
+
+| Variable | Default | Description |
+|---|---|---|
+| `APP_NAME` | `insights-puptoo` | Application identity for logging and OTel service name |
+| `GROUP_ID` | `$APP_NAME` | Kafka consumer group identity |
+| `ENABLED_HANDLERS` | *(unset, accept all)* | Comma-separated handler list (e.g. `advisor,compliance,malware-detection`). Unset or empty accepts all registered handlers |
+| `INVENTORY_TOPIC` | `platform.inventory.host-ingress-p1` (Clowder) | Destination topic for inventory messages |
+| `ANNOUNCE_TOPIC` | `platform.upload.announce` (Clowder) | Source topic for upload messages |
+
+### QPC Configuration
+
+| Variable | Default | Description |
+|---|---|---|
+| `QPC_PROCESSING_ENABLED` | `true` | Master switch for QPC report processing |
+| `QPC_HOSTS_TRANSFORMATION_ENABLED` | `true` | Enable host transformation logic for QPC reports |
+| `MAX_HOSTS_PER_REP` | `10000` | Maximum hosts per QPC report |
+| `DISCOVERY_HOST_TTL` | `29` | TTL (days) for Discovery-sourced hosts |
+| `SATELLITE_HOST_TTL` | `29` | TTL (days) for Satellite-sourced hosts |
+| `BYPASS_PAYLOAD_EXPIRATION` | `false` | Skip payload age validation on QPC reports |
+
+### Deployment Parameters (deployment.yaml)
+
+The ClowdApp template defines parameters for both deployments. Key QPC-specific
+parameters set via app-interface:
+
+| Parameter | Default | Description |
+|---|---|---|
+| `QPC_MIN_REPLICAS` | `1` | Min replicas for qpc-processor deployment |
+| `QPC_APP_NAME` | `insights-puptoo-qpc` | OTel service name for QPC deployment |
+| `QPC_GROUP_ID` | `qpc-group` | Kafka consumer group for QPC deployment |
+| `QPC_ENABLED_HANDLERS` | `qpc` | Handler restriction for QPC deployment |
+| `QPC_INVENTORY_TOPIC` | `platform.inventory.host-ingress` | Inventory topic for QPC (standard priority) |
+| `QPC_KAFKA_CONSUMER_MAXPOLL_INTERVAL` | `1800000` | Max poll interval (ms) for QPC consumers |
+
+## Rollback Procedure
+
+If QPC processing needs to be disabled in an environment, no code change is
+required. Two app-interface parameter changes are sufficient:
+
+1. Set `QPC_PROCESSING_ENABLED` to `false` (disables QPC message processing at the application level)
+2. Set `QPC_MIN_REPLICAS` to `0` (scales down the qpc-processor deployment)
+
+These changes can be applied via a single app-interface MR. The `processor`
+deployment (advisor/compliance/malware-detection) is completely unaffected.
+
+To re-enable, reverse both values and merge.
+
+## Running
 
 The default environment variables should be acceptable for testing.
 PUPTOO does expect a kafka message queue to be available for connection.
@@ -243,7 +341,7 @@ More Konflux Hermetic Build resources:
 
 ## Deployment
 
-The PUPTOO service `master` branch has a webhook that notifies App-interface to build a new image within Jenkins. The image build will then trigger a redployment of the service in `ingress-stage`. In order to push to production, an app-interface PR should be created with the git ref for the image that should exist within `ingress-prod` on the Production cluster.
+Container images are built via [Konflux](https://konflux-ci.dev/) hermetic builds (see [Konflux Hermetic Build](#konflux-hermetic-build) above). Merges to `master` trigger a new image build. To promote to production, an app-interface MR updates the image reference in the production deploy configuration.
 
 ## Contributing
 
@@ -265,4 +363,4 @@ New functionality that may effect other services should increment by `1`. Minor 
 ## Authors
 
 - **Stephen Adams** - **Initial Work** - [SteveHNH](https://github.com/SteveHNH)
-- **Xiaoxue Wang**  - **Maintainer** - [JoySnow](https://github.com/JoySnow)
+- **Pranav Lawate** - **Maintainer** - [pranlawate](https://github.com/pranlawate)
