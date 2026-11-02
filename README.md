@@ -163,9 +163,12 @@ Failure example:
 | `QPC_PROCESSING_ENABLED` | `true` | Master switch for QPC report processing |
 | `QPC_HOSTS_TRANSFORMATION_ENABLED` | `true` | Enable host transformation logic for QPC reports |
 | `MAX_HOSTS_PER_REP` | `10000` | Maximum hosts per QPC report |
-| `DISCOVERY_HOST_TTL` | `29` | TTL (days) for Discovery-sourced hosts |
-| `SATELLITE_HOST_TTL` | `29` | TTL (days) for Satellite-sourced hosts |
+| `SATELLITE_HOST_TTL` | `26280` | TTL (hours) for Satellite-sourced hosts. Read by the QPC modifier directly, not via `config.py` |
 | `BYPASS_PAYLOAD_EXPIRATION` | `false` | Skip payload age validation on QPC reports |
+
+> **Note:** Discovery-sourced hosts use a hardcoded 26-hour TTL in the QPC modifier
+> (`modifiers/qpc/add_host_facts.py`). The `DISCOVERY_HOST_TTL` variable in `config.py`
+> is currently unused.
 
 ### Deployment Parameters (deployment.yaml)
 
