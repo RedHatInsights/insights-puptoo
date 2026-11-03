@@ -947,6 +947,30 @@ def system_profile(
                         if list_units.is_failed(svc)
                     ]
             profile["systemd"] = _remove_empties(profile["systemd"])
+            # HBI's system_profile schema marks systemd.{state,jobs_queued,failed} as REQUIRED and constrains
+            # `state` to a fixed enum. _remove_empties drops any None/"" field (e.g. an empty `state` when
+            # systemctl reported no State line), and systemctl can report a state outside HBI's enum (e.g.
+            # "offline"/"unknown"); either way HBI rejects the object and drops the ENTIRE host, silently
+            # losing the whole check-in (RHINENG-32232). Emit a schema-valid systemd object or none at all:
+            # omit it if it is empty after cleanup, a required field is missing, or `state` is not one HBI
+            # accepts (0 is kept by _remove_empties, so a healthy host with 0 jobs/0 failed is unaffected).
+            # The durable fix is HBI not dropping the whole host for one invalid optional nested object.
+            allowed_states = (
+                "initializing",
+                "starting",
+                "running",
+                "degraded",
+                "maintenance",
+                "stopping",
+            )
+            if (
+                not profile["systemd"]
+                or not all(
+                    k in profile["systemd"] for k in ("state", "jobs_queued", "failed")
+                )
+                or profile["systemd"].get("state") not in allowed_states
+            ):
+                del profile["systemd"]
         except Exception as e:
             # log the error and continue with the next parser
             catch_error("systemctl_status_all", e)
