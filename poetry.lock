@@ -1302,14 +1302,14 @@ files = [
 
 [[package]]
 name = "rpm"
-version = "0.4.0"
+version = "0.5.0"
 description = "Shim RPM module for use in virtualenvs."
 optional = false
 python-versions = ">=3.6"
 groups = ["main"]
 files = [
-    {file = "rpm-0.4.0-py3-none-any.whl", hash = "sha256:0ef697cb5fb73bf9300a13d423529d7ec215239bf95c5ecb145e6610645f6067"},
-    {file = "rpm-0.4.0.tar.gz", hash = "sha256:79adbefa82318e2625d6e4fa16666cf88543498a1f2c10dc3879165d1dc3ecee"},
+    {file = "rpm-0.5.0-py3-none-any.whl", hash = "sha256:cd59bce89060c914d1eacac0ebf194a99ba5c14d16cfa3bed35b59b84da0e368"},
+    {file = "rpm-0.5.0.tar.gz", hash = "sha256:4a7ab1067e67f3eeed35472ec05ebfb60275401767859e44386463083ab19b1a"},
 ]
 
 [package.extras]
@@ -1417,4 +1417,4 @@ test = ["build", "coverage", "mypy", "pyyaml", "ruff", "wheel"]
 [metadata]
 lock-version = "2.1"
 python-versions = "~3.11"
-content-hash = "11cc8185daf2411127d3f6b1ca27c1415b35d0925279c9c865e8bf48b59c4bea"
+content-hash = "680f0c2df914c878335d8326e14bf0c9b045fe3b40bde2a44a23cff04d6e4766"

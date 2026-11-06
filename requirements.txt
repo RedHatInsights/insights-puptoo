@@ -520,9 +520,9 @@ redis==6.4.0 ; python_version == "3.11" \
 requests==2.32.5 ; python_version == "3.11" \
     --hash=sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6 \
     --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
-rpm==0.4.0 ; python_version == "3.11" \
-    --hash=sha256:0ef697cb5fb73bf9300a13d423529d7ec215239bf95c5ecb145e6610645f6067 \
-    --hash=sha256:79adbefa82318e2625d6e4fa16666cf88543498a1f2c10dc3879165d1dc3ecee
+rpm==0.5.0 ; python_version == "3.11" \
+    --hash=sha256:4a7ab1067e67f3eeed35472ec05ebfb60275401767859e44386463083ab19b1a \
+    --hash=sha256:cd59bce89060c914d1eacac0ebf194a99ba5c14d16cfa3bed35b59b84da0e368
 s3transfer==0.14.0 ; python_version == "3.11" \
     --hash=sha256:ea3b790c7077558ed1f02a3072fb3cb992bbbd253392f4b6e9e8976941c7d456 \
     --hash=sha256:eff12264e7c8b4985074ccce27a3b38a485bb7f7422cc8046fee9be4983e4125
