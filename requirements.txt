@@ -605,9 +605,9 @@ redis==7.1.0 ; python_version == "3.11" \
 requests==2.32.5 ; python_version == "3.11" \
     --hash=sha256:2462f94637a34fd532264295e186976db0f5d453d1cdd31473c85a6a161affb6 \
     --hash=sha256:dbba0bac56e100853db0ea71b82b4dfd5fe2bf6d3754a8893c3af500cec7d7cf
-rpm==0.4.0 ; python_version == "3.11" \
-    --hash=sha256:0ef697cb5fb73bf9300a13d423529d7ec215239bf95c5ecb145e6610645f6067 \
-    --hash=sha256:79adbefa82318e2625d6e4fa16666cf88543498a1f2c10dc3879165d1dc3ecee
+rpm==0.5.0 ; python_version == "3.11" \
+    --hash=sha256:4a7ab1067e67f3eeed35472ec05ebfb60275401767859e44386463083ab19b1a \
+    --hash=sha256:cd59bce89060c914d1eacac0ebf194a99ba5c14d16cfa3bed35b59b84da0e368
 s3transfer==0.16.0 ; python_version == "3.11" \
     --hash=sha256:18e25d66fed509e3868dc1572b3f427ff947dd2c56f844a5bf09481ad3f3b2fe \
     --hash=sha256:8e990f13268025792229cd52fa10cb7163744bf56e719e0b9cb925ab79abf920
@@ -620,9 +620,9 @@ six==1.17.0 ; python_version == "3.11" \
 typing-extensions==4.15.0 ; python_version == "3.11" \
     --hash=sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466 \
     --hash=sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548
-urllib3==2.7.0 ; python_version == "3.11" \
-    --hash=sha256:231e0ec3b63ceb14667c67be60f2f2c40a518cb38b03af60abc813da26505f4c \
-    --hash=sha256:9fb4c81ebbb1ce9531cce37674bbc6f1360472bc18ca9a553ede278ef7276897
+urllib3==2.8.0 ; python_version == "3.11" \
+    --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3 \
+    --hash=sha256:63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63
 watchtower==3.4.0 ; python_version == "3.11" \
     --hash=sha256:5eac65cbf2a7350bb43c3518485230a6135ed7dec7ccb88468828d68ab9fea26 \
     --hash=sha256:7d3c116aff72a73ce8f6fc0addd1d0daa04d3f9d53d87cedca3a5a65a264bf7d
