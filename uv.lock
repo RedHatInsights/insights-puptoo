@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = "==3.11.*"
 
 [[package]]
@@ -269,7 +269,7 @@ wheels = [
 
 [[package]]
 name = "insights-core"
-version = "3.8.2"
+version = "3.8.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cachecontrol", extra = ["filecache", "redis"] },
@@ -281,9 +281,9 @@ dependencies = [
     { name = "requests" },
     { name = "rpm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0f/24/0836bbc24d0da018fea8e2ee11e80e9d572261c22e6274a2fcace1825ff7/insights_core-3.8.2.tar.gz", hash = "sha256:260219117e918b8f310eae5d9d62a8855b7a018ad5064043e9a8798f88fd8e9d", size = 1981182, upload-time = "2026-09-27T10:59:27.421Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/d5/9048138c6e739c1849b9d6db43d7dbd94b395611b3e04c5f168094b9a389/insights_core-3.8.4.tar.gz", hash = "sha256:21c3cea481e8cb83703818585a5f016e42ededa2c2ae3255848217a3b3a24032", size = 1983352, upload-time = "2026-10-21T05:19:02.661Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1a/5f/174c9f6fac1ce1d77238b3e1eaefbe9a7266ba4597f8f8223ca217f844b7/insights_core-3.8.2-py3-none-any.whl", hash = "sha256:e0d2b5680d2a6259e7f58e4d10d3238ba9694ccd833d3a9e885df4a1b6581050", size = 2568740, upload-time = "2026-09-27T10:58:47.306Z" },
+    { url = "https://files.pythonhosted.org/packages/89/87/543bfb02b807c03ed47f62539826aaaee4f1ba04904d50fd4dd0552f0c4f/insights_core-3.8.4-py3-none-any.whl", hash = "sha256:adea6cd97c2e735d34d27edfc22738dd832c5fd7408e575fa9a3d5e25de37de0", size = 2570111, upload-time = "2026-10-21T05:18:20.786Z" },
 ]
 
 [[package]]
@@ -325,7 +325,7 @@ requires-dist = [
     { name = "argon2-cffi-bindings", specifier = "<26" },
     { name = "cachecontrol", specifier = "<0.14.4" },
     { name = "confluent-kafka", specifier = "==2.14.2" },
-    { name = "insights-core", specifier = "==3.8.2" },
+    { name = "insights-core", specifier = "==3.8.4" },
     { name = "logstash-formatter", specifier = ">=0.5.17,<0.6.0" },
     { name = "minio", specifier = ">=7.2.15,<8.0.0" },
     { name = "opentelemetry-api", specifier = "~=1.44.0" },
