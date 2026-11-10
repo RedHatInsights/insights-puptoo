@@ -17,6 +17,7 @@ dependencies = [
     "minio>=7.2.15,<8.0.0",
     "urllib3>=2.5.0,<3.0.0",
     "cachecontrol<0.14.4",
+    "msgpack>=1.2.3",
     # setuptools is required as a build dep by pluggy (>=65.0) and charset-normalizer (<84.1).
     # Removing it causes hermetic builds to fail; the ceiling comes from charset-normalizer.
     "setuptools>=83.0.0,<84.1",
