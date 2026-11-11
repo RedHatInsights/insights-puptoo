@@ -18,11 +18,11 @@ env:
 
 jobs:
   integration-test:
-    # ubuntu-latest rolled over to 26.04 on 2026-10-23; its rootless podman
-    # fails compose teardown with "rootless netns: kill network process:
-    # permission denied" (stopping the tempo container), which failed every
-    # run of this workflow. Pin to 24.04 until that is fixed.
-    runs-on: ubuntu-24.04
+    # Note: do not pin ubuntu-24.04 here — its runner image cannot resolve
+    # azure.archive.ubuntu.com, so the podman-compose apt install below fails.
+    # ubuntu-latest (26.04) works; its only issue is the compose teardown,
+    # handled by continue-on-error further down.
+    runs-on: ubuntu-latest
     if: >-
       github.event_name != 'pull_request' ||
       !github.event.pull_request.head.repo.fork
