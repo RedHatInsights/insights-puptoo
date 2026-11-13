@@ -16,6 +16,7 @@ dependencies = [
     "logstash_formatter>=0.5.17,<0.6.0",
     "minio>=7.2.15,<8.0.0",
     "urllib3>=2.8.0,<3.0.0",
+    "certifi>=2026.10.19",
     "setuptools>=81.0.0,<82.0.0",
     "cachecontrol<0.14.4",
     "msgpack>=1.2.3",
