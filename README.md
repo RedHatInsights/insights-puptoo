@@ -204,7 +204,7 @@ PUPTOO does expect a kafka message queue to be available for connection.
 
 #### Prerequisites
 
-- Python 3.11
+- Python 3.12
 - [uv](https://docs.astral.sh/uv/) - Python package and project manager
 - [pre-commit](https://pre-commit.com/) - Git hook framework
 

@@ -1,5 +1,5 @@
 # Default value for BASE_IMAGE
-BASE_IMAGE ?= registry.access.redhat.com/ubi9/ubi-minimal:latest
+BASE_IMAGE ?= registry.access.redhat.com/ubi10/ubi-minimal:latest
 # Default value for CONTAINERFILE
 CONTAINERFILE ?= Dockerfile
 # Default value of IMAGE_ARCH
@@ -23,16 +23,17 @@ ensure_image = \
 
 # Generate the ubi.repo file from the specified BASE_IMAGE
 # Usage: make generate-repo-file [BASE_IMAGE=<image>]
-# Example: make generate-repo-file BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
+# Example: make generate-repo-file BASE_IMAGE=registry.access.redhat.com/ubi10/ubi:latest
 #          make generate-repo-file (uses default BASE_IMAGE)
 .PHONY: generate-repo-file
 generate-repo-file:
 	$(ensure_image)
 	podman run --arch $(IMAGE_ARCH) -it $(BASE_IMAGE) cat /etc/yum.repos.d/ubi.repo > ubi.repo
-	sed -i'' 's/ubi-9-appstream-source-rpms/ubi-9-for-x86_64-appstream-source-rpms/' ubi.repo
-	sed -i'' 's/ubi-9-appstream-rpms/ubi-9-for-x86_64-appstream-rpms/' ubi.repo
-	sed -i'' 's/ubi-9-baseos-source-rpms/ubi-9-for-x86_64-baseos-source-rpms/' ubi.repo
-	sed -i'' 's/ubi-9-baseos-rpms/ubi-9-for-x86_64-baseos-rpms/' ubi.repo
+	# Normalise the minimal image's short repo IDs into the canonical
+	# ubi-<ver>-for-<arch>-<repo>-rpms form that the full UBI image uses.
+	# Version-agnostic so this works for UBI9 and UBI10 alike.
+	sed -i'' -E 's/ubi-([0-9]+)-(appstream|baseos)-source-rpms/ubi-\1-for-$(IMAGE_ARCH)-\2-source-rpms/g' ubi.repo
+	sed -i'' -E 's/ubi-([0-9]+)-(appstream|baseos)-rpms/ubi-\1-for-$(IMAGE_ARCH)-\2-rpms/g' ubi.repo
 	sed -i'' 's/\r$$//' ubi.repo
 	sed -i'' '/\[.*x86_64.*\]/,/^\[/ s/enabled[[:space:]]*=[[:space:]]*0/enabled = 1/g' ubi.repo
 
@@ -72,7 +73,7 @@ generate-rpms-in-yaml:
 
 # Generate rpms.lock.yaml using rpm-lockfile-prototype
 # Usage: make generate-rpm-lockfile [BASE_IMAGE=<image>]
-# Example: make generate-rpm-lockfile BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
+# Example: make generate-rpm-lockfile BASE_IMAGE=registry.access.redhat.com/ubi10/ubi:latest
 #          make generate-rpm-lockfile (uses default BASE_IMAGE)
 .PHONY: generate-rpm-lockfile
 generate-rpm-lockfile: rpms.in.yaml
@@ -179,7 +180,7 @@ generate-requirements-build-in:
 
 # Generate requirements-build.txt using pip-tools and pybuild-deps
 # Usage: make generate-requirements-build-txt [BASE_IMAGE=<image>]
-# Example: make generate-requirements-build-txt BASE_IMAGE=registry.access.redhat.com/ubi9/ubi:latest
+# Example: make generate-requirements-build-txt BASE_IMAGE=registry.access.redhat.com/ubi10/ubi:latest
 .PHONY: generate-requirements-build-txt
 generate-requirements-build-txt:
 	@if [ ! -f requirements.txt ]; then \

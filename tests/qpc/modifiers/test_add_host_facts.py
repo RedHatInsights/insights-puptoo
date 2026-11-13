@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from src.puptoo.modifiers.qpc.add_host_facts import SATELLITE_HOST_TTL, AddHostFacts
 
@@ -34,7 +34,7 @@ def test_add_host_facts():
 
 
 def test_get_stale_time():
-    current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc)
     stale_time = current_time + timedelta(hours=int(SATELLITE_HOST_TTL))
     expected = stale_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
     request_obj = {"source": "satellite"}
@@ -43,7 +43,7 @@ def test_get_stale_time():
 
 
 def test_get_stale_time_non_satellite():
-    current_time = datetime.utcnow()
+    current_time = datetime.now(timezone.utc)
     stale_time = current_time + timedelta(hours=26)
     expected = stale_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
     request_obj = {"source": "yupana"}
