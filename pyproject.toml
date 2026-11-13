@@ -18,6 +18,8 @@ watchtower = "^3.4.0"
 logstash_formatter = "^0.5.17"
 minio = "^7.2.15"
 urllib3 = ">=2.8.0"
+msgpack = ">=1.2.3"
+certifi = ">=2026.10.19"
 setuptools = "^80.0.0"
 cachecontrol = "<0.14.4"
 
