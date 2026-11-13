@@ -9,7 +9,11 @@ FROM registry.access.redhat.com/ubi10/ubi-minimal:1794499368
 
 WORKDIR /app-root/
 
-RUN microdnf install --setopt=tsflags=nodocs -y python3 python3-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3-devel libffi-devel gcc-c++ make zlib-ng-compat zlib-ng-compat-devel openssl-libs openssl-devel libzstd libzstd-devel && \
+# file-libs provides libmagic, which insights-core's insights.contrib.magic binds
+# to for archive content-type detection. UBI9 pulled it in transitively; UBI10 does
+# not. Without it insights-core falls back to the `file` CLI, which is not installed,
+# and Advisor archive extraction fails with "No such file or directory: 'file'".
+RUN microdnf install --setopt=tsflags=nodocs -y python3 python3-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3-devel libffi-devel gcc-c++ make zlib-ng-compat zlib-ng-compat-devel openssl-libs openssl-devel libzstd libzstd-devel file-libs && \
     microdnf upgrade -y && \
     microdnf clean all
 

@@ -725,6 +725,13 @@ arches:
     name: expat
     evr: 2.7.3-2.el10_3.4
     sourcerpm: expat-2.7.3-2.el10_3.4.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/f/file-libs-5.45-12.el10.x86_64.rpm
+    repoid: ubi-10-for-x86_64-baseos-rpms
+    size: 787866
+    checksum: sha256:713d864f3c0e69c64acbe27a7ca4c46aae97675acd6a85c85d9e4433731938da
+    name: file-libs
+    evr: 5.45-12.el10
+    sourcerpm: file-5.45-12.el10.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/g/gdbm-1.23-12.el10_0.x86_64.rpm
     repoid: ubi-10-for-x86_64-baseos-rpms
     size: 159273
@@ -1267,6 +1274,12 @@ arches:
     checksum: sha256:4e97cefa2dd835383d3faf79ec2f77827405e289031134711defe71dae62a062
     name: expat
     evr: 2.7.3-2.el10_3.4
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/f/file-5.45-12.el10.src.rpm
+    repoid: ubi-10-for-x86_64-baseos-source-rpms
+    size: 1345032
+    checksum: sha256:931c2e772579bca878b3eb567d4494caa493c4763e6cc6b4027e53482735ae20
+    name: file
+    evr: 5.45-12.el10
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/g/gcc-14.4.1-5.el10_3.src.rpm
     repoid: ubi-10-for-x86_64-baseos-source-rpms
     size: 93941839
