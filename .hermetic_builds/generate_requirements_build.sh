@@ -39,4 +39,4 @@ BEGIN { skip=0 }
 ' requirements-build.txt > requirements-build.txt.tmp
 mv requirements-build.txt.tmp requirements-build.txt
 
-uv pip compile requirements-build.in --generate-hashes --python-version 3.11 -o requirements-extras.txt
+uv pip compile requirements-build.in --generate-hashes --python-version 3.12 -o requirements-extras.txt

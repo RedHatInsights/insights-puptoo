@@ -1,19 +1,23 @@
-FROM registry.access.redhat.com/ubi9/s2i-base:9.8-1792653390 AS kafka_build
+FROM registry.access.redhat.com/ubi10/s2i-base:1794223620 AS kafka_build
 USER 0
 ADD librdkafka .
 RUN ./configure --prefix=/usr && \
     make && \
     make install
 
-FROM registry.access.redhat.com/ubi9/ubi-minimal:9.8-1791898448
+FROM registry.access.redhat.com/ubi10/ubi-minimal:1794499368
 
 WORKDIR /app-root/
 
-RUN microdnf install --setopt=tsflags=nodocs -y python3.11 python3.11-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3.11-devel libffi-devel gcc-c++ make zlib zlib-devel openssl-libs openssl-devel libzstd libzstd-devel && \
+# file-libs provides libmagic, which insights-core's insights.contrib.magic binds
+# to for archive content-type detection. UBI9 pulled it in transitively; UBI10 does
+# not. Without it insights-core falls back to the `file` CLI, which is not installed,
+# and Advisor archive extraction fails with "No such file or directory: 'file'".
+RUN microdnf install --setopt=tsflags=nodocs -y python3 python3-pip which git tar xz bzip2 unzip gcc glibc-devel krb5-libs krb5-devel python3-devel libffi-devel gcc-c++ make zlib-ng-compat zlib-ng-compat-devel openssl-libs openssl-devel libzstd libzstd-devel file-libs && \
     microdnf upgrade -y && \
     microdnf clean all
 
-RUN set -ex && if [ -e `which python3.11` ]; then ln -s `which python3.11` /usr/local/bin/python; fi
+RUN set -ex && if [ -e `which python3` ]; then ln -s `which python3` /usr/local/bin/python; fi
 
 # install librdkafka
 COPY --from=kafka_build /usr/lib/librdkafka*.so* /usr/lib/
@@ -30,10 +34,10 @@ COPY --chown=1001:0 dev dev
 COPY --chown=1001:0 tests tests
 COPY --chown=1001:0 src src
 
-RUN pip3.11 install --upgrade "pip>=26.1.2" && \
-    pip3.11 install . --ignore-installed
+RUN pip3 install --upgrade "pip>=26.1.2" && \
+    pip3 install . --ignore-installed
 
-RUN microdnf remove -y which gcc python3.11-devel libffi-devel gcc-c++ make zlib-devel openssl-devel libzstd-devel && \
+RUN microdnf remove -y which gcc python3-devel libffi-devel gcc-c++ make zlib-ng-compat-devel openssl-devel libzstd-devel && \
     microdnf clean all
 
 ENV LD_LIBRARY_PATH=/usr/lib64:/usr/lib

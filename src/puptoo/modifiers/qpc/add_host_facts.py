@@ -2,7 +2,7 @@ import json
 import logging
 import os
 from base64 import b64decode
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from ..base import Modifier
 
@@ -18,7 +18,7 @@ class AddHostFacts(Modifier):
             ttl = SATELLITE_HOST_TTL
         else:
             ttl = 26
-        stale_time = datetime.utcnow() + timedelta(hours=ttl)
+        stale_time = datetime.now(timezone.utc) + timedelta(hours=ttl)
         return stale_time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
 
     def run(self, host, transformed_obj, **kwargs):

@@ -31,7 +31,7 @@ PYTHON_COMMANDS=(
 
 # --- Argument Handling ---
 # Define the default value for BASE_IMAGE.
-DEFAULT_BASE_IMAGE="registry.access.redhat.com/ubi9/ubi-minimal:latest"
+DEFAULT_BASE_IMAGE="registry.access.redhat.com/ubi10/ubi-minimal:latest"
 DEFAULT_IMAGE_ARCH="x86_64"
 
 # Use the first argument ($1) as BASE_IMAGE if it's provided.
