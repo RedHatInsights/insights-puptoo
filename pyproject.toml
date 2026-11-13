@@ -18,6 +18,7 @@ watchtower = "^3.4.0"
 logstash_formatter = "^0.5.17"
 minio = "^7.2.15"
 urllib3 = ">=2.8.0"
+certifi = ">=2026.10.19"
 setuptools = "^80.0.0"
 
 [tool.poetry.group.dev.dependencies]
