@@ -1,4 +1,6 @@
 import datetime
+import glob
+import json
 import logging
 import os
 import re
@@ -1399,6 +1401,151 @@ def run_profile():
         sys.exit(1)
 
 
+def _read_java_purls(path):
+    """
+    Read third-party Java library purls collected on the host.
+
+    In production these are produced by the insights-core ``java_purls`` datasource + parser.
+    Until that datasource is mapped into ``system_profile`` via the parser/rule, puptoo reads
+    the collector's output directly from the unpacked archive so per-host purls flow end-to-end
+    through HBI to vulnerability-engine.
+
+    Accepts either a plain JSON array of purl strings or the datasource's list-of-objects shape
+    (each object carrying a ``"purl"`` key). Returns a sorted, de-duplicated list of purl
+    strings, or ``None`` when nothing usable is found. Never raises: a missing or malformed
+    file must not fail the whole system profile.
+    """
+    if not path:
+        return None
+
+    candidates = [
+        # The datasource's DatasourceProvider relative_path ("insights_datasources/java_purls.json").
+        os.path.join(path, "data", "insights_datasources", "java_purls.json"),
+        os.path.join(path, "data", "insights_commands", "java_purls"),
+    ]
+    # Only fall back to a recursive archive walk when the datasource's canonical output is absent, so the
+    # common case (collector present at the guaranteed relative_path) never pays for a full-tree glob on
+    # puptoo's hottest path. Sorted for deterministic selection.
+    if not any(os.path.isfile(c) for c in candidates):
+        candidates += sorted(
+            glob.glob(os.path.join(path, "**", "java_purls.json"), recursive=True)
+        )
+
+    for candidate in candidates:
+        if not os.path.isfile(candidate):
+            continue
+        try:
+            with open(candidate, encoding="utf-8") as fh:
+                text = fh.read()
+        except OSError as e:
+            catch_error("java_purls", e)
+            return None
+
+        return _extract_purls(_parse_purls_content(text))
+
+    return None
+
+
+def _read_python_purls(path):
+    """
+    Read third-party Python package purls collected on the host.
+
+    Mirror of :func:`_read_java_purls` for the insights-core ``python_purls`` datasource (pypi
+    purls, ``pkg:pypi/<name>@<version>``). Reads the collector's output directly from the unpacked
+    archive so per-host purls flow end-to-end through HBI to vulnerability-engine. Accepts the
+    datasource's JSONL/list-of-objects shape or a plain array; returns a sorted, de-duplicated list
+    or ``None``. Never raises -- a missing or malformed file must not fail the system profile.
+    """
+    if not path:
+        return None
+
+    candidates = [
+        # The datasource's DatasourceProvider relative_path ("insights_datasources/python_purls.json").
+        os.path.join(path, "data", "insights_datasources", "python_purls.json"),
+        os.path.join(path, "data", "insights_commands", "python_purls"),
+    ]
+    # Only fall back to a recursive archive walk when the datasource's canonical output is absent, so the
+    # common case (collector present at the guaranteed relative_path) never pays for a full-tree glob on
+    # puptoo's hottest path. Sorted for deterministic selection.
+    if not any(os.path.isfile(c) for c in candidates):
+        candidates += sorted(
+            glob.glob(os.path.join(path, "**", "python_purls.json"), recursive=True)
+        )
+
+    for candidate in candidates:
+        if not os.path.isfile(candidate):
+            continue
+        try:
+            with open(candidate, encoding="utf-8") as fh:
+                text = fh.read()
+        except OSError as e:
+            catch_error("python_purls", e)
+            return None
+
+        return _extract_purls(_parse_purls_content(text))
+
+    return None
+
+
+def _parse_purls_content(text):
+    """
+    Parse the collector output into a list of records.
+
+    The datasource emits JSONL (one JSON object per line), which is redaction-resilient: a line dropped or
+    mangled by customer redaction costs a single record, not the whole inventory. A legacy single JSON array
+    is also accepted (version-skew safe). Never raises -- a malformed line/file yields fewer (or no) records.
+    """
+    text = (text or "").strip()
+    if not text:
+        return []
+    if text[0] == "[":
+        try:
+            data = json.loads(text)
+        except ValueError:
+            return []
+        return data if isinstance(data, list) else []
+    out = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        try:
+            out.append(json.loads(line))
+        except ValueError:
+            continue  # a redaction-dropped/garbled record -> skip just this one
+    return out
+
+
+# These MUST match the caps on java_purls/python_purls in the HBI system_profile spec
+# (insights-host-inventory swagger/system_profile.spec.yaml: maxItems / items.maxLength). HBI validates the
+# whole system_profile against that schema and REJECTS the entire host check-in on any violation (it does
+# not truncate), so we conform here at the producer: drop any over-long purl and keep at most the first
+# PURL_MAX_ITEMS (deterministic, sorted) -- an oversized host then still checks in with a bounded list.
+PURL_MAX_ITEMS = 1024
+PURL_MAX_LENGTH = 256
+
+
+def _extract_purls(raw):
+    """
+    Pull purl strings out of the collector output.
+
+    Accepts a plain list of purl strings or a list of objects each carrying a ``"purl"``
+    key; anything else (wrong top-level shape, non-string or empty items) is ignored.
+    Returns a sorted, de-duplicated list capped to the HBI schema limits, or ``None`` when
+    nothing usable is present.
+    """
+    if not isinstance(raw, list):
+        # Unexpected shape (e.g. a bare object or scalar); treat as no data.
+        return None
+
+    purls = set()
+    for item in raw:
+        purl = item.get("purl") if isinstance(item, dict) else item
+        if isinstance(purl, str) and purl and len(purl) <= PURL_MAX_LENGTH:
+            purls.add(purl)
+    return sorted(purls)[:PURL_MAX_ITEMS] or None
+
+
 @metrics.SYSTEM_PROFILE.time()
 def get_system_profile(path=None):
     # Compatiable for the insights-archives with legacy collection structures
@@ -1410,6 +1557,14 @@ def get_system_profile(path=None):
     del facts["type"]
     facts["system_profile"] = broker[system_profile]
     del facts["system_profile"]["type"]
+    # Attach detected third-party Java libraries collected in the archive.
+    java_purls = _read_java_purls(path)
+    if java_purls:
+        facts["system_profile"]["java_purls"] = java_purls
+    # Attach detected third-party Python packages collected in the archive.
+    python_purls = _read_python_purls(path)
+    if python_purls:
+        facts["system_profile"]["python_purls"] = python_purls
     return facts
 
 
