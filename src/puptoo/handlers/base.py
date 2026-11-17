@@ -5,6 +5,8 @@ from base64 import b64decode
 from datetime import datetime, timedelta
 from time import time
 
+from opentelemetry import trace
+
 from ..exceptions import FailExtractException, FailUploadException
 from ..mq import msgs
 from ..upload import upload_object
@@ -91,6 +93,9 @@ class FactsHandler(BaseHandler):
                     logger.exception("Error occurred while uploading object.")
 
         except Exception as e:
+            span = trace.get_current_span()
+            span.record_exception(e)
+            span.set_status(trace.StatusCode.ERROR, str(e))
             metrics.msg_processed_failure.labels(service).inc()
             logger.exception(
                 "Failed to process message of %s service: %s: %s",

@@ -3,6 +3,8 @@ import os
 import signal
 from time import time
 
+from opentelemetry import trace
+from opentelemetry.trace import SpanKind
 from prometheus_client import Summary, start_http_server
 from redis import Redis
 
@@ -12,9 +14,6 @@ from .mq import consume
 from .mq import produce as produce_mod
 from .mq.auth import write_kafka_cert
 from .mq.produce import init_producer, send_message
-from opentelemetry import trace
-from opentelemetry.trace import SpanKind
-
 from .telemetry import (
     extract_context_from_kafka_message,
     get_tracer,
@@ -181,11 +180,10 @@ def main():
                                     msg, service, extra, send_message=send_message
                                 )
                                 logger.info(
-                                    "Message processed successfully [request_id=%s service=%s]",
+                                    "Finished handling message [request_id=%s service=%s]",
                                     extra["request_id"],
                                     service,
                                 )
-                                span.set_status(trace.StatusCode.OK)
                             except Exception as exc:
                                 span.set_status(trace.StatusCode.ERROR, str(exc))
                                 span.record_exception(exc)
