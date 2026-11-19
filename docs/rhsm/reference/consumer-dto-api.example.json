@@ -1,0 +1,172 @@
+{
+  "created": "2026-10-01T08:00:00+0000",
+  "updated": "2026-11-12T08:00:00+0000",
+  "id": "consumer-database-id",
+  "uuid": "61ffc751-552a-442c-b6f2-b44529d49d48",
+  "name": "example.redhat.com",
+  "username": "example-registration-user",
+  "entitlementStatus": "valid",
+  "serviceLevel": "Premium",
+  "role": "Red Hat Enterprise Linux Server",
+  "usage": "Production",
+  "addOns": [
+    "Extended Update Support"
+  ],
+  "systemPurposeStatus": "matched",
+  "registrationAuthenticationMethod": "ActivationKey",
+  "releaseVer": {
+    "releaseVer": "9.5"
+  },
+  "owner": {
+    "id": "owner-database-id",
+    "key": "711497",
+    "displayName": "Example Organization",
+    "href": "/owners/711497",
+    "contentAccessMode": "org_environment",
+    "anonymous": false
+  },
+  "environment": {
+    "name": "Production"
+  },
+  "entitlementCount": 0,
+  "facts": {
+    "system.certificate_version": "3.2",
+    "system.default_locale": "en_US.UTF-8",
+    "distribution.name": "Red Hat Enterprise Linux",
+    "distribution.version": "9.5",
+    "distribution.id": "Plow",
+    "distribution.version.modifier": "",
+    "network.hostname": "example",
+    "network.fqdn": "example.redhat.com",
+    "network.ipv4_address": "192.0.2.10",
+    "network.ipv6_address": "2001:db8::10",
+    "dmi.system.uuid": "df2a2442-46cd-b6a7-8ad9-769f408a30e9",
+    "dmi.system.manufacturer": "Example Hardware Vendor",
+    "dmi.system.serial_number": "SYNTHETIC-SERIAL",
+    "dmi.bios.vendor": "Example BIOS Vendor",
+    "dmi.bios.version": "1.0",
+    "insights_id": "aa466e7e-bb40-4891-8fad-37a8270d832a",
+    "net.interface.eth0.ipv4_address": "192.0.2.10",
+    "net.interface.eth0.ipv4_address_list": "192.0.2.10",
+    "net.interface.eth0.ipv4_netmask": "24",
+    "net.interface.eth0.ipv6_address.global_list": "2001:db8::10",
+    "net.interface.eth0.mac_address": "02:00:5e:10:00:01",
+    "aws_instance_id": "i-0123456789abcdef0",
+    "aws_account_id": "000000000000",
+    "aws_region": "us-east-1",
+    "uname.sysname": "Linux",
+    "uname.nodename": "example.redhat.com",
+    "uname.release": "5.14.0-503.11.1.el9_5.x86_64",
+    "uname.version": "SYNTHETIC KERNEL BUILD",
+    "uname.machine": "x86_64",
+    "lscpu.architecture": "x86_64",
+    "lscpu.cpu(s)": "4",
+    "lscpu.model_name": "Example CPU",
+    "cpu.cpu(s)": "4",
+    "cpu.cpu_socket(s)": "1",
+    "memory.memtotal": "8388608",
+    "virt.is_guest": "True",
+    "virt.host_type": "kvm",
+    "bootc.booted.image": "registry.example.com/rhel-bootc:9.5",
+    "bootc.booted.digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bootc.available.image": "registry.example.com/rhel-bootc:9.5-update",
+    "bootc.available.digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "bootc.staged.image": "registry.example.com/rhel-bootc:9.5-update",
+    "bootc.staged.digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "bootc.rollback.image": "registry.example.com/rhel-bootc:9.4",
+    "bootc.rollback.digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "lastCheckin": "2026-11-12T08:00:00+0000",
+  "installedProducts": [
+    {
+      "created": "2026-10-01T08:00:00+0000",
+      "updated": "2026-11-12T08:00:00+0000",
+      "id": "installed-product-database-id",
+      "productId": "479",
+      "productName": "Red Hat Enterprise Linux for x86_64",
+      "version": "9.5",
+      "arch": "x86_64",
+      "status": "green",
+      "startDate": "2026-01-01T00:00:00+0000",
+      "endDate": "2027-01-01T00:00:00+0000"
+    }
+  ],
+  "canActivate": true,
+  "capabilities": [
+    {
+      "id": "capability-database-id",
+      "name": "cores"
+    }
+  ],
+  "hypervisorId": null,
+  "contentTags": [
+    "rhel-9"
+  ],
+  "autoheal": true,
+  "annotations": "Synthetic reference only; no customer annotations.",
+  "contentAccessMode": "org_environment",
+  "type": {
+    "created": "2026-01-01T00:00:00+0000",
+    "updated": "2026-01-01T00:00:00+0000",
+    "id": "system-type-id",
+    "label": "system",
+    "manifest": false
+  },
+  "idCert": {
+    "created": "2026-10-01T08:00:00+0000",
+    "updated": "2026-10-01T08:00:00+0000",
+    "id": "identity-certificate-database-id",
+    "key": "<REDACTED PRIVATE KEY; NOT A REAL CREDENTIAL>",
+    "cert": "<REDACTED CERTIFICATE; NOT A REAL CREDENTIAL>",
+    "serial": {
+      "created": "2026-10-01T08:00:00+0000",
+      "updated": "2026-10-01T08:00:00+0000",
+      "id": 1,
+      "serial": 1,
+      "expiration": "2027-10-01T08:00:00+0000",
+      "revoked": false
+    }
+  },
+  "guestIds": [],
+  "href": "/consumers/61ffc751-552a-442c-b6f2-b44529d49d48",
+  "activationKeys": [
+    {
+      "activationKeyName": "<REDACTED ACTIVATION KEY; NOT A REAL CREDENTIAL>",
+      "activationKeyId": "synthetic-activation-key-id"
+    }
+  ],
+  "serviceType": "",
+  "environments": [
+    {
+      "created": "2026-10-01T08:00:00+0000",
+      "updated": "2026-11-12T08:00:00+0000",
+      "id": "environment-id-1",
+      "name": "Production",
+      "type": "content",
+      "description": "Example content environment",
+      "contentPrefix": "/example",
+      "owner": {
+        "id": "owner-database-id",
+        "key": "711497",
+        "displayName": "Example Organization",
+        "href": "/owners/711497",
+        "contentAccessMode": "org_environment",
+        "anonymous": false
+      },
+      "environmentContent": [
+        {
+          "contentId": "content-id-1",
+          "enabled": true
+        }
+      ]
+    }
+  ],
+  "cryptographicCapabilities": {
+    "keyAlgorithms": [
+      "1.2.840.113549.1.1.1"
+    ],
+    "signatureAlgorithms": [
+      "1.2.840.113549.1.1.11"
+    ]
+  }
+}

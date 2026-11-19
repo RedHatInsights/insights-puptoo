@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "platform_metadata": {
+    "request_id": "df345651-f176-42bb-af86-8eba69470f84"
+  },
+  "org_id": "711497",
+  "reporter": "rhsm-system-profile-bridge",
+  "trigger": "heartbeat",
+  "observed_at": "2026-11-12T10:00:00Z",
+  "set_display_name": false,
+  "consumer": {
+    "uuid": "38af337c-ea0f-4ac1-97cd-5a0dcd5f70f9",
+    "name": "heartbeat.example.com",
+    "owner": {
+      "id": "owner-database-id",
+      "key": "711497",
+      "displayName": "Example Organization",
+      "href": "/owners/711497",
+      "contentAccessMode": "org_environment",
+      "anonymous": false
+    },
+    "releaseVer": {
+      "releaseVer": "6.10"
+    },
+    "environments": [
+      {
+        "created": "2026-10-01T08:00:00+0000",
+        "updated": "2026-11-12T08:00:00+0000",
+        "id": "environment-id-2",
+        "name": "Production",
+        "type": "content",
+        "description": "Example content environment",
+        "contentPrefix": "/example",
+        "owner": {
+          "id": "owner-database-id",
+          "key": "711497",
+          "displayName": "Example Organization",
+          "href": "/owners/711497",
+          "contentAccessMode": "org_environment",
+          "anonymous": false
+        },
+        "environmentContent": []
+      }
+    ],
+    "installedProducts": [
+      {
+        "created": "2026-10-01T08:00:00+0000",
+        "updated": "2026-11-12T08:00:00+0000",
+        "id": "installed-product-database-id-2",
+        "productId": "69",
+        "productName": "Red Hat Enterprise Linux Server",
+        "version": "6.10",
+        "arch": "i386",
+        "status": "green",
+        "startDate": "2026-01-01T00:00:00+0000",
+        "endDate": "2027-01-01T00:00:00+0000"
+      }
+    ],
+    "facts": {
+      "distribution.name": "Red Hat Enterprise Linux Server",
+      "distribution.version": "6.10",
+      "network.hostname": "heartbeat",
+      "network.fqdn": "heartbeat.example.com",
+      "uname.sysname": "Linux",
+      "lscpu.architecture": "i686",
+      "lscpu.cpu(s)": "4"
+    }
+  }
+}
