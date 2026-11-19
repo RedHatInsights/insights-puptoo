@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "platform_metadata": {
+    "request_id": "99c4975d-987d-4773-a653-bc104945f1a1"
+  },
+  "org_id": "711497",
+  "reporter": "rhsm-system-profile-bridge",
+  "trigger": "enrichment",
+  "observed_at": "2026-11-12T09:30:00Z",
+  "set_display_name": false,
+  "consumer": {
+    "uuid": "f2e44817-e903-476c-a401-908ee65a5144",
+    "name": "enrichment.example.com",
+    "owner": {
+      "id": "owner-database-id",
+      "key": "711497",
+      "displayName": "Example Organization",
+      "href": "/owners/711497",
+      "contentAccessMode": "org_environment",
+      "anonymous": false
+    },
+    "releaseVer": {
+      "releaseVer": "9.5"
+    },
+    "environments": [
+      {
+        "created": "2026-10-01T08:00:00+0000",
+        "updated": "2026-11-12T08:00:00+0000",
+        "id": "environment-id-1",
+        "name": "Production",
+        "type": "content",
+        "description": "Example content environment",
+        "contentPrefix": "/example",
+        "owner": {
+          "id": "owner-database-id",
+          "key": "711497",
+          "displayName": "Example Organization",
+          "href": "/owners/711497",
+          "contentAccessMode": "org_environment",
+          "anonymous": false
+        },
+        "environmentContent": [
+          {
+            "contentId": "content-id-1",
+            "enabled": true
+          }
+        ]
+      }
+    ],
+    "installedProducts": [
+      {
+        "created": "2026-10-01T08:00:00+0000",
+        "updated": "2026-11-12T08:00:00+0000",
+        "id": "installed-product-database-id",
+        "productId": "479",
+        "productName": "Red Hat Enterprise Linux for x86_64",
+        "version": "9.5",
+        "arch": "x86_64",
+        "status": "green",
+        "startDate": "2026-01-01T00:00:00+0000",
+        "endDate": "2027-01-01T00:00:00+0000"
+      }
+    ],
+    "facts": {
+      "distribution.name": "Red Hat Enterprise Linux",
+      "distribution.version": "9.5",
+      "distribution.id": "Plow",
+      "distribution.version.modifier": "",
+      "network.hostname": "enrichment",
+      "network.fqdn": "enrichment.example.com",
+      "network.ipv4_address": "192.0.2.10",
+      "network.ipv6_address": "2001:db8::10",
+      "dmi.system.uuid": "df2a2442-46cd-b6a7-8ad9-769f408a30e9",
+      "dmi.system.manufacturer": "Example Hardware Vendor",
+      "dmi.system.serial_number": "SYNTHETIC-SERIAL",
+      "dmi.bios.vendor": "Example BIOS Vendor",
+      "dmi.bios.version": "1.0",
+      "insights_id": "aa466e7e-bb40-4891-8fad-37a8270d832a",
+      "net.interface.eth0.ipv4_address": "192.0.2.10",
+      "net.interface.eth0.ipv4_address_list": "192.0.2.10",
+      "net.interface.eth0.ipv4_netmask": "24",
+      "net.interface.eth0.ipv6_address.global_list": "2001:db8::10",
+      "net.interface.eth0.mac_address": "02:00:5e:10:00:01",
+      "aws_instance_id": "i-0123456789abcdef0",
+      "uname.sysname": "Linux",
+      "uname.nodename": "enrichment.example.com",
+      "uname.release": "5.14.0-503.11.1.el9_5.x86_64",
+      "uname.version": "SYNTHETIC KERNEL BUILD",
+      "uname.machine": "x86_64",
+      "lscpu.architecture": "x86_64",
+      "lscpu.cpu(s)": "4",
+      "lscpu.model_name": "Example CPU",
+      "bootc.booted.image": "registry.example.com/rhel-bootc:9.5",
+      "bootc.booted.digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bootc.available.image": "registry.example.com/rhel-bootc:9.5-update",
+      "bootc.available.digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "bootc.staged.image": "registry.example.com/rhel-bootc:9.5-update",
+      "bootc.staged.digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "bootc.rollback.image": "registry.example.com/rhel-bootc:9.4",
+      "bootc.rollback.digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  },
+  "profile": {
+    "packages": [
+      {
+        "name": "mssql-server",
+        "epoch": 0,
+        "version": "16.0.1000.6",
+        "release": "1",
+        "arch": "x86_64"
+      }
+    ],
+    "modules": [
+      {
+        "name": "virt",
+        "stream": "rhel",
+        "version": "20261001000000",
+        "context": "abcd1234",
+        "arch": "x86_64",
+        "status": "enabled",
+        "active": true,
+        "profiles": [
+          "common"
+        ],
+        "installed_profiles": [
+          "common"
+        ]
+      },
+      {
+        "name": "ruby",
+        "stream": "3.1",
+        "version": "20261001000000",
+        "context": "abcd5678",
+        "arch": "x86_64",
+        "status": "enabled",
+        "active": false,
+        "profiles": [],
+        "installed_profiles": []
+      },
+      {
+        "name": "nodejs",
+        "stream": "18",
+        "version": "20261001000000",
+        "context": "abcd9012",
+        "arch": "x86_64",
+        "status": "enabled",
+        "profiles": [],
+        "installed_profiles": []
+      }
+    ],
+    "reported_repositories": [
+      "rhel-9-for-x86_64-baseos-rpms"
+    ]
+  },
+  "shadow": true
+}

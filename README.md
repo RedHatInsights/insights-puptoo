@@ -22,6 +22,11 @@ container image (see [Architecture](#architecture) below).
 > to reflect its broader scope. References to "puptoo" in code, configuration,
 > and documentation will be migrated incrementally.
 
+## RHSM ingestion contract
+
+See [RHSM raw host records](docs/rhsm/README.md) for the contract between Errata
+Notifications and insights-upload-processor, JSON examples, and consumer references.
+
 ## Architecture
 
 PUPTOO uses a **dual-deployment model**: one container image, two deployments,
