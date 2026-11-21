@@ -60,13 +60,13 @@ arches:
     name: glibc-devel
     evr: 2.39-147.el10_3
     sourcerpm: glibc-2.39-147.el10_3.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/appstream/os/Packages/k/kernel-headers-6.12.0-264.16.1.el10_3.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/appstream/os/Packages/k/kernel-headers-6.12.0-264.17.1.el10_3.x86_64.rpm
     repoid: ubi-10-for-x86_64-appstream-rpms
-    size: 3572305
-    checksum: sha256:7d9ee5afa52dcb18dd68df611999b5b85e9636db6601776ead8b326a46aae3f7
+    size: 3580065
+    checksum: sha256:a37fecdfffab230f6c7d8759d3eb22ab0cef70631759da6e7ed74b63be5096a3
     name: kernel-headers
-    evr: 6.12.0-264.16.1.el10_3
-    sourcerpm: kernel-6.12.0-264.16.1.el10_3.src.rpm
+    evr: 6.12.0-264.17.1.el10_3
+    sourcerpm: kernel-6.12.0-264.17.1.el10_3.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/appstream/os/Packages/k/keyutils-libs-devel-1.6.3-5.el10.x86_64.rpm
     repoid: ubi-10-for-x86_64-appstream-rpms
     size: 66541
@@ -74,13 +74,13 @@ arches:
     name: keyutils-libs-devel
     evr: 1.6.3-5.el10
     sourcerpm: keyutils-1.6.3-5.el10.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/appstream/os/Packages/k/krb5-devel-1.21.3-11.el10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/appstream/os/Packages/k/krb5-devel-1.21.3-11.el10_3.2.x86_64.rpm
     repoid: ubi-10-for-x86_64-appstream-rpms
-    size: 153773
-    checksum: sha256:b539270996198cbd86af9504c6a641c1844538d3f9e707e7dc842b9745fcdf06
+    size: 156689
+    checksum: sha256:8c421e353409aaeae67f5c35a042638bd4e0994d2607a56d2b338f77379035e9
     name: krb5-devel
-    evr: 1.21.3-11.el10
-    sourcerpm: krb5-1.21.3-11.el10.src.rpm
+    evr: 1.21.3-11.el10_3.2
+    sourcerpm: krb5-1.21.3-11.el10_3.2.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/appstream/os/Packages/l/libcom_err-devel-1.47.1-5.el10.x86_64.rpm
     repoid: ubi-10-for-x86_64-appstream-rpms
     size: 16267
@@ -718,13 +718,13 @@ arches:
     name: elfutils-libs
     evr: 0.195-1.el10
     sourcerpm: elfutils-0.195-1.el10.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/e/expat-2.7.3-2.el10_3.4.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/e/expat-2.7.3-2.el10_3.8.x86_64.rpm
     repoid: ubi-10-for-x86_64-baseos-rpms
-    size: 131158
-    checksum: sha256:1ec28f4e4bb1cced06f78c45385567e77e98b52dcaa1848b3eef873c1fe2d487
+    size: 134235
+    checksum: sha256:6986a1d442981bb2ab7c17478dc5ecfba71ec3f484799e7e27f316c07a03b1ec
     name: expat
-    evr: 2.7.3-2.el10_3.4
-    sourcerpm: expat-2.7.3-2.el10_3.4.src.rpm
+    evr: 2.7.3-2.el10_3.8
+    sourcerpm: expat-2.7.3-2.el10_3.8.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/f/file-libs-5.45-12.el10.x86_64.rpm
     repoid: ubi-10-for-x86_64-baseos-rpms
     size: 787866
@@ -767,6 +767,13 @@ arches:
     name: jansson
     evr: 2.14-3.el10
     sourcerpm: jansson-2.14-3.el10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/k/krb5-libs-1.21.3-11.el10_3.2.x86_64.rpm
+    repoid: ubi-10-for-x86_64-baseos-rpms
+    size: 795251
+    checksum: sha256:58eb5b5d1fea7f3e73a9442c45cff91466e04f37a6db3fc556117d33b5e8a928
+    name: krb5-libs
+    evr: 1.21.3-11.el10_3.2
+    sourcerpm: krb5-1.21.3-11.el10_3.2.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/l/less-661-3.el10.x86_64.rpm
     repoid: ubi-10-for-x86_64-baseos-rpms
     size: 199873
@@ -809,13 +816,13 @@ arches:
     name: libgomp
     evr: 14.4.1-5.el10_3
     sourcerpm: gcc-14.4.1-5.el10_3.src.rpm
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/l/libkadm5-1.21.3-11.el10.x86_64.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/l/libkadm5-1.21.3-11.el10_3.2.x86_64.rpm
     repoid: ubi-10-for-x86_64-baseos-rpms
-    size: 84220
-    checksum: sha256:f7971939dd05ac8a430379e2a29d2850d443f687c783a56de34dedb8f9bf9cd3
+    size: 86616
+    checksum: sha256:60957a1f7fc88102f4f40cc33b8a016b33af3194274f3ec5074ce19470b2abaf
     name: libkadm5
-    evr: 1.21.3-11.el10
-    sourcerpm: krb5-1.21.3-11.el10.src.rpm
+    evr: 1.21.3-11.el10_3.2
+    sourcerpm: krb5-1.21.3-11.el10_3.2.src.rpm
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/os/Packages/l/libpkgconf-2.1.0-3.el10.x86_64.rpm
     repoid: ubi-10-for-x86_64-baseos-rpms
     size: 41667
@@ -1268,12 +1275,12 @@ arches:
     checksum: sha256:08e750e4ba0b04a9cac0803b545e75c26bd6a2fc5e9362a7484f295637d3a2d8
     name: elfutils
     evr: 0.195-1.el10
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/e/expat-2.7.3-2.el10_3.4.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/e/expat-2.7.3-2.el10_3.8.src.rpm
     repoid: ubi-10-for-x86_64-baseos-source-rpms
-    size: 885607
-    checksum: sha256:4e97cefa2dd835383d3faf79ec2f77827405e289031134711defe71dae62a062
+    size: 908065
+    checksum: sha256:a0549adbc7a67fb794b90da08ad568e9dd85c9f94ea0def17e8321662a8d267b
     name: expat
-    evr: 2.7.3-2.el10_3.4
+    evr: 2.7.3-2.el10_3.8
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/f/file-5.45-12.el10.src.rpm
     repoid: ubi-10-for-x86_64-baseos-source-rpms
     size: 1345032
@@ -1322,12 +1329,12 @@ arches:
     checksum: sha256:95bce2db200fa3647dc0b1a5cd440a18cc6563d3c2f964cf8bc9c4367ab40d39
     name: keyutils
     evr: 1.6.3-5.el10
-  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/k/krb5-1.21.3-11.el10.src.rpm
+  - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/k/krb5-1.21.3-11.el10_3.2.src.rpm
     repoid: ubi-10-for-x86_64-baseos-source-rpms
-    size: 9689497
-    checksum: sha256:5835e0b57b2e52fde60df27c0ec7c2a3ec96873beceb373521777556263c514b
+    size: 9771988
+    checksum: sha256:a41efe92dab8c2d2f2b97449b3ff913929106c4bf00811dc88c9c2e12327bf94
     name: krb5
-    evr: 1.21.3-11.el10
+    evr: 1.21.3-11.el10_3.2
   - url: https://cdn-ubi.redhat.com/content/public/ubi/dist/ubi10/10/x86_64/baseos/source/SRPMS/Packages/l/less-661-3.el10.src.rpm
     repoid: ubi-10-for-x86_64-baseos-source-rpms
     size: 630059
