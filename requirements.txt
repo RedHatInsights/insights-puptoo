@@ -23,9 +23,9 @@ argon2-cffi-bindings==25.1.0 \
     # via
     #   argon2-cffi
     #   insights-puptoo
-boto3==1.44.1 \
-    --hash=sha256:1342653b8af9dc89f182cb5c0dfd5fa10f430d757c0ebd00326c053a6270d2c4 \
-    --hash=sha256:c81dfdaab894cbcba78aa3773fe3fb27a13b576f49ff5552b91190072fc7dac0
+boto3==1.44.7 \
+    --hash=sha256:15fac273416d37cd5e3f0c02b33fd8d7f27d3e64c5f64b911f8b953772302609 \
+    --hash=sha256:cc19922a2db90ac98f259b5290e08fcf7143a314eb6b2e430afec26a5d1f4e10
     # via watchtower
 botocore==1.44.1 \
     --hash=sha256:7a741074a78e28187c88d9f7f91db18731ea91725455873d863ae63ea35e75f3 \
