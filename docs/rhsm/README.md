@@ -11,16 +11,9 @@ to insights-upload-processor (consumer) for mapping to HBI `add_host` messages.
 - Incoming Kafka key: the record's `org_id`.
 - Everything under `consumer` is raw data forwarded from Candlepin (filtered by an allow-list).
 
-EN sends these Kafka headers with UTF-8 values:
-
-| Header | Value | Purpose |
-|---|---|---|
-| `org_id` | Payload `org_id`; must also match the incoming Kafka key | Sets the outgoing Kafka key. |
-| `CorrelationID` | `platform_metadata.request_id` | Correlates logs across services. |
-| `consumer_uuid` | `consumer.uuid` | Identifies the host in bridge logs. |
-| `workflow_start` | EN publish time as an RFC 3339 timestamp | Measures bridge latency. |
-
-Only `org_id` is needed for routing; the other headers are for logs and metrics.
+EN sends the `org_id` Kafka header with UTF-8 value, the upload-processor uses this header to
+set the Kafka key on its outgoing messages to HBI. EN can send other Kafka headers which
+won't be used by the insights-upload-processor.
 
 ## Record envelope
 
@@ -31,7 +24,7 @@ Only `org_id` is needed for routing; the other headers are for logs and metrics.
 | `platform_metadata.request_id` | Required UUID string | EN-generated correlation ID, reused by the bridge, upload-processor, HBI, and any attached reference message. |
 | `org_id` | Required nonempty string | Must exactly equal `consumer.owner.key`; do not coerce to an integer or strip leading zeroes. |
 | `reporter` | Required nonempty string | HBI reporter attribution, copied unchanged to `add_host.data.reporter`. EN sends `rhsm-system-profile-bridge`. |
-| `trigger` | Required string | One of `created`, `modified`, `bulk_migration`, `bulk_modification`, `heartbeat`, `enrichment`. Used for logs/metrics only; does not select a different mapping. |
+| `trigger` | Required string | One of `created`, `modified`, `bulk_migration`, `bulk_modification`, `heartbeat`, `system_profile_upload`. Used for logs/metrics only; does not select a different mapping. |
 | `observed_at` | Required RFC 3339 timestamp string with an offset | When EN fetched this consumer snapshot, not the original event time or profile-upload time. Logs/latency only. |
 | `set_display_name` | Required boolean | Whether to copy `consumer.name` into HBI's display name. EN makes this stateful decision. |
 | `consumer` | Required object | The allow-listed projection of the fetched Candlepin consumer. |

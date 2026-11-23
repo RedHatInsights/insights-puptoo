@@ -7,8 +7,12 @@ publishing the candidate to HBI.
 ## Input and publication safeguards
 
 EN sends a raw record for every host passing its producer-side eligibility filters
+(anonymous org, non-existing consumer, inactive consumer, invalid consumer type)
 and sets `shadow: true`. If EN built an `add_host` reference for that update, it
-attaches the exact serialized message as `legacy_add_host`. Otherwise, it omits
+attaches the exact serialized message as `legacy_add_host`. Otherwise
+(in cases when the legacy EN workflow wouldn't send `add_host` message to HBI
+but it still sends message to the upload-processor, like when the host is an
+OpenShift cluster, or it has unsupported OS), it omits
 that field; it does not fabricate a message or use null as an attachment.
 
 **Upload-processor never publishes a record with `shadow: true`, regardless of
@@ -33,12 +37,9 @@ These are not configurable tolerances. `SP` below means `data.system_profile`.
    a reference that has no architecture (because of a change in how architecture is
    determined - from packages vs. from RHSM facts). A profile architecture value differing
    from its reference remains a mismatch.
-2. A candidate profile can be built when a reference was not built solely because
-   architecture could not be derived from its packages, provided a fact-derived
-   architecture is available and all other checks pass.
-3. Ignore `data.stale_timestamp` in the reference; upload-processor does not produce it.
-4. Top-level `operation_args: {}` and absent `operation_args` are equivalent.
-5. List order is irrelevant. Ignore ordering, not duplicate counts.
+2. Ignore `data.stale_timestamp` in the reference; upload-processor does not produce it.
+3. Top-level `operation_args: {}` and absent `operation_args` are equivalent.
+4. List order is irrelevant. Ignore ordering, not duplicate counts.
 
 Anything else is a mismatch. In particular, do not normalize absent data to null
 or an empty collection. A reference containing an empty list and a candidate
